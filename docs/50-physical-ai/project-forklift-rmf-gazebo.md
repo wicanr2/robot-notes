@@ -217,3 +217,129 @@ forklift_gz_sim/
 - RMF:[PerformAction tutorial](https://osrf.github.io/ros2multirobotbook/integration_fleets_action_tutorial.html)、[rmf_simulation(Teleport plugins)](https://github.com/open-rmf/rmf_simulation)、[rmf_demos](https://github.com/open-rmf/rmf_demos)
 - VDA5050:[官方規格](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)
 - 現成倉儲:[aws-robomaker-small-warehouse-world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)
+
+## 14. 附錄:起手式片段(骨架,需驗證再用)
+
+以下是最容易做錯、最核心的幾段,給 agent 當起點。**都是骨架——版本/欄位以官方為準,貼上後一定要在 gz 跑過驗證,別當成保證可動的最終答案**(呼應第一性原理:先建回饋迴路驗它,不靠貼來的 code 自說自話)。
+
+### 14.1 world 必備 system plugins(沒掛感測器不會動)
+
+```xml
+<plugin filename="gz-sim-physics-system"           name="gz::sim::systems::Physics"/>
+<plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+<plugin filename="gz-sim-user-commands-system"     name="gz::sim::systems::UserCommands"/>
+<plugin filename="gz-sim-sensors-system"           name="gz::sim::systems::Sensors">
+  <render_engine>ogre2</render_engine>   <!-- gpu_lidar/camera 要 -->
+</plugin>
+<plugin filename="gz-sim-imu-system"     name="gz::sim::systems::Imu"/>
+<plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+```
+
+### 14.2 地面異常 world 片段(低摩擦磚 + 坡 + 凸塊)
+
+```xml
+<!-- 低摩擦「濕滑」磚:輪子打滑 → 輪式 odom 漂 -->
+<model name="slippery_tile"><static>true</static><link name="l">
+  <collision name="c"><geometry><box><size>2 2 0.01</size></box></geometry>
+    <surface><friction><ode>
+      <mu>0.05</mu><mu2>0.05</mu2><slip1>0.5</slip1><slip2>0.5</slip2>
+    </ode></friction></surface></collision>
+  <visual name="v"><geometry><box><size>2 2 0.01</size></box></geometry></visual>
+</link><pose>4 0 0.005 0 0 0</pose></model>
+
+<!-- 坡道:傾斜 box(pitch 0.15 rad);凸塊:扁 box -->
+<model name="ramp"><static>true</static><link name="l">
+  <collision name="c"><geometry><box><size>2 1.5 0.1</size></box></geometry></collision>
+  <visual name="v"><geometry><box><size>2 1.5 0.1</size></box></geometry></visual>
+</link><pose>8 0 0.2 0 0.15 0</pose></model>
+
+<model name="bump"><static>true</static><link name="l">
+  <collision name="c"><geometry><box><size>0.05 1.5 0.03</size></box></geometry></collision>
+  <visual name="v"><geometry><box><size>0.05 1.5 0.03</size></box></geometry></visual>
+</link><pose>2 0 0.015 0 0 0</pose></model>
+```
+
+### 14.3 慣性張量實算範例(棧板 20kg、1.2×0.8×0.15 m)
+
+用 §5.1 公式 `Ixx=m(b²+c²)/12`…(a=x=1.2, b=y=0.8, c=z=0.15):
+
+```
+Ixx = 20·(0.8²+0.15²)/12 = 1.104
+Iyy = 20·(1.2²+0.15²)/12 = 2.438
+Izz = 20·(1.2²+0.8²)/12  = 3.467   (單位 kg·m²)
+```
+```xml
+<inertial><mass>20</mass>
+  <inertia><ixx>1.104</ixx><iyy>2.438</iyy><izz>3.467</izz>
+           <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
+```
+數量級落在 ~1–3,和「20kg、約 1m」一致——這就是「inertia 要和質量尺寸相符」的具體長相。
+
+### 14.4 底盤 DiffDrive + 感測器 + 升降 ros2_control(URDF/SDF 內 `<gazebo>`)
+
+```xml
+<!-- 輪式 odom(會漂,反映打滑)— 不是 OdometryPublisher 真值 -->
+<plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+  <left_joint>left_wheel_joint</left_joint><right_joint>right_wheel_joint</right_joint>
+  <wheel_separation>0.6</wheel_separation><wheel_radius>0.1</wheel_radius>
+  <topic>cmd_vel</topic><odom_topic>odom</odom_topic>
+  <frame_id>odom</frame_id><child_frame_id>base_link</child_frame_id>
+</plugin>
+<!-- 真值基準(只拿來算漂移量,不餵 Nav2) -->
+<plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+  <odom_topic>ground_truth/odom</odom_topic><dimensions>2</dimensions>
+</plugin>
+
+<!-- LiDAR / IMU 帶 noise(讀物理,不是完美量測)-->
+<sensor name="lidar" type="gpu_lidar"><topic>lidar</topic><update_rate>10</update_rate>
+  <lidar><scan><horizontal><samples>640</samples>
+    <min_angle>-2.356</min_angle><max_angle>2.356</max_angle></horizontal></scan>
+    <range><min>0.1</min><max>12.0</max></range>
+    <noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></lidar>
+</sensor>
+<sensor name="imu" type="imu"><topic>imu</topic><update_rate>100</update_rate>
+  <imu><angular_velocity><z><noise type="gaussian"><stddev>0.009</stddev>
+    <bias_mean>0.0</bias_mean><bias_stddev>0.0003</bias_stddev></noise></z></angular_velocity></imu>
+</sensor>
+
+<!-- 升降:ros2_control 接 prismatic -->
+<ros2_control name="GazeboSimSystem" type="system">
+  <hardware><plugin>gz_ros2_control/GazeboSimSystem</plugin></hardware>
+  <joint name="fork_lift_joint">
+    <command_interface name="position"><param name="min">0.0</param><param name="max">1.5</param></command_interface>
+    <state_interface name="position"/><state_interface name="velocity"/>
+  </joint>
+</ros2_control>
+<gazebo><plugin filename="libgz_ros2_control-system.so"
+  name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+  <parameters>$(find forklift_gz_sim)/config/controllers.yaml</parameters></plugin></gazebo>
+```
+
+### 14.5 ekf.yaml(robot_localization,地面車設定)
+
+```yaml
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 30.0
+    two_d_mode: true          # 地面車:強制 z/roll/pitch 歸零
+    world_frame: odom
+    odom_frame: odom
+    base_link_frame: base_link
+    odom0: /odom              # 輪式 odom(會漂)
+    odom0_config: [false,false,false, false,false,false, true,false,false, false,false,true, false,false,false]  # 信 vx, vyaw
+    imu0: /imu
+    imu0_config:  [false,false,false, false,false,false, false,false,false, false,false,true, true,false,false]  # 信 vyaw, ax
+    imu0_remove_gravitational_acceleration: true
+```
+
+15 維順序:`[x,y,z, roll,pitch,yaw, vx,vy,vz, vroll,vpitch,vyaw, ax,ay,az]`——輪式 odom 信線速度 `vx`(打滑會讓位置漂、但短期速度仍可用)、IMU 信 `vyaw` 與去重力後 `ax`(陀螺儀不受打滑影響)。
+
+### 14.6 headless 啟動
+
+```bash
+# server-only + 載入即跑 + EGL 離屏渲染(供 gpu_lidar)
+gz sim -s -r --headless-rendering worlds/terrain_anomaly.sdf
+# 另一終端橋 /clock,所有 ROS 節點 use_sim_time:=true
+ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock
+```
