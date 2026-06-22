@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="pg" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">行星減速機:負載分散到多顆行星輪,同體積扭矩大</text>
+
+  <!-- ring gear (fixed) -->
+  <circle cx="175" cy="170" r="112" fill="#F9FAFB" stroke="#6B7280" stroke-width="2"/>
+  <circle cx="175" cy="170" r="98" fill="#ffffff" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="175" y="74" text-anchor="middle" font-size="11" fill="#374151">外環齒輪(固定)</text>
+
+  <!-- carrier arms -->
+  <g stroke="#10B981" stroke-width="3">
+    <line x1="175" y1="170" x2="175" y2="106"/>
+    <line x1="175" y1="170" x2="230" y2="202"/>
+    <line x1="175" y1="170" x2="120" y2="202"/>
+  </g>
+
+  <!-- planets -->
+  <g>
+    <circle cx="175" cy="106" r="26" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+    <circle cx="230" cy="202" r="26" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+    <circle cx="120" cy="202" r="26" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  </g>
+
+  <!-- sun gear -->
+  <circle cx="175" cy="170" r="30" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="175" y="176" text-anchor="middle" font-size="16">☀</text>
+
+  <!-- input arrow on sun -->
+  <path d="M150,150 A36 36 0 0 1 200,150" fill="none" stroke="#F97316" stroke-width="2" marker-end="url(#pg)"/>
+  <text x="175" y="232" text-anchor="middle" font-size="9.5" fill="#9A3412">太陽=輸入</text>
+
+  <!-- right annotations -->
+  <line x1="310" y1="58" x2="310" y2="282" stroke="#E5E7EB"/>
+  <g font-size="12">
+    <text x="330" y="84" font-weight="700" fill="#9A3412">☀ 太陽齒輪</text><text x="330" y="102" fill="#6B7280">中心,接馬達軸(輸入)</text>
+    <text x="330" y="130" font-weight="700" fill="#065F46">● 行星齒輪 ×3–4</text><text x="330" y="148" fill="#6B7280">繞太陽轉,負載由多顆分攤</text>
+    <text x="330" y="176" font-weight="700" fill="#065F46">— 行星架</text><text x="330" y="194" fill="#6B7280">串起行星輪,以較慢速輸出</text>
+  </g>
+  <rect x="324" y="212" width="296" height="66" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="338" y="232" font-size="11" fill="#9A3412">• 輸入/輸出同軸心 → 可直接套馬達前端,緊湊</text>
+  <text x="338" y="251" font-size="11" fill="#9A3412">• 負載分到 3–4 顆 → 單齒受力小、同體積扭矩大</text>
+  <text x="338" y="270" font-size="11" fill="#9A3412">• 單級減速比 3–10,可串級(兩級 9–100)</text>
+</svg>

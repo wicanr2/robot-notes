@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 290" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="cc" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+    <marker id="ccf" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="680" height="290" fill="#ffffff"/>
+  <text x="340" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">串級控制:外環的輸出,就是內環的目標(越內環越快)</text>
+
+  <!-- forward chain -->
+  <text x="40" y="92" font-size="11" fill="#5B21B6">上位機</text>
+  <text x="40" y="106" font-size="11" fill="#5B21B6">(v, ω)</text>
+  <line x1="78" y1="100" x2="108" y2="100" stroke="#374151" stroke-width="1.6" marker-end="url(#cc)"/>
+
+  <rect x="110" y="82" width="86" height="36" rx="6" fill="#EFF6FF" stroke="#3B82F6"/><text x="153" y="104" text-anchor="middle" font-size="10.5" fill="#1E40AF">運動學逆解</text>
+  <line x1="196" y1="100" x2="228" y2="100" stroke="#374151" stroke-width="1.6" marker-end="url(#cc)"/><text x="212" y="92" text-anchor="middle" font-size="8.5" fill="#6B7280">輪目標轉速</text>
+
+  <rect x="230" y="78" width="120" height="44" rx="7" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/><text x="290" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">速度環 PI</text><text x="290" y="113" text-anchor="middle" font-size="9.5" fill="#9A3412">~1 kHz(中環)</text>
+  <line x1="350" y1="100" x2="382" y2="100" stroke="#374151" stroke-width="1.6" marker-end="url(#cc)"/><text x="366" y="92" text-anchor="middle" font-size="8.5" fill="#6B7280">扭矩 iq</text>
+
+  <rect x="384" y="78" width="130" height="44" rx="7" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/><text x="449" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">FOC 電流環</text><text x="449" y="113" text-anchor="middle" font-size="9.5" fill="#991B1B">10–20 kHz(內環)</text>
+  <line x1="514" y1="100" x2="546" y2="100" stroke="#374151" stroke-width="1.6" marker-end="url(#cc)"/><text x="530" y="92" text-anchor="middle" font-size="8.5" fill="#6B7280">三相 PWM</text>
+
+  <rect x="548" y="82" width="86" height="36" rx="6" fill="#F3F4F6" stroke="#9CA3AF"/><text x="591" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">馬達</text>
+
+  <!-- feedback: encoder speed to velocity loop -->
+  <path d="M591,118 L591,180 L290,180 L290,122" fill="none" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#ccf)"/>
+  <text x="430" y="174" text-anchor="middle" font-size="10" fill="#6B7280">encoder 轉速回授 → 速度環</text>
+
+  <!-- feedback: current + angle to FOC -->
+  <path d="M610,118 L610,232 L449,232 L449,122" fill="none" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#ccf)"/>
+  <text x="500" y="226" text-anchor="middle" font-size="10" fill="#6B7280">電流感測 + 轉子角度 → 電流環</text>
+
+  <!-- bottom note -->
+  <rect x="120" y="252" width="440" height="30" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="340" y="271" text-anchor="middle" font-size="11" fill="#9A3412">頻率:電流環(kHz)＞速度環(kHz)＞位置/導航(上位機 Hz)——越靠馬達,迴圈越快</text>
+</svg>
