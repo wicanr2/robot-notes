@@ -77,7 +77,8 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 | 感測器 | SDF type | 模擬它的系統外掛 | 產出(經橋接後的 ROS 訊息) |
 |---|---|---|---|
-| 2D/3D LiDAR | `gpu_lidar` | `gz-sim-sensors-system`(渲染類感測共用) | `sensor_msgs/LaserScan`(SLAM 主力) |
+| 2D LiDAR | `gpu_lidar` | `gz-sim-sensors-system`(渲染類感測共用) | `sensor_msgs/LaserScan`(SLAM 主力) |
+| 3D LiDAR | `gpu_lidar` | `gz-sim-sensors-system` | `sensor_msgs/PointCloud2`(點雲,非 LaserScan) |
 | 相機 | `camera` / `depth_camera` | 同上 | `sensor_msgs/Image` |
 | IMU | `imu` | `gz-sim-imu-system` | `sensor_msgs/Imu` |
 

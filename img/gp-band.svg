@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="480" height="240" fill="#ffffff"/>
+  <text x="240" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">高斯過程:預測值 + 不確定性(誤差帶)</text>
+  <text x="240" y="46" text-anchor="middle" font-size="12" fill="#6B7280">離觀測點越遠,灰帶越寬 = 模型越不確定</text>
+
+  <!-- uncertainty band -->
+  <path d="M40,125 L90,146 L135,100 L180,106 L235,112 L290,156 L335,114 L380,116 L440,60
+           L440,150 L380,124 L335,166 L290,164 L235,164 L180,114 L135,156 L90,154 L40,205 Z"
+        fill="#DBEAFE" opacity="0.7"/>
+
+  <!-- mean line -->
+  <polyline points="40,165 90,150 135,128 180,110 235,138 290,160 335,140 380,120 440,105"
+            fill="none" stroke="#2563EB" stroke-width="2.5"/>
+
+  <!-- observation points -->
+  <g fill="#111827">
+    <circle cx="90" cy="150" r="4.5"/><circle cx="180" cy="110" r="4.5"/>
+    <circle cx="290" cy="160" r="4.5"/><circle cx="380" cy="120" r="4.5"/>
+  </g>
+
+  <!-- labels -->
+  <text x="90" y="172" text-anchor="middle" font-size="10.5" fill="#374151">觀測點</text>
+  <text x="135" y="92" text-anchor="middle" font-size="10.5" fill="#1D4ED8">帶子寬</text>
+  <text x="135" y="200" text-anchor="middle" font-size="9.5" fill="#6B7280">(沒量過→不確定)</text>
+  <text x="408" y="54" font-size="10.5" fill="#1D4ED8">越外推越不確定</text>
+
+  <rect x="120" y="214" width="12" height="4" fill="#2563EB"/><text x="138" y="221" font-size="11" fill="#374151">預測均值</text>
+  <rect x="250" y="212" width="14" height="9" fill="#DBEAFE"/><text x="270" y="221" font-size="11" fill="#374151">不確定範圍(在觀測點被夾窄)</text>
+</svg>

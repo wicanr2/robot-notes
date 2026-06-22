@@ -13,7 +13,7 @@
 
 ---
 
-## 機器人 30 秒總覽(完全沒碰過硬體先讀這段)
+## 機器人怎麼運作(完全沒碰過硬體先讀這段)
 
 一台送餐機器人 = **一台會自己走路的小推車**,內部分兩個腦:
 
@@ -41,7 +41,7 @@
 
 | 你的情況 | 建議路線 |
 |---|---|
-| **完全沒碰過硬體** | 先讀上面「30 秒總覽」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [感測器](docs/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
+| **完全沒碰過硬體** | 先讀上面「機器人怎麼運作」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [感測器](docs/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
 | 想先看全貌 | [系統架構](docs/00-overview/system-architecture.md) |
 | 軟體背景、想補硬體 | [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-hardware/motors-and-foc.md) → [感測器](docs/10-hardware/sensors.md) |
 | 做下位機韌體 | [下位機運動控制](docs/20-firmware/low-level-control.md) → [編碼器](docs/10-hardware/encoders.md) → [通訊匯流排](docs/10-hardware/communication-buses.md) |

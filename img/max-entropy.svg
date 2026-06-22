@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 250" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="480" height="250" fill="#ffffff"/>
+  <text x="240" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">同樣的平均與胖瘦,為什麼選高斯?</text>
+  <text x="240" y="46" text-anchor="middle" font-size="12" fill="#6B7280">三條曲線「平均、變異數都一樣」,但高斯最攤平 = 假設最少</text>
+
+  <line x1="40" y1="175" x2="360" y2="175" stroke="#9CA3AF" stroke-width="1.3"/>
+
+  <!-- bimodal (dashed) -->
+  <path d="M40.0,175.0 L48.0,175.0 L56.0,174.8 L64.0,174.8 L72.0,174.4 L80.0,173.7 L88.0,172.4 L96.0,170.0 L104.0,166.1 L112.0,160.3 L120.0,152.2 L128.0,142.2 L136.0,130.8 L144.0,119.5 L152.0,109.7 L160.0,102.9 L168.0,99.6 L176.0,99.4 L184.0,101.2 L192.0,103.3 L200.0,104.1 L208.0,103.3 L216.0,101.2 L224.0,99.4 L232.0,99.6 L240.0,102.9 L248.0,109.7 L256.0,119.5 L264.0,130.8 L272.0,142.2 L280.0,152.2 L288.0,160.3 L296.0,166.1 L304.0,170.0 L312.0,172.4 L320.0,173.7 L328.0,174.4 L336.0,174.8 L344.0,174.8 L352.0,175.0 L360.0,175.0" fill="none" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="5 3"/>
+  <!-- boxy / uniform (dashed) -->
+  <path d="M40,175 L96,175 L110,120 L290,120 L304,175 L360,175" fill="none" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="5 3"/>
+  <!-- gaussian (bold) -->
+  <path d="M40.0,174.6 L50.0,174.2 L60.0,173.5 L70.0,172.3 L80.0,170.4 L90.0,167.4 L100.0,163.0 L110.0,156.9 L120.0,148.8 L130.0,138.7 L140.0,126.9 L150.0,114.0 L160.0,100.8 L170.0,88.6 L180.0,78.7 L190.0,72.3 L200.0,70.0 L210.0,72.3 L220.0,78.7 L230.0,88.6 L240.0,100.8 L250.0,114.0 L260.0,126.9 L270.0,138.7 L280.0,148.8 L290.0,156.9 L300.0,163.0 L310.0,167.4 L320.0,170.4 L330.0,172.3 L340.0,173.5 L350.0,174.2 L360.0,174.6" fill="none" stroke="#2563EB" stroke-width="3"/>
+
+  <!-- labels -->
+  <circle cx="392" cy="92" r="6" fill="none" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="3 2"/>
+  <text x="404" y="96" font-size="11.5" fill="#6B7280">雙峰 / 方波:偷塞了額外假設</text>
+  <rect x="386" y="118" width="12" height="4" fill="#2563EB"/>
+  <text x="404" y="125" font-size="12" font-weight="700" fill="#1E40AF">高斯:最不挑、最誠實</text>
+
+  <text x="200" y="200" text-anchor="middle" font-size="11.5" fill="#1E40AF">雙峰=「我猜有兩坨」、方波=「我猜有邊界」,都多假設了東西</text>
+  <text x="200" y="220" text-anchor="middle" font-size="11.5" fill="#374151">只知道平均和胖瘦時,高斯是唯一不多猜的選擇(最大熵)</text>
+</svg>

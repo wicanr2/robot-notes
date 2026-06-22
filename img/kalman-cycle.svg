@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 250" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ka" markerWidth="12" markerHeight="12" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="520" height="250" fill="#ffffff"/>
+  <text x="260" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">卡爾曼濾波:預測變胖 → 更新變瘦,不斷循環</text>
+
+  <!-- Predict box -->
+  <rect x="40" y="60" width="190" height="120" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="135" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">① 預測(車動了)</text>
+  <text x="135" y="106" text-anchor="middle" font-size="11.5" fill="#6B7280">用運動模型把信念往前推</text>
+  <!-- before/after bells: before narrow, after wider -->
+  <line x1="60" y1="165" x2="210" y2="165" stroke="#D1D5DB"/>
+  <path d="M95,165 L100,164 L105,160 L110,150 L113,140 L116,150 L121,160 L126,164 L131,165" fill="none" stroke="#9CA3AF" stroke-width="1.6"/>
+  <path d="M70,165 L85,163 L100,156 L115,142 L128,130 L141,142 L156,156 L171,163 L186,165" fill="none" stroke="#EA580C" stroke-width="2.4"/>
+  <text x="135" y="178" text-anchor="middle" font-size="10.5" fill="#9A3412">→ 變胖(更不確定)</text>
+
+  <!-- Update box -->
+  <rect x="290" y="60" width="190" height="120" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="385" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">② 更新(來了量測)</text>
+  <text x="385" y="106" text-anchor="middle" font-size="11.5" fill="#6B7280">先驗 × 量測(P3 相乘融合)</text>
+  <line x1="310" y1="165" x2="460" y2="165" stroke="#D1D5DB"/>
+  <path d="M320,165 L335,163 L350,156 L365,142 L378,130 L391,142 L406,156 L421,163 L436,165" fill="none" stroke="#9CA3AF" stroke-width="1.6"/>
+  <path d="M352,165 L360,163 L368,154 L375,134 L381,116 L387,134 L394,154 L402,163 L410,165" fill="none" stroke="#059669" stroke-width="2.4"/>
+  <text x="385" y="178" text-anchor="middle" font-size="10.5" fill="#065F46">→ 變瘦(更確定)</text>
+
+  <!-- cycle arrows -->
+  <line x1="232" y1="100" x2="288" y2="100" stroke="#F97316" stroke-width="2.2" marker-end="url(#ka)"/>
+  <path d="M385,182 C385,212 135,212 135,184" fill="none" stroke="#F97316" stroke-width="2.2" marker-end="url(#ka)"/>
+  <text x="260" y="232" text-anchor="middle" font-size="11.5" fill="#6B7280">每來一筆感測量測就跑一輪;全程只更新 (μ, Σ) 兩個數,所以能即時</text>
+</svg>

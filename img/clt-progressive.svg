@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ca" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="480" height="230" fill="#ffffff"/>
+  <text x="240" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">中央極限定理:越多隨機相加,越像鐘形</text>
+  <text x="240" y="46" text-anchor="middle" font-size="12" fill="#6B7280">把骰子點數相加,分布從「平的」一步步變成高斯</text>
+
+  <!-- baselines -->
+  <g stroke="#D1D5DB" stroke-width="1.2">
+    <line x1="20" y1="150" x2="115" y2="150"/><line x1="135" y1="150" x2="230" y2="150"/>
+    <line x1="250" y1="150" x2="320" y2="150"/><line x1="345" y1="150" x2="430" y2="150"/>
+  </g>
+
+  <!-- P1: 1 die -> flat -->
+  <rect x="30" y="118" width="75" height="32" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="67" y="172" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">1 顆骰子</text>
+  <text x="67" y="190" text-anchor="middle" font-size="11" fill="#6B7280">平的(每點等機率)</text>
+
+  <!-- P2: 2 dice -> triangle -->
+  <polygon points="140,150 182,92 224,150" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="182" y="172" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">2 顆</text>
+  <text x="182" y="190" text-anchor="middle" font-size="11" fill="#6B7280">三角形</text>
+
+  <!-- P3: 5 dice -> wide bell -->
+  <path d="M230.0,149.0 L239.0,145.9 L248.0,137.5 L257.0,122.4 L266.0,105.6 L270.5,100.0 L275.0,98.0 L279.5,100.0 L284.0,105.6 L293.0,122.4 L302.0,137.5 L311.0,145.9 L320.0,149.0 L320,150 L230,150 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.8"/>
+  <text x="275" y="172" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">5 顆</text>
+  <text x="275" y="190" text-anchor="middle" font-size="11" fill="#6B7280">開始像鐘形</text>
+
+  <!-- P4: 20 dice -> bell -->
+  <path d="M345.0,150.0 L357.8,148.2 L366.2,139.5 L374.8,116.7 L381.1,96.2 L385.4,88.7 L387.5,88.1 L389.6,89.7 L396.0,105.6 L404.5,132.5 L412.0,143.0 L421.5,149.0 L430.0,150.0 L430,150 L345,150 Z" fill="#93C5FD" stroke="#2563EB" stroke-width="2"/>
+  <text x="387" y="172" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">20 顆</text>
+  <text x="387" y="190" text-anchor="middle" font-size="11" fill="#6B7280">標準高斯</text>
+
+  <!-- arrows -->
+  <line x1="116" y1="135" x2="133" y2="135" stroke="#F97316" stroke-width="2" marker-end="url(#ca)"/>
+  <line x1="231" y1="135" x2="248" y2="135" stroke="#F97316" stroke-width="2" marker-end="url(#ca)"/>
+  <line x1="321" y1="135" x2="343" y2="135" stroke="#F97316" stroke-width="2" marker-end="url(#ca)"/>
+
+  <text x="240" y="216" text-anchor="middle" font-size="11.5" fill="#374151">現實的量測誤差 = 一堆獨立小因素相加 → 天生接近高斯</text>
+</svg>
