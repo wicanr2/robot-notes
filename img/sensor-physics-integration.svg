@@ -27,7 +27,7 @@
   <text x="266" y="193" font-size="10" fill="#991B1B">→ a_z、ω_y 出現尖峰</text>
   <text x="266" y="220" font-size="11" font-weight="700" fill="#1E40AF">LiDAR(gpu/cpu)</text>
   <text x="266" y="236" font-size="10" fill="#6B7280">光線打在 collision 幾何</text>
-  <text x="266" y="251" font-size="10" fill="#991B1B">→ 斜坡量到不同高度的物</text>
+  <text x="266" y="251" font-size="10" fill="#991B1B">→ 斜坡上量到不同高度</text>
   <text x="350" y="282" text-anchor="middle" font-size="10" fill="#9A3412">都加 noise model 更像真感測器</text>
 
   <!-- Box3: fuse -->

@@ -42,10 +42,13 @@
 
 <p align="center"><img src="../../img/forklift-drive-configs.svg" width="680" alt="叉車兩構型:三輪平衡重式(前兩驅+後轉向)vs 前移式 reach truck(單一驅動轉向舵輪+從動載重輪)"></p>
 
-- **三輪平衡重式 (counterbalance)**:**前兩輪驅動**(雙馬達,負載壓前軸→前輪牽引力大、雙前驅可小半徑轉),後單輪轉向。
-- **前移式 / 倉儲堆高機 (reach truck / stacker)**:**單一「驅動轉向一體輪(舵輪)」在後**(遠離牙叉端),負責牽引 + 轉向;**牙叉端的兩輪是從動載重輪 (load wheels),只滾不驅動**。第一性原理:load wheels 在貨叉下、要小且能伸進貨架、承受變動重載,做成驅動+轉向太複雜;把驅動+轉向集中到遠離負載的單一後輪,一顆馬達牽引、一顆轉向,控制最單純。
+- **三輪平衡重式 (counterbalance)**:**前兩輪(同軸、左右各一馬達)獨立驅動**(負載壓前軸→前輪牽引力大、雙前驅靠轉速差可小半徑轉),後單輪轉向。注意:多數機型後輪是**主動轉向**(駕駛打方向盤),不是被動腳輪。
+- **前移式 / 倉儲堆高機 (reach truck / stacker)**:**單一「驅動轉向一體輪(舵輪)」在後**(遠離牙叉端),負責牽引 + 轉向;**牙叉端的兩輪是從動載重輪 (load wheels),只滾不驅動**(常裝在外伸腳 straddle legs 末端)。第一性原理:load wheels 在貨叉下、要小且能伸進貨架、承受變動重載,做成驅動+轉向太複雜;把驅動+轉向集中到遠離負載的單一後輪,一顆馬達牽引、一顆轉向,控制最單純。
 
-**對模擬的意義(務必誠實)**:reach truck 那種「單一驅動轉向輪 + 從動輪」運動學是**三輪車 (tricycle)**,對應 gz 的 **`TricycleSteering`**,**不是** `DiffDrive`。本專案 MVP 用 `DiffDrive` 是「為了最快接通 Nav2」的**模擬簡化**,代價是底盤運動學不符真實 reach truck(原地旋轉能力、轉彎軌跡都不同);要做擬真就換 `TricycleSteering`/`AckermannSteering`,Nav2 端也要改用支援該運動學的 planner/controller(Hybrid-A* + 非完整約束 controller)。
+**對模擬的意義(務必誠實)**:
+- reach truck 的「單一驅動轉向輪 + 從動輪」運動學是**三輪車 (tricycle)**,對應 gz 的 **`gz::sim::systems::TricycleSteering`**,**不是** `DiffDrive`。
+- 三輪平衡重式的「雙前驅 + 後主動轉向」也**不是純差速**;用 `gz::sim::systems::DiffDrive`(`DiffDrive`)模擬時,等於**把後主動轉向輪簡化成被動腳輪**——這是為了最快接通 Nav2 的近似,代價是原地旋轉能力、轉彎軌跡與真車不同。
+- 要擬真就換 `TricycleSteering`,Nav2 端改用支援非完整約束的 planner/controller(Hybrid-A* + 對應 controller)。(`AckermannSteering` 是汽車式「兩前輪幾何連動轉向」,叉車一般用不到,列出僅為對照。)
 
 ## 4. 模型怎麼準備
 
@@ -87,7 +90,7 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 ### 5.3 關節限制與致動力
 
-- **prismatic 升降關節**:`<limit>` 要設 `lower/upper`(行程,如 0~1.5m)、`effort`(最大力,**要 ≥ (叉車前段+載重)×g + 餘裕**,否則升不動)、`velocity`(升降速度上限)。
+- **prismatic 升降關節**:`<limit>` 要設 `lower/upper`(行程,如 0~1.5m)、`effort`(最大力,**要 ≥ (fork carriage 質量 + 載重質量)×g + 餘裕**——這個關節只升降貨叉托架與其上的貨,不是整台車,別把車體質量算進去)、`velocity`(升降速度上限)。
 - effort 設太小 → 升不起棧板;設無限大 → 升降瞬間衝擊、物理不穩。給一個物理合理值。
 
 ### 5.4 物理引擎步長與求解器
@@ -129,7 +132,7 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 - **odom 一定要用「輪式」不能用真值**:gz 有兩個 plugin——`DiffDrive`(讀**輪關節轉動量**積分,**會反映打滑/坡度** → 會漂)vs `OdometryPublisher`(直接讀車的**真實世界位姿** → 不漂)。**要看到異常造成 odom 漂移,就必須用 `DiffDrive` 的輪式 odom**;`OdometryPublisher` 的真值只拿來當**驗收基準**(算漂移量 = 輪式 odom − 真值)。
 - **IMU / LiDAR 讀物理**:`gz-sim-imu-system` 讀模擬的角速度/加速度(過坎、傾斜出尖峰);`gpu_lidar` 的光線打在 world 的碰撞/視覺幾何上(斜坡會量到不同高度)。兩者都該掛 **noise model**(`<noise type="gaussian">` 設 `stddev`、`bias_*`)讓它更像真感測器,而不是完美量測。
-- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**EKF 不碰 LiDAR、AMCL 不碰高頻 odom**,正好對應 [座標篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../30-navigation/localization.md)。
+- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**本設計讓 EKF 只融 odom+IMU、不吃 LiDAR**(EKF 技術上可吃 LiDAR 衍生 pose,這裡是分工選擇),AMCL 獨立發 map→odom——正好對應 [座標篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../30-navigation/localization.md)。
 - **時間要對齊**:所有 ROS 2 節點 `use_sim_time:=true` 吃 gz 的 `/clock`(單向橋 `rosgraph_msgs/Clock`),否則 tf/感測時間源混用會報錯。
 
 ## 8. Worklist:第一性原理排序的里程碑
@@ -138,14 +141,14 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 | 里程碑 | 產出 artifact | 可量化驗收(pass/fail) |
 |---|---|---|
-| **M0 場景與模型** | 叉車 URDF/xacro + 棧板/貨架 SDF + 平地 world;物理參數設好(§5) | gz 裡靜置 10s 不抖、不下沉、位置不漂 > 1cm |
+| **M0 場景與模型** | 叉車 URDF/xacro + 棧板/貨架 SDF + 平地 world;物理參數設好(§5) | 靜置 10s,base_link world pose 位移 < 1cm 且 z 沉降 < 5mm |
 | **M1 底盤遙控** | DiffDrive plugin + `bridge.yaml` + `use_sim_time`;鍵盤 `/cmd_vel` | 遙控直線 5m,**輪式 odom 對真值(OdometryPublisher)漂移 < 5cm** |
 | **M2 升降可控** | ros2_control + JTC + `controllers.yaml` | 下指令叉子升到指定高度 ±2cm、停得住 |
-| **M3 感測 + 地面異常** | 加 LiDAR/IMU(含 noise)+ 異常 world(§6) | 過低摩擦區後 **odom 漂移明顯 > 平地**;過坎時 **IMU `a_z` 出現尖峰 > 閾值** |
+| **M3 感測 + 地面異常** | 加 LiDAR/IMU(含 noise)+ 異常 world(§6) | 過低摩擦區後輪式 odom 對真值漂移 **> 平地基線 3 倍**;過坎時 **\|a_z − g\| 尖峰 > 5 m/s²** |
 | **M4 感測融合** | robot_localization EKF(§7)`ekf.yaml` | **EKF 輸出對真值的誤差 < 純輪式 odom**(異常區尤其) |
 | **M5 自主導航** | slam_toolbox 建圖 + Nav2(footprint 長方形)+ docking | 指定點往返成功;到點誤差 < 0.25m / 0.25rad;能對位到貨架前 |
-| **M6 取放** | DetachableJoint(或 Teleport Dispenser/Ingestor)接「對位+升叉」時機 | 叉起棧板、載運、放下,不掉不穿模 |
-| **M7 RMF 派工** | fleet adapter(`actions: pick/drop`)+ nav graph(traffic-editor) | 下「A→B」Delivery 任務 → 自動完成整趟(§11 流程) |
+| **M6 取放** | DetachableJoint(或 Teleport Dispenser/Ingestor)接「對位+升叉」時機 | 載運 5m 後棧板相對 fork_carriage 位移 < 2cm、全程無穿透/碰撞警告 |
+| **M7 RMF 派工** | fleet adapter(`actions: pick/drop`)+ nav graph(traffic-editor) | 下「A→B」Delivery 任務 → task state=completed、A 點棧板消失 / B 點出現(§11 流程) |
 | **M8(選)VDA5050** | pick/drop 對映 VDA5050 action(HARD)+ connector | 經 VDA5050 order/state 走完同一趟 |
 | **M9(選)多車協商** | 加第二台叉車,rmf_traffic 協商 | 兩車不死鎖、會互讓 |
 
@@ -159,16 +162,37 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 ```
 forklift_gz_sim/
-├── description/  forklift.urdf.xacro(含 gz plugin、sensor)、forklift.gazebo.xacro
+├── package.xml / CMakeLists.txt   # ROS2 package(沒有這個 agent 不知道怎麼 build)
+├── description/  forklift.urdf.xacro(含 gz plugin、ros2_control、sensor)、forklift.gazebo.xacro
 ├── worlds/       flat.sdf(基準平地)、terrain_anomaly.sdf(ramp/bump/gap/低摩擦/heightmap)
-├── config/       ekf.yaml、bridge.yaml(topic 對應)、nav2_params.yaml、controllers.yaml
-├── launch/       sim.launch.py、localization.launch.py、nav2.launch.py
-└── maps/         AMCL static map
+├── config/       ekf.yaml、bridge.yaml、nav2_params.yaml、controllers.yaml、fleet_config.yaml
+├── nav_graph/    warehouse.building.yaml(traffic-editor 產出,標取放 waypoint)
+├── launch/       sim.launch.py、localization.launch.py、nav2.launch.py、rmf.launch.py
+└── maps/         AMCL static map(.pgm + .yaml)
+```
+
+**環境(apt 套件,先 pin 好)**:`ros-jazzy-ros-gz`(bridge/sim)、`ros-jazzy-gz-ros2-control`、`ros-jazzy-nav2-bringup`、`ros-jazzy-slam-toolbox`、`ros-jazzy-robot-localization`、Open-RMF(`ros-jazzy-rmf-dev` 或 source build);gz 版本 Harmonic。
+
+**bridge.yaml 範例 entry**(最容易卡的落地點,先給樣板):
+
+```yaml
+- ros_topic_name: "cmd_vel"      # ROS → gz
+  gz_topic_name: "/model/forklift/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+- ros_topic_name: "scan"          # gz → ROS
+  gz_topic_name: "/lidar"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: GZ_TO_ROS
+# 同理:/odom(gz.msgs.Odometry↔nav_msgs/Odometry)、/imu(gz.msgs.IMU↔sensor_msgs/Imu)、
+#       /clock(gz.msgs.Clock↔rosgraph_msgs/Clock)、/tf(gz.msgs.Pose_V↔tf2_msgs/TFMessage)
 ```
 
 **派工給 agent 的紀律**(對齊本專案工作守則):每個 agent 認領一個里程碑(§8 一列),產出該列的 artifact,並**自己用該列的 pass/fail 訊號驗收**;驗收用 `ros2 topic echo` / `ros2 bag record` + 離線比對腳本(例:錄 `/odom` 與真值 pose,算漂移量;抓 `/imu` 的 `a_z` 尖峰;Nav2 到點誤差)。**有界執行**:做不到就誠實標受阻,不要硬湊綠燈。
 
-**headless 跑法(CI / agent 環境)**:`gz sim -s -r --headless-rendering <world>.sdf`(`-s` server-only、`-r` 載入即跑、`--headless-rendering` 走 EGL 供 gpu_lidar);無 GPU 時用 CPU `type="lidar"` 或接受軟體渲染變慢。記得設 `GZ_SIM_RESOURCE_PATH` / `GZ_SIM_PLUGIN_PATH`,否則 `<include>` 的模型找不到。
+**headless 跑法(CI / agent 環境)**:`gz sim -s -r --headless-rendering <world>.sdf`(`-s` server-only、`-r` 載入即跑、`--headless-rendering` 走 EGL 供 gpu_lidar)。**gpu_lidar 在無 GPU/EGL 時會直接拿不到資料**(不只是變慢);無 GPU 環境是否能改用 CPU ray-based lidar、Harmonic 的支援度待實測(列入 §12 待查證)。記得設 `GZ_SIM_RESOURCE_PATH` / `GZ_SIM_PLUGIN_PATH`,否則 `<include>` 的模型找不到。
 
 ## 10. RMF 整合與 VDA5050 對映
 
@@ -184,7 +208,7 @@ forklift_gz_sim/
 
 - **取放的時機控制**是最容易卡的:DetachableJoint 要求 attach 前父子不碰撞、接觸中不能 reattach——「對位→升叉→attach」的觸發條件要自己用位置/contact 判斷。MVP 想避開可先用 Teleport 瞬移。
 - **物理不穩**多源於 inertia 亂填、μ 太低、步長太大(見 §5);先排除這三個。
-- **待查證**:① Harmonic `DetachableJoint` 的 attach topic 是否支援 runtime 動態指定任意 child(官方偏向「reattach 同一 child」);② Fuel 上現成 forklift/EPAL/rack 模型清單;③ RMF↔VDA5050 維護中的橋接 repo;④ RMF PerformAction 任務 JSON schema;⑤ Jazzy 的 cmd_vel 是 `Twist` 還是 `TwistStamped`。動手前逐一確認。
+- **待查證**:① Harmonic `DetachableJoint` 的 attach topic 是否支援 runtime 動態指定任意 child(官方偏向「reattach 同一 child」);② Fuel 上現成 forklift/EPAL/rack 模型清單;③ RMF↔VDA5050 維護中的橋接 repo;④ RMF PerformAction 任務 JSON schema;⑤ Jazzy 的 cmd_vel 是 `Twist` 還是 `TwistStamped`;⑥ 無 GPU 環境 gz Harmonic 是否提供可用的 CPU ray-based lidar(gpu_lidar 需 GPU/EGL)。動手前逐一確認。
 
 ## 13. 來源與現成素材
 
