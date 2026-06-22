@@ -56,8 +56,9 @@ robot-notes/
 | **R2** | 多機調度軟體 | `open-rmf.md`、`vda5050.md`(OpenRMF 如何透過 VDA5050 調度不同廠家機器人) | ⬜ |
 | **R3** | 主板控制與模擬 | `stm32-simulation-renode.md`(STM32/Arduino 在電腦上跑 Renode 模擬) | ⬜ |
 | **R4** | 導航數學 | `kinematics-and-coordinate-transforms.md`(座標轉換公式)、`path-planning.md`(路徑/軌跡計算) | ⬜ |
-| **R5** | Physical AI 模擬 | `simulation-isaac-gazebo.md`、`sim-to-real.md`、`claude-physical-ai-workflow.md`(用 Claude 完成機器人 Physical AI 模擬) | ⬜ |
-| **R6** | 圖文並茂 | 為各 doc 補概念圖/流程圖(designer agent 設計,SVG→PNG) | ⬜ |
+| **R5** | Physical AI 模擬 | `isaac-sim-isaac-lab-amr.md`、`simulation-gazebo-ros2.md`、`sim-to-real.md`、`claude-physical-ai-workflow.md`;高斯第一性原理 + 一批數學/流程 SVG 示意圖 | ✅ 完成 |
+| **R2** | 多機調度軟體 | `open-rmf.md`、`vda5050.md`(OpenRMF 如何透過 VDA5050 調度不同廠家機器人) | ⬜ 下一輪 |
+| **R6** | 圖文並茂 | 把既有 ASCII 圖逐步升級成 SVG;數學概念一律配圖(已起步) | 🔄 進行中 |
 
 > 輪次可調整;新需求隨時插入。已寫好的檔不重做,只增修。
 
@@ -84,9 +85,11 @@ robot-notes/
 - **Physical AI 補 Isaac ROS** 一列、收緊 Cosmos=WFM 措辭、區分 Jetson Thor(robot)/ DRIVE AGX(automotive)。
 - **電池續航/功耗預算**一節(中優先)。
 - 較深的跨檔 `§N` 引用,長期改為帶連結的引用(目前先用 `section-map.md` 兜底)。
+- **第一性原理回顧(全專案)**:既有硬體/韌體/導航文件逐篇補「為什麼是這個設計/公式」的第一性原理視角(高斯那篇是範本)。
 
 ## 內容原則
 
+- **第一性原理優先(貫穿全專案)**:每篇都要從「這東西要解決什麼根本問題」「為什麼是這個設計/公式」推導,不只堆事實。既有文件後續輪次回頭補「為什麼」視角(見下方 backlog)。
 - 繁體中文、中性技術風格;程式碼/識別符保留原文。
 - 每個專有名詞首次出現當場一句話翻譯(對照 `CONTEXT.md`)。
 - 圖解優先:ASCII 圖先行,概念圖在 R6 由 designer 補。

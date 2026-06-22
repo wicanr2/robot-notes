@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 350" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="1000" height="350" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#1F2937">高斯家族:誰用了哪條性質</text>
+
+  <!-- legend -->
+  <g font-size="12.5" fill="#1F2937">
+    <rect x="60" y="50" width="14" height="14" rx="3" fill="#8B5CF6"/><text x="80" y="62">橢球(協方差)</text>
+    <rect x="205" y="50" width="14" height="14" rx="3" fill="#3B82F6"/><text x="225" y="62">P2 線性 / 投影封閉</text>
+    <rect x="375" y="50" width="14" height="14" rx="3" fill="#10B981"/><text x="395" y="62">P3 相乘=融合</text>
+    <rect x="520" y="50" width="14" height="14" rx="3" fill="#F97316"/><text x="540" y="62">P4 卷積=擴散</text>
+    <rect x="665" y="50" width="14" height="14" rx="3" fill="#14B8A6"/><text x="685" y="62">積木疊加</text>
+    <rect x="785" y="50" width="14" height="14" rx="3" fill="#6B7280"/><text x="805" y="62">CLT·最大熵</text>
+  </g>
+  <line x1="40" y1="78" x2="960" y2="78" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- 5 cards -->
+  <!-- card 1: 高斯模糊 -->
+  <g>
+    <rect x="20" y="95" width="180" height="212" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="110" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">高斯模糊</text>
+    <text x="110" y="150" text-anchor="middle" font-size="11.5" fill="#6B7280">影像平滑 / 去噪</text>
+    <rect x="40" y="172" width="140" height="30" rx="15" fill="#FFF7ED" stroke="#F97316"/><text x="110" y="192" text-anchor="middle" font-size="12.5" fill="#9A3412">P4 卷積=擴散</text>
+    <rect x="40" y="212" width="140" height="30" rx="15" fill="#F9FAFB" stroke="#9CA3AF"/><text x="110" y="232" text-anchor="middle" font-size="12" fill="#374151">各向同性·可分離</text>
+  </g>
+  <!-- card 2: 卡爾曼/EKF -->
+  <g>
+    <rect x="216" y="95" width="180" height="212" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="306" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">卡爾曼 / EKF</text>
+    <text x="306" y="150" text-anchor="middle" font-size="11.5" fill="#6B7280">融合感測器做定位</text>
+    <rect x="236" y="172" width="140" height="30" rx="15" fill="#F8FAFC" stroke="#64748B"/><text x="306" y="192" text-anchor="middle" font-size="12" fill="#334155">P1 只需兩參數</text>
+    <rect x="236" y="212" width="140" height="30" rx="15" fill="#EFF6FF" stroke="#3B82F6"/><text x="306" y="232" text-anchor="middle" font-size="12.5" fill="#1E40AF">P2 線性推進</text>
+    <rect x="236" y="252" width="140" height="30" rx="15" fill="#ECFDF5" stroke="#10B981"/><text x="306" y="272" text-anchor="middle" font-size="12.5" fill="#065F46">P3 相乘融合</text>
+  </g>
+  <!-- card 3: GP -->
+  <g>
+    <rect x="412" y="95" width="180" height="212" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="502" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">高斯過程 GP</text>
+    <text x="502" y="150" text-anchor="middle" font-size="11.5" fill="#6B7280">帶誤差條的預測</text>
+    <rect x="432" y="172" width="140" height="30" rx="15" fill="#EFF6FF" stroke="#3B82F6"/><text x="502" y="192" text-anchor="middle" font-size="12.5" fill="#1E40AF">P2 線性封閉</text>
+    <rect x="432" y="212" width="140" height="30" rx="15" fill="#F9FAFB" stroke="#9CA3AF"/><text x="502" y="232" text-anchor="middle" font-size="12" fill="#374151">條件高斯仍高斯</text>
+  </g>
+  <!-- card 4: GMM -->
+  <g>
+    <rect x="608" y="95" width="180" height="212" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="698" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">GMM</text>
+    <text x="698" y="150" text-anchor="middle" font-size="11.5" fill="#6B7280">逼近複雜多峰分布</text>
+    <rect x="628" y="172" width="140" height="30" rx="15" fill="#F0FDFA" stroke="#14B8A6"/><text x="698" y="192" text-anchor="middle" font-size="12.5" fill="#0F766E">積木疊加(混合)</text>
+    <rect x="628" y="212" width="140" height="30" rx="15" fill="#F9FAFB" stroke="#9CA3AF"/><text x="698" y="232" text-anchor="middle" font-size="12" fill="#374151">EM 演算法擬合</text>
+  </g>
+  <!-- card 5: 3DGS -->
+  <g>
+    <rect x="804" y="95" width="180" height="212" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="894" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#1F2937">3D Gaussian</text>
+    <text x="894" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#1F2937">Splatting</text>
+    <text x="894" y="166" text-anchor="middle" font-size="11.5" fill="#6B7280">3D 重建·即時 render</text>
+    <rect x="824" y="184" width="140" height="30" rx="15" fill="#F5F3FF" stroke="#8B5CF6"/><text x="894" y="204" text-anchor="middle" font-size="12.5" fill="#5B21B6">橢球=協方差</text>
+    <rect x="824" y="224" width="140" height="30" rx="15" fill="#EFF6FF" stroke="#3B82F6"/><text x="894" y="244" text-anchor="middle" font-size="12" fill="#1E40AF">P2 投影仍高斯</text>
+    <rect x="824" y="264" width="140" height="30" rx="15" fill="#F9FAFB" stroke="#9CA3AF"/><text x="894" y="284" text-anchor="middle" font-size="12" fill="#374151">可微 → 梯度優化</text>
+  </g>
+
+  <text x="500" y="340" text-anchor="middle" font-size="12" fill="#9CA3AF">同一塊料(高斯),各挑最對胃口的性質,做出不同的菜</text>
+</svg>

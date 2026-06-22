@@ -20,7 +20,11 @@
 - **上位機(High-level)** = 一台跑 Linux 的小電腦,負責「想」:我在地圖哪裡、怎麼走到 5 號桌、前面有人要不要繞。
 - **下位機(Low-level)** = 一顆專門的小晶片(MCU,常見 STM32),負責「動」:即時控制兩顆馬達的轉速、回報走了多遠、有撞到就立刻停。
 
-兩者用一條線(UART/CAN)對話:上位機每幾十毫秒下一個「速度指令」,下位機照做並回報實際狀態。反覆這個迴圈,車就動起來了。四個全文反覆出現的核心詞:
+兩者用一條線(UART/CAN)對話:上位機每幾十毫秒下一個「速度指令」,下位機照做並回報實際狀態。反覆這個迴圈,車就動起來了。
+
+<p align="center"><img src="img/high-low-level-bus.svg" width="640" alt="上位機透過 UART 接下位機,下位機再用 CAN 匯流排接馬達驅動器與 BMS"></p>
+
+四個全文反覆出現的核心詞:
 
 | 詞 | 一句話 |
 |---|---|
@@ -79,9 +83,13 @@
 ### 50 Physical AI
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
 - [感測器資料與 3D Gaussian 重建](docs/50-physical-ai/sensor-data-and-3d-reconstruction.md) — 真實感測資料如何重建成模擬場景;附「為什麼一堆演算法都掛高斯」
-- simulation-isaac-gazebo.md — 模擬環境 *(待寫,R5)*
-- sim-to-real.md — 模擬到真實 *(待寫,R5)*
-- claude-physical-ai-workflow.md — 用 Claude 完成機器人 Physical AI 模擬 *(待寫,R5)*
+- [用 Isaac Sim + Isaac Lab 模擬 AMR](docs/50-physical-ai/isaac-sim-isaac-lab-amr.md) — NVIDIA 堆疊、URDF→USD、ROS2 橋接、RL 訓練、合成資料
+- [用 Gazebo + ROS2 模擬 AMR](docs/50-physical-ai/simulation-gazebo-ros2.md) — gz sim 版本對應、diff_drive、Nav2 閉迴路
+- [Sim-to-real](docs/50-physical-ai/sim-to-real.md) — reality gap、domain randomization、上車檢查清單
+- [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
+
+### 90 數學基礎(第一性原理)
+- [高斯分布:第一性原理](docs/90-foundations/gaussian-from-first-principles.md) — 從最大熵/CLT 推出高斯,用四條性質統一理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS
 
 ---
 

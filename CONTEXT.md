@@ -39,7 +39,14 @@
 - World Foundation Model (WFM) — 能模擬物理世界、生成訓練資料的大型基礎模型。
 - Digital Twin(數位分身)— 真實場景的虛擬複本,用來產生訓練資料。
 - Sim-to-real — 把模擬中訓練的模型遷移到真實機器。
-- Domain Randomization — 隨機化模擬環境以提升真實世界泛化。
+- Reality gap(現實落差)— 模擬與真實世界的差異總和(物理參數、感測噪聲、延遲、摩擦、外觀);落差越大,模擬訓練的策略越容易在實車失靈。
+- Policy(策略)— 機器人的「腦」:吃感測器輸入、吐動作指令的函式,常用神經網路。
+- Domain Randomization(領域隨機化)— 訓練時隨機抖動模擬參數,逼策略對變化不敏感、提升真實世界泛化。
+- System Identification(系統辨識)— 在真實機上量出物理參數回填模擬,讓模擬一開始就更接近真實。
+- Domain Adaptation(領域適應)— 主動對齊模擬與真實的特徵分佈(常用影像翻譯,如 CycleGAN/RetinaGAN)。
+- 3D Gaussian Splatting(3DGS,高斯潑濺)— 用帶色 3D 高斯點重建真實場景做照片級渲染,real-to-sim 縮外觀落差主流。
+- Zero-shot transfer(零樣本遷移)— 模擬訓練完直接上車、不用真實資料微調。
+- SRCC(Sim-to-Real Correlation Coefficient)— 模擬與真實效能指標的相關係數,衡量「模擬能否準確預測真實表現」。
 - Isaac Sim / Isaac Lab — NVIDIA 的機器人模擬框架 / 學習框架。
 
 ---

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 180" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr2" markerWidth="12" markerHeight="12" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="180" fill="#ffffff"/>
+  <text x="500" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">感測器資料 → 模擬場景 → 訓練</text>
+
+  <!-- 5 steps -->
+  <!-- step template -->
+  <g>
+    <rect x="20" y="55" width="168" height="95" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <circle cx="44" cy="79" r="13" fill="#3B82F6"/><text x="44" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">1</text>
+    <text x="110" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">拍攝</text>
+    <text x="104" y="112" text-anchor="middle" font-size="12" fill="#1F2937">相機 / LiDAR</text>
+    <text x="104" y="130" text-anchor="middle" font-size="12" fill="#1F2937">掃過真實場域</text>
+  </g>
+  <g>
+    <rect x="218" y="55" width="168" height="95" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+    <circle cx="242" cy="79" r="13" fill="#8B5CF6"/><text x="242" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">2</text>
+    <text x="308" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#5B21B6">重建</text>
+    <text x="302" y="112" text-anchor="middle" font-size="12" fill="#1F2937">3DGS 反算</text>
+    <text x="302" y="130" text-anchor="middle" font-size="12" fill="#1F2937">3D 高斯場景</text>
+  </g>
+  <g>
+    <rect x="416" y="55" width="168" height="95" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="440" cy="79" r="13" fill="#10B981"/><text x="440" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3</text>
+    <text x="506" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">數位分身</text>
+    <text x="500" y="112" text-anchor="middle" font-size="12" fill="#1F2937">可互動的</text>
+    <text x="500" y="130" text-anchor="middle" font-size="12" fill="#1F2937">虛擬複本</text>
+  </g>
+  <g>
+    <rect x="614" y="55" width="168" height="95" rx="10" fill="#FEFCE8" stroke="#EAB308" stroke-width="1.5"/>
+    <circle cx="638" cy="79" r="13" fill="#EAB308"/><text x="638" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">4</text>
+    <text x="704" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#854D0E">模擬 / 合成資料</text>
+    <text x="698" y="112" text-anchor="middle" font-size="12" fill="#1F2937">放機器人·障礙</text>
+    <text x="698" y="130" text-anchor="middle" font-size="12" fill="#1F2937">閉迴路·生資料</text>
+  </g>
+  <g>
+    <rect x="812" y="55" width="168" height="95" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+    <circle cx="836" cy="79" r="13" fill="#EF4444"/><text x="836" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">5</text>
+    <text x="902" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">訓練</text>
+    <text x="896" y="112" text-anchor="middle" font-size="12" fill="#1F2937">Physical AI</text>
+    <text x="896" y="130" text-anchor="middle" font-size="12" fill="#1F2937">學避障·導航</text>
+  </g>
+
+  <!-- arrows between -->
+  <line x1="190" y1="102" x2="214" y2="102" stroke="#F97316" stroke-width="2.5" marker-end="url(#arr2)"/>
+  <line x1="388" y1="102" x2="412" y2="102" stroke="#F97316" stroke-width="2.5" marker-end="url(#arr2)"/>
+  <line x1="586" y1="102" x2="610" y2="102" stroke="#F97316" stroke-width="2.5" marker-end="url(#arr2)"/>
+  <line x1="784" y1="102" x2="808" y2="102" stroke="#F97316" stroke-width="2.5" marker-end="url(#arr2)"/>
+</svg>

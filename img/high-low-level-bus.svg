@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="a1" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="900" height="380" fill="#ffffff"/>
+  <text x="450" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">上位機 / 下位機怎麼接線</text>
+
+  <!-- 上位機 -->
+  <rect x="300" y="50" width="300" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="450" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#1E3A8A">上位機(High-level)</text>
+  <text x="450" y="100" text-anchor="middle" font-size="12.5" fill="#1F2937">跑 Linux 的小電腦 · 負責「想」</text>
+  <text x="450" y="118" text-anchor="middle" font-size="12.5" fill="#6B7280">SLAM / 定位 / 路徑規劃 / 避障</text>
+
+  <!-- UART link -->
+  <line x1="430" y1="128" x2="430" y2="168" stroke="#F97316" stroke-width="2.5" marker-end="url(#a1)"/>
+  <line x1="470" y1="168" x2="470" y2="128" stroke="#94A3B8" stroke-width="2.5" marker-end="url(#a1)"/>
+  <rect x="510" y="132" width="150" height="30" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="585" y="152" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">UART(序列線)</text>
+  <text x="332" y="150" text-anchor="middle" font-size="11" fill="#9A3412">↓ 速度指令 (v, ω)</text>
+  <text x="332" y="164" text-anchor="middle" font-size="11" fill="#475569">↑ odometry / 狀態</text>
+
+  <!-- 下位機 -->
+  <rect x="300" y="172" width="300" height="78" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="450" y="200" text-anchor="middle" font-size="16" font-weight="700" fill="#991B1B">下位機(Low-level, STM32 MCU)</text>
+  <text x="450" y="222" text-anchor="middle" font-size="12.5" fill="#1F2937">專用小晶片 · 負責「動」</text>
+  <text x="450" y="240" text-anchor="middle" font-size="12.5" fill="#6B7280">馬達閉迴路 / odometry / 急停</text>
+
+  <!-- CAN bus -->
+  <line x1="450" y1="250" x2="450" y2="278" stroke="#10B981" stroke-width="2.5"/>
+  <line x1="120" y1="278" x2="780" y2="278" stroke="#10B981" stroke-width="4"/>
+  <rect x="372" y="262" width="156" height="26" rx="6" fill="#ECFDF5" stroke="#10B981"/>
+  <text x="450" y="280" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">CAN bus(差分匯流排)</text>
+  <text x="690" y="272" font-size="10.5" fill="#6B7280">兩端各一顆 120Ω 終端電阻</text>
+  <rect x="112" y="272" width="12" height="12" fill="#10B981"/><rect x="776" y="272" width="12" height="12" fill="#10B981"/>
+
+  <!-- nodes on CAN -->
+  <line x1="180" y1="278" x2="180" y2="308" stroke="#10B981" stroke-width="2"/>
+  <rect x="110" y="308" width="140" height="52" rx="8" fill="#F0FDF4" stroke="#16A34A"/>
+  <text x="180" y="330" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">左輪驅動器</text>
+  <text x="180" y="349" text-anchor="middle" font-size="11" fill="#6B7280">FOC · 含霍爾</text>
+
+  <line x1="450" y1="278" x2="450" y2="308" stroke="#10B981" stroke-width="2"/>
+  <rect x="380" y="308" width="140" height="52" rx="8" fill="#F0FDF4" stroke="#16A34A"/>
+  <text x="450" y="330" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">右輪驅動器</text>
+  <text x="450" y="349" text-anchor="middle" font-size="11" fill="#6B7280">FOC · 含霍爾</text>
+
+  <line x1="720" y1="278" x2="720" y2="308" stroke="#10B981" stroke-width="2"/>
+  <rect x="650" y="308" width="140" height="52" rx="8" fill="#F0FDF4" stroke="#16A34A"/>
+  <text x="720" y="330" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">電池 BMS</text>
+  <text x="720" y="349" text-anchor="middle" font-size="11" fill="#6B7280">電量 / 異常回報</text>
+</svg>
