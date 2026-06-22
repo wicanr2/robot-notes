@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="pf" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="700" height="280" fill="#ffffff"/>
+  <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">一趟搬運:把棧板從 A 貨架搬到 B 貨架</text>
+
+  <!-- 6 steps -->
+  <g font-size="11">
+    <rect x="20" y="64" width="100" height="92" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/><circle cx="42" cy="84" r="11" fill="#8B5CF6"/><text x="42" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">1</text><text x="70" y="112" text-anchor="middle" font-weight="700" fill="#5B21B6">RMF 派工</text><text x="70" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">Delivery A→B</text><text x="70" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">競標選車</text>
+
+    <rect x="135" y="64" width="100" height="92" rx="9" fill="#EFF6FF" stroke="#3B82F6"/><circle cx="157" cy="84" r="11" fill="#3B82F6"/><text x="157" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">2</text><text x="185" y="112" text-anchor="middle" font-weight="700" fill="#1E40AF">導到 A</text><text x="185" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">Nav2 規劃+避障</text><text x="185" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">到貨架前</text>
+
+    <rect x="250" y="64" width="100" height="92" rx="9" fill="#EFF6FF" stroke="#3B82F6"/><circle cx="272" cy="84" r="11" fill="#3B82F6"/><text x="272" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">3</text><text x="300" y="112" text-anchor="middle" font-weight="700" fill="#1E40AF">對位+升叉</text><text x="300" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">docking 精對位</text><text x="300" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">JTC 升 prismatic</text>
+
+    <rect x="365" y="64" width="100" height="92" rx="9" fill="#ECFDF5" stroke="#10B981"/><circle cx="387" cy="84" r="11" fill="#10B981"/><text x="387" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">4</text><text x="415" y="112" text-anchor="middle" font-weight="700" fill="#065F46">取貨 pick</text><text x="415" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">attach 棧板</text><text x="415" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">(或 Dispenser)</text>
+
+    <rect x="480" y="64" width="100" height="92" rx="9" fill="#EFF6FF" stroke="#3B82F6"/><circle cx="502" cy="84" r="11" fill="#3B82F6"/><text x="502" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">5</text><text x="530" y="112" text-anchor="middle" font-weight="700" fill="#1E40AF">載運到 B</text><text x="530" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">RMF 協商路線</text><text x="530" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">避開其他車</text>
+
+    <rect x="595" y="64" width="100" height="92" rx="9" fill="#FFF7ED" stroke="#F97316"/><circle cx="617" cy="84" r="11" fill="#F97316"/><text x="617" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">6</text><text x="645" y="112" text-anchor="middle" font-weight="700" fill="#9A3412">放貨 drop</text><text x="645" y="130" text-anchor="middle" font-size="9.5" fill="#6B7280">降叉+detach</text><text x="645" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">→ finished()</text>
+  </g>
+  <g stroke="#F97316" stroke-width="2" marker-end="url(#pf)">
+    <line x1="120" y1="110" x2="133" y2="110"/><line x1="235" y1="110" x2="248" y2="110"/><line x1="350" y1="110" x2="363" y2="110"/><line x1="465" y1="110" x2="478" y2="110"/><line x1="580" y1="110" x2="593" y2="110"/>
+  </g>
+
+  <rect x="60" y="186" width="580" height="64" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="350" y="206" text-anchor="middle" font-size="11" fill="#9A3412">②⑤ 導航=Nav2;③ 精對位=docking(一般導航精度不夠)</text>
+  <text x="350" y="223" text-anchor="middle" font-size="11" fill="#9A3412">④⑥ 取放=DetachableJoint(真物理)或 Teleport Dispenser/Ingestor(瞬移)</text>
+  <text x="350" y="240" text-anchor="middle" font-size="10.5" fill="#6B7280">對映 VDA5050:pick/drop 是 action(blockingType=HARD);RMF 端用 Delivery+Dispenser 或 PerformAction</text>
+</svg>

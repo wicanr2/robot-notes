@@ -88,6 +88,7 @@
 - [用 Gazebo + ROS2 模擬 AMR](docs/50-physical-ai/simulation-gazebo-ros2.md) — gz sim 版本對應、diff_drive、Nav2 閉迴路
 - [Sim-to-real](docs/50-physical-ai/sim-to-real.md) — reality gap、domain randomization、上車檢查清單
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
+- [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md) — capstone:URDF 設計、物理參數設定、第一性原理 worklist(M0–M7)、取放/派工/VDA5050 對映
 
 ### 60 法規與認證
 - [法規與認證總覽](docs/60-compliance/README.md) — 合規地圖:一台機器人要過哪些關
