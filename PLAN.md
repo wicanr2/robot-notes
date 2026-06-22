@@ -54,7 +54,7 @@ robot-notes/
 | **R1** | 基礎建設 + 送餐機器人拆分 | PLAN/README/CONTEXT;把既有架構與 28 節基礎原理拆成 hardware/firmware/navigation 主題檔;Physical AI 總覽 | ✅ 完成 |
 | **R1.5** | 審查修補 | 章節對照表 `section-map.md`、README 加 30 秒總覽+核心詞、進階小節標示、文字修正;Physical AI 新增「感測器資料與 3D Gaussian 重建」(含高斯為何無所不在) | ✅ 完成 |
 | **R2** | 多機調度軟體 | `open-rmf.md`、`vda5050.md`(OpenRMF 如何透過 VDA5050 調度不同廠家機器人) | ⬜ |
-| **R3** | 主板控制與模擬 | `stm32-simulation-renode.md`(STM32/Arduino 在電腦上跑 Renode 模擬) | ⬜ |
+| **R3** | 主板控制與模擬 | `board-simulation-renode.md`(STM32/Arduino 在電腦上跑 Renode 模擬)+ 2 張第一性原理 SVG | ✅ 完成 |
 | **R4** | 導航數學 | `kinematics-and-coordinate-transforms.md`(座標轉換公式)、`path-planning.md`(路徑/軌跡計算) | ⬜ |
 | **R5** | Physical AI 模擬 | `isaac-sim-isaac-lab-amr.md`、`simulation-gazebo-ros2.md`、`sim-to-real.md`、`claude-physical-ai-workflow.md`;高斯第一性原理 + 一批數學/流程 SVG 示意圖 | ✅ 完成 |
 | **R2** | 多機調度軟體 | `open-rmf.md`、`vda5050.md`(OpenRMF 如何透過 VDA5050 調度不同廠家機器人)+ 4 張第一性原理 SVG | ✅ 完成 |

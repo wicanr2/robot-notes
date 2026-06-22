@@ -68,7 +68,7 @@
 
 ### 20 韌體
 - [下位機運動控制](docs/20-firmware/low-level-control.md) — M1 知識清單、運動學解算 vs PID
-- stm32-simulation-renode.md — STM32 在電腦上跑 Renode 模擬 *(待寫,R3)*
+- [主板模擬:Renode](docs/20-firmware/board-simulation-renode.md) — 為何模擬主板(回饋迴路)、STM32 全系統模擬、確定性測試進 CI、Arduino/AVR 現況
 
 ### 30 導航
 - [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、loop closure
