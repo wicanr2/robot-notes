@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="rc" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="700" height="320" fill="#ffffff"/>
+  <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">OpenRMF 怎麼避塞車:共用時空排程 + 協商 + 路權原語</text>
+
+  <!-- flow -->
+  <g font-size="11">
+    <rect x="20" y="50" width="150" height="70" rx="9" fill="#EFF6FF" stroke="#3B82F6"/><text x="95" y="74" text-anchor="middle" font-weight="700" fill="#1E40AF">① 提交行程</text><text x="95" y="93" text-anchor="middle" font-size="10" fill="#6B7280">各車申報 itinerary</text><text x="95" y="108" text-anchor="middle" font-size="10" fill="#6B7280">(時空軌跡)到排程庫</text>
+    <rect x="195" y="50" width="150" height="70" rx="9" fill="#FFF7ED" stroke="#F97316"/><text x="270" y="74" text-anchor="middle" font-weight="700" fill="#9A3412">② 衝突偵測</text><text x="270" y="93" text-anchor="middle" font-size="10" fill="#6B7280">時空軌跡比對</text><text x="270" y="108" text-anchor="middle" font-size="10" fill="#6B7280">(time-dependent A*)</text>
+    <rect x="370" y="50" width="150" height="70" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/><text x="445" y="74" text-anchor="middle" font-weight="700" fill="#5B21B6">③ 協商</text><text x="445" y="93" text-anchor="middle" font-size="10" fill="#6B7280">各提替代行程</text><text x="445" y="108" text-anchor="middle" font-size="10" fill="#6B7280">第三方 judge 選一組</text>
+    <rect x="545" y="50" width="135" height="70" rx="9" fill="#ECFDF5" stroke="#10B981"/><text x="612" y="74" text-anchor="middle" font-weight="700" fill="#065F46">④ 逐段放行</text><text x="612" y="93" text-anchor="middle" font-size="10" fill="#6B7280">blockade checkpoint</text><text x="612" y="108" text-anchor="middle" font-size="10" fill="#6B7280">確保同段不同時走</text>
+  </g>
+  <g stroke="#F97316" stroke-width="2.2" marker-end="url(#rc)">
+    <line x1="170" y1="85" x2="193" y2="85"/><line x1="345" y1="85" x2="368" y2="85"/><line x1="520" y1="85" x2="543" y2="85"/>
+  </g>
+  <text x="350" y="142" text-anchor="middle" font-size="11" fill="#374151">核心:有「全域意圖可見」的共用排程,衝突在「還沒走到」就被預測並協商掉(不是現場才撞)</text>
+
+  <!-- primitives -->
+  <rect x="40" y="162" width="620" height="130" rx="10" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="350" y="184" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">地圖上的路權原語(在 nav graph 的 lane/waypoint 設定)</text>
+  <g font-size="11" fill="#1F2937">
+    <text x="60" y="210" font-weight="700" fill="#1E40AF">單向 lane</text><text x="60" y="227" font-size="10.5" fill="#6B7280">bidirectional=false,窄道只准一向</text>
+    <text x="60" y="252" font-weight="700" fill="#9A3412">mutex group(互斥鎖)</text><text x="60" y="269" font-size="10.5" fill="#6B7280">進路口/窄道前先 lock,同時只一台持有</text>
+    <text x="380" y="210" font-weight="700" fill="#065F46">holding point(待命點)</text><text x="380" y="227" font-size="10.5" fill="#6B7280">is_holding_point,可無限期等、讓路排隊</text>
+    <text x="380" y="252" font-weight="700" fill="#5B21B6">speed limit / parking</text><text x="380" y="269" font-size="10.5" fill="#6B7280">lane 限速;警報時到 parking spot 停靠</text>
+  </g>
+</svg>

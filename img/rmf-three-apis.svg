@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ra3" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="660" height="300" fill="#ffffff"/>
+  <text x="330" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">OpenRMF 的「API」有三層,別混</text>
+
+  <!-- A: Web API -->
+  <rect x="40" y="48" width="580" height="62" rx="9" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="60" y="70" font-size="13" font-weight="700" fill="#5B21B6">A. 對外 Web API(給 dashboard / 上層系統)</text>
+  <text x="60" y="90" font-size="11" fill="#1F2937">rmf_api_msgs(JSON schema)+ rmf-web api-server(FastAPI + Socket.IO)</text>
+  <text x="60" y="104" font-size="10" fill="#6B7280">REST 下任務/查車隊;Socket.IO 推即時狀態;傳 JSON over WebSocket</text>
+
+  <line x1="330" y1="110" x2="330" y2="126" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#ra3)"/>
+
+  <!-- B: ROS msgs -->
+  <rect x="40" y="128" width="580" height="62" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="60" y="150" font-size="13" font-weight="700" fill="#1E40AF">B. 內部 ROS 2 msgs(RMF core 元件之間)</text>
+  <text x="60" y="170" font-size="11" fill="#1F2937">rmf_task_msgs:BidNotice → BidProposal → DispatchRequest(競標派工)</text>
+  <text x="60" y="184" font-size="10" fill="#6B7280">rmf_door_msgs / rmf_lift_msgs / rmf_dispenser_msgs(門/電梯/取放料協調)</text>
+
+  <line x1="330" y1="190" x2="330" y2="206" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#ra3)"/>
+
+  <!-- C: adapter API -->
+  <rect x="40" y="208" width="580" height="62" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="60" y="230" font-size="13" font-weight="700" fill="#065F46">C. Fleet adapter 程式 API(把某廠車隊接進來,C++/Python)</text>
+  <text x="60" y="250" font-size="11" fill="#1F2937">Adapter / EasyFullControl / FleetUpdateHandle / RobotUpdateHandle</text>
+  <text x="60" y="264" font-size="10" fill="#6B7280">向車隊下指令、回報單車位置/電量/狀態</text>
+
+  <text x="330" y="290" text-anchor="middle" font-size="10.5" fill="#6B7280">由外而內:Web API(JSON)→ ROS msgs(派工/門梯)→ adapter API(接車)</text>
+</svg>

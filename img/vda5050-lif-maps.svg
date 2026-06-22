@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="lm" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="700" height="360" fill="#ffffff"/>
+  <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">VDA5050 車輛怎麼拿到圖資:協定不傳路網,LIF 才傳</text>
+
+  <!-- vendor -> LIF -> master -->
+  <rect x="30" y="52" width="150" height="50" rx="9" fill="#ECFDF5" stroke="#10B981"/>
+  <text x="105" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">AGV 車廠</text>
+  <text x="105" y="92" text-anchor="middle" font-size="10" fill="#6B7280">知道自家路網</text>
+
+  <line x1="180" y1="77" x2="258" y2="77" stroke="#F97316" stroke-width="2.2" marker-end="url(#lm)"/>
+  <text x="219" y="68" text-anchor="middle" font-size="10" fill="#9A3412">出 LIF(JSON)</text>
+  <text x="219" y="98" text-anchor="middle" font-size="9" fill="#6B7280">離線交付,不走 MQTT</text>
+
+  <rect x="260" y="52" width="180" height="50" rx="9" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="350" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">LIF(VDMA 佈局交換格式)</text>
+  <text x="350" y="92" text-anchor="middle" font-size="10" fill="#6B7280">nodes / edges / stations</text>
+
+  <line x1="440" y1="77" x2="518" y2="77" stroke="#F97316" stroke-width="2.2" marker-end="url(#lm)"/>
+  <text x="479" y="68" text-anchor="middle" font-size="10" fill="#9A3412">匯入建路網</text>
+
+  <rect x="520" y="52" width="150" height="50" rx="9" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="595" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">上位主控</text>
+  <text x="595" y="92" text-anchor="middle" font-size="10" fill="#6B7280">規劃 + 派工</text>
+
+  <!-- master -> order(nodeId) -> 車 -->
+  <line x1="595" y1="102" x2="595" y2="150" stroke="#F97316" stroke-width="2.2" marker-end="url(#lm)"/>
+  <text x="595" y="124" text-anchor="middle" font-size="10" fill="#9A3412">order</text>
+  <text x="595" y="138" text-anchor="middle" font-size="9" fill="#9A3412">引用同一套 nodeId</text>
+
+  <rect x="520" y="152" width="150" height="48" rx="9" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="595" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">VDA5050 車</text>
+  <text x="595" y="191" text-anchor="middle" font-size="10" fill="#6B7280">走到 nodeId 對應位置</text>
+
+  <!-- 車載地圖 -->
+  <rect x="360" y="152" width="140" height="48" rx="9" fill="#F0FDF4" stroke="#16A34A"/>
+  <text x="430" y="172" text-anchor="middle" font-size="11.5" font-weight="700" fill="#166534">車載 SLAM 地圖</text>
+  <text x="430" y="189" text-anchor="middle" font-size="9.5" fill="#6B7280">車用它定位 / 避障</text>
+  <line x1="500" y1="176" x2="518" y2="176" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#lm)"/>
+
+  <!-- three maps clarification -->
+  <rect x="40" y="226" width="620" height="120" rx="10" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="350" y="248" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">三種「地圖」務必分清</text>
+  <text x="58" y="272" font-size="11" fill="#1F2937">① <tspan font-weight="700" fill="#166534">車載 SLAM 地圖</tspan>:車自己雷射/視覺建的環境幾何 → 自我定位、避障(對應 mapId)</text>
+  <text x="58" y="294" font-size="11" fill="#1F2937">② <tspan font-weight="700" fill="#9A3412">LIF 路網</tspan>:離散 nodes/edges/stations 邏輯圖 → 主控規劃派工用(離線匯入,JSON)</text>
+  <text x="58" y="316" font-size="11" fill="#1F2937">橋樑:LIF 的 <tspan font-weight="700">nodeId + mapId</tspan> = order 引用的同一套;LIF 的 (x,y) 必須與車載地圖座標對齊,否則「去 node N」落錯位置</text>
+  <text x="58" y="337" font-size="10.5" fill="#991B1B">註:VDA5050 核心協定不傳路網;3.0 的 downloadMap 動作是傳「車載地圖檔」,又是另一回事</text>
+</svg>
