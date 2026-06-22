@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="sp" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="700" height="360" fill="#ffffff"/>
+  <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">感測器要讀「模擬物理」:地面異常才會反映成 odom 漂移 / IMU 尖峰</text>
+
+  <!-- Box1: ground anomaly -->
+  <rect x="20" y="56" width="195" height="240" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="117" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#991B1B">① 地面異常(gz 物理)</text>
+  <text x="36" y="106" font-size="11" fill="#1F2937">• 低摩擦磚(mu↓/slip↑)</text>
+  <text x="48" y="123" font-size="10" fill="#6B7280">→ 輪子打滑空轉</text>
+  <text x="36" y="148" font-size="11" fill="#1F2937">• 凸塊 / 門檻</text>
+  <text x="48" y="165" font-size="10" fill="#6B7280">→ 過坎彈跳</text>
+  <text x="36" y="190" font-size="11" fill="#1F2937">• 坡道(傾斜 box)</text>
+  <text x="48" y="207" font-size="10" fill="#6B7280">→ 上坡空轉、可能傾倒</text>
+  <text x="36" y="232" font-size="11" fill="#1F2937">• 縫隙 / heightmap 起伏</text>
+  <text x="117" y="268" text-anchor="middle" font-size="10.5" fill="#991B1B">異常=壓力測試:</text>
+  <text x="117" y="284" text-anchor="middle" font-size="10.5" fill="#991B1B">專門逼出感測缺陷</text>
+
+  <!-- Box2: sensors read physics -->
+  <rect x="250" y="56" width="200" height="240" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="350" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">② 感測器讀模擬物理</text>
+  <text x="266" y="104" font-size="11" font-weight="700" fill="#1E40AF">輪式 odom(DiffDrive)</text>
+  <text x="266" y="120" font-size="10" fill="#6B7280">讀輪關節轉動量積分</text>
+  <text x="266" y="135" font-size="10" fill="#991B1B">→ 打滑時輪轉了車沒動→漂</text>
+  <text x="266" y="162" font-size="11" font-weight="700" fill="#1E40AF">IMU(讀模擬加速度)</text>
+  <text x="266" y="178" font-size="10" fill="#6B7280">過坎/傾斜/急加速</text>
+  <text x="266" y="193" font-size="10" fill="#991B1B">→ a_z、ω_y 出現尖峰</text>
+  <text x="266" y="220" font-size="11" font-weight="700" fill="#1E40AF">LiDAR(gpu/cpu)</text>
+  <text x="266" y="236" font-size="10" fill="#6B7280">光線打在 collision 幾何</text>
+  <text x="266" y="251" font-size="10" fill="#991B1B">→ 斜坡量到不同高度的物</text>
+  <text x="350" y="282" text-anchor="middle" font-size="10" fill="#9A3412">都加 noise model 更像真感測器</text>
+
+  <!-- Box3: fuse -->
+  <rect x="485" y="56" width="195" height="240" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="582" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">③ 融合 → tf</text>
+  <text x="501" y="104" font-size="11" font-weight="700" fill="#065F46">robot_localization EKF</text>
+  <text x="501" y="120" font-size="10" fill="#6B7280">odom 的 vx + IMU 的 ω_yaw</text>
+  <text x="501" y="135" font-size="10" fill="#6B7280">+去重力 a → 抑制漂移</text>
+  <text x="501" y="151" font-size="10.5" fill="#065F46">→ odom→base_link(平滑)</text>
+  <line x1="501" y1="166" x2="665" y2="166" stroke="#D1FAE5"/>
+  <text x="501" y="188" font-size="11" font-weight="700" fill="#065F46">AMCL(LiDAR ↔ static map)</text>
+  <text x="501" y="204" font-size="10" fill="#6B7280">用雷射對地圖重定位</text>
+  <text x="501" y="219" font-size="10.5" fill="#065F46">→ map→odom(修長期漂,跳變)</text>
+  <text x="582" y="250" text-anchor="middle" font-size="10" fill="#5B21B6">對應 TF 兩層(見座標篇)</text>
+  <text x="582" y="268" text-anchor="middle" font-size="10" fill="#6B7280">EKF 不碰 LiDAR、</text>
+  <text x="582" y="283" text-anchor="middle" font-size="10" fill="#6B7280">AMCL 不碰高頻 odom</text>
+
+  <!-- arrows -->
+  <line x1="217" y1="176" x2="248" y2="176" stroke="#F97316" stroke-width="2.2" marker-end="url(#sp)"/>
+  <line x1="452" y1="176" x2="483" y2="176" stroke="#F97316" stroke-width="2.2" marker-end="url(#sp)"/>
+
+  <!-- bottom note -->
+  <rect x="60" y="312" width="580" height="34" rx="7" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="350" y="332" text-anchor="middle" font-size="11.5" fill="#9A3412">關鍵:odom 要用「輪式(會漂)」不是 ground-truth;真值(OdometryPublisher)看不到異常,只拿來當驗收基準算漂移量</text>
+</svg>

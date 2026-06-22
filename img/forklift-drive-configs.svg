@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="680" height="340" fill="#ffffff"/>
+  <text x="340" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">「叉車」不是單一運動學:兩種主流驅動/轉向構型</text>
+
+  <!-- legend -->
+  <g font-size="11">
+    <circle cx="60" cy="48" r="8" fill="#DC2626"/><text x="74" y="52" fill="#991B1B">驅動輪</text>
+    <circle cx="170" cy="48" r="8" fill="#3B82F6"/><text x="184" y="52" fill="#1E40AF">轉向輪</text>
+    <circle cx="280" cy="48" r="8" fill="none" stroke="#9CA3AF" stroke-width="2"/><text x="294" y="52" fill="#6B7280">從動輪(只滾)</text>
+    <rect x="430" y="42" width="14" height="12" fill="#FDE68A" stroke="#D97706"/><text x="450" y="52" fill="#9A3412">牙叉(載重端)</text>
+  </g>
+
+  <!-- Panel A: counterbalance -->
+  <text x="175" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">三輪平衡重式 (counterbalance)</text>
+  <!-- body -->
+  <rect x="120" y="100" width="120" height="120" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <!-- forks at left(front) -->
+  <rect x="92" y="120" width="28" height="10" fill="#FDE68A" stroke="#D97706"/>
+  <rect x="92" y="190" width="28" height="10" fill="#FDE68A" stroke="#D97706"/>
+  <!-- front drive wheels (near forks, left) -->
+  <circle cx="138" cy="112" r="11" fill="#DC2626"/><circle cx="138" cy="208" r="11" fill="#DC2626"/>
+  <!-- rear steer wheel (right) -->
+  <circle cx="228" cy="160" r="11" fill="#3B82F6"/>
+  <text x="175" y="246" text-anchor="middle" font-size="11" fill="#991B1B">前兩輪驅動(雙馬達)、後單輪轉向</text>
+  <text x="175" y="265" text-anchor="middle" font-size="10.5" fill="#6B7280">負載壓前軸→前驅牽引力大;雙前驅可小半徑轉</text>
+  <text x="175" y="284" text-anchor="middle" font-size="10.5" fill="#1E40AF">gz:雙前驅近似差速(DiffDrive)</text>
+
+  <line x1="340" y1="70" x2="340" y2="320" stroke="#E5E7EB"/>
+
+  <!-- Panel B: reach truck -->
+  <text x="510" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">前移式 / 倉儲堆高機 (reach truck)</text>
+  <rect x="490" y="100" width="110" height="120" rx="8" fill="#ECFDF5" stroke="#10B981"/>
+  <!-- straddle arms + forks at left with passive load wheels -->
+  <rect x="400" y="118" width="90" height="9" fill="#D1FAE5" stroke="#10B981"/>
+  <rect x="400" y="193" width="90" height="9" fill="#D1FAE5" stroke="#10B981"/>
+  <rect x="378" y="116" width="24" height="13" fill="#FDE68A" stroke="#D97706"/>
+  <rect x="378" y="191" width="24" height="13" fill="#FDE68A" stroke="#D97706"/>
+  <!-- passive load wheels at fork tips -->
+  <circle cx="410" cy="122" r="10" fill="none" stroke="#9CA3AF" stroke-width="2"/><circle cx="410" cy="197" r="10" fill="none" stroke="#9CA3AF" stroke-width="2"/>
+  <!-- single drive-steer wheel at rear -->
+  <circle cx="575" cy="160" r="13" fill="#DC2626"/><circle cx="575" cy="160" r="6" fill="#3B82F6"/>
+  <text x="600" y="150" font-size="9.5" fill="#9A3412">驅動</text><text x="600" y="172" font-size="9.5" fill="#1E40AF">+轉向</text>
+  <text x="500" y="246" text-anchor="middle" font-size="11" fill="#065F46">單一「驅動轉向一體輪(舵輪)」在後</text>
+  <text x="500" y="265" text-anchor="middle" font-size="10.5" fill="#6B7280">牙叉端兩輪是從動 load wheels(只滾不驅動)</text>
+  <text x="500" y="284" text-anchor="middle" font-size="10.5" fill="#1E40AF">gz:三輪車運動學(TricycleSteering)</text>
+  <text x="500" y="303" text-anchor="middle" font-size="10" fill="#9A3412">← 一顆馬達牽引、一顆轉向,遠離變動重載,控制最單純</text>
+</svg>
