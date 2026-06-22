@@ -81,7 +81,7 @@ robot-notes/
 
 來自 R1 收尾的兩個 review agent,尚未處理的高優先項,排進後續輪次:
 
-- **上下位機通訊協議專篇**(`20-firmware/host-mcu-protocol.md`):幀格式、命令表、CRC16、逾時/重送、粘包處理。被多處 `§` 引用卻不存在,**最高優先**。
+- ~~**上下位機通訊協議專篇**(`20-firmware/host-mcu-protocol.md`)~~ ✅ 完成:三痛點→framing/CRC16/心跳逾時/序號,第一性原理 + 4 張 SVG(幀格式/接收狀態機/逾時看門狗/編碼範例)。
 - **Nav2 規劃/控制層**(`30-navigation/path-planning.md`,R4):costmap、global planner、controller(MPPI/DWB)、behavior tree/recovery。對應 CLAUDE.md「路徑計算/軌跡計算」。
 - **座標系與 TF 專篇**(`30-navigation/coordinate-frames-tf.md`,R4):map→odom→base_link→sensor、各 frame 語意、外參標定。對應「座標轉換公式」。
 - **Physical AI 補 Isaac ROS** 一列、收緊 Cosmos=WFM 措辭、區分 Jetson Thor(robot)/ DRIVE AGX(automotive)。

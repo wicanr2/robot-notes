@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 230" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ea" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="660" height="230" fill="#ffffff"/>
+  <text x="330" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">一筆速度指令怎麼編成位元組</text>
+
+  <!-- left: values -->
+  <rect x="30" y="60" width="120" height="70" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="90" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">v = 500</text>
+  <text x="90" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">ω = −200</text>
+  <text x="90" y="146" text-anchor="middle" font-size="10" fill="#6B7280">mm/s、mrad/s</text>
+
+  <!-- arrow + transform -->
+  <line x1="152" y1="95" x2="208" y2="95" stroke="#F97316" stroke-width="2.4" marker-end="url(#ea)"/>
+  <text x="330" y="62" text-anchor="middle" font-size="11" fill="#9A3412">定點化(mm/s) · 補數(−200 → 0xFF38) · 大端打包</text>
+
+  <!-- right: 11-byte frame -->
+  <g font-size="10.5">
+    <rect x="214" y="78" width="34" height="34" fill="#FFF7ED" stroke="#F97316"/><text x="231" y="99" text-anchor="middle" fill="#9A3412">AA</text>
+    <rect x="248" y="78" width="34" height="34" fill="#FFF7ED" stroke="#F97316"/><text x="265" y="99" text-anchor="middle" fill="#9A3412">55</text>
+    <rect x="282" y="78" width="34" height="34" fill="#EFF6FF" stroke="#3B82F6"/><text x="299" y="99" text-anchor="middle" fill="#1E40AF">01</text>
+    <rect x="316" y="78" width="34" height="34" fill="#EFF6FF" stroke="#3B82F6"/><text x="333" y="99" text-anchor="middle" fill="#1E40AF">04</text>
+    <rect x="350" y="78" width="34" height="34" fill="#EFF6FF" stroke="#3B82F6"/><text x="367" y="99" text-anchor="middle" fill="#1E40AF">01</text>
+    <rect x="384" y="78" width="34" height="34" fill="#ECFDF5" stroke="#10B981"/><text x="401" y="99" text-anchor="middle" fill="#065F46">01</text>
+    <rect x="418" y="78" width="34" height="34" fill="#ECFDF5" stroke="#10B981"/><text x="435" y="99" text-anchor="middle" fill="#065F46">F4</text>
+    <rect x="452" y="78" width="34" height="34" fill="#ECFDF5" stroke="#10B981"/><text x="469" y="99" text-anchor="middle" fill="#065F46">FF</text>
+    <rect x="486" y="78" width="34" height="34" fill="#ECFDF5" stroke="#10B981"/><text x="503" y="99" text-anchor="middle" fill="#065F46">38</text>
+    <rect x="520" y="78" width="34" height="34" fill="#FEF2F2" stroke="#EF4444"/><text x="537" y="99" text-anchor="middle" fill="#991B1B">HH</text>
+    <rect x="554" y="78" width="34" height="34" fill="#FEF2F2" stroke="#EF4444"/><text x="571" y="99" text-anchor="middle" fill="#991B1B">LL</text>
+  </g>
+  <!-- field labels -->
+  <g font-size="9" fill="#6B7280">
+    <text x="248" y="126" text-anchor="middle">SYNC</text>
+    <text x="299" y="126" text-anchor="middle">VER</text>
+    <text x="333" y="126" text-anchor="middle">LEN</text>
+    <text x="367" y="126" text-anchor="middle">CMD</text>
+    <text x="435" y="126" text-anchor="middle">v=500</text>
+    <text x="503" y="126" text-anchor="middle">ω=−200</text>
+    <text x="554" y="126" text-anchor="middle">CRC16</text>
+  </g>
+
+  <!-- CRC coverage bracket over VER..PAYLOAD (01 04 01 01 F4 FF 38) -->
+  <path d="M282,140 L282,148 L520,148 L520,140" fill="none" stroke="#DC2626" stroke-width="1.4"/>
+  <text x="401" y="164" text-anchor="middle" font-size="10.5" fill="#991B1B">CRC 涵蓋這段:01 04 01 01 F4 FF 38</text>
+
+  <rect x="500" y="180" width="150" height="34" rx="6" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="575" y="200" text-anchor="middle" font-size="10" fill="#991B1B">HH LL 待 CRC 參數定案</text>
+  <text x="120" y="200" font-size="10.5" fill="#6B7280">−200 的補數:65536−200 = 65336 = 0xFF38(大端 → FF 38)</text>
+</svg>

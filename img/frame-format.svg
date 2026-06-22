@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 250" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="620" height="250" fill="#ffffff"/>
+  <text x="310" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">幀格式:每個欄位都在解決一個具體問題</text>
+
+  <!-- CRC coverage bracket over VER..PAYLOAD -->
+  <path d="M150,70 L150,62 L470,62 L470,70" fill="none" stroke="#DC2626" stroke-width="1.4"/>
+  <text x="310" y="56" text-anchor="middle" font-size="11" fill="#991B1B">CRC16 涵蓋:VER → PAYLOAD</text>
+
+  <!-- cells -->
+  <g font-size="11">
+    <rect x="30" y="78" width="60" height="44" fill="#FFF7ED" stroke="#F97316"/><text x="60" y="98" text-anchor="middle" font-weight="700" fill="#9A3412">SYNC1</text><text x="60" y="114" text-anchor="middle" font-size="10" fill="#9A3412">0xAA</text>
+    <rect x="90" y="78" width="60" height="44" fill="#FFF7ED" stroke="#F97316"/><text x="120" y="98" text-anchor="middle" font-weight="700" fill="#9A3412">SYNC2</text><text x="120" y="114" text-anchor="middle" font-size="10" fill="#9A3412">0x55</text>
+    <rect x="150" y="78" width="60" height="44" fill="#EFF6FF" stroke="#3B82F6"/><text x="180" y="98" text-anchor="middle" font-weight="700" fill="#1E40AF">VER</text><text x="180" y="114" text-anchor="middle" font-size="10" fill="#6B7280">1B</text>
+    <rect x="210" y="78" width="60" height="44" fill="#EFF6FF" stroke="#3B82F6"/><text x="240" y="98" text-anchor="middle" font-weight="700" fill="#1E40AF">LEN</text><text x="240" y="114" text-anchor="middle" font-size="10" fill="#6B7280">1B</text>
+    <rect x="270" y="78" width="60" height="44" fill="#EFF6FF" stroke="#3B82F6"/><text x="300" y="98" text-anchor="middle" font-weight="700" fill="#1E40AF">CMD</text><text x="300" y="114" text-anchor="middle" font-size="10" fill="#6B7280">1B</text>
+    <rect x="330" y="78" width="140" height="44" fill="#ECFDF5" stroke="#10B981"/><text x="400" y="98" text-anchor="middle" font-weight="700" fill="#065F46">PAYLOAD</text><text x="400" y="114" text-anchor="middle" font-size="10" fill="#6B7280">N bytes</text>
+    <rect x="470" y="78" width="120" height="44" fill="#FEF2F2" stroke="#EF4444"/><text x="530" y="98" text-anchor="middle" font-weight="700" fill="#991B1B">CRC16</text><text x="530" y="114" text-anchor="middle" font-size="10" fill="#6B7280">2 bytes</text>
+  </g>
+
+  <!-- purposes below -->
+  <g font-size="11">
+    <line x1="120" y1="122" x2="120" y2="150" stroke="#F97316" stroke-width="1"/>
+    <text x="120" y="166" text-anchor="middle" fill="#9A3412">找邊界</text>
+    <line x1="180" y1="122" x2="180" y2="178" stroke="#3B82F6" stroke-width="1"/>
+    <text x="180" y="194" text-anchor="middle" fill="#1E40AF">能演進</text>
+    <line x1="240" y1="122" x2="240" y2="150" stroke="#3B82F6" stroke-width="1"/>
+    <text x="240" y="166" text-anchor="middle" fill="#1E40AF">讀多少</text>
+    <line x1="300" y1="122" x2="300" y2="178" stroke="#3B82F6" stroke-width="1"/>
+    <text x="300" y="194" text-anchor="middle" fill="#1E40AF">這幀在說什麼</text>
+    <line x1="400" y1="122" x2="400" y2="150" stroke="#10B981" stroke-width="1"/>
+    <text x="400" y="166" text-anchor="middle" fill="#065F46">真正的資料</text>
+    <line x1="530" y1="122" x2="530" y2="178" stroke="#EF4444" stroke-width="1"/>
+    <text x="530" y="194" text-anchor="middle" fill="#991B1B">抓出被翻掉的位元</text>
+  </g>
+
+  <text x="310" y="226" text-anchor="middle" font-size="11.5" fill="#6B7280">幀頭只是「候選起點」,CRC 才是「這幀到底對不對」的最終裁判</text>
+</svg>
