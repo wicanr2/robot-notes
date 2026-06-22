@@ -77,8 +77,8 @@
 - path-planning.md — 路徑規劃與軌跡計算 *(待寫,R4)*
 
 ### 40 多機調度
-- open-rmf.md — OpenRMF 如何透過 VDA5050 調度不同廠家機器人 *(待寫,R2)*
-- vda5050.md — VDA5050 協定整理 *(待寫,R2)*
+- [OpenRMF:跨車隊調度](docs/40-fleet/open-rmf.md) — 為何疊在車隊之上(全局意圖可見)、時空排程協商、與 VDA5050 怎麼搭
+- [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界
 
 ### 50 Physical AI
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
