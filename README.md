@@ -79,7 +79,7 @@
 
 ### 40 多機調度
 - [OpenRMF:跨車隊調度](docs/40-fleet/open-rmf.md) — 為何疊在車隊之上、時空排程協商、系統需求/語言、怎麼寫 fleet adapter、與 VDA5050 串接流程
-- [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界
+- [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界、**完整 order JSON 範例**
 
 ### 50 Physical AI
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
