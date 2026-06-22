@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 270" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ba" markerWidth="12" markerHeight="12" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="620" height="270" fill="#ffffff"/>
+  <text x="310" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">為什麼「角度信陀螺儀、位置不信加速度計」</text>
+  <text x="310" y="46" text-anchor="middle" font-size="12" fill="#6B7280">一個固定的小偏置(bias),積一次只是斜線、積兩次就 t² 爆炸</text>
+
+  <!-- panel 1: constant bias -->
+  <line x1="30" y1="210" x2="180" y2="210" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="40" y1="215" x2="40" y2="80" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="45" y1="180" x2="175" y2="180" stroke="#2563EB" stroke-width="2.5"/>
+  <text x="105" y="170" text-anchor="middle" font-size="11.5" fill="#1E40AF">固定零偏 bias</text>
+  <text x="105" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">感測器原始誤差</text>
+  <text x="105" y="250" text-anchor="middle" font-size="11" fill="#6B7280">一個小常數</text>
+
+  <!-- arrow ∫ -->
+  <line x1="186" y1="150" x2="216" y2="150" stroke="#F97316" stroke-width="2.2" marker-end="url(#ba)"/>
+  <text x="201" y="142" text-anchor="middle" font-size="12" fill="#9A3412">∫</text>
+
+  <!-- panel 2: linear -->
+  <line x1="230" y1="210" x2="380" y2="210" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="240" y1="215" x2="240" y2="80" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="245" y1="205" x2="375" y2="110" stroke="#059669" stroke-width="2.8"/>
+  <text x="310" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">積一次 → 誤差 ∝ t</text>
+  <text x="310" y="250" text-anchor="middle" font-size="11" fill="#065F46">角度(陀螺儀):線性,短期可用</text>
+
+  <!-- arrow ∫ -->
+  <line x1="386" y1="150" x2="416" y2="150" stroke="#F97316" stroke-width="2.2" marker-end="url(#ba)"/>
+  <text x="401" y="142" text-anchor="middle" font-size="12" fill="#9A3412">∫</text>
+
+  <!-- panel 3: parabola -->
+  <line x1="420" y1="210" x2="600" y2="210" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="430" y1="215" x2="430" y2="60" stroke="#9CA3AF" stroke-width="1.2"/>
+  <path d="M430.0,210.0 L446.0,208.6 L462.0,204.4 L478.0,197.4 L494.0,187.6 L510.0,175.0 L526.0,159.6 L542.0,141.4 L558.0,120.4 L574.0,96.6 L590.0,70.0" fill="none" stroke="#DC2626" stroke-width="2.8"/>
+  <text x="512" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">積兩次 → 誤差 ∝ t²</text>
+  <text x="512" y="250" text-anchor="middle" font-size="11" fill="#991B1B">位置(加速度計):爆炸,不可用</text>
+</svg>

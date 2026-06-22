@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 290" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="620" height="290" fill="#ffffff"/>
+  <text x="310" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">wired-AND:任一裝置拉低 → 整條線就是低</text>
+  <text x="310" y="46" text-anchor="middle" font-size="12" fill="#6B7280">open-drain 並聯 → 大家只能拉低、不能推高;這是 I²C、CAN 仲裁、共享中斷線的共同根</text>
+
+  <!-- ===== Panel A: all release -> HIGH ===== -->
+  <text x="155" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">全部放手 → 高</text>
+  <!-- VCC + pullup -->
+  <text x="60" y="96" font-size="11" fill="#6B7280">VCC</text>
+  <line x1="60" y1="100" x2="60" y2="112" stroke="#6B7280"/>
+  <rect x="52" y="112" width="16" height="22" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="40" y="128" font-size="10" fill="#9A3412">R</text>
+  <line x1="60" y1="134" x2="60" y2="150" stroke="#10B981" stroke-width="3"/>
+  <!-- bus -->
+  <line x1="60" y1="150" x2="250" y2="150" stroke="#10B981" stroke-width="3"/>
+  <text x="200" y="142" font-size="12" font-weight="700" fill="#065F46">線 = 高 (1)</text>
+  <!-- devices -->
+  <g font-size="10" fill="#374151">
+    <line x1="100" y1="150" x2="100" y2="172" stroke="#9CA3AF"/><rect x="80" y="172" width="40" height="34" rx="4" fill="#F3F4F6" stroke="#9CA3AF"/><text x="100" y="222" text-anchor="middle">放手</text>
+    <line x1="155" y1="150" x2="155" y2="172" stroke="#9CA3AF"/><rect x="135" y="172" width="40" height="34" rx="4" fill="#F3F4F6" stroke="#9CA3AF"/><text x="155" y="222" text-anchor="middle">放手</text>
+    <line x1="210" y1="150" x2="210" y2="172" stroke="#9CA3AF"/><rect x="190" y="172" width="40" height="34" rx="4" fill="#F3F4F6" stroke="#9CA3AF"/><text x="210" y="222" text-anchor="middle">放手</text>
+  </g>
+  <!-- open switch hints (gap to GND) -->
+  <g stroke="#9CA3AF" stroke-width="1.4">
+    <line x1="100" y1="200" x2="100" y2="206"/><line x1="155" y1="200" x2="155" y2="206"/><line x1="210" y1="200" x2="210" y2="206"/>
+  </g>
+  <text x="155" y="246" text-anchor="middle" font-size="11.5" fill="#065F46">沒人拉 → 上拉電阻把線拉到高</text>
+
+  <line x1="310" y1="70" x2="310" y2="255" stroke="#E5E7EB"/>
+
+  <!-- ===== Panel B: one pulls low -> LOW ===== -->
+  <text x="465" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#991B1B">只要一個拉低 → 低</text>
+  <text x="370" y="96" font-size="11" fill="#6B7280">VCC</text>
+  <line x1="370" y1="100" x2="370" y2="112" stroke="#6B7280"/>
+  <rect x="362" y="112" width="16" height="22" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="350" y="128" font-size="10" fill="#9A3412">R</text>
+  <line x1="370" y1="134" x2="370" y2="150" stroke="#DC2626" stroke-width="3"/>
+  <line x1="370" y1="150" x2="560" y2="150" stroke="#DC2626" stroke-width="3"/>
+  <text x="505" y="142" font-size="12" font-weight="700" fill="#991B1B">線 = 低 (0)</text>
+  <g font-size="10" fill="#374151">
+    <line x1="410" y1="150" x2="410" y2="172" stroke="#9CA3AF"/><rect x="390" y="172" width="40" height="34" rx="4" fill="#F3F4F6" stroke="#9CA3AF"/><text x="410" y="222" text-anchor="middle">放手</text>
+    <line x1="465" y1="150" x2="465" y2="172" stroke="#DC2626" stroke-width="2"/><rect x="445" y="172" width="40" height="34" rx="4" fill="#FEE2E2" stroke="#DC2626"/><text x="465" y="222" text-anchor="middle" fill="#991B1B">拉低</text>
+    <line x1="520" y1="150" x2="520" y2="172" stroke="#9CA3AF"/><rect x="500" y="172" width="40" height="34" rx="4" fill="#F3F4F6" stroke="#9CA3AF"/><text x="520" y="222" text-anchor="middle">放手</text>
+  </g>
+  <!-- device2 connects to GND -->
+  <line x1="465" y1="206" x2="465" y2="216" stroke="#DC2626" stroke-width="2"/>
+  <line x1="455" y1="216" x2="475" y2="216" stroke="#DC2626" stroke-width="2"/>
+  <text x="465" y="246" text-anchor="middle" font-size="11.5" fill="#991B1B">裝置2 接通到 GND，整條被它拉低</text>
+</svg>

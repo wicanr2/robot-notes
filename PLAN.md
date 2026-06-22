@@ -85,7 +85,19 @@ robot-notes/
 - **Physical AI 補 Isaac ROS** 一列、收緊 Cosmos=WFM 措辭、區分 Jetson Thor(robot)/ DRIVE AGX(automotive)。
 - **電池續航/功耗預算**一節(中優先)。
 - 較深的跨檔 `§N` 引用,長期改為帶連結的引用(目前先用 `section-map.md` 兜底)。
-- **第一性原理回顧(全專案)**:既有硬體/韌體/導航文件逐篇補「為什麼是這個設計/公式」的第一性原理視角(高斯那篇是範本)。
+- **第一性原理回顧(全專案)**:既有硬體/韌體/導航文件逐篇補「為什麼是這個設計/公式」的第一性原理視角(高斯那篇是範本)。專家審查結論:硬體層(FOC/數位電路/電源)已近範本水準;缺口集中在「會動到數學公式」的地方——先給公式再解釋符號,而非把式子逼出來。
+
+  **第一性原理補強 Top 8 — ✅ 全數完成(R7),各配 SVG:**
+  1. **ICC 推導差速運動學** + ICC 幾何 SVG — `chassis-and-drivetrain.md §1.1`(目前標「必背」=反第一性原理訊號)
+  2. **odometry 積分推導**(車體位移經 θ 旋轉到世界系、中點朝向 Δθ/2 少一階誤差)+ 一步積分 SVG — `low-level-control.md §4.1`
+  3. **FOC「τ ∝ sin(夾角)」一條式子** + 夾角/扭矩曲線 SVG — `motors-and-foc.md §2.2`
+  4. **AMCL 權重=似然 P(z|x)、z_hit/z_rand/z_short=量測模型分解、為何用粒子不用高斯(多峰)** + 多峰 SVG — `localization.md §22`
+  5. **IMU bias 二次積分發散**(t² 爆炸 → 距離信 encoder、角度信 IMU)+ 發散 SVG — `sensors.md §3.3`
+  6. **scan matching=最小化點到牆殘差平方和、pose graph=加權最小二乘** + 代價函數 SVG — `slam-mapping.md §21.2/§21.3`
+  7. **PID 的 I 項第一性原理**(純 P 對常值負載必留穩態誤差 → 需 I 保住輸出;windup 由此推) — `low-level-control.md §7.3`
+  8. **wired-AND 跨章節 SVG 錨點**(供 CAN 仲裁、I²C、共享中斷線共同回指) — `digital-circuits.md §13.4` → `communication-buses.md §6.2`
+
+  > SVG 補強優先給 ASCII 畫不好的數學概念(ICC 幾何、sinθ 曲線、bias 發散、多峰分布、scan 殘差),結構剖面圖維持 ASCII。
 
 ## 內容原則
 

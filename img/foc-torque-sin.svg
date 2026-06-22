@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="fv" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker>
+    <marker id="fv2" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EA580C"/></marker>
+  </defs>
+  <rect width="640" height="260" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">FOC 為什麼鎖 90°:扭矩 τ ∝ sin(夾角)</text>
+
+  <!-- LEFT: vectors -->
+  <text x="170" y="52" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">兩個磁場的夾角 θ</text>
+  <circle cx="150" cy="160" r="3" fill="#374151"/>
+  <!-- rotor magnet vector (right) -->
+  <line x1="150" y1="160" x2="270" y2="160" stroke="#6B7280" stroke-width="2.5" marker-end="url(#fv)"/>
+  <text x="262" y="178" font-size="12" fill="#6B7280">轉子磁鐵 B_r</text>
+  <!-- stator field vector at ~70 deg up -->
+  <line x1="150" y1="160" x2="221" y2="68" stroke="#EA580C" stroke-width="2.8" marker-end="url(#fv2)"/>
+  <text x="226" y="60" font-size="12" font-weight="700" fill="#9A3412">定子磁場 B_s</text>
+  <!-- angle arc -->
+  <path d="M200,160 A50 50 0 0 0 178,121" fill="none" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="208" y="132" font-size="13" font-weight="700" fill="#1E40AF">θ</text>
+  <text x="170" y="210" text-anchor="middle" font-size="12.5" fill="#9A3412">τ = k·|B_s|·|B_r|·sin θ</text>
+  <text x="170" y="232" text-anchor="middle" font-size="11.5" fill="#6B7280">只有「垂直分量」在推轉,平行分量純浪費</text>
+
+  <!-- divider -->
+  <line x1="320" y1="48" x2="320" y2="240" stroke="#E5E7EB"/>
+
+  <!-- RIGHT: sin curve -->
+  <line x1="350" y1="215" x2="610" y2="215" stroke="#9CA3AF" stroke-width="1.3"/>
+  <line x1="360" y1="60" x2="360" y2="222" stroke="#9CA3AF" stroke-width="1.3"/>
+  <path d="M360.0,215.0 L370.0,199.3 L380.0,183.9 L390.0,169.1 L400.0,155.0 L410.0,141.9 L420.0,130.1 L430.0,119.8 L440.0,111.1 L450.0,104.1 L460.0,99.1 L470.0,96.0 L480.0,95.0 L490.0,96.0 L500.0,99.1 L510.0,104.1 L520.0,111.1 L530.0,119.8 L540.0,130.1 L550.0,141.9 L560.0,155.0 L570.0,169.1 L580.0,183.9 L590.0,199.3 L600.0,215.0" fill="none" stroke="#2563EB" stroke-width="2.8"/>
+  <!-- 90 deg max marker -->
+  <line x1="480" y1="95" x2="480" y2="215" stroke="#10B981" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="480" cy="95" r="4" fill="#10B981"/>
+  <text x="480" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">90° → 扭矩最大</text>
+  <text x="360" y="234" font-size="11" fill="#6B7280">0°</text>
+  <text x="476" y="234" font-size="11" fill="#065F46">90°</text>
+  <text x="592" y="234" font-size="11" fill="#6B7280">180°</text>
+  <text x="455" y="56" text-anchor="middle" font-size="11.5" fill="#1E40AF">FOC 把電流全壓在這 = id 控成 0</text>
+</svg>

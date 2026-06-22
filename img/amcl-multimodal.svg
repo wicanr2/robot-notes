@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 280" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="620" height="280" fill="#ffffff"/>
+  <text x="310" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">為什麼定位用「粒子」不用「單一高斯」</text>
+  <text x="310" y="46" text-anchor="middle" font-size="12" fill="#6B7280">對稱走廊兩端長得一樣 → 信念是「兩個峰」,高斯只裝得下一個</text>
+
+  <!-- LEFT: symmetric corridor -->
+  <text x="155" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">對稱走廊:兩端無法分辨</text>
+  <rect x="40" y="92" width="230" height="70" fill="#F3F4F6" stroke="#9CA3AF"/>
+  <rect x="40" y="92" width="230" height="14" fill="#D1D5DB"/>
+  <rect x="40" y="148" width="230" height="14" fill="#D1D5DB"/>
+  <!-- two candidate clusters -->
+  <g fill="#2563EB">
+    <circle cx="78" cy="127" r="2.5"/><circle cx="86" cy="122" r="2.5"/><circle cx="83" cy="133" r="2.5"/><circle cx="92" cy="128" r="2.5"/><circle cx="74" cy="131" r="2.5"/><circle cx="89" cy="135" r="2.5"/>
+  </g>
+  <g fill="#2563EB">
+    <circle cx="226" cy="127" r="2.5"/><circle cx="234" cy="122" r="2.5"/><circle cx="231" cy="133" r="2.5"/><circle cx="240" cy="128" r="2.5"/><circle cx="222" cy="131" r="2.5"/><circle cx="237" cy="135" r="2.5"/>
+  </g>
+  <text x="84" y="180" text-anchor="middle" font-size="11" fill="#1E40AF">可能在這</text>
+  <text x="232" y="180" text-anchor="middle" font-size="11" fill="#1E40AF">也可能在這</text>
+  <text x="155" y="205" text-anchor="middle" font-size="11.5" fill="#374151">粒子雲能同時押兩邊,</text>
+  <text x="155" y="222" text-anchor="middle" font-size="11.5" fill="#374151">等走到不對稱處再塌縮成一團</text>
+
+  <line x1="305" y1="70" x2="305" y2="250" stroke="#E5E7EB"/>
+
+  <!-- RIGHT: belief curves -->
+  <text x="465" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">同一個信念的兩種表示</text>
+  <line x1="320" y1="200" x2="610" y2="200" stroke="#9CA3AF" stroke-width="1.2"/>
+  <!-- bimodal (particles) -->
+  <path d="M330.0,199.4 L341.6,196.8 L353.1,188.2 L364.7,169.2 L376.3,142.7 L387.9,123.7 L391.7,122.0 L395.6,123.2 L407.1,141.4 L418.7,168.0 L430.3,187.5 L441.9,196.5 L453.4,199.3 L465.0,199.8 L476.6,199.3 L488.1,196.5 L499.7,187.5 L511.3,168.0 L522.9,141.4 L534.4,123.2 L538.3,122.0 L542.1,123.7 L553.7,142.7 L565.3,169.2 L576.9,188.2 L588.4,196.8 L600.0,199.4" fill="#DBEAFE" opacity="0.7"/>
+  <path d="M330.0,199.4 L341.6,196.8 L353.1,188.2 L364.7,169.2 L376.3,142.7 L387.9,123.7 L391.7,122.0 L395.6,123.2 L407.1,141.4 L418.7,168.0 L430.3,187.5 L441.9,196.5 L453.4,199.3 L465.0,199.8 L476.6,199.3 L488.1,196.5 L499.7,187.5 L511.3,168.0 L522.9,141.4 L534.4,123.2 L538.3,122.0 L542.1,123.7 L553.7,142.7 L565.3,169.2 L576.9,188.2 L588.4,196.8 L600.0,199.4" fill="none" stroke="#2563EB" stroke-width="2.4"/>
+  <!-- single gaussian (EKF, wrong) -->
+  <path d="M330.0,195.2 L348.0,191.0 L366.0,184.6 L384.0,175.9 L402.0,165.4 L420.0,154.7 L438.0,145.8 L451.5,141.5 L460.5,140.2 L465.0,140.0 L469.5,140.2 L478.5,141.5 L492.0,145.8 L510.0,154.7 L528.0,165.4 L546.0,175.9 L564.0,184.6 L582.0,191.0 L600.0,195.2" fill="none" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <text x="392" y="116" text-anchor="middle" font-size="10.5" fill="#1E40AF">峰 A</text>
+  <text x="538" y="116" text-anchor="middle" font-size="10.5" fill="#1E40AF">峰 B</text>
+  <rect x="320" y="214" width="14" height="4" fill="#2563EB"/><text x="338" y="221" font-size="10.5" fill="#1E40AF">粒子濾波:兩個峰都留住</text>
+  <line x1="470" y1="216" x2="490" y2="216" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="5 3"/><text x="494" y="221" font-size="10.5" fill="#991B1B">單一高斯(EKF):押中間,兩邊都錯</text>
+</svg>
