@@ -2,7 +2,8 @@
 
 從**軟體到硬體**,完整整理機器人相關知識。以**送餐機器人(室內 AMR)** 為主軸,逐步擴展到多機調度、主板模擬與 Physical AI。寫給想把機器人從頭搞懂的人,特別照顧「軟體背景、硬體不熟」的讀者。
 
-> 進行中的整理計畫與分輪進度見 [PLAN.md](PLAN.md);術語表見 [CONTEXT.md](CONTEXT.md)。
+> 進行中的整理計畫與分輪進度見 [PLAN.md](PLAN.md)。
+> **看不懂的名詞** → 查 [CONTEXT.md 術語表](CONTEXT.md);**看到 `§11.3` 之類的編號不知在哪個檔** → 查 [章節對照表](docs/section-map.md)。
 
 <p align="center">
   <img src="img/bellabot.png" height="200" alt="BellaBot">
@@ -12,15 +13,38 @@
 
 ---
 
+## 機器人 30 秒總覽(完全沒碰過硬體先讀這段)
+
+一台送餐機器人 = **一台會自己走路的小推車**,內部分兩個腦:
+
+- **上位機(High-level)** = 一台跑 Linux 的小電腦,負責「想」:我在地圖哪裡、怎麼走到 5 號桌、前面有人要不要繞。
+- **下位機(Low-level)** = 一顆專門的小晶片(MCU,常見 STM32),負責「動」:即時控制兩顆馬達的轉速、回報走了多遠、有撞到就立刻停。
+
+兩者用一條線(UART/CAN)對話:上位機每幾十毫秒下一個「速度指令」,下位機照做並回報實際狀態。反覆這個迴圈,車就動起來了。四個全文反覆出現的核心詞:
+
+| 詞 | 一句話 |
+|---|---|
+| **MCU** | 微控制器,一顆專做即時控制的小晶片(這裡是 STM32) |
+| **(v, ω)** | 速度指令:v = 前進速度,ω(omega)= 轉彎的角速度 |
+| **encoder(編碼器)** | 裝在馬達上、量「輪子轉了多少」的感測器 |
+| **odometry(里程定位)** | 用輪子轉動量推算「我移動到哪了」,會慢慢累積誤差 |
+
+懂這四個詞,就能順順讀下去了。
+
+---
+
 ## 從哪裡開始讀
 
 | 你的情況 | 建議路線 |
 |---|---|
+| **完全沒碰過硬體** | 先讀上面「30 秒總覽」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [感測器](docs/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
 | 想先看全貌 | [系統架構](docs/00-overview/system-architecture.md) |
 | 軟體背景、想補硬體 | [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-hardware/motors-and-foc.md) → [感測器](docs/10-hardware/sensors.md) |
 | 做下位機韌體 | [下位機運動控制](docs/20-firmware/low-level-control.md) → [編碼器](docs/10-hardware/encoders.md) → [通訊匯流排](docs/10-hardware/communication-buses.md) |
 | 做導航 | [SLAM](docs/30-navigation/slam-mapping.md) → [定位](docs/30-navigation/localization.md) |
 | 想做 AI 模擬 | [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
+
+> 💡 進階小節(如數位電路 §15 半導體物理、定位 §28 地標 PnP)初讀可跳過,需要時再回來。
 
 ---
 
@@ -54,6 +78,7 @@
 
 ### 50 Physical AI
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
+- [感測器資料與 3D Gaussian 重建](docs/50-physical-ai/sensor-data-and-3d-reconstruction.md) — 真實感測資料如何重建成模擬場景;附「為什麼一堆演算法都掛高斯」
 - simulation-isaac-gazebo.md — 模擬環境 *(待寫,R5)*
 - sim-to-real.md — 模擬到真實 *(待寫,R5)*
 - claude-physical-ai-workflow.md — 用 Claude 完成機器人 Physical AI 模擬 *(待寫,R5)*
