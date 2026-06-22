@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="cw" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+    <marker id="cb" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker>
+    <marker id="cg" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+  </defs>
+  <rect width="640" height="320" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">座標轉換:把「感測器看到的」換算到世界座標</text>
+
+  <!-- world frame -->
+  <line x1="70" y1="270" x2="250" y2="270" stroke="#9CA3AF" stroke-width="1.5" marker-end="url(#cw)"/>
+  <line x1="70" y1="270" x2="70" y2="110" stroke="#9CA3AF" stroke-width="1.5" marker-end="url(#cw)"/>
+  <text x="246" y="288" font-size="11" fill="#6B7280">世界 x</text>
+  <text x="50" y="116" font-size="11" fill="#6B7280">世界 y</text>
+  <text x="58" y="286" font-size="11" fill="#6B7280">O_A</text>
+
+  <!-- robot frame -->
+  <circle cx="240" cy="200" r="3" fill="#2563EB"/>
+  <text x="218" y="216" font-size="11" fill="#1E40AF">O_B(車)</text>
+  <line x1="240" y1="200" x2="312" y2="166" stroke="#2563EB" stroke-width="2" marker-end="url(#cb)"/><text x="316" y="164" font-size="11" fill="#1E40AF">x_B(車頭)</text>
+  <line x1="240" y1="200" x2="206" y2="128" stroke="#2563EB" stroke-width="2" marker-end="url(#cb)"/><text x="184" y="124" font-size="11" fill="#1E40AF">y_B</text>
+  <!-- theta arc -->
+  <path d="M286,200 A46 46 0 0 0 274,170" fill="none" stroke="#F97316" stroke-width="1.6"/>
+  <text x="296" y="184" font-size="12" font-weight="700" fill="#9A3412">θ</text>
+
+  <!-- translation t -->
+  <line x1="70" y1="270" x2="240" y2="200" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#cw)"/>
+  <text x="138" y="248" font-size="11" fill="#374151">t(平移)</text>
+
+  <!-- point P -->
+  <circle cx="340" cy="120" r="4" fill="#111827"/><text x="348" y="118" font-size="12" font-weight="700" fill="#111827">P</text>
+  <line x1="240" y1="200" x2="338" y2="123" stroke="#2563EB" stroke-width="1.6" stroke-dasharray="4 2"/><text x="300" y="150" font-size="10.5" fill="#1E40AF">p_B</text>
+  <line x1="70" y1="270" x2="337" y2="122" stroke="#059669" stroke-width="1.8" marker-end="url(#cg)"/><text x="150" y="190" font-size="10.5" fill="#065F46">p_A</text>
+
+  <!-- formula box -->
+  <line x1="400" y1="50" x2="400" y2="300" stroke="#E5E7EB"/>
+  <text x="420" y="78" font-size="12.5" fill="#374151">把 B 座標換成 A 座標:</text>
+  <text x="420" y="106" font-size="14" font-weight="700" fill="#065F46">p_A = R(θ)·p_B + t</text>
+  <text x="420" y="140" font-size="12" fill="#1F2937">R(θ) = | cosθ  −sinθ |</text>
+  <text x="452" y="158" font-size="12" fill="#1F2937">| sinθ   cosθ |</text>
+  <text x="420" y="194" font-size="12.5" fill="#374151">齊次座標 → 合成一個矩陣:</text>
+  <text x="420" y="220" font-size="13" font-weight="700" fill="#9A3412">p̃_A = T · p̃_B</text>
+  <text x="420" y="246" font-size="11.5" fill="#1F2937">T = | cosθ −sinθ  tx |</text>
+  <text x="444" y="262" font-size="11.5" fill="#1F2937">| sinθ  cosθ  ty |</text>
+  <text x="444" y="278" font-size="11.5" fill="#1F2937">|  0     0    1 |</text>
+  <text x="420" y="300" font-size="10.5" fill="#6B7280">一個矩陣乘法 = 先轉再移,還能串接整條 frame 鏈</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="n2" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="640" height="330" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">Nav2 為什麼分三層:時間尺度與資訊範圍不同</text>
+
+  <!-- behavior tree orchestrator -->
+  <rect x="40" y="42" width="560" height="48" rx="9" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.8"/>
+  <text x="320" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="#5B21B6">行為樹(Behavior Tree):編排「規劃 → 跟隨」,失敗就退而求其次</text>
+  <text x="320" y="82" text-anchor="middle" font-size="11" fill="#6B7280">用 fallback/sequence 表達分級恢復,比寫死狀態機好維護</text>
+
+  <!-- planner -->
+  <rect x="40" y="118" width="265" height="92" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="172" y="140" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1E40AF">全域規劃 Planner</text>
+  <text x="172" y="161" text-anchor="middle" font-size="11" fill="#1F2937">看整張地圖 · 低頻 · 算 A→B 整條無碰撞路</text>
+  <text x="172" y="180" text-anchor="middle" font-size="11" fill="#1F2937">算量大、頻率低</text>
+  <text x="172" y="199" text-anchor="middle" font-size="10.5" fill="#6B7280">NavFn / Smac 2D / Hybrid-A*(含運動學)</text>
+
+  <!-- controller -->
+  <rect x="335" y="118" width="265" height="92" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="467" y="140" text-anchor="middle" font-size="13.5" font-weight="700" fill="#065F46">區域控制 Controller</text>
+  <text x="467" y="161" text-anchor="middle" font-size="11" fill="#1F2937">只看附近 · 高頻(每 20–50ms)</text>
+  <text x="467" y="180" text-anchor="middle" font-size="11" fill="#1F2937">把路徑變 (v,ω)、閃動態障礙</text>
+  <text x="467" y="199" text-anchor="middle" font-size="10.5" fill="#6B7280">DWB / MPPI / Regulated Pure Pursuit</text>
+
+  <line x1="305" y1="164" x2="333" y2="164" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#n2)"/>
+  <text x="319" y="158" text-anchor="middle" font-size="10" fill="#6B7280">路徑</text>
+  <line x1="320" y1="90" x2="320" y2="116" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#n2)"/>
+
+  <!-- recovery -->
+  <rect x="40" y="234" width="560" height="44" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="320" y="254" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">卡住 → 恢復 Recovery</text>
+  <text x="320" y="272" text-anchor="middle" font-size="11" fill="#6B7280">清 costmap(清誤判障礙)· 原地旋轉 · 後退 · 等待</text>
+  <line x1="467" y1="210" x2="467" y2="232" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#n2)"/>
+  <text x="490" y="226" font-size="10" fill="#991B1B">失敗時</text>
+
+  <text x="320" y="304" text-anchor="middle" font-size="11" fill="#374151">硬綁在一起會兩邊都做不好 → 拆層,各用最適演算法、各自可替換(plugin)</text>
+</svg>

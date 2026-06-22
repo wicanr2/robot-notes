@@ -74,8 +74,8 @@
 ### 30 導航
 - [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、loop closure
 - [定位](docs/30-navigation/localization.md) — AMCL、odometry、地標/AprilTag 定位
-- kinematics-and-coordinate-transforms.md — 運動學與座標轉換公式 *(待寫,R4)*
-- path-planning.md — 路徑規劃與軌跡計算 *(待寫,R4)*
+- [座標轉換與 TF](docs/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
+- [路徑規劃與軌跡(Nav2)](docs/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
 
 ### 40 多機調度
 - [OpenRMF:跨車隊調度](docs/40-fleet/open-rmf.md) — 為何疊在車隊之上(全局意圖可見)、時空排程協商、與 VDA5050 怎麼搭

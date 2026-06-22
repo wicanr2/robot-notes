@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ci" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="640" height="320" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">分層 costmap 與膨脹層:為什麼不能把車當一個點</text>
+
+  <!-- LEFT: layered stack -->
+  <text x="150" y="56" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">分層疊加(各來源獨立更新)</text>
+  <rect x="50" y="68" width="200" height="34" rx="5" fill="#E5E7EB" stroke="#9CA3AF"/><text x="150" y="89" text-anchor="middle" font-size="11.5" fill="#374151">static 層:靜態地圖(牆)</text>
+  <rect x="50" y="110" width="200" height="34" rx="5" fill="#FEE2E2" stroke="#EF4444"/><text x="150" y="131" text-anchor="middle" font-size="11.5" fill="#991B1B">obstacle 層:即時感測障礙</text>
+  <rect x="50" y="152" width="200" height="34" rx="5" fill="#FFEDD5" stroke="#F97316"/><text x="150" y="173" text-anchor="middle" font-size="11.5" fill="#9A3412">inflation 層:膨脹漸層</text>
+  <line x1="150" y1="190" x2="150" y2="210" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#ci)"/>
+  <rect x="50" y="214" width="200" height="34" rx="5" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/><text x="150" y="235" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">合成 costmap</text>
+  <text x="150" y="270" text-anchor="middle" font-size="10.5" fill="#6B7280">來源生命週期不同 → 分層各自</text>
+  <text x="150" y="285" text-anchor="middle" font-size="10.5" fill="#6B7280">更新/開關,而非塞成一張圖</text>
+
+  <line x1="300" y1="50" x2="300" y2="300" stroke="#E5E7EB"/>
+
+  <!-- RIGHT: inflation gradient -->
+  <text x="470" y="56" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">膨脹:把障礙「長胖」,讓車保持距離</text>
+  <!-- gradient rings: largest first -->
+  <circle cx="430" cy="170" r="62" fill="#FEF9C3" opacity="0.9"/>
+  <circle cx="430" cy="170" r="46" fill="#FED7AA" opacity="0.95"/>
+  <circle cx="430" cy="170" r="30" fill="#FCA5A5"/>
+  <rect x="416" y="156" width="28" height="28" fill="#DC2626"/>
+  <text x="430" y="174" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">障礙</text>
+
+  <!-- robot footprint kept away -->
+  <circle cx="558" cy="170" r="22" fill="none" stroke="#2563EB" stroke-width="2"/>
+  <circle cx="558" cy="170" r="3" fill="#2563EB"/>
+  <text x="558" y="210" text-anchor="middle" font-size="10.5" fill="#1E40AF">車 footprint</text>
+  <text x="558" y="224" text-anchor="middle" font-size="10.5" fill="#1E40AF">(有體積)</text>
+
+  <!-- labels -->
+  <text x="430" y="120" text-anchor="middle" font-size="10" fill="#991B1B">lethal 致命</text>
+  <text x="368" y="232" text-anchor="middle" font-size="10" fill="#9A3412">指數衰減漸層</text>
+  <text x="430" y="252" text-anchor="middle" font-size="10.5" fill="#374151">離障礙越遠,代價越低 → 鼓勵走中間</text>
+  <text x="470" y="296" text-anchor="middle" font-size="10.5" fill="#6B7280">把車當點規劃會貼牆撞上 → 所以要 inflation</text>
+</svg>
