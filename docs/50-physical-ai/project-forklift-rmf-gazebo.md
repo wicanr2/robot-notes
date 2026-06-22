@@ -343,3 +343,69 @@ gz sim -s -r --headless-rendering worlds/terrain_anomaly.sdf
 # 另一終端橋 /clock,所有 ROS 節點 use_sim_time:=true
 ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock
 ```
+
+### 14.7 M5 Nav2 起手式(footprint 要設成叉車的長方形)
+
+叉車車身長、轉向受限,**footprint 一定要設成實際長方形**(不能用預設圓);否則規劃會以為車很小、貼著貨架算路然後撞上。
+
+```yaml
+# nav2_params.yaml(節錄)
+planner_server:
+  ros__parameters:
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_smac_planner/SmacPlanner2D"   # diff-drive 簡化用 2D;真 reach truck 換 SmacPlannerHybrid(含最小轉彎半徑)
+controller_server:
+  ros__parameters:
+    controller_plugins: ["FollowPath"]
+    FollowPath:
+      plugin: "nav2_mppi_controller::MPPIController"   # 或 nav2_regulated_pure_pursuit_controller(算力有限時)
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      footprint: "[[0.9,0.4],[0.9,-0.4],[-0.5,-0.4],[-0.5,0.4]]"  # 叉車外型(含牙叉),原點在 base_link
+      plugins: ["obstacle_layer","inflation_layer"]
+      obstacle_layer:
+        observation_sources: scan
+        scan: {topic: /scan, data_type: LaserScan, clearing: true, marking: true}
+      inflation_layer: {inflation_radius: 0.55, cost_scaling_factor: 3.0}
+```
+
+最後一段「開到貨架前精準停」靠 docking(Nav2 的 `opennav_docking` 或 RMF 的 dock),一般導航精度不足以對位取貨。建圖用 `slam_toolbox`(`online_async`)先繞一圈存 map,正式跑用 AMCL + static map。
+
+### 14.8 M7 RMF 起手式(fleet 設定 + 下任務 + 取放 callback)
+
+```yaml
+# fleet_config.yaml(節錄):車隊契約
+rmf_fleet:
+  name: "forklift_fleet"
+  limits: {linear: [0.7, 0.5], angular: [0.6, 0.8]}   # [速度, 加速度]
+  profile: {footprint: 0.6, vicinity: 1.0}            # 半徑(m)
+  reversible: true
+  battery_system: {voltage: 48.0, capacity: 40.0, charging_current: 26.0}
+  recharge_threshold: 0.15
+  recharge_soc: 1.0
+  task_capabilities: {delivery: true}
+  actions: ["pick", "drop"]        # 宣告本車隊能做的自訂動作
+```
+
+```bash
+# 下一個 A→B 的 Delivery 任務(rmf_demos_tasks 風格;取放用 dispenser/ingestor)
+ros2 run rmf_demos_tasks dispatch_delivery \
+  -p pickup_A  -pd dispenserA \
+  -d dropoff_B -dd ingestorB  --use_sim_time
+```
+
+```python
+# fleet adapter 的取放 callback(Easy Full Control / Python 骨架)
+def execute_action(self, category: str, description: dict, execution):
+    if category == "pick":
+        self.api.dock_to(description["target"])   # Nav2 docking 精對位
+        self.api.lift_fork(description["height"])  # JTC 升叉到貨架層高
+        self.api.attach_pallet()                   # 發 DetachableJoint attach topic
+    elif category == "drop":
+        self.api.lower_fork(); self.api.detach_pallet()
+    execution.finished()                           # 完成回報給 RMF
+```
+
+> 取放兩條路(§10):最省力用 **Delivery Task + Teleport Dispenser/Ingestor**(瞬移,上面 dispatch 指令即走這條);要真物理叉取才用 **PerformAction(pick/drop)+ DetachableJoint**(上面 callback 那條)。nav graph 的貨架前 waypoint 要標上 `dispenserA`/`ingestorB` 名稱,RMF 才知道在哪取放。`dispatch_delivery` 的旗標名以你的 `rmf_demos_tasks` 版本為準(待查證)。
