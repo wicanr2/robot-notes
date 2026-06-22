@@ -3,7 +3,7 @@
 這套筆記的一個目標,是用 Claude 協助完成機器人的 **Physical AI 模擬**。本篇先建立全貌:Physical AI 是什麼、跟一般生成式 AI 差在哪、NVIDIA 的技術堆疊各自扮演什麼角色,以及這一切怎麼接回室內送餐機器人(AMR)的開發。
 
 > 整理自 NVIDIA 官方 glossary 與 Isaac Sim / Cosmos 官方頁(來源見文末)。
-> 延伸閱讀:[系統架構](../00-overview/system-architecture.md)、[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)。後續 `simulation-isaac-gazebo.md`、`sim-to-real.md`、`claude-physical-ai-workflow.md` 會展開模擬與訓練流程。
+> 延伸閱讀:[系統架構](../00-overview/system-architecture.md)、[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)。後續 [Isaac Sim/Lab](isaac-sim-isaac-lab-amr.md)、[Gazebo+ROS2](simulation-gazebo-ros2.md)、[sim-to-real](sim-to-real.md)、[用 Claude 完成模擬](claude-physical-ai-workflow.md)、[叉車 capstone](project-forklift-rmf-gazebo.md) 展開模擬與訓練流程。
 
 ---
 
@@ -34,30 +34,18 @@
 | **Omniverse** | 開發工業數位分身與模擬應用的函式庫/微服務集合;Isaac Sim 建構於其上 |
 | **Omniverse NuRec** | 神經重建(neural reconstruction),從真實感測器資料重建 3D 場景 |
 | **Omniverse Replicator** | 對環境與物件做 domain randomization,產生多樣化合成資料 |
-| **Cosmos** | World foundation model 平台;擴增/整理/標註生成資料、擴展情境、模擬符合物理的世界 |
+| **Cosmos** | NVIDIA 的 WFM 實作(WFM=概念,Cosmos=那個產品);擴增/整理/標註生成資料、擴展情境、模擬符合物理的世界 |
 | **Isaac Lab** | 模組化機器人學習框架,用強化學習(RL)或模仿學習(IL)訓練機器人策略 |
 | **Isaac Sim** | 開源機器人模擬框架(建於 Omniverse、用 OpenUSD),做模擬、測試、合成資料生成、驗證模型;支援 SIL/HIL 與 ROS/ROS2 橋接 |
-| **Jetson Thor / DRIVE AGX** | 邊緣端 runtime 部署電腦,跑在嵌入式自主系統上 |
+| **Jetson Thor** | 邊緣端 runtime 部署電腦(通用機器人/邊緣 AI;**送餐 AMR 用這顆**) |
+| **DRIVE AGX** | 車規自駕平台(列為對照;室內 AMR 用不到) |
 | **RTX PRO Servers** | 模擬與較大型推理工作負載的基礎設施 |
 
 > 註:OSMO 未出現在所查的官方 glossary / Isaac Sim / Cosmos 頁,**待查證**,此處不臆造其角色。
 
 ## 4. 典型工作流(模擬 → 訓練 → sim-to-real)
 
-```
-① 建虛擬環境        ② 生成合成資料       ③ 擴增/標註資料
-   Omniverse           Replicator           Cosmos (WFM)
-   數位分身             domain               擴展情境
-   OpenUSD/SimReady     randomization        標註整理
-        │                   │                    │
-        └───────────────────┴────────────────────┘
-                            ▼
-④ 訓練策略           ⑤ 模擬中驗證          ⑥ 邊緣部署
-   Isaac Lab            Isaac Sim            Jetson Thor /
-   RL / IL              SIL / HIL            DRIVE AGX
-   (大量試誤)           驗證模型             → 真實世界
-                                            (sim-to-real)
-```
+<p align="center"><img src="../../img/physical-ai-workflow.svg" width="700" alt="Physical AI 工作流:Omniverse建場景→Replicator合成資料→Cosmos擴增→Isaac Lab訓練→Isaac Sim驗證→Jetson Thor部署"></p>
 
 ## 5. 與送餐機器人 / AMR 的關聯
 

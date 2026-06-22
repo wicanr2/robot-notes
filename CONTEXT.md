@@ -24,17 +24,32 @@
 - 地標定位 — 用相機看已知地標(如 AprilTag)反推自己的絕對位姿。
 - AprilTag — 機器人視覺常用的基準標記(fiducial marker),非 QR code。
 
+## 導航(Nav2 / TF)
+- Nav2 — ROS2 的導航軟體堆疊(規劃 + 控制 + 行為樹)。
+- costmap(代價地圖)— 把空間切格、每格帶代價;分 static/obstacle/inflation 層。
+- inflation(膨脹層)— 在障礙周圍鋪漸層代價,讓有體積的車保持距離。
+- Hybrid-A* — 考慮車輛運動學(最小轉彎半徑、可否倒車)的全域規劃器。
+- MPPI / DWB / RPP — Nav2 的三種區域控制器(取樣最佳化 / 動態視窗 / 純追蹤)。
+- tf2 — ROS2 維護座標系關係的樹狀變換系統。
+- 行為樹(Behavior Tree)— Nav2 用來編排規劃→跟隨→恢復的可組合結構。
+
 ## 通訊與電路
 - CAN — 內建協議(訊框/CRC/仲裁)的差分匯流排,馬達/BMS 多節點即時控制主場。
 - RS485 — 只定義電氣層的差分匯流排,協議自定(常用 Modbus RTU)。
 - Open-drain(開漏)— 只能拉低、靠上拉電阻補高的數位輸出形式。
 - STO — Safe Torque Off,驅動器內建的安全轉矩關斷輸入。
 
-## 調度(待 R2 展開)
-- OpenRMF — 開源多機隊調度框架(Open Robotics Middleware Framework)。
-- VDA5050 — AGV/AMR 與上位調度系統之間的標準通訊協定。
+> 命名約定:散文一律寫 **Open-RMF**(官方品牌);套件名 / repo / apt 套件保留 `open-rmf` 原文。
 
-## Physical AI(R5)
+## 調度
+- Open-RMF — 開源多機隊調度框架(Open Robotics Middleware Framework)。
+- VDA5050 — AGV/AMR 與上位調度系統之間的標準通訊協定。
+- fleet adapter — 把某家車隊接進 RMF 的轉接層(翻譯 RMF 指令 ↔ 車隊 API)。
+- released / horizon — VDA5050 order 中「已授權可走」vs「已規劃未授權」的分段。
+- blockingType — VDA5050 action 是否擋行駛/並行(NONE/SOFT/HARD)。
+- factsheet — VDA5050 車輛能力宣告(尺寸/載重/支援動作)。
+
+## Physical AI
 - Physical AI — 讓自主系統在真實物理世界感知、推理、行動的 AI。
 - World Foundation Model (WFM) — 能模擬物理世界、生成訓練資料的大型基礎模型。
 - Digital Twin(數位分身)— 真實場景的虛擬複本,用來產生訓練資料。
@@ -48,8 +63,12 @@
 - Zero-shot transfer(零樣本遷移)— 模擬訓練完直接上車、不用真實資料微調。
 - SRCC(Sim-to-Real Correlation Coefficient)— 模擬與真實效能指標的相關係數,衡量「模擬能否準確預測真實表現」。
 - Isaac Sim / Isaac Lab — NVIDIA 的機器人模擬框架 / 學習框架。
+- Cosmos — NVIDIA 的 WFM 實作(WFM 是概念、Cosmos 是產品)。
+- NuRec — NVIDIA Omniverse 的神經重建(從真實感測資料重建 3D 場景)。
+- DiffDrive / TricycleSteering — gz 的差速 / 三輪(單驅動轉向輪)驅動 plugin。
+- DetachableJoint — gz 動態建立/分離兩 model 間固定關節(叉車取放用)。
 
-## 法規與認證(R8)
+## 法規與認證
 - UL 2271 — 輕型電動載具(LEV)電池安全標準(低壓、輕載)。
 - UL 2580 — 電動車/工業車輛電池安全標準(較高壓、工業級;含熱擴散測試)。
 - LFP (LiFePO4) — 磷酸鋰鐵電池;熱失控門檻高、不釋氧,本質安全優於三元鋰 NMC。

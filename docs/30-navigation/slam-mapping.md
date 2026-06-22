@@ -2,7 +2,7 @@
 
 SLAM(Simultaneous Localization and Mapping)解決一個「雞生蛋」問題:要定位需要地圖,要建圖又需要知道自己在哪。本篇圖解 2D SLAM 的建圖主迴圈(預測 → 對齊 → 刻畫)、迴圈閉合(loop closure)這個真正的難點,以及實際建圖的品質要訣。
 
-> 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照。
+> 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照(故本檔編號不連續,如 §1→§5→§10,非缺漏)。
 > 延伸閱讀:[定位(AMCL / 地標 / odometry)](localization.md)、[感測器](../10-hardware/sensors.md)、[系統架構](../00-overview/system-architecture.md)
 
 ---
