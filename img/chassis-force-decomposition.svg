@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="cf" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/></marker>
+    <marker id="cfv" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+  </defs>
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">馬達功率不是猜的:用牛頓定律把「要克服的力」拆出來</text>
+
+  <!-- incline -->
+  <line x1="60" y1="220" x2="380" y2="120" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="60" y1="220" x2="380" y2="220" stroke="#D1D5DB" stroke-width="1.2"/>
+  <path d="M120,220 A60 60 0 0 0 102,201" fill="none" stroke="#F97316" stroke-width="1.5"/>
+  <text x="128" y="212" font-size="12" font-weight="700" fill="#9A3412">θ</text>
+
+  <!-- robot on incline -->
+  <g transform="translate(230,168) rotate(-17.4)">
+    <rect x="-34" y="-26" width="68" height="32" rx="5" fill="#EFF6FF" stroke="#3B82F6"/>
+    <circle cx="-20" cy="10" r="7" fill="#1F2937"/><circle cx="20" cy="10" r="7" fill="#1F2937"/>
+  </g>
+  <!-- velocity up the incline -->
+  <line x1="250" y1="150" x2="300" y2="135" stroke="#059669" stroke-width="2.5" marker-end="url(#cfv)"/>
+  <text x="300" y="128" font-size="12" font-weight="700" fill="#065F46">v</text>
+
+  <!-- resisting forces (down the incline) stacked -->
+  <line x1="210" y1="178" x2="160" y2="194" stroke="#DC2626" stroke-width="2.2" marker-end="url(#cf)"/>
+  <text x="150" y="210" font-size="11" fill="#991B1B">阻力(沿坡向下)</text>
+
+  <!-- formula box -->
+  <line x1="400" y1="50" x2="400" y2="280" stroke="#E5E7EB"/>
+  <text x="420" y="78" font-size="12.5" font-weight="700" fill="#374151">馬達要克服的三個力:</text>
+  <text x="420" y="106" font-size="12" fill="#991B1B">① 滾動阻力 ≈ μ·m·g</text>
+  <text x="420" y="130" font-size="12" fill="#991B1B">② 坡度分量 = m·g·sinθ</text>
+  <text x="420" y="154" font-size="12" fill="#991B1B">③ 加速項 = m·a</text>
+  <line x1="420" y1="168" x2="600" y2="168" stroke="#E5E7EB"/>
+  <text x="420" y="192" font-size="12.5" fill="#1F2937">F = μmg + mg·sinθ + m·a</text>
+  <text x="420" y="220" font-size="14" font-weight="700" fill="#065F46">功率 P = F · v</text>
+  <text x="420" y="250" font-size="11" fill="#6B7280">改載重 m、改坡 θ、改速度 v,</text>
+  <text x="420" y="266" font-size="11" fill="#6B7280">W 數自己算得出來,不用抄</text>
+</svg>

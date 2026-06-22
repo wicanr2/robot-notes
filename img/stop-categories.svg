@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#DC2626"/><stop offset="0.5" stop-color="#F97316"/><stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+    <marker id="sc" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="640" height="280" fill="#ffffff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">停止層級:每一層失效,都有更硬的一層兜底</text>
+
+  <!-- spectrum bar -->
+  <rect x="40" y="46" width="560" height="10" rx="5" fill="url(#spec)"/>
+  <text x="40" y="74" font-size="11" fill="#991B1B">最快 / 最硬</text>
+  <text x="600" y="74" text-anchor="end" font-size="11" fill="#065F46">最慢 / 最軟</text>
+
+  <!-- Cat 0 -->
+  <rect x="40" y="90" width="170" height="150" rx="9" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="125" y="114" text-anchor="middle" font-size="13.5" font-weight="700" fill="#991B1B">硬體急停 Cat 0</text>
+  <text x="125" y="138" text-anchor="middle" font-size="11" fill="#1F2937">按鈕 → STO 斷扭矩</text>
+  <text x="125" y="158" text-anchor="middle" font-size="11" fill="#1F2937">不經 CPU</text>
+  <text x="125" y="186" text-anchor="middle" font-size="11" fill="#6B7280">μs 級</text>
+  <text x="125" y="216" text-anchor="middle" font-size="10.5" fill="#991B1B">CPU 全死也有效</text>
+
+  <!-- Cat 1/firmware -->
+  <rect x="235" y="90" width="170" height="150" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="320" y="114" text-anchor="middle" font-size="13.5" font-weight="700" fill="#9A3412">韌體層</text>
+  <text x="320" y="138" text-anchor="middle" font-size="11" fill="#1F2937">防撞條 / 通訊逾時</text>
+  <text x="320" y="158" text-anchor="middle" font-size="11" fill="#1F2937">→ STM32 命令速度=0</text>
+  <text x="320" y="186" text-anchor="middle" font-size="11" fill="#6B7280">ms 級</text>
+  <text x="320" y="216" text-anchor="middle" font-size="10.5" fill="#9A3412">上位機死、下位機仍擋</text>
+
+  <!-- Cat 1/2 controlled -->
+  <rect x="430" y="90" width="170" height="150" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="515" y="114" text-anchor="middle" font-size="13.5" font-weight="700" fill="#065F46">受控減速 Cat 1/2</text>
+  <text x="515" y="138" text-anchor="middle" font-size="11" fill="#1F2937">上位機取消任務</text>
+  <text x="515" y="158" text-anchor="middle" font-size="11" fill="#1F2937">Nav2 ramp 平滑減速</text>
+  <text x="515" y="186" text-anchor="middle" font-size="11" fill="#6B7280">最平順(不灑湯)</text>
+  <text x="515" y="216" text-anchor="middle" font-size="10.5" fill="#065F46">正常情況的優先選擇</text>
+
+  <text x="320" y="266" text-anchor="middle" font-size="11" fill="#374151">對應 IEC 60204-1 停止類別:平常用最右(平順),出事逐層往左退到最硬</text>
+</svg>
