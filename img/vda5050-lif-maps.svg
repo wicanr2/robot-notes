@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <defs><marker id="lm" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <defs>
+    <marker id="lm" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="lmg" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#16A34A"/></marker>
+  </defs>
   <rect width="700" height="360" fill="#ffffff"/>
   <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">VDA5050 車輛怎麼拿到圖資:協定不傳路網,LIF 才傳</text>
 
@@ -36,7 +39,8 @@
   <rect x="360" y="152" width="140" height="48" rx="9" fill="#F0FDF4" stroke="#16A34A"/>
   <text x="430" y="172" text-anchor="middle" font-size="11.5" font-weight="700" fill="#166534">車載 SLAM 地圖</text>
   <text x="430" y="189" text-anchor="middle" font-size="9.5" fill="#6B7280">車用它定位 / 避障</text>
-  <line x1="500" y1="176" x2="518" y2="176" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#lm)"/>
+  <line x1="500" y1="176" x2="518" y2="176" stroke="#16A34A" stroke-width="1.6" marker-end="url(#lmg)"/>
+  <text x="509" y="168" text-anchor="middle" font-size="8.5" fill="#166534">定位依據</text>
 
   <!-- three maps clarification -->
   <rect x="40" y="226" width="620" height="120" rx="10" fill="#F9FAFB" stroke="#9CA3AF"/>

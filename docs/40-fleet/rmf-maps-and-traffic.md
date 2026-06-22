@@ -29,7 +29,7 @@
 完整 order 樹與設計理由見 [VDA5050 篇](vda5050.md);這裡補 topic 命名規則與 state/factsheet 關鍵欄位。
 
 - **MQTT topic 命名**:`interfaceName/majorVersion/manufacturer/serialNumber/topic`,例 `vda5050/v3/ACME/forklift-01/order`。
-- **5+1 topic**:`order`/`instantActions`(主控→車)、`state`/`visualization`/`factsheet`(車→主控)、`connection`(含 last-will);選用 `zoneSet`/`responses`。
+- **6 個核心 topic**:`order`/`instantActions`(主控→車)、`state`/`visualization`/`factsheet`(車→主控)、`connection`(含 last-will);另有選用 `zoneSet`/`responses`。(與 [vda5050 §2](vda5050.md) 同一套。)
 - **state 關鍵欄位**:`agvPosition`(x,y,θ,mapId)、`nodeStates`/`edgeStates`(還要走的節點/邊)、`actionStates`、`batteryState`、`driving`、`operatingMode`、`errors`、`lastNodeId`、`orderId`/`orderUpdateId`。
 - **factsheet 關鍵欄位**:`typeSpecification`、`physicalParameters`(尺寸/重量/速度)、`agvGeometry`(外形包絡)、`loadSpecification`(載運規格)、`protocolFeatures`(支援哪些 action)、`localizationParameters`。RMF 跨廠派工要靠它判斷「這台車能不能做、成本多少」。
 
@@ -40,7 +40,7 @@
 <p align="center"><img src="../../img/vda5050-lif-maps.svg" width="700" alt="VDA5050 圖資:車廠出 LIF(JSON nodes/edges/stations)→主控匯入建路網→order 引用同套 nodeId;車載 SLAM 地圖另管定位"></p>
 
 - **LIF(Layout Interchange Format,佈局交換格式)**:**VDMA** 發布的配套指南(不是 VDA5050 協定的一部分),讓 AGV 車廠把車隊可行駛路網(nodes/edges/stations)以 **JSON 離線交付**給上位主控匯入。頂層 `metaInformation` + `layouts[]`,每個 layout 含 `nodes`/`edges`/`stations`。
-  - 注意結構差異:**LIF 的 `nodePosition` 只有 `x`/`y`**,`theta`/`actions` 放在依車種的 `vehicleTypeNodeProperties` 下;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。
+  - 注意結構差異:**LIF 把節點屬性按車種拆開**——位置與依車種屬性(如朝向、可掛 action)分開放;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。(精確欄位放在哪一層依 LIF 版本而異,以 VDMA 指南對照版本為準,見 §5。)
   - **更正**:`github.com/VDA5050/VDA5050_LIF` repo **不存在**;LIF 是 VDMA 指南 PDF,GitHub 上只有社群 schema(`continua-systems/vdma-lif`)與編輯器。
 - **nodeId 是橋樑**:LIF 裡定義的 `nodeId`/`mapId` 就是日後 order 引用的同一套。流程:**車廠出 LIF → 主控匯入建路網 → 規劃 → 用同樣 nodeId 組 order 派車**。
 - **VDA5050 3.0 的 `downloadMap`**:這是另一回事——3.0 新增 `downloadMap`/`deleteMap` 動作讓車從 map server 下載「**車載地圖檔**」(SLAM 環境圖),`state` 加 `maps` 欄位回報。**待查證**:3.0 是否另開獨立 map topic,需核對規範原文。
@@ -51,7 +51,7 @@
 
 ### 4.1 地圖:一個 building、多車隊各一張 nav graph
 
-RMF 用 traffic-editor 畫的 **`.building.yaml`**:`levels`(樓層)→ 每個 level 有 `vertices`(waypoint,可帶 `is_charger`/`is_holding_point`/`is_parking_spot`)與 `lanes`(連 waypoint 成 nav graph)。traffic-editor 預設給 **9 個 graph 對應 9 個車隊**,每條 lane 用 `graph_idx` 標屬於哪隊。**重點:不同車隊各有自己的 nav graph,但全部疊在同一個 building/level 座標系**——這就是異質車隊能被統一調度的基礎。
+RMF 用 traffic-editor 畫的 **`.building.yaml`**:`levels`(樓層)→ 每個 level 有 `vertices`(waypoint,可帶 `is_charger`/`is_holding_point`/`is_parking_spot`)與 `lanes`(連 waypoint 成 nav graph)。用 `graph_idx` 區分多個 nav graph(traffic-editor 慣例提供數個,不是車隊數硬上限),每條 lane 標屬於哪隊。**重點:不同車隊各有自己的 nav graph,但全部疊在同一個 building/level 座標系**——這就是異質車隊能被統一調度的基礎。
 
 ### 4.2 座標轉換:`reference_coordinates`(每家車本地座標 → RMF 世界座標)
 
@@ -64,8 +64,8 @@ reference_coordinates:
     robot: [[59,399],     [57,172],    [68,251],     [75,429]]         # 車自己座標(同一批點)
 ```
 
-- **至少 4 組對應點**;fleet adapter 用 Python `nudged` 套件從兩串點最小平方擬合出雙向變換。
-- 為什麼是「相似變換」不是任意變換?剛體場域只差平移+旋轉,加一個均勻縮放吸收單位差(像素↔公尺);**不允許拉伸/剪切**,所以需要多組點擬合而非一組算。這正是 [座標轉換篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的齊次變換用在「跨座標系對齊」的實例。
+- fleet adapter 用 Python `nudged` 套件從兩串點最小平方擬合出雙向變換。相似變換只有 4 個自由度(平移 x/y、旋轉、縮放),**理論上 2 組點就解得出**;實務取 **≥4 組**做最小平方,是為了吸收人工取點誤差。
+- 為什麼是「相似變換」不是任意變換?剛體場域只差平移+旋轉,加一個均勻縮放吸收單位差(像素↔公尺);**不允許拉伸/剪切**(那會扭曲距離與角度)。這正是 [座標轉換篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的齊次變換用在「跨座標系對齊」的實例。
 
 ### 4.3 避塞車:共用時空排程 + 協商 + 路權原語
 
@@ -75,8 +75,8 @@ reference_coordinates:
 
 1. **共用時空排程**:各車向中央排程庫申報 **itinerary(時空軌跡)**,系統因此有全域意圖可見性。
 2. **衝突偵測**:比對**時空軌跡**(不只空間交叉,還看同時刻),用 **time-dependent A***(加時間維度的 A*)規劃避開他車。
-3. **協商(negotiation)**:衝突 → 各車隊提偏好 + 可容讓的替代 itinerary → **第三方 judge**(系統整合商部署)選整體較佳的一組。
-4. **逐段放行(blockade)**:路線空間交疊時,用 checkpoint 確保「同一段不同時前進」。
+3. **協商(negotiation)**:衝突 → 各車隊提偏好 + 可容讓的替代 itinerary → **第三方 judge**(系統整合商部署)選整體較佳的一組。(協商層大致平等對待各車,任務優先序主要在派工端;見 [open-rmf §3](open-rmf.md)。)
+4. **路權交接(blockade)**:路線空間交疊時,用 checkpoint 確保「同一段不同時前進」。(與下節 VDA5050 `released`/horizon 的逐段釋放是不同層機制,別混。)
 
 掛在 nav graph 上的**路權原語**(避塞車的具體工具):
 
