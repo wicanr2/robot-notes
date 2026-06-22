@@ -30,8 +30,9 @@
   <text x="406" y="166" font-size="10.5" fill="#991B1B">但會慢慢漂</text>
   <text x="406" y="252" font-size="10.5" fill="#065F46">跟著車身</text>
 
-  <!-- bottom rationale -->
-  <rect x="40" y="290" width="200" height="26" rx="6" fill="#FFF7ED" stroke="#F97316"/>
-  <text x="140" y="307" text-anchor="middle" font-size="10.5" fill="#9A3412">每個 frame 只有一個 parent</text>
+  <!-- side rationale -->
+  <rect x="40" y="138" width="170" height="40" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="125" y="156" text-anchor="middle" font-size="10.5" fill="#9A3412">每個 frame 只有一個 parent</text>
+  <text x="125" y="171" text-anchor="middle" font-size="9.5" fill="#9A3412">→ 任兩 frame 路徑唯一</text>
   <text x="320" y="376" text-anchor="middle" font-size="11" fill="#374151">分兩層 → 同時要到「平滑(控制用 odom)」+「長期準(全域用 map)」</text>
 </svg>

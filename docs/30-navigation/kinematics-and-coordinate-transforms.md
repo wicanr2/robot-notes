@@ -50,7 +50,7 @@ p_A = R(θ) · p_B + t          R(θ) = | cos θ  −sin θ |   (逆時針為正
                                       | sin θ   cos θ |
 ```
 
-`t` 是 B 原點在 A 中的位置。**齊次變換(homogeneous transformation)** 把「先轉再移」合併成單一矩陣乘法:點補一維成 `(x, y, 1)`,變換寫成 3×3 矩陣 `T`。
+這裡 **θ = B 系 x 軸相對 A 系 x 軸的夾角**(B 在 A 中的朝向),`t` 是 B 原點在 A 中的位置——θ 與 t 合起來就是「B 在 A 中的位姿」。**齊次變換(homogeneous transformation)** 把「先轉再移」合併成單一矩陣乘法:點補一維成 `(x, y, 1)`,變換寫成 3×3 矩陣 `T`。
 
 <p align="center"><img src="../../img/coordinate-transform-2d.svg" width="640" alt="2D 座標轉換:p_A = R(θ)p_B + t,齊次矩陣 T 合成旋轉與平移"></p>
 
