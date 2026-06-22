@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs><marker id="iv" markerWidth="11" markerHeight="11" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker></defs>
   <rect width="640" height="290" fill="#ffffff"/>
-  <text x="320" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">差速公式不用背:全車繞同一個 ICC 旋轉</text>
+  <text x="320" y="24" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">差速公式不用背:全車繞同一個 ICC 旋轉</text>
+  <text x="320" y="44" text-anchor="middle" font-size="11.5" fill="#6B7280">示意圖:左右輪半徑只差一個輪距 b;轉彎半徑越大,vL、vR 越接近(直行時相等)</text>
 
   <!-- axle line -->
   <line x1="80" y1="185" x2="560" y2="185" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="2 4"/>
@@ -32,7 +33,7 @@
   <text x="490" y="110" font-size="12" font-weight="700" fill="#1E40AF">vR</text>
 
   <!-- radius braces -->
-  <text x="250" y="178" text-anchor="middle" font-size="12" fill="#374151">ICC→左輪 = R − b/2</text>
+  <text x="240" y="170" text-anchor="middle" font-size="11.5" fill="#374151">ICC→左輪 R−b/2、→右輪 R+b/2</text>
   <line x1="380" y1="232" x2="480" y2="232" stroke="#9CA3AF" stroke-width="1"/>
   <line x1="380" y1="228" x2="380" y2="236" stroke="#9CA3AF"/><line x1="480" y1="228" x2="480" y2="236" stroke="#9CA3AF"/>
   <text x="430" y="246" text-anchor="middle" font-size="11" fill="#374151">輪距 b</text>

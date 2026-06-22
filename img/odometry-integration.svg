@@ -17,17 +17,18 @@
   <circle cx="170" cy="210" r="4" fill="#1F2937"/>
   <text x="150" y="228" font-size="12" fill="#374151">起點 (x, y, θ)</text>
   <!-- displacement Δs at midpoint heading -->
-  <line x1="170" y1="210" x2="350" y2="118" stroke="#2563EB" stroke-width="3" marker-end="url(#ov)"/>
-  <text x="250" y="150" font-size="13" font-weight="700" fill="#1E40AF" transform="rotate(-27 250 150)">Δs(車頭方向前進)</text>
+  <line x1="170" y1="210" x2="357" y2="116" stroke="#2563EB" stroke-width="3" marker-end="url(#ov)"/>
+  <text x="248" y="150" font-size="13" font-weight="700" fill="#1E40AF" transform="rotate(-27 248 150)">Δs(車頭方向前進)</text>
   <circle cx="360" cy="113" r="4" fill="#2563EB"/>
   <text x="368" y="110" font-size="12" fill="#1E40AF">新位置</text>
 
   <!-- decomposition -->
   <line x1="170" y1="210" x2="360" y2="210" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="5 3"/>
   <line x1="360" y1="210" x2="360" y2="113" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="5 3"/>
-  <text x="265" y="226" text-anchor="middle" font-size="12" fill="#374151">Δx = Δs·cos(θ+Δθ/2)</text>
-  <text x="430" y="165" text-anchor="middle" font-size="12" fill="#374151">Δy = Δs·</text>
-  <text x="430" y="182" text-anchor="middle" font-size="12" fill="#374151">sin(θ+Δθ/2)</text>
+  <!-- right-angle marker -->
+  <path d="M347,210 L347,197 L360,197" fill="none" stroke="#6B7280" stroke-width="1.3"/>
+  <text x="262" y="226" text-anchor="middle" font-size="12" fill="#374151">Δx = Δs·cos(θ+Δθ/2)</text>
+  <text x="370" y="158" font-size="12" fill="#374151">Δy = Δs·sin(θ+Δθ/2)</text>
 
   <!-- heading angle arc -->
   <line x1="170" y1="210" x2="240" y2="210" stroke="#D1D5DB" stroke-width="1"/>

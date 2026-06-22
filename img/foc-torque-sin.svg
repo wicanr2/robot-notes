@@ -18,6 +18,7 @@
   <!-- angle arc -->
   <path d="M200,160 A50 50 0 0 0 178,121" fill="none" stroke="#3B82F6" stroke-width="1.6"/>
   <text x="208" y="132" font-size="13" font-weight="700" fill="#1E40AF">θ</text>
+  <text x="244" y="118" font-size="10.5" fill="#6B7280">θ 越接近 90° 越有力</text>
   <text x="170" y="210" text-anchor="middle" font-size="12.5" fill="#9A3412">τ = k·|B_s|·|B_r|·sin θ</text>
   <text x="170" y="232" text-anchor="middle" font-size="11.5" fill="#6B7280">只有「垂直分量」在推轉,平行分量純浪費</text>
 

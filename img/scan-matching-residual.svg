@@ -25,6 +25,9 @@
   <!-- RIGHT: aligned -->
   <text x="475" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">對齊後:殘差≈0</text>
   <line x1="450" y1="90" x2="450" y2="210" stroke="#6B7280" stroke-width="5"/>
+  <g stroke="#059669" stroke-width="1.4" stroke-dasharray="3 2">
+    <line x1="450" y1="100" x2="455" y2="100"/><line x1="450" y1="125" x2="456" y2="125"/><line x1="450" y1="150" x2="454" y2="150"/><line x1="450" y1="175" x2="456" y2="175"/><line x1="450" y1="200" x2="455" y2="200"/>
+  </g>
   <g fill="#059669">
     <circle cx="455" cy="100" r="3.5"/><circle cx="456" cy="125" r="3.5"/><circle cx="454" cy="150" r="3.5"/><circle cx="456" cy="175" r="3.5"/><circle cx="455" cy="200" r="3.5"/>
   </g>

@@ -46,4 +46,6 @@
   <line x1="465" y1="206" x2="465" y2="216" stroke="#DC2626" stroke-width="2"/>
   <line x1="455" y1="216" x2="475" y2="216" stroke="#DC2626" stroke-width="2"/>
   <text x="465" y="246" text-anchor="middle" font-size="11.5" fill="#991B1B">裝置2 接通到 GND，整條被它拉低</text>
+
+  <text x="310" y="276" text-anchor="middle" font-size="12" fill="#374151">就是邏輯 AND:放手=1、拉低=0,全部 1 才 1,只要一個 0 → 線就是 0</text>
 </svg>
