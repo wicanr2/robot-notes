@@ -49,6 +49,16 @@
 - SRCC(Sim-to-Real Correlation Coefficient)— 模擬與真實效能指標的相關係數,衡量「模擬能否準確預測真實表現」。
 - Isaac Sim / Isaac Lab — NVIDIA 的機器人模擬框架 / 學習框架。
 
+## 法規與認證(R8)
+- UL 2271 — 輕型電動載具(LEV)電池安全標準(低壓、輕載)。
+- UL 2580 — 電動車/工業車輛電池安全標準(較高壓、工業級;含熱擴散測試)。
+- LFP (LiFePO4) — 磷酸鋰鐵電池;熱失控門檻高、不釋氧,本質安全優於三元鋰 NMC。
+- UN 38.3 — 鋰電池運輸強制測試。
+- SEMI — Semiconductor Equipment and Materials International,半導體設備標準組織。
+- SEMI S2 — 半導體設備環安衛(EHS)安全準則。
+- SEMI E84 — 自動搬運交接(handoff)平行 I/O 介面(AMR ↔ load port 交接 FOUP)。
+- FOUP — Front Opening Unified Pod,晶圓盒。OHT — 天車(Overhead Hoist Transport)。
+
 ---
 
 ## Flagged ambiguities(待釐清)
