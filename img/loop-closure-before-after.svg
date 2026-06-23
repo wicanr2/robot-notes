@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="lc-a" markerWidth="12" markerHeight="12" refX="6" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#8B5CF6"/></marker>
+    <marker id="lc-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+  </defs>
+  <rect width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">迴圈閉合:把繞一圈的累積誤差攤平,雙牆合一</text>
+
+  <!-- 左:閉合前 -->
+  <text x="180" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#B91C1C">閉合前:誤差累積</text>
+  <!-- 走廊外框(灰,示意) -->
+  <rect x="70" y="78" width="220" height="180" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,4"/>
+  <!-- 起點 -->
+  <rect x="92" y="92" width="14" height="14" fill="#374151"/>
+  <text x="99" y="124" text-anchor="middle" font-size="9.5" fill="#374151">起點</text>
+  <!-- 軌跡:繞一圈但回不到原點 -->
+  <path d="M99,118 L99,238 L260,238 L260,128" fill="none" stroke="#10B981" stroke-width="2.4" marker-end="url(#lc-g)"/>
+  <text x="276" y="128" font-size="9" fill="#065F46">回來時</text>
+  <!-- 同一面牆量了兩次,錯開成雙牆(紅) -->
+  <line x1="99" y1="100" x2="250" y2="100" stroke="#EF4444" stroke-width="2.4"/>
+  <line x1="120" y1="112" x2="255" y2="112" stroke="#EF4444" stroke-width="2.4" stroke-dasharray="5,3"/>
+  <text x="180" y="170" text-anchor="middle" font-size="10.5" fill="#B91C1C" font-weight="700">同一面牆變成兩道</text>
+  <text x="180" y="184" text-anchor="middle" font-size="9.5" fill="#6B7280">繞一圈累積誤差可達 ~0.5 m</text>
+
+  <!-- 中間箭頭 -->
+  <line x1="300" y1="168" x2="408" y2="168" stroke="#8B5CF6" stroke-width="2.4" marker-end="url(#lc-a)"/>
+  <text x="354" y="156" text-anchor="middle" font-size="10" fill="#5B21B6">加 loop closure 邊</text>
+  <text x="354" y="186" text-anchor="middle" font-size="10" fill="#5B21B6">+ 全圖優化</text>
+
+  <!-- 右:閉合後 -->
+  <text x="540" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">閉合後:圖優化攤平</text>
+  <rect x="430" y="78" width="220" height="180" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,4"/>
+  <rect x="452" y="92" width="14" height="14" fill="#374151"/>
+  <text x="459" y="124" text-anchor="middle" font-size="9.5" fill="#374151">起點</text>
+  <!-- 軌跡閉合 -->
+  <path d="M459,106 L459,238 L620,238 L620,106 L459,106" fill="none" stroke="#10B981" stroke-width="2.4"/>
+  <!-- 牆重合單線 -->
+  <line x1="459" y1="106" x2="620" y2="106" stroke="#10B981" stroke-width="3"/>
+  <text x="540" y="166" text-anchor="middle" font-size="10.5" fill="#065F46" font-weight="700">誤差按比例攤回每一步</text>
+  <text x="540" y="184" text-anchor="middle" font-size="9.5" fill="#6B7280">同一面牆重合 → 牆拉直</text>
+
+  <text x="360" y="300" text-anchor="middle" font-size="11.5" fill="#374151">scan matching 只能修小誤差;繞大圈的累積誤差,要靠 loop closure 偵測「回到舊地方」才攤得平</text>
+  <text x="360" y="322" text-anchor="middle" font-size="10" fill="#6B7280">RViz 看到雙重牆 = loop closure 失敗的徵兆,通常得重建</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="og-b" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+  </defs>
+  <rect width="700" height="380" fill="#ffffff"/>
+  <text x="350" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">占據柵格地圖:把世界切成格子,每格存「是否有障礙」</text>
+
+  <!-- unknown 底 -->
+  <rect x="60" y="70" width="312" height="168" fill="#E5E7EB"/>
+  <!-- free 內部 -->
+  <rect x="108" y="118" width="168" height="72" fill="#ffffff"/>
+  <!-- 門縫 free(底牆缺口 + 門外) -->
+  <rect x="204" y="190" width="24" height="48" fill="#ffffff"/>
+  <!-- 牆(occupied,深色) -->
+  <g fill="#374151">
+    <rect x="84" y="94" width="216" height="24"/>   <!-- 上牆 -->
+    <rect x="84" y="94" width="24" height="120"/>   <!-- 左牆 -->
+    <rect x="276" y="94" width="24" height="120"/>  <!-- 右牆 -->
+    <rect x="84" y="190" width="120" height="24"/>  <!-- 底牆左段 -->
+    <rect x="228" y="190" width="72" height="24"/>  <!-- 底牆右段 -->
+  </g>
+  <!-- free 小點 -->
+  <g fill="#9CA3AF">
+    <circle cx="120" cy="130" r="1.6"/><circle cx="144" cy="130" r="1.6"/><circle cx="168" cy="130" r="1.6"/>
+    <circle cx="132" cy="178" r="1.6"/><circle cx="156" cy="178" r="1.6"/><circle cx="252" cy="178" r="1.6"/>
+  </g>
+  <!-- 雷射光束(紅) -->
+  <g stroke="#EF4444" stroke-width="1.6">
+    <line x1="192" y1="154" x2="270" y2="154" marker-end="url(#og-b)"/>
+    <line x1="192" y1="154" x2="192" y2="208" marker-end="url(#og-b)"/>
+    <line x1="192" y1="154" x2="258" y2="120" marker-end="url(#og-b)"/>
+  </g>
+  <!-- 機器人 -->
+  <circle cx="192" cy="154" r="9" fill="#3B82F6" stroke="#1E40AF" stroke-width="1.4"/>
+  <!-- 格線 overlay -->
+  <g stroke="#CBD5E1" stroke-width="0.6" opacity="0.7">
+    <line x1="84" y1="70" x2="84" y2="238"/><line x1="108" y1="70" x2="108" y2="238"/><line x1="132" y1="70" x2="132" y2="238"/><line x1="156" y1="70" x2="156" y2="238"/><line x1="180" y1="70" x2="180" y2="238"/><line x1="204" y1="70" x2="204" y2="238"/><line x1="228" y1="70" x2="228" y2="238"/><line x1="252" y1="70" x2="252" y2="238"/><line x1="276" y1="70" x2="276" y2="238"/><line x1="300" y1="70" x2="300" y2="238"/><line x1="324" y1="70" x2="324" y2="238"/><line x1="348" y1="70" x2="348" y2="238"/>
+    <line x1="60" y1="94" x2="372" y2="94"/><line x1="60" y1="118" x2="372" y2="118"/><line x1="60" y1="142" x2="372" y2="142"/><line x1="60" y1="166" x2="372" y2="166"/><line x1="60" y1="190" x2="372" y2="190"/><line x1="60" y1="214" x2="372" y2="214"/>
+  </g>
+  <rect x="60" y="70" width="312" height="168" fill="none" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="216" y="258" text-anchor="middle" font-size="9.5" fill="#6B7280">↑ 底部缺口 = 門口,還沒掃到</text>
+
+  <!-- 圖例 -->
+  <rect x="408" y="78" width="262" height="186" rx="9" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="539" y="100" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">圖例</text>
+  <rect x="424" y="114" width="20" height="20" fill="#374151"/>
+  <text x="452" y="129" font-size="11" fill="#1F2937">占據(occupied):牆、桌腳</text>
+  <rect x="424" y="144" width="20" height="20" fill="#ffffff" stroke="#9CA3AF"/><circle cx="434" cy="154" r="1.6" fill="#9CA3AF"/>
+  <text x="452" y="159" font-size="11" fill="#1F2937">空閒(free):確認走得過</text>
+  <rect x="424" y="174" width="20" height="20" fill="#E5E7EB" stroke="#D1D5DB"/>
+  <text x="452" y="189" font-size="11" fill="#1F2937">未知(unknown):還沒看過</text>
+  <circle cx="434" cy="214" r="9" fill="#3B82F6"/>
+  <text x="452" y="219" font-size="11" fill="#1F2937">機器人,紅線 = 雷射光束</text>
+  <text x="424" y="248" font-size="10.5" fill="#6B7280">光束穿過 → free;打到的端點 → occupied</text>
+
+  <text x="350" y="300" text-anchor="middle" font-size="11.5" fill="#374151">建圖完存成 map.pgm(這張影像)+ map.yaml(解析度、原點座標)</text>
+  <text x="350" y="322" text-anchor="middle" font-size="10" fill="#6B7280">格子常設 5 cm;日常營運時 AMCL 拿即時 scan 跟這張圖比對來定位</text>
+</svg>

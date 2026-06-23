@@ -16,38 +16,13 @@ SLAM(Simultaneous Localization and Mapping)解決一個「雞生蛋」問題:要
 
 兩者互相依賴,只能**同時解**——這就是 SLAM(Simultaneous Localization and Mapping)的字面意思。輸入是 LiDAR scan + odometry,輸出是**占據柵格地圖 (occupancy grid)**:
 
-```
-占據柵格:把世界切成 5cm 格子,每格存「有障礙物的機率」
-
-   ░░░░░░░░░░░░░    █ = 占據 (occupied):牆、桌腳
-   ░█████████░░░    · = 空閒 (free):確認走得過
-   ░█·······█░░░    ░ = 未知 (unknown):還沒看過
-   ░█···◉───█░░░
-   ░█···│···█░░░    ◉ = 機器人,─ = 雷射光束
-   ░█████·███░░░         (門口缺口 = 還沒掃到)
-   ░░░░░░·░░░░░░
-```
-
-這就是建圖完存下來的 `map.pgm`(影像)+ `map.yaml`(解析度、原點)。
+<p align="center"><img src="../../img/occupancy-grid.svg" width="700" alt="占據柵格:牆=occupied、走得過=free、沒看過=unknown;機器人沿雷射光束把穿過的格標 free、端點格標 occupied;建圖完存成 map.pgm 影像 + map.yaml(解析度、原點)"></p>
 
 ### 21.2 建圖主迴圈:預測 → 對齊 → 刻畫
 
 每收到一幀 LiDAR scan(約 10Hz)做三件事:
 
-```
- ① odometry 預測          ② scan matching 修正        ③ 更新地圖
- 「encoder 說我前進了      「把這幀 scan 跟已建好的     「沿著每條雷射光束:
-   0.31m、右轉 2°」         地圖滑動/旋轉比對,          穿過的格子 → 標 free
-        │                   找到最契合的位置」           端點那格   → 標 occupied」
-        ▼                        │                          │
-   位姿初猜(有漂移)──────────────┴──► 修正後位姿 ───────────┘
-
-② 的圖像:                          ③ 的圖像(ray casting):
-   地圖既有的牆: ████████              ◉────────────█
-   新 scan 的牆:   ████████              └─光束路徑─┘└─ 端點:occupied
-        ↑ 差半格?把 scan 平移過去        全標 free
-          對齊 → 同時修正了位姿
-```
+<p align="center"><img src="../../img/slam-build-loop.svg" width="720" alt="建圖主迴圈三步:① odometry 預測出有漂移的位姿初猜 → ② scan matching 把這幀 scan 對齊已建地圖、順便修正位姿 → ③ ray casting 沿光束把穿過的格標 free、端點格標 occupied"></p>
 
 關鍵理解:**scan matching 是在「用地圖反過來修定位」**——odometry 每步都有小誤差(§3.3 打滑),靠「這幀 scan 跟地圖對不上就挪到對得上」持續拉回來。這也解釋了為什麼 §4.1 說 odometry 標定品質決定 SLAM 上限:初猜偏太多,scan matching 會對到錯的位置上。
 
@@ -63,30 +38,11 @@ SLAM(Simultaneous Localization and Mapping)解決一個「雞生蛋」問題:要
 
 scan matching 只能修小誤差,**長走廊繞一大圈回來,累積誤差可能已經半公尺**——這時地圖會「裂開」:
 
-```
-閉合前(誤差累積):                  閉合後(圖優化攤平誤差):
-   ┌──────────┐                       ┌──────────┐
-   │  起點█    │                      │  起點█    │
-   │       ╲   │ 繞一圈回來,           │      │    │
-   │        ╲  │ 算出的位置卻          │      │    │
-   │   回來時█ │ 偏了 → 同一面牆       │  █←重合   │
-   │   (偏移)  │ 畫成兩道平行牆!       │           │
-   └──────────┘                       └──────────┘
-```
+<p align="center"><img src="../../img/loop-closure-before-after.svg" width="720" alt="閉合前:繞一圈累積誤差,回來時位置偏移,同一面牆畫成錯開的兩道;閉合後:加 loop closure 邊做全圖優化,誤差攤回每一步,雙牆重合、地圖拉直"></p>
 
 graph-based SLAM(`slam_toolbox` 的做法)的處理:
 
-```
-pose graph:節點 = 歷史位姿,邊 = 相鄰位姿間的相對約束(odometry/scan matching)
-
-  P1 ──► P2 ──► P3 ──► P4 ──► P5
-   ▲                           │
-   └────── loop closure 邊 ────┘
-   「P5 的 scan 跟 P1 附近超像 → 你們其實在同一個地方」
-
-加入這條邊後做全圖優化 (graph optimization):
-把「P5 應該≈P1」造成的矛盾,按比例攤回 P2~P4 每一步 → 整圈軌跡微調 → 地圖拉直
-```
+<p align="center"><img src="../../img/pose-graph.svg" width="720" alt="pose graph:節點 P1~P5 是歷史位姿,相鄰邊是 odometry/scan matching 約束;P5 與 P1 之間加一條 loop closure 邊(P5 的 scan 跟 P1 附近超像),全圖優化把矛盾按各邊信心攤回 P2~P4"></p>
 
 那個「**按比例**攤回」的比例不是隨便分的(第一性原理):每條邊都是一個帶不確定性的約束,全圖優化就是**最小化所有約束的加權誤差平方和**(非線性最小二乘);loop closure 約束和 odometry 約束打架時,**各自按「信心」加權**——信心由協方差/資訊矩陣表示,越確定的約束權重越大、被改動越少。所以這又是同一個「加權最小二乘 + 高斯不確定性」的故事,跟上一節的 scan matching、[高斯第一性原理](../90-foundations/gaussian-from-first-principles.md) 的協方差是同一套。
 
