@@ -160,3 +160,11 @@ Nav2 內建的路徑規劃器(planner,套件 `nav2_smac_planner`)。一般的 A*
 Dubins / Reeds-Shepp 在這裡有**雙重角色**:既是每一步展開用的運動模型,它們的**路徑長度**也被拿來當搜尋的**啟發函數(heuristic)**——估「忽略障礙、單看運動學,從這裡到目標還要多遠」,引導 Hybrid-A*(或 RRT*)更快收斂。
 
 把三者串起來:**Hybrid-A* 是搜尋框架,Dubins / Reeds-Shepp 是它每一步的運動模型、也是它的運動學啟發式**。Nav2 的 `motion_model_for_search` 選哪一個,就決定了規劃時准不准倒車,正是 §4 那個「會不會被迫大迴轉」的開關。
+
+## 論文出處
+
+- **Hybrid-A*(原始論文)**:Dolgov, Thrun, Montemerlo, Diebel, "Practical Search Techniques in Path Planning for Autonomous Driving," STAIR-08(First Int. Symp. on Search Techniques in AI and Robotics), 2008。源自 2007 DARPA Urban Challenge 的停車場自主導航。
+  - [Stanford PDF](https://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf) ・ [AAAI 條目](https://aaai.org/papers/ws08-10-006-practical-search-techniques-in-path-planning-for-autonomous-driving/)
+  - 期刊延伸版:同作者, "Path Planning for Autonomous Vehicles in Unknown Semi-structured Environments," _Int. J. of Robotics Research_ 29(5), 2010([DOI: 10.1177/0278364909359210](https://journals.sagepub.com/doi/10.1177/0278364909359210))。
+- **Smac Planner(Nav2 的 Smac Hybrid-A* 實作)**:Macenski, Moore, Lu, Merzlyakov, Ferguson, "From the Desks of ROS Maintainers: A Survey of Modern & Capable Mobile Robotics Algorithms in the Robot Operating System 2," _Robotics and Autonomous Systems_ 168, 2023。涵蓋 Smac Planner 的 2D-A* / Hybrid-A* / State Lattice 實作。
+  - [arXiv:2307.15236](https://arxiv.org/abs/2307.15236) ・ [ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S092188902300132X)
