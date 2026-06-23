@@ -20,6 +20,10 @@ robot-notes 的導航與多機調度章節,底層演算法大多來自 ROS2 的 
 
 ## 章節對照地圖
 
+<p align="center"><img src="../../img/nav2-stack-map.svg" width="800" alt="Nav2 導航全棧 pipeline:感測器→狀態估計→定位建圖→costmap→全域規劃→路徑平滑→區域控制→cmd_vel;行為樹在中間編排;右側列各層演算法選項"></p>
+
+整張圖就是這份 survey 的骨架:上半段「知道自己在哪、看見環境」,下半段「算出怎麼走」,行為樹在中間編排。下表逐節對應到 robot-notes:
+
 | 論文章節 | 主題 | 對應 robot-notes |
 |---|---|---|
 | II 全域路徑規劃 | NavFn / Theta* / 2D-A*(holonomic)、Smac Hybrid-A* / State Lattice(運動學可行) | [路徑規劃與軌跡](../30-navigation/path-planning.md)、[私有系統大迴轉案例](../40-fleet/proprietary-vs-ros2-arbitrary-start.md) |

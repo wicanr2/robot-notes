@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 660" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ns-a" markerWidth="11" markerHeight="11" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="840" height="660" fill="#ffffff"/>
+  <text x="420" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">Nav2 導航全棧:資料流與各層演算法選項</text>
+  <text x="420" y="52" text-anchor="middle" font-size="11" fill="#6B7280">藍=知道自己在哪　紫=看見環境　橙/黃/綠=算出怎麼走　(§ 對應 survey 章節)</text>
+
+  <!-- pipeline 主幹箭頭 -->
+  <g stroke="#6B7280" stroke-width="2" marker-end="url(#ns-a)">
+    <line x1="320" y1="118" x2="320" y2="130"/>
+    <line x1="320" y1="190" x2="320" y2="202"/>
+    <line x1="320" y1="262" x2="320" y2="274"/>
+    <line x1="320" y1="334" x2="320" y2="346"/>
+    <line x1="320" y1="406" x2="320" y2="418"/>
+    <line x1="320" y1="478" x2="320" y2="490"/>
+    <line x1="320" y1="550" x2="320" y2="562"/>
+  </g>
+
+  <!-- ① 感測器 -->
+  <rect x="170" y="68" width="300" height="50" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="320" y="89" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">① 感測器輸入</text>
+  <text x="320" y="106" text-anchor="middle" font-size="9.5" fill="#6B7280">2D LiDAR・深度相機・IMU・輪速 odom</text>
+
+  <!-- ② 狀態估計 -->
+  <rect x="170" y="140" width="300" height="50" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="320" y="161" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">§VII 狀態估計</text>
+  <text x="320" y="178" text-anchor="middle" font-size="9.5" fill="#6B7280">EKF / UKF 融合 odom+IMU(robot_localization)</text>
+
+  <!-- ③ 定位/建圖 -->
+  <rect x="170" y="212" width="300" height="50" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="320" y="233" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">§VIII 定位 / 建圖</text>
+  <text x="320" y="250" text-anchor="middle" font-size="9.5" fill="#6B7280">AMCL 定位・SLAM 建圖 → 給出 map→odom</text>
+
+  <!-- ④ costmap -->
+  <rect x="170" y="284" width="300" height="50" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="320" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5B21B6">§V 感知 costmap</text>
+  <text x="320" y="322" text-anchor="middle" font-size="9.5" fill="#6B7280">static + obstacle + inflation 層 → 可走 / 代價地圖</text>
+
+  <!-- ⑤ 全域規劃 -->
+  <rect x="170" y="356" width="300" height="50" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="320" y="377" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">§II 全域規劃</text>
+  <text x="320" y="394" text-anchor="middle" font-size="9.5" fill="#6B7280">算整段路徑(起點 → 目標)</text>
+
+  <!-- ⑥ 路徑平滑 -->
+  <rect x="170" y="428" width="300" height="50" rx="8" fill="#FEFCE8" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="320" y="449" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854D0E">§IV 路徑平滑</text>
+  <text x="320" y="466" text-anchor="middle" font-size="9.5" fill="#6B7280">磨平折線、去抖動,讓路徑更好跟</text>
+
+  <!-- ⑦ 區域控制 -->
+  <rect x="170" y="500" width="300" height="50" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="320" y="521" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">§III 區域控制</text>
+  <text x="320" y="538" text-anchor="middle" font-size="9.5" fill="#6B7280">沿路徑算出帶符號的 cmd_vel(v, ω)</text>
+
+  <!-- ⑧ 輸出 -->
+  <rect x="170" y="572" width="300" height="46" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="320" y="600" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">⑧ cmd_vel → 機器人底盤</text>
+
+  <!-- 行為樹 orchestrator(左側覆蓋 ⑤⑥⑦) -->
+  <rect x="36" y="356" width="118" height="194" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="95" y="392" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">§VI 行為樹</text>
+  <text x="95" y="414" text-anchor="middle" font-size="10" fill="#6B7280">編排整條:</text>
+  <text x="95" y="436" text-anchor="middle" font-size="10.5" fill="#B91C1C">規劃 →</text>
+  <text x="95" y="456" text-anchor="middle" font-size="10.5" fill="#B91C1C">跟隨 →</text>
+  <text x="95" y="476" text-anchor="middle" font-size="10.5" fill="#B91C1C">恢復</text>
+  <text x="95" y="506" text-anchor="middle" font-size="9" fill="#6B7280">失敗時觸發</text>
+  <text x="95" y="520" text-anchor="middle" font-size="9" fill="#6B7280">恢復行為</text>
+
+  <!-- 右側演算法選項:全域規劃 -->
+  <rect x="490" y="350" width="332" height="62" rx="8" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="502" y="368" font-size="10.5" font-weight="700" fill="#9A3412">全域規劃器選項(Table I)</text>
+  <text x="502" y="384" font-size="9.5" fill="#374151">• holonomic(可原地轉):NavFn・Theta*・2D-A*</text>
+  <text x="502" y="400" font-size="9.5" fill="#374151">• 運動學可行(舵輪/Ackermann):Smac Hybrid-A*・State Lattice</text>
+
+  <!-- 右側演算法選項:區域控制 -->
+  <rect x="490" y="486" width="332" height="78" rx="8" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.2"/>
+  <text x="502" y="504" font-size="10.5" font-weight="700" fill="#065F46">區域控制器選項(Table II)</text>
+  <text x="502" y="520" font-size="9.5" fill="#374151">• reactive:DWB</text>
+  <text x="502" y="536" font-size="9.5" fill="#374151">• predictive:TEB・MPPI</text>
+  <text x="502" y="552" font-size="9.5" fill="#374151">• geometric / control-law:RPP・Rotation Shim</text>
+
+  <!-- 連接虛線:框→選項 -->
+  <line x1="470" y1="381" x2="490" y2="381" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <line x1="470" y1="525" x2="490" y2="525" stroke="#22C55E" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <text x="650" y="600" text-anchor="middle" font-size="10" fill="#6B7280">每層都可換不同演算法;</text>
+  <text x="650" y="616" text-anchor="middle" font-size="10" fill="#6B7280">依機器人型選型見 Appendix A</text>
+
+  <text x="420" y="644" text-anchor="middle" font-size="10.5" fill="#374151">Nav2 把導航拆成可替換的模組:上半段「知道自己在哪、看見環境」,下半段「算出怎麼走」,行為樹在中間編排與恢復</text>
+</svg>
