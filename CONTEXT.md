@@ -28,7 +28,9 @@
 - Nav2 — ROS2 的導航軟體堆疊(規劃 + 控制 + 行為樹)。
 - costmap(代價地圖)— 把空間切格、每格帶代價;分 static/obstacle/inflation 層。
 - inflation(膨脹層)— 在障礙周圍鋪漸層代價,讓有體積的車保持距離。
-- Hybrid-A* — 考慮車輛運動學(最小轉彎半徑、可否倒車)的全域規劃器。
+- Hybrid-A* — 考慮車輛運動學(最小轉彎半徑、可否倒車)的全域規劃器;以 Dubins/Reeds-Shepp 為展開的運動模型與啟發式。Nav2 實作為 `nav2_smac_planner`(Smac Hybrid-A*)。
+- Dubins 曲線 — 只能前進、最小轉彎半徑下兩 pose 間的最短路徑,6 種「弧-直-弧」候選。_Avoid_: 講成含倒車。
+- Reeds-Shepp 曲線 — 允許倒車的最短 pose-to-pose 路徑,46 種候選、含換向點(cusp);目標在後方時比 Dubins 短。
 - MPPI / DWB / RPP — Nav2 的三種區域控制器(取樣最佳化 / 動態視窗 / 純追蹤)。
 - tf2 — ROS2 維護座標系關係的樹狀變換系統。
 - 行為樹(Behavior Tree)— Nav2 用來編排規劃→跟隨→恢復的可組合結構。

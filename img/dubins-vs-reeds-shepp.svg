@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="dr-o" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="dr-r" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+    <marker id="dr-g" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+  </defs>
+  <rect width="720" height="380" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">到同一個目標 pose 的最短路徑:Dubins vs Reeds-Shepp</text>
+  <line x1="360" y1="48" x2="360" y2="330" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <!-- ===== 左:Dubins(只前進) ===== -->
+  <text x="180" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">Dubins:只能前進</text>
+  <!-- 起點車(朝右) -->
+  <rect x="236" y="244" width="26" height="16" rx="2" fill="#FEF3C7" stroke="#D97706"/>
+  <polygon points="262,246 274,252 262,258" fill="#F97316"/>
+  <text x="248" y="278" text-anchor="middle" font-size="9.5" fill="#6B7280">起點(朝右)</text>
+  <!-- 終點車(朝右) -->
+  <rect x="92" y="138" width="26" height="16" rx="2" fill="#DBEAFE" stroke="#3B82F6"/>
+  <polygon points="118,140 130,146 118,152" fill="#3B82F6"/>
+  <text x="104" y="128" text-anchor="middle" font-size="9.5" fill="#6B7280">目標(朝右)</text>
+  <!-- 只前進:弧-直-弧 繞上去 -->
+  <path d="M268,250 C 330,250 338,150 268,120 C 196,90 120,108 120,146" fill="none" stroke="#F97316" stroke-width="2.6" stroke-dasharray="2,0" marker-end="url(#dr-o)"/>
+  <text x="316" y="200" font-size="10" fill="#9A3412">弧</text>
+  <text x="250" y="108" font-size="10" fill="#9A3412">直線</text>
+  <text x="150" y="100" font-size="10" fill="#9A3412">弧</text>
+  <text x="180" y="306" text-anchor="middle" font-size="11" fill="#9A3412" font-weight="700">全程前進 → 得往前繞一圈</text>
+  <text x="180" y="322" text-anchor="middle" font-size="9.5" fill="#6B7280">6 種模式,由 L(左弧)/R(右弧)/S(直線) 拼成</text>
+
+  <!-- ===== 右:Reeds-Shepp(可倒車) ===== -->
+  <text x="540" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">Reeds-Shepp:可倒車</text>
+  <rect x="596" y="244" width="26" height="16" rx="2" fill="#FEF3C7" stroke="#D97706"/>
+  <polygon points="622,246 634,252 622,258" fill="#F97316"/>
+  <text x="608" y="278" text-anchor="middle" font-size="9.5" fill="#6B7280">起點(朝右)</text>
+  <rect x="452" y="138" width="26" height="16" rx="2" fill="#DBEAFE" stroke="#3B82F6"/>
+  <polygon points="478,140 490,146 478,152" fill="#3B82F6"/>
+  <text x="464" y="128" text-anchor="middle" font-size="9.5" fill="#6B7280">目標(朝右)</text>
+  <!-- 倒車段(紅虛線)到 cusp -->
+  <path d="M596,250 C 548,234 516,200 500,176" fill="none" stroke="#EF4444" stroke-width="2.4" stroke-dasharray="6,4" marker-end="url(#dr-r)"/>
+  <text x="556" y="232" font-size="10" fill="#B91C1C">倒車段</text>
+  <!-- cusp 點 -->
+  <circle cx="500" cy="176" r="5" fill="#8B5CF6"/>
+  <text x="512" y="182" font-size="9.5" fill="#5B21B6">cusp 換向點</text>
+  <!-- 前進微段到目標(綠) -->
+  <path d="M500,176 C 492,166 482,158 472,150" fill="none" stroke="#10B981" stroke-width="2.6" marker-end="url(#dr-g)"/>
+  <text x="540" y="306" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">先倒車、換向、再前進 → 較短</text>
+  <text x="540" y="322" text-anchor="middle" font-size="9.5" fill="#6B7280">模式更多,含倒車與 cusp(停下換前後方向)</text>
+
+  <text x="360" y="356" text-anchor="middle" font-size="10.5" fill="#374151">兩者都受最小轉彎半徑限制;差別只在「准不准倒車」。目標在後方時,Reeds-Shepp 幾乎總是更短</text>
+</svg>
