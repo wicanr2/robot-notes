@@ -81,6 +81,7 @@
 - [OpenRMF:跨車隊調度](docs/40-fleet/open-rmf.md) — 為何疊在車隊之上、時空排程協商、系統需求/語言、怎麼寫 fleet adapter、與 VDA5050 串接流程
 - [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界、**完整 order JSON 範例**
 - [Fleet 深入:API/圖資/座標/避塞車](docs/40-fleet/rmf-maps-and-traffic.md) — RMF 三層 API、VDA5050 圖資匯入(LIF)、reference_coordinates 座標對齊、rmf_traffic 避塞車原語
+- [私有系統案例:任意起點大迴轉,在 ROS2 會發生嗎](docs/40-fleet/proprietary-vs-ros2-arbitrary-start.md) — 速度方向放錯層的真實案例、車身座標 forward 投影定前進/倒車、RMF 拓樸 vs Nav2 運動規劃的責任邊界
 
 ### 50 Physical AI(進階:術語密度較高,建議先讀完 00/10/30 再來)
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real

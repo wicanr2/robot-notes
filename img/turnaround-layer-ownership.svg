@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="lo-b" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/></marker>
+    <marker id="lo-x" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+  </defs>
+  <rect width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">速度方向該由哪一層決定</text>
+
+  <!-- 派發層 -->
+  <rect x="60" y="58" width="600" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="80" y="84" font-size="13" font-weight="700" fill="#1E40AF">派發層(派任務 / 下發路線)</text>
+  <text x="80" y="106" font-size="11" fill="#1F2937">該給的:拓樸目標「去哪個點 / 沿哪幾條 lane」</text>
+  <text x="80" y="124" font-size="10.5" fill="#6B7280">規劃當下不知道車最後停在哪、車頭朝哪 → 沒有資訊決定前進或倒車</text>
+
+  <!-- 正確傳遞:只給「去哪」 -->
+  <line x1="360" y1="136" x2="360" y2="174" stroke="#3B82F6" stroke-width="2.2" marker-end="url(#lo-b)"/>
+  <text x="372" y="160" font-size="11" fill="#1E40AF">只傳「去 W 點」</text>
+
+  <!-- 車端 -->
+  <rect x="60" y="176" width="600" height="92" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="80" y="202" font-size="13" font-weight="700" fill="#065F46">車端運動層(controller / planner)</text>
+  <text x="80" y="224" font-size="11" fill="#1F2937">該決定的:依即時 pose 算 前進 / 倒車、轉彎半徑、軌跡</text>
+  <text x="80" y="244" font-size="10.5" fill="#374151">有三個只有它即時掌握的輸入:車當前位置、車頭朝向、目標座標</text>
+  <text x="80" y="261" font-size="10.5" fill="#065F46">→ forward 投影定速度正負(見車身座標圖)</text>
+
+  <!-- 私有系統錯置:速度寫在路網、跨層穿透 -->
+  <path d="M636,96 C690,120 690,210 636,232" fill="none" stroke="#EF4444" stroke-width="2.4" stroke-dasharray="6,4" marker-end="url(#lo-x)"/>
+  <text x="360" y="300" text-anchor="middle" font-size="12" fill="#B91C1C" font-weight="700">私有系統的病灶:把 vel 寫死在路網、由派發層下發</text>
+  <text x="360" y="320" text-anchor="middle" font-size="11" fill="#374151">= 讓不知道「目標在前在後」的層,替車決定了往哪頭開 → 大迴轉</text>
+  <text x="360" y="340" text-anchor="middle" font-size="10.5" fill="#6B7280">ROS2 / Open-RMF 預設就把這條界線畫在派發層與車端之間</text>
+</svg>
