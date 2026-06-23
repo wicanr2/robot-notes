@@ -1,40 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="bf-o" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
     <marker id="bf-r" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+    <marker id="bf-x" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
   </defs>
-  <rect width="720" height="380" fill="#ffffff"/>
-  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">怎麼判斷該前進還倒車:把「車→目標」投影到車頭方向</text>
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">怎麼判斷該前進還倒車:把「車→目標」投影到車頭方向</text>
 
   <!-- 目標點(路線起點,在車後方/左) -->
-  <circle cx="150" cy="208" r="10" fill="#ffffff" stroke="#3B82F6" stroke-width="2.4"/>
-  <text x="150" y="244" text-anchor="middle" font-size="11" fill="#1E40AF" font-weight="700">路線起點</text>
-  <text x="150" y="260" text-anchor="middle" font-size="10" fill="#6B7280">startX = −9.527(在車後方)</text>
+  <circle cx="150" cy="120" r="10" fill="#ffffff" stroke="#3B82F6" stroke-width="2.4"/>
+  <text x="150" y="100" text-anchor="middle" font-size="11" fill="#1E40AF" font-weight="700">路線起點(目標)</text>
 
   <!-- 叉車(俯視,車頭=舵輪端朝右 +X) -->
-  <!-- 牙叉(左 = 車尾,被動載重輪) -->
-  <rect x="430" y="150" width="46" height="7" fill="#9CA3AF"/>
-  <rect x="430" y="183" width="46" height="7" fill="#9CA3AF"/>
-  <text x="452" y="138" text-anchor="middle" font-size="10" fill="#6B7280">牙叉端(車尾)</text>
-  <text x="452" y="210" text-anchor="middle" font-size="9.5" fill="#6B7280">兩顆被動載重輪</text>
-  <!-- 車體 -->
-  <rect x="476" y="146" width="96" height="48" rx="5" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
-  <text x="524" y="174" text-anchor="middle" font-size="11" fill="#92400E">叉車</text>
-  <!-- 舵輪(右 = 車頭,有動力可大轉角) -->
-  <circle cx="566" cy="170" r="11" fill="#F97316" stroke="#9A3412" stroke-width="1.4"/>
-  <text x="566" y="214" text-anchor="middle" font-size="10" fill="#9A3412" font-weight="700">舵輪端 = 車頭</text>
-  <!-- 前進方向 +X -->
-  <line x1="584" y1="170" x2="648" y2="170" stroke="#F97316" stroke-width="2.6" marker-end="url(#bf-o)"/>
-  <text x="616" y="160" text-anchor="middle" font-size="10.5" fill="#9A3412">+X 前進(vel&gt;0)</text>
-  <text x="524" y="232" text-anchor="middle" font-size="10" fill="#6B7280">車當前 X = −8.549</text>
+  <rect x="430" y="98" width="46" height="7" fill="#9CA3AF"/>
+  <rect x="430" y="131" width="46" height="7" fill="#9CA3AF"/>
+  <text x="452" y="88" text-anchor="middle" font-size="10" fill="#6B7280">牙叉端(車尾)</text>
+  <rect x="476" y="94" width="96" height="48" rx="5" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+  <text x="524" y="122" text-anchor="middle" font-size="11" fill="#92400E">叉車</text>
+  <circle cx="566" cy="118" r="11" fill="#F97316" stroke="#9A3412" stroke-width="1.4"/>
+  <text x="566" y="86" text-anchor="middle" font-size="10" fill="#9A3412" font-weight="700">舵輪端 = 車頭(θᵣ≈0)</text>
+  <line x1="584" y1="118" x2="648" y2="118" stroke="#F97316" stroke-width="2.6" marker-end="url(#bf-o)"/>
+  <text x="616" y="108" text-anchor="middle" font-size="10.5" fill="#9A3412">+X 前進(vel&gt;0)</text>
 
-  <!-- 車→目標 向量(紅,指向後方) -->
-  <line x1="500" y1="178" x2="168" y2="204" stroke="#EF4444" stroke-width="2.2" stroke-dasharray="2,0" marker-end="url(#bf-r)"/>
-  <text x="330" y="176" text-anchor="middle" font-size="11" fill="#B91C1C" font-weight="700">車 → 目標:指向牙叉端(後方)</text>
-  <text x="330" y="300" text-anchor="middle" font-size="11" fill="#374151">投影到 +X(車頭)方向 → 為負 → 目標在後方 → 該倒車</text>
+  <!-- 車→目標 向量(紅,水平指向後方) -->
+  <line x1="500" y1="118" x2="166" y2="120" stroke="#EF4444" stroke-width="2.2" marker-end="url(#bf-r)"/>
+  <text x="330" y="158" text-anchor="middle" font-size="11" fill="#B91C1C" font-weight="700">車 → 目標:指向牙叉端(後方)</text>
+
+  <!-- X 軸刻度 -->
+  <line x1="110" y1="222" x2="640" y2="222" stroke="#6B7280" stroke-width="1.6" marker-end="url(#bf-x)"/>
+  <text x="654" y="226" font-size="11" fill="#374151">+X</text>
+  <line x1="150" y1="216" x2="150" y2="228" stroke="#3B82F6" stroke-width="2"/>
+  <text x="150" y="246" text-anchor="middle" font-size="10.5" fill="#1E40AF">−9.527</text>
+  <text x="150" y="260" text-anchor="middle" font-size="9.5" fill="#6B7280">目標</text>
+  <line x1="524" y1="216" x2="524" y2="228" stroke="#D97706" stroke-width="2"/>
+  <text x="524" y="246" text-anchor="middle" font-size="10.5" fill="#9A3412">−8.549</text>
+  <text x="524" y="260" text-anchor="middle" font-size="9.5" fill="#6B7280">車當前</text>
+  <text x="360" y="206" text-anchor="middle" font-size="10.5" fill="#374151">同一條 X 軸:越往右(+X)數值越大;目標 −9.527 比車 −8.549 更小 → 在車左後方</text>
+
+  <text x="360" y="296" text-anchor="middle" font-size="11.5" fill="#374151">投影到 +X(車頭)方向 → 為負 → 目標在後方 → 該倒車</text>
 
   <!-- 公式區 -->
-  <rect x="60" y="318" width="600" height="50" rx="9" fill="#F9FAFB" stroke="#9CA3AF"/>
-  <text x="360" y="340" text-anchor="middle" font-size="12.5" fill="#1F2937">forward = (xₜ − xᵣ)·cos θᵣ + (yₜ − yᵣ)·sin θᵣ</text>
-  <text x="360" y="358" text-anchor="middle" font-size="11" fill="#B91C1C">案例 ≈ (−9.527 −(−8.549)) ≈ −0.978 &lt; 0 → 該倒車(vel 取負),系統卻給 +0.5</text>
+  <rect x="60" y="316" width="600" height="66" rx="9" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="360" y="338" text-anchor="middle" font-size="12.5" fill="#1F2937">forward = (xₜ − xᵣ)·cos θᵣ + (yₜ − yᵣ)·sin θᵣ</text>
+  <text x="360" y="356" text-anchor="middle" font-size="10.5" fill="#6B7280">車頭朝 +X → θᵣ≈0,sin 項可忽略,投影退化成只看 X 差</text>
+  <text x="360" y="374" text-anchor="middle" font-size="11" fill="#B91C1C">案例 ≈ (−9.527 −(−8.549))·cos 0 ≈ −0.978 &lt; 0 → 該倒車(vel 取負),系統卻給 +0.5</text>
 </svg>
