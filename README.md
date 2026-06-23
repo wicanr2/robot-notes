@@ -100,6 +100,9 @@
 ### 90 數學基礎(第一性原理)
 - [高斯分布:第一性原理](docs/90-foundations/gaussian-from-first-principles.md) — 從最大熵/CLT 推出高斯,用四條性質統一理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS
 
+### 參考論文(基礎材料)
+- [Nav2 導航全棧 survey 導讀](docs/_refs/nav2-survey.md) — Nav2 維護者親寫的 ROS2 導航全棧 survey(全域規劃/區域控制/平滑/costmap/行為樹/狀態估計/定位建圖),附章節對照 robot-notes 各篇;CC BY 4.0 全文 PDF 收錄
+
 ---
 
 歷史原始整理文件保留在 [`docs/_legacy/`](docs/_legacy/)(已拆分到上述主題檔)。
