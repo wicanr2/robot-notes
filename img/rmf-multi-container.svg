@@ -56,5 +56,5 @@
   <line x1="554" y1="123" x2="598" y2="125" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#mc-o)"/>
 
   <text x="370" y="392" text-anchor="middle" font-size="10" fill="#9A3412">跨主機 / 走 docker bridge network 時,DDS 多播 discovery 不通 → 改用 Discovery Server 或 unicast peers</text>
-  <text x="370" y="430" text-anchor="middle" font-size="10.5" fill="#374151">官方 rmf_deployment_template 的 docker-compose 就是這樣切:core / adapter / web / broker 各一容器,host 網路互通</text>
+  <text x="370" y="430" text-anchor="middle" font-size="10.5" fill="#374151">ROS 2 / RMF 的標準分散式形態;官方 rmf_deployment_template 提供容器化範本(Helm chart + compose 範例)</text>
 </svg>

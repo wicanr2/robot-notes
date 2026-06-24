@@ -1,6 +1,6 @@
 # RMF 多容器部署:adapter 一個容器、core 一個容器,怎麼接起來
 
-[OpenRMF 篇](open-rmf.md) 講為什麼、[實作小抄](rmf-adapter-cookbook.md) 講 adapter 怎麼寫,這篇補最後一塊:**怎麼把它部署起來**。常見的問題是「能不能 adapter 一個 docker、RMF core 另一個 docker」——可以,而且這就是官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template) 的 docker-compose 切法(core / adapter / web / broker 各一容器)。
+[OpenRMF 篇](open-rmf.md) 講為什麼、[實作小抄](rmf-adapter-cookbook.md) 講 adapter 怎麼寫,這篇補最後一塊:**怎麼把它部署起來**。常見的問題是「能不能 adapter 一個 docker、RMF core 另一個 docker」——可以,這正是 ROS 2 / RMF 的標準分散式部署形態;官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template) 也提供容器化範本(現以 Helm chart 為主,另含 `devel/docker-compose-local.yaml` 範例)。
 
 > 前置:[OpenRMF](open-rmf.md)、[實作小抄](rmf-adapter-cookbook.md)。
 
@@ -25,7 +25,7 @@ RMF 整套是**一堆 ROS 2 節點**(`rmf_traffic`、`rmf_task`、各 `fleet_ada
 | **同一個 DDS 域** | 各容器 `ROS_DOMAIN_ID` 設一樣(預設 0;同值才互相 discover) | [About Domain ID](https://docs.ros.org/en/foxy/Concepts/About-Domain-ID.html) |
 | **RMW 實作一致** | 全棧統一 `RMW_IMPLEMENTATION`(都 Cyclone 或都 Fast)。注意:topic 多半能跨 vendor,但 **services / actions 不保證互通**,所以實務一律統一 | [Different Middleware Vendors](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Different-Middleware-Vendors.html) |
 | **同主機要能發現** | 最省事:各容器 `network_mode: host`(共用主機網路)。**docker 預設 bridge network 不轉發多播 → DDS discovery 廣播看不到彼此** | [Fast DDS in Docker](https://fast-dds.docs.eprosima.com/en/latest/docker/shm_docker.html) |
-| **共享記憶體 transport** | Fast DDS 預設用 SHM 加速,跨容器要 `network_mode: host` + `ipc: host`(否則被當成不同 host 退回 UDP);Cyclone 的 SHM 預設關閉 | [Fast DDS SHM in Docker](https://fast-dds.docs.eprosima.com/en/latest/docker/shm_docker.html) |
+| **共享記憶體 transport** | Fast DDS 預設用 SHM 加速,跨容器要 `network_mode: host` + `ipc: host`(否則被當成不同 host 退回 UDP);Cyclone 的 SHM(走 Iceoryx)預設關閉、需另設 | [Fast DDS SHM in Docker](https://fast-dds.docs.eprosima.com/en/latest/docker/shm_docker.html) |
 | **跨主機 / 要網段隔離** | 不能用多播時,改 **Fast DDS Discovery Server** 或 **Cyclone unicast peers**(列出對端 IP) | [Discovery Server](https://fast-dds.docs.eprosima.com/en/latest/fastdds/discovery/discovery_server.html)、[Cyclone config](https://cyclonedds.io/docs/cyclonedds/latest/config/config_file_reference.html) |
 | **時鐘** | 接模擬時各容器 `use_sim_time` 要一致 | — |
 
@@ -33,13 +33,13 @@ RMF 整套是**一堆 ROS 2 節點**(`rmf_traffic`、`rmf_task`、各 `fleet_ada
 
 ## 3. 最小 docker-compose(pseudo)
 
-結構照官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template)(其 rmf-web 服務本來就設 `network_mode: host` + `RMW_IMPLEMENTATION=rmw_cyclonedds_cpp`,正是這套做法的官方佐證):
+結構參考官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template):該範本以 `rmw_cyclonedds_cpp` 統一 RMW,並讓需要直連 DDS 的服務(如模擬)用 host network。下面是本文整理的示意切法,**非逐字照搬範本**:
 
 ```yaml
 # pseudo;映像名/launch 以官方當前版本為準
 services:
   rmf-core:                              # rmf_traffic + rmf_task + 地圖
-    image: rmf:humble-rmf-latest
+    image: ghcr.io/open-rmf/rmf:humble    # 官方 image,與 open-rmf §5 一致
     network_mode: host
     ipc: host
     environment: [ ROS_DOMAIN_ID=42, RMW_IMPLEMENTATION=rmw_cyclonedds_cpp ]
