@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="rs-a" markerWidth="11" markerHeight="11" refX="6" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">上位機軟體(Ubuntu 22.04 + ROS2 Humble):三層</text>
+
+  <!-- 應用層 -->
+  <rect x="60" y="52" width="600" height="62" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="80" y="74" font-size="13" font-weight="700" fill="#1E40AF">應用層</text>
+  <text x="80" y="94" font-size="10.5" fill="#374151">任務調度 / 桌位管理 / UI / 點餐系統 / 雲端後台</text>
+  <text x="80" y="109" font-size="9.5" fill="#6B7280">可不在 ROS2 內,用 REST / WebSocket 對接(讓 UI 團隊不必懂 ROS2)</text>
+
+  <line x1="360" y1="114" x2="360" y2="130" stroke="#6B7280" stroke-width="2" marker-end="url(#rs-a)"/>
+
+  <!-- ROS2 導航層 -->
+  <rect x="60" y="132" width="600" height="220" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="80" y="154" font-size="13" font-weight="700" fill="#9A3412">ROS2 導航層</text>
+
+  <rect x="80" y="166" width="270" height="50" rx="6" fill="#ffffff" stroke="#FBBF24"/>
+  <text x="92" y="185" font-size="11" font-weight="700" fill="#92400E">SLAM:slam_toolbox</text>
+  <text x="92" y="203" font-size="9.5" fill="#6B7280">建圖,部署時離線執行一次</text>
+
+  <rect x="370" y="166" width="270" height="50" rx="6" fill="#ffffff" stroke="#FBBF24"/>
+  <text x="382" y="185" font-size="11" font-weight="700" fill="#92400E">定位:AMCL</text>
+  <text x="382" y="203" font-size="9.5" fill="#6B7280">已知地圖 + LiDAR 即時匹配</text>
+
+  <rect x="80" y="226" width="380" height="110" rx="6" fill="#ffffff" stroke="#F97316"/>
+  <text x="92" y="246" font-size="11.5" font-weight="700" fill="#9A3412">規劃 + 控制:Nav2</text>
+  <text x="92" y="266" font-size="9.5" fill="#374151">• global planner(Smac / NavFn)</text>
+  <text x="92" y="284" font-size="9.5" fill="#374151">• controller(MPPI 或 DWB)</text>
+  <text x="92" y="302" font-size="9.5" fill="#374151">• costmap(LiDAR + 深度相機障礙層)</text>
+  <text x="92" y="320" font-size="9.5" fill="#374151">• behavior tree(重規劃、recovery 行為)</text>
+
+  <rect x="470" y="226" width="170" height="110" rx="6" fill="#ffffff" stroke="#FBBF24"/>
+  <text x="482" y="246" font-size="11" font-weight="700" fill="#92400E">感測融合</text>
+  <text x="482" y="265" font-size="9.5" fill="#374151">robot_localization</text>
+  <text x="482" y="282" font-size="9.5" fill="#374151">(EKF)</text>
+  <text x="482" y="304" font-size="9" fill="#6B7280">encoder odom + IMU</text>
+  <text x="482" y="318" font-size="9" fill="#6B7280">→ 融合 odom</text>
+
+  <line x1="360" y1="352" x2="360" y2="368" stroke="#6B7280" stroke-width="2" marker-end="url(#rs-a)"/>
+
+  <!-- Driver 層 -->
+  <rect x="60" y="370" width="600" height="62" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="80" y="392" font-size="13" font-weight="700" fill="#065F46">Driver 層(ROS2 nodes)</text>
+  <text x="80" y="412" font-size="10.5" fill="#374151">LiDAR driver ・ 相機 driver ・ base driver</text>
+  <text x="80" y="427" font-size="9.5" fill="#6B7280">base driver:訂閱 /cmd_vel、發布 /odom 與 TF,對接下位機協議</text>
+
+  <line x1="360" y1="432" x2="360" y2="450" stroke="#6B7280" stroke-width="2" marker-end="url(#rs-a)"/>
+  <rect x="250" y="452" width="220" height="34" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="360" y="474" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">下位機(STM32)←→ UART / CAN</text>
+</svg>

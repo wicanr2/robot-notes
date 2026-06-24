@@ -42,6 +42,8 @@
 
 室內送餐幾乎都用**兩輪差速 (differential drive) + 萬向輪**:結構簡單、原地旋轉、控制模型成熟(Nav2 原生支援)。
 
+<p align="center"><img src="../../img/differential-drive-chassis.svg" width="760" alt="兩輪差速底盤俯視:中線兩側兩個獨立調速驅動輪、前後兩個被動萬向輪、輪距 b;靠左右輪速差做出直行(vL=vR)、繞 ICC 轉彎(vL>vR)、原地自轉(vL=−vR)三種運動"></p>
+
 | 項目 | 建議 | 說明 |
 |---|---|---|
 | 驅動形式 | 兩輪差速 + 前後萬向輪 | 麥克納姆輪不適合(餐廳地面油污打滑、odometry 差) |
@@ -108,24 +110,7 @@
 
 ### 3.1 下位機韌體 (STM32 + FreeRTOS)
 
-```
-┌────────────────────────────────────────────┐
-│ 通訊任務:與上位機協議收發 (UART/CAN, 50–100Hz)│
-├────────────────────────────────────────────┤
-│ 運動控制任務 (100Hz–1kHz)                    │
-│  (v, ω) → 差速運動學 → 左右輪目標轉速         │
-│  → PID 速度環(或下發給 FOC 驅動器)           │
-├────────────────────────────────────────────┤
-│ Odometry 任務 (50–100Hz)                    │
-│  encoder 積分 + IMU → (x, y, θ, v, ω) 上報   │
-├────────────────────────────────────────────┤
-│ 感測任務:IMU、超音波、電池、托盤              │
-├────────────────────────────────────────────┤
-│ 安全監控任務(最高優先級)                     │
-│  急停 / 防撞條 / 通訊逾時 (watchdog) /        │
-│  馬達過流 / 上位機心跳遺失 → 安全停車          │
-└────────────────────────────────────────────┘
-```
+<p align="center"><img src="../../img/mcu-firmware-tasks.svg" width="720" alt="下位機韌體 FreeRTOS 五個任務按優先級分層:安全監控(最高,事件觸發)→ 運動控制(100Hz–1kHz)→ 通訊(50–100Hz)→ Odometry(50–100Hz)→ 感測;通訊逾時 200–500ms 自動減速停車"></p>
 
 關鍵設計:
 
@@ -151,26 +136,7 @@ micro-ROS 與自定義協議的取捨:
 
 ### 3.3 上位機軟體 (Ubuntu 22.04 + ROS2 Humble)
 
-```
-┌───────────────────────────────────────────────┐
-│ 應用層(可不在 ROS2 內,REST/WebSocket 對接)     │
-│  任務調度 / 桌位管理 / UI / 點餐系統 / 雲端後台   │
-├───────────────────────────────────────────────┤
-│ ROS2 導航層                                    │
-│  ┌─ SLAM:slam_toolbox(建圖,部署時離線執行)   │
-│  ├─ 定位:AMCL(已知地圖 + LiDAR 即時匹配)      │
-│  ├─ 規劃 + 控制:Nav2                          │
-│  │   global planner / controller (MPPI 或 DWB) │
-│  │   costmap(LiDAR + 深度相機障礙層)           │
-│  │   behavior tree(重規劃、recovery 行為)      │
-│  └─ 感測融合:robot_localization (EKF)          │
-│        encoder odom + IMU → 融合 odom           │
-├───────────────────────────────────────────────┤
-│ Driver 層(ROS2 nodes)                         │
-│  LiDAR driver / 相機 driver /                   │
-│  base driver(對下位機協議 ↔ /cmd_vel, /odom)   │
-└───────────────────────────────────────────────┘
-```
+<p align="center"><img src="../../img/ros2-software-stack.svg" width="700" alt="上位機 ROS2 三層:應用層(任務調度/UI,REST/WebSocket 對接)→ ROS2 導航層(slam_toolbox 建圖、AMCL 定位、Nav2 規劃控制、robot_localization EKF 融合)→ Driver 層(LiDAR/相機/base driver,base driver 對接下位機 /cmd_vel /odom)"></p>
 
 各模組的具體選擇:
 

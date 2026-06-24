@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="dd-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+    <marker id="dd-o" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="dd-b" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/></marker>
+  </defs>
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">兩輪差速 (differential drive) + 萬向輪:結構與三種運動</text>
+  <line x1="372" y1="56" x2="372" y2="404" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <!-- 左:俯視結構 -->
+  <text x="195" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">底盤俯視</text>
+  <text x="195" y="98" text-anchor="middle" font-size="10.5" fill="#3B82F6">↑ 前</text>
+  <line x1="195" y1="104" x2="195" y2="120" stroke="#3B82F6" stroke-width="2" marker-end="url(#dd-b)"/>
+  <!-- 車體 -->
+  <ellipse cx="195" cy="232" rx="112" ry="80" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.6"/>
+  <!-- 驅動輪 -->
+  <rect x="73" y="210" width="22" height="44" rx="3" fill="#374151"/>
+  <rect x="295" y="210" width="22" height="44" rx="3" fill="#374151"/>
+  <text x="84" y="276" text-anchor="middle" font-size="9" fill="#374151">左驅動輪</text>
+  <text x="306" y="276" text-anchor="middle" font-size="9" fill="#374151">右驅動輪</text>
+  <!-- 萬向輪 -->
+  <circle cx="195" cy="166" r="9" fill="#D1D5DB" stroke="#6B7280"/><path d="M195,159 v14 M188,166 h14" stroke="#6B7280" stroke-width="1"/>
+  <circle cx="195" cy="298" r="9" fill="#D1D5DB" stroke="#6B7280"/><path d="M195,291 v14 M188,298 h14" stroke="#6B7280" stroke-width="1"/>
+  <text x="195" y="150" text-anchor="middle" font-size="9" fill="#6B7280">萬向輪(被動)</text>
+  <!-- 輪距 -->
+  <line x1="84" y1="232" x2="306" y2="232" stroke="#9A3412" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="195" y="226" text-anchor="middle" font-size="9.5" fill="#9A3412">輪距 b</text>
+  <text x="195" y="332" text-anchor="middle" font-size="9.5" fill="#6B7280">兩驅動輪獨立調速;前後萬向輪只承重、自由轉向</text>
+
+  <!-- 右:三種運動 -->
+  <text x="565" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">同一組輪子,靠左右輪速差做出三種運動</text>
+  <!-- ① 直行 -->
+  <g>
+    <ellipse cx="440" cy="120" rx="26" ry="17" fill="#F3F4F6" stroke="#9CA3AF"/>
+    <rect x="412" y="112" width="7" height="16" fill="#374151"/><rect x="461" y="112" width="7" height="16" fill="#374151"/>
+    <line x1="415" y1="112" x2="415" y2="90" stroke="#10B981" stroke-width="2.4" marker-end="url(#dd-g)"/>
+    <line x1="465" y1="112" x2="465" y2="90" stroke="#10B981" stroke-width="2.4" marker-end="url(#dd-g)"/>
+    <text x="540" y="112" font-size="11" font-weight="700" fill="#065F46">① vL = vR → 直行</text>
+    <text x="540" y="128" font-size="9.5" fill="#6B7280">兩輪同速同向</text>
+  </g>
+  <!-- ② 轉彎 -->
+  <g>
+    <ellipse cx="440" cy="230" rx="26" ry="17" fill="#F3F4F6" stroke="#9CA3AF"/>
+    <rect x="412" y="222" width="7" height="16" fill="#374151"/><rect x="461" y="222" width="7" height="16" fill="#374151"/>
+    <line x1="415" y1="222" x2="415" y2="194" stroke="#F97316" stroke-width="2.6" marker-end="url(#dd-o)"/>
+    <line x1="465" y1="222" x2="465" y2="208" stroke="#F97316" stroke-width="2.6" marker-end="url(#dd-o)"/>
+    <circle cx="560" cy="244" r="3.5" fill="#9A3412"/><text x="568" y="248" font-size="9" fill="#9A3412">ICC</text>
+    <path d="M466,232 A 96 96 0 0 1 556 246" fill="none" stroke="#F97316" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="540" y="214" font-size="11" font-weight="700" fill="#9A3412">② vL &gt; vR → 轉彎</text>
+    <text x="540" y="230" font-size="9.5" fill="#6B7280">繞瞬時旋轉中心 ICC 畫弧</text>
+  </g>
+  <!-- ③ 原地自轉 -->
+  <g>
+    <ellipse cx="440" cy="350" rx="26" ry="17" fill="#F3F4F6" stroke="#9CA3AF"/>
+    <rect x="412" y="342" width="7" height="16" fill="#374151"/><rect x="461" y="342" width="7" height="16" fill="#374151"/>
+    <line x1="415" y1="342" x2="415" y2="318" stroke="#8B5CF6" stroke-width="2.4" marker-end="url(#dd-o)"/>
+    <line x1="465" y1="358" x2="465" y2="382" stroke="#8B5CF6" stroke-width="2.4" marker-end="url(#dd-o)"/>
+    <path d="M483,338 A 20 20 0 1 1 479 360" fill="none" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#dd-o)"/>
+    <text x="540" y="342" font-size="11" font-weight="700" fill="#5B21B6">③ vL = −vR → 原地自轉</text>
+    <text x="540" y="358" font-size="9.5" fill="#6B7280">兩輪等速反向,差速車的招牌動作</text>
+  </g>
+</svg>
