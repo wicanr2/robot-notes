@@ -83,6 +83,7 @@
 - [Fleet 深入:API/圖資/座標/避塞車](docs/40-fleet/rmf-maps-and-traffic.md) — RMF 三層 API、VDA5050 圖資匯入(LIF)、reference_coordinates 座標對齊、rmf_traffic 避塞車原語
 - [私有系統案例:任意起點大迴轉,在 ROS2 會發生嗎](docs/40-fleet/proprietary-vs-ros2-arbitrary-start.md) — 速度方向放錯層的真實案例、車身座標 forward 投影定前進/倒車、RMF 拓樸 vs Nav2 運動規劃的責任邊界
 - [實作小抄:adapter + 派任務](docs/40-fleet/rmf-adapter-cookbook.md) — VDA5050 fleet adapter 骨架 + REST 派任務的最小 pseudo-code
+- [ROS 2 的 DDS:節點怎麼互相講話](docs/40-fleet/ros2-dds-intro.md) — DDS 是什麼、去中心化(無中央 master)、QoS / ROS_DOMAIN_ID / RMW,為何多容器要處理多播
 - [RMF 多容器部署](docs/40-fleet/rmf-multi-container-deploy.md) — adapter/core 各一 docker、DDS 跨容器(host network / discovery server)、最小 docker-compose,附官方出處
 
 ### 50 Physical AI(進階:術語密度較高,建議先讀完 00/10/30 再來)

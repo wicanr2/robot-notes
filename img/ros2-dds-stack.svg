@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ds-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="660" height="430" fill="#ffffff"/>
+  <text x="330" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">ROS 2 怎麼通訊:站在 DDS 上,用 rmw 把它抽象掉</text>
+
+  <!-- 分層(由上到下)-->
+  <rect x="120" y="56" width="320" height="50" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="280" y="77" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">你的程式:ROS 2 節點</text>
+  <text x="280" y="95" text-anchor="middle" font-size="9.5" fill="#6B7280">publisher / subscriber / service / action</text>
+
+  <rect x="120" y="116" width="320" height="44" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
+  <text x="280" y="138" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">rclcpp / rclpy</text>
+  <text x="280" y="153" text-anchor="middle" font-size="9.5" fill="#6B7280">C++ / Python 客戶端 API(你 import 的)</text>
+
+  <rect x="120" y="170" width="320" height="38" rx="8" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.2"/>
+  <text x="280" y="194" text-anchor="middle" font-size="11.5" font-weight="700" fill="#065F46">rcl — 共用 C 核心(兩種語言共用一套邏輯)</text>
+
+  <rect x="120" y="218" width="320" height="46" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="280" y="240" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">rmw — ROS middleware 抽象介面</text>
+  <text x="280" y="256" text-anchor="middle" font-size="9.5" fill="#6B7280">可抽換的那一層(RMW_IMPLEMENTATION)</text>
+
+  <rect x="120" y="274" width="320" height="46" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="280" y="296" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">DDS 實作</text>
+  <text x="280" y="312" text-anchor="middle" font-size="9.5" fill="#6B7280">Fast DDS(預設)・CycloneDDS・Connext…</text>
+
+  <rect x="120" y="330" width="320" height="40" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="280" y="355" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">傳輸:UDP 網路 / 共享記憶體(同主機)</text>
+
+  <!-- 連線 -->
+  <g stroke="#6B7280" stroke-width="1.6" marker-end="url(#ds-a)">
+    <line x1="280" y1="106" x2="280" y2="114"/><line x1="280" y1="160" x2="280" y2="168"/><line x1="280" y1="208" x2="280" y2="216"/><line x1="280" y1="264" x2="280" y2="272"/><line x1="280" y1="320" x2="280" y2="328"/>
+  </g>
+
+  <!-- 右側標註 -->
+  <path d="M448,241 L470,241 L470,150 L452,150" fill="none" stroke="#F97316" stroke-width="1.4"/>
+  <text x="476" y="180" font-size="10" fill="#9A3412">你的程式只碰</text>
+  <text x="476" y="195" font-size="10" fill="#9A3412">最上面兩層</text>
+  <path d="M448,297 L470,297 L470,360 L452,360" fill="none" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="476" y="320" font-size="10" fill="#991B1B">換 DDS 只動</text>
+  <text x="476" y="335" font-size="10" fill="#991B1B">rmw 以下,</text>
+  <text x="476" y="350" font-size="10" fill="#991B1B">程式不用改</text>
+
+  <text x="330" y="398" text-anchor="middle" font-size="11" fill="#374151">ROS 2 不自己發明通訊,而是站在 DDS 這個工業標準上,再用 rmw 把它包成可抽換的一層</text>
+  <text x="330" y="418" text-anchor="middle" font-size="10" fill="#6B7280">所以同一份程式,設個環境變數就能換底層 DDS,不必改任何 code</text>
+</svg>

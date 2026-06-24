@@ -2,7 +2,7 @@
 
 [OpenRMF 篇](open-rmf.md) 講為什麼、[實作小抄](rmf-adapter-cookbook.md) 講 adapter 怎麼寫,這篇補最後一塊:**怎麼把它部署起來**。常見的問題是「能不能 adapter 一個 docker、RMF core 另一個 docker」——可以,這正是 ROS 2 / RMF 的標準分散式部署形態;官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template) 也提供容器化範本(現以 Helm chart 為主,另含 `devel/docker-compose-local.yaml` 範例)。
 
-> 前置:[OpenRMF](open-rmf.md)、[實作小抄](rmf-adapter-cookbook.md)。
+> 前置:[OpenRMF](open-rmf.md)、[ROS 2 的 DDS](ros2-dds-intro.md)(不熟 DDS 先看這篇)、[實作小抄](rmf-adapter-cookbook.md)。
 
 ---
 
