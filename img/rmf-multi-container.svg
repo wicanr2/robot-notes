@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 450" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="mc-d" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#6B7280"/></marker>
+    <marker id="mc-o" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="740" height="450" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">RMF 多容器部署:每個元件一個容器,同主機靠 DDS 互通</text>
+
+  <!-- 主機框 -->
+  <rect x="28" y="50" width="540" height="350" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="7,4"/>
+  <text x="44" y="70" font-size="11.5" font-weight="700" fill="#6B7280">同一台主機 · 各容器設 network_mode: host(+ ipc: host)</text>
+
+  <!-- DDS bus -->
+  <line x1="60" y1="232" x2="536" y2="232" stroke="#6B7280" stroke-width="3"/>
+  <text x="298" y="252" text-anchor="middle" font-size="10.5" fill="#374151">DDS / ROS 2 匯流排 — 同 ROS_DOMAIN_ID、同 RMW_IMPLEMENTATION</text>
+
+  <!-- 容器:rmf core -->
+  <rect x="56" y="88" width="150" height="70" rx="8" fill="#E8F4FC" stroke="#2496ED" stroke-width="1.6"/>
+  <text x="131" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#0B5394">容器:RMF core</text>
+  <text x="131" y="128" text-anchor="middle" font-size="9.5" fill="#374151">rmf_traffic(協商)</text>
+  <text x="131" y="143" text-anchor="middle" font-size="9.5" fill="#374151">rmf_task(競標派工)</text>
+  <line x1="131" y1="158" x2="131" y2="230" stroke="#6B7280" stroke-width="1.4" marker-end="url(#mc-d)"/>
+
+  <!-- 容器:adapter -->
+  <rect x="230" y="88" width="160" height="70" rx="8" fill="#E8F4FC" stroke="#2496ED" stroke-width="1.6"/>
+  <text x="310" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#0B5394">容器:VDA5050 adapter</text>
+  <text x="310" y="128" text-anchor="middle" font-size="9.5" fill="#374151">RMF↔VDA5050 翻譯</text>
+  <text x="310" y="143" text-anchor="middle" font-size="9.5" fill="#6B7280">(各車隊一個容器,隔離依賴)</text>
+  <line x1="310" y1="158" x2="310" y2="230" stroke="#6B7280" stroke-width="1.4" marker-end="url(#mc-d)"/>
+
+  <!-- 容器:rmf-web -->
+  <rect x="414" y="88" width="140" height="70" rx="8" fill="#E8F4FC" stroke="#2496ED" stroke-width="1.6"/>
+  <text x="484" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#0B5394">容器:rmf-web</text>
+  <text x="484" y="128" text-anchor="middle" font-size="9.5" fill="#374151">api-server(REST)</text>
+  <text x="484" y="143" text-anchor="middle" font-size="9.5" fill="#374151">+ dashboard</text>
+  <line x1="484" y1="158" x2="484" y2="230" stroke="#6B7280" stroke-width="1.4" marker-end="url(#mc-d)"/>
+
+  <!-- 容器:mqtt broker -->
+  <rect x="230" y="300" width="160" height="60" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="310" y="324" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">容器:MQTT broker</text>
+  <text x="310" y="342" text-anchor="middle" font-size="9.5" fill="#6B7280">VDA5050 走這裡(非 DDS)</text>
+  <line x1="310" y1="234" x2="310" y2="298" stroke="#F97316" stroke-width="1.6" marker-end="url(#mc-o)"/>
+  <text x="318" y="270" font-size="9" fill="#9A3412">MQTT</text>
+
+  <!-- 主機外:VDA5050 車隊 -->
+  <rect x="600" y="300" width="120" height="60" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="660" y="326" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">VDA5050 車隊</text>
+  <text x="660" y="344" text-anchor="middle" font-size="9.5" fill="#6B7280">各廠 AMR</text>
+  <line x1="390" y1="330" x2="598" y2="330" stroke="#F97316" stroke-width="1.6" marker-end="url(#mc-o)"/>
+  <text x="494" y="322" text-anchor="middle" font-size="9" fill="#9A3412">MQTT over 網路</text>
+
+  <!-- 主機外:瀏覽器/上層 -->
+  <rect x="600" y="100" width="120" height="56" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="660" y="124" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">瀏覽器 / 上層系統</text>
+  <text x="660" y="142" text-anchor="middle" font-size="9.5" fill="#6B7280">REST / WebSocket</text>
+  <line x1="554" y1="123" x2="598" y2="125" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#mc-o)"/>
+
+  <text x="370" y="392" text-anchor="middle" font-size="10" fill="#9A3412">跨主機 / 走 docker bridge network 時,DDS 多播 discovery 不通 → 改用 Discovery Server 或 unicast peers</text>
+  <text x="370" y="430" text-anchor="middle" font-size="10.5" fill="#374151">官方 rmf_deployment_template 的 docker-compose 就是這樣切:core / adapter / web / broker 各一容器,host 網路互通</text>
+</svg>

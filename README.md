@@ -82,6 +82,8 @@
 - [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界、**完整 order JSON 範例**
 - [Fleet 深入:API/圖資/座標/避塞車](docs/40-fleet/rmf-maps-and-traffic.md) — RMF 三層 API、VDA5050 圖資匯入(LIF)、reference_coordinates 座標對齊、rmf_traffic 避塞車原語
 - [私有系統案例:任意起點大迴轉,在 ROS2 會發生嗎](docs/40-fleet/proprietary-vs-ros2-arbitrary-start.md) — 速度方向放錯層的真實案例、車身座標 forward 投影定前進/倒車、RMF 拓樸 vs Nav2 運動規劃的責任邊界
+- [實作小抄:adapter + 派任務](docs/40-fleet/rmf-adapter-cookbook.md) — VDA5050 fleet adapter 骨架 + REST 派任務的最小 pseudo-code
+- [RMF 多容器部署](docs/40-fleet/rmf-multi-container-deploy.md) — adapter/core 各一 docker、DDS 跨容器(host network / discovery server)、最小 docker-compose,附官方出處
 
 ### 50 Physical AI(進階:術語密度較高,建議先讀完 00/10/30 再來)
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
