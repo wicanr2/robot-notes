@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="rb-a" markerWidth="11" markerHeight="11" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="740" height="470" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">從玩具到 production 級 DDS:強健穩定要補的維度</text>
+
+  <!-- 中心:玩具版 -->
+  <rect x="20" y="150" width="200" height="180" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="120" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">玩具版</text>
+  <text x="120" y="196" text-anchor="middle" font-size="10" fill="#374151">(上一節的 pseudo)</text>
+  <text x="120" y="222" text-anchor="middle" font-size="10" fill="#6B7280">pub / sub</text>
+  <text x="120" y="240" text-anchor="middle" font-size="10" fill="#6B7280">+ 多播發現</text>
+  <text x="120" y="258" text-anchor="middle" font-size="10" fill="#6B7280">+ heartbeat/ACKNACK 重傳</text>
+  <text x="120" y="288" text-anchor="middle" font-size="9.5" fill="#9A3412">能在「乖網路</text>
+  <text x="120" y="304" text-anchor="middle" font-size="9.5" fill="#9A3412">+ 少數節點」動</text>
+
+  <line x1="222" y1="240" x2="250" y2="240" stroke="#F97316" stroke-width="2.4" marker-end="url(#rb-a)"/>
+  <text x="236" y="230" text-anchor="middle" font-size="9.5" fill="#9A3412">要補</text>
+
+  <!-- 8 維度卡 -->
+  <g>
+    <rect x="256" y="56" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="268" y="76" font-size="11.5" font-weight="700" fill="#9A3412">① 資源有界(不 OOM)</text>
+    <text x="268" y="94" font-size="9" fill="#6B7280">history 不能無限長:KEEP_LAST 深度</text>
+    <text x="268" y="108" font-size="9" fill="#6B7280">+ resource_limits + 預配置 + 滿了的</text>
+    <text x="268" y="122" font-size="9" fill="#6B7280">overflow 策略</text>
+
+    <rect x="489" y="56" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="501" y="76" font-size="11.5" font-weight="700" fill="#9A3412">② 流量控制 + 背壓</text>
+    <text x="501" y="94" font-size="9" fill="#6B7280">發太快會壓垮 reader → flow control;</text>
+    <text x="501" y="108" font-size="9" fill="#6B7280">重傳要退避,避免廣播風暴拖垮整網</text>
+
+    <rect x="256" y="148" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="268" y="168" font-size="11.5" font-weight="700" fill="#9A3412">③ 完整 QoS + 相容協商</text>
+    <text x="268" y="186" font-size="9" fill="#6B7280">不只 reliability:deadline / liveliness /</text>
+    <text x="268" y="200" font-size="9" fill="#6B7280">durability / lifespan / ownership…</text>
+    <text x="268" y="214" font-size="9" fill="#6B7280">+ offered↔requested 相容檢查與回報</text>
+
+    <rect x="489" y="148" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="501" y="168" font-size="11.5" font-weight="700" fill="#9A3412">④ Discovery 健壯</text>
+    <text x="501" y="186" font-size="9" fill="#6B7280">liveliness / lease 偵測對端死亡並清理;</text>
+    <text x="501" y="200" font-size="9" fill="#6B7280">大規模節點用 discovery server 取代</text>
+    <text x="501" y="214" font-size="9" fill="#6B7280">多播,避免發現風暴</text>
+
+    <rect x="256" y="240" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="268" y="260" font-size="11.5" font-weight="700" fill="#9A3412">⑤ 傳輸多樣 + 容錯</text>
+    <text x="268" y="278" font-size="9" fill="#6B7280">UDP / TCP / 共享記憶體多傳輸;</text>
+    <text x="268" y="292" font-size="9" fill="#6B7280">分片重組、亂序、重複、延遲</text>
+    <text x="268" y="306" font-size="9" fill="#6B7280">都要正確處理</text>
+
+    <rect x="489" y="240" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="501" y="260" font-size="11.5" font-weight="700" fill="#9A3412">⑥ 即時 + 零拷貝</text>
+    <text x="501" y="278" font-size="9" fill="#6B7280">預配置記憶體避免動態 alloc 抖動;</text>
+    <text x="501" y="292" font-size="9" fill="#6B7280">loaned message 零拷貝、wait-set 模型</text>
+
+    <rect x="256" y="332" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="268" y="352" font-size="11.5" font-weight="700" fill="#9A3412">⑦ 安全</text>
+    <text x="268" y="370" font-size="9" fill="#6B7280">DDS-Security:認證(誰能加入)、</text>
+    <text x="268" y="384" font-size="9" fill="#6B7280">加密(資料不被竊聽)、</text>
+    <text x="268" y="398" font-size="9" fill="#6B7280">存取控制(誰能讀寫哪個 topic)</text>
+
+    <rect x="489" y="332" width="225" height="84" rx="7" fill="#FFF7ED" stroke="#F59E0B"/>
+    <text x="501" y="352" font-size="11.5" font-weight="700" fill="#9A3412">⑧ 可觀測 + 測試</text>
+    <text x="501" y="370" font-size="9" fill="#6B7280">統計 / 延遲 / 丟包率監控;</text>
+    <text x="501" y="384" font-size="9" fill="#6B7280">丟包-亂序-延遲注入、長跑、大規模壓測、</text>
+    <text x="501" y="398" font-size="9" fill="#6B7280">RTPS 互通性測試(才能跨 vendor)</text>
+  </g>
+
+  <text x="370" y="442" text-anchor="middle" font-size="11" fill="#374151">每一個都是坑,合起來是多年工程 → 別自造;選 Fast DDS(功能全)或 CycloneDDS(輕量穩),</text>
+  <text x="370" y="460" text-anchor="middle" font-size="11" fill="#9A3412">力氣花在「為你的場景設對 QoS」,而不是重寫傳輸層</text>
+</svg>

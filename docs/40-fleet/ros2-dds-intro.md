@@ -105,7 +105,23 @@ def on_acknack(writer, nack):
 6. **reliable 不是免費**:`history` buffer 吃記憶體、重傳增延遲。高頻又容得了丟幾筆的(LiDAR、影像)用 best-effort,命令 / 狀態才用 reliable。
 7. **晚加入者(late joiner)**:`reliable` + `durability=transient_local` 時,晚上線的 reader 要能補拿先前資料,代價是 writer 得一直留 buffer。
 
+## 附:從玩具到 production——強健穩定的 DDS 要補什麼
+
+上一節的 pseudo 能在「乖網路 + 少數節點」動,但離強健穩定差很遠。production 級 DDS(Fast DDS / CycloneDDS 花多年做的)要在**資源有限、對端會死、網路會丟 / 亂序 / 分區、規模會大、要即時、要安全**這些現實下還正確穩定。要補的維度:
+
+<p align="center"><img src="../../img/dds-robustness.svg" width="740" alt="從玩具到 production DDS 要補的 8 個維度:資源有界、流量控制+背壓、完整 QoS+相容協商、Discovery 健壯、傳輸多樣+容錯、即時+零拷貝、安全(DDS-Security)、可觀測+測試"></p>
+
+每個維度都是坑,合起來就是「為什麼別自造」。務實做法:
+
+- **選現成,別重寫**:功能最全用 **Fast DDS**;要輕量、確定性好用 **CycloneDDS**(RMF 官方範本就用它)。RTPS 是 OMG 的線協定標準,照規範實作才能跨 vendor 互通——光這點就是巨大工程。
+- **9 成的「強健」其實是設對 QoS**:把 `reliability` / `durability` / `history` / `deadline` / `liveliness` 配對你的場景(命令 reliable、感測 best-effort、晚加入 transient_local、要偵測掉線設 liveliness…),比重寫傳輸層划算太多。QoS 不相容配不上、history buffer 設太大 OOM——這些「強健問題」多半是**設定問題**,不是要你自己寫 DDS。
+- **打通 discovery**:跨容器 / 網段別硬靠多播,用 discovery server 或 unicast peers(見 [多容器部署](rmf-multi-container-deploy.md))。
+- **真要客製**:基於開源 DDS(Fast DDS / Cyclone 都開源)改,別從零開始。
+
+一句話:**「做一個強健的 DDS」99% 不該是「自己寫一個」,而是「選對 DDS + 設對 QoS + 打通網路」**。
+
 ## 來源
 
 - [ROS on DDS(設計文)](https://design.ros2.org/articles/ros_on_dds.html)
+- DDS 實作文件(QoS / 傳輸 / Security / Discovery):[Fast DDS](https://fast-dds.docs.eprosima.com/)、[CycloneDDS](https://cyclonedds.io/docs/)
 - ROS 2 Concepts:[不同 middleware 廠商](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Different-Middleware-Vendors.html)、[Domain ID](https://docs.ros.org/en/foxy/Concepts/About-Domain-ID.html)、[QoS 設定](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Quality-of-Service-Settings.html)
