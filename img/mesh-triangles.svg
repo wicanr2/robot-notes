@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 310" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="mt-a" markerWidth="11" markerHeight="11" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="680" height="310" fill="#ffffff"/>
+  <text x="340" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">3D 模型的底層:一堆三角形拼出表面(mesh)</text>
+
+  <!-- ① 單一三角形 -->
+  <text x="120" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">① 面 (face)</text>
+  <polygon points="120,90 70,210 190,205" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.8"/>
+  <circle cx="120" cy="90" r="5" fill="#EF4444"/><circle cx="70" cy="210" r="5" fill="#EF4444"/><circle cx="190" cy="205" r="5" fill="#EF4444"/>
+  <text x="120" y="84" text-anchor="middle" font-size="10" fill="#B91C1C">A</text>
+  <text x="60" y="224" text-anchor="middle" font-size="10" fill="#B91C1C">B</text>
+  <text x="198" y="219" text-anchor="middle" font-size="10" fill="#B91C1C">C</text>
+  <text x="120" y="250" text-anchor="middle" font-size="10" fill="#6B7280">3 個頂點(紅點)連成</text>
+  <text x="120" y="265" text-anchor="middle" font-size="10" fill="#6B7280">一個三角形</text>
+
+  <line x1="210" y1="150" x2="248" y2="150" stroke="#9CA3AF" stroke-width="2" marker-end="url(#mt-a)"/>
+
+  <!-- ② 三角形群 -->
+  <text x="340" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">② 很多面拼起來</text>
+  <g fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.2">
+    <polygon points="270,95 320,95 295,140"/><polygon points="320,95 370,95 345,140"/><polygon points="370,95 410,95 390,140"/>
+    <polygon points="295,140 345,140 320,95"/><polygon points="345,140 390,140 370,95"/>
+    <polygon points="270,95 295,140 250,140"/>
+    <polygon points="250,140 295,140 270,185"/><polygon points="295,140 345,140 320,185"/><polygon points="345,140 390,140 370,185"/>
+    <polygon points="270,185 320,185 295,140"/><polygon points="320,185 370,185 345,140"/>
+  </g>
+  <text x="335" y="210" text-anchor="middle" font-size="10" fill="#6B7280">一片一片接成曲面</text>
+
+  <line x1="430" y1="150" x2="468" y2="150" stroke="#9CA3AF" stroke-width="2" marker-end="url(#mt-a)"/>
+
+  <!-- ③ 蒙成物體 -->
+  <text x="565" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">③ mesh(網格)</text>
+  <g stroke="#3B82F6" stroke-width="1" fill="#DBEAFE">
+    <polygon points="565,88 612,108 622,158 600,205 540,210 510,165 515,112"/>
+  </g>
+  <g stroke="#3B82F6" stroke-width="0.8" opacity="0.7">
+    <line x1="565" y1="88" x2="565" y2="150"/><line x1="612" y1="108" x2="565" y2="150"/><line x1="622" y1="158" x2="565" y2="150"/><line x1="600" y1="205" x2="565" y2="150"/><line x1="540" y1="210" x2="565" y2="150"/><line x1="510" y1="165" x2="565" y2="150"/><line x1="515" y1="112" x2="565" y2="150"/>
+  </g>
+  <text x="565" y="230" text-anchor="middle" font-size="10" fill="#6B7280">成千上萬個三角形</text>
+  <text x="565" y="245" text-anchor="middle" font-size="10" fill="#6B7280">拼成的外殼(空心)</text>
+
+  <text x="340" y="294" text-anchor="middle" font-size="11.5" fill="#374151">頂點 vertex(點) → 面 face(三角形) → mesh(整個表面);電腦只存「皮」,裡面是空的</text>
+</svg>

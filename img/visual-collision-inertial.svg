@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="vci-d" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8B5CF6"/></marker></defs>
+  <rect width="720" height="330" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">同一台搬運車的三種身份:看的 / 撞的 / 秤重的</text>
+
+  <!-- ① visual -->
+  <text x="120" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">visual 外觀</text>
+  <!-- 搬運車側視(精緻) -->
+  <rect x="50" y="120" width="140" height="46" rx="6" fill="#10B981" stroke="#065F46"/>
+  <rect x="62" y="104" width="116" height="18" rx="3" fill="#34D399" stroke="#065F46"/>
+  <rect x="78" y="88" width="84" height="18" rx="3" fill="#A7F3D0" stroke="#065F46"/>
+  <circle cx="78" cy="172" r="14" fill="#1F2937"/><circle cx="78" cy="172" r="5" fill="#9CA3AF"/>
+  <circle cx="162" cy="172" r="14" fill="#1F2937"/><circle cx="162" cy="172" r="5" fill="#9CA3AF"/>
+  <text x="120" y="210" text-anchor="middle" font-size="10" fill="#6B7280">給眼睛 / 相機看</text>
+  <text x="120" y="225" text-anchor="middle" font-size="10" fill="#6B7280">精緻 mesh + 顏色貼圖</text>
+
+  <line x1="245" y1="150" x2="245" y2="150"/>
+  <!-- ② collision -->
+  <text x="360" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">collision 碰撞體</text>
+  <!-- 淡車輪廓 + 方塊框 -->
+  <rect x="290" y="120" width="140" height="46" rx="6" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <rect x="318" y="88" width="84" height="34" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <!-- 簡化碰撞:一個大方塊框 + 圓柱輪 -->
+  <rect x="300" y="84" width="120" height="86" fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="6,3"/>
+  <ellipse cx="318" cy="172" rx="12" ry="13" fill="none" stroke="#F97316" stroke-width="2"/>
+  <ellipse cx="402" cy="172" rx="12" ry="13" fill="none" stroke="#F97316" stroke-width="2"/>
+  <text x="360" y="210" text-anchor="middle" font-size="10" fill="#6B7280">給物理引擎算「撞到沒」</text>
+  <text x="360" y="225" text-anchor="middle" font-size="10" fill="#6B7280">用簡化形狀,省算力</text>
+
+  <!-- ③ inertial -->
+  <text x="600" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#5B21B6">inertial 質量</text>
+  <rect x="530" y="120" width="140" height="46" rx="6" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <rect x="558" y="88" width="84" height="34" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <!-- 慣性橢球 + 質心 + 重力 -->
+  <ellipse cx="600" cy="128" rx="46" ry="26" fill="#EDE9FE" fill-opacity="0.6" stroke="#8B5CF6" stroke-dasharray="4,3"/>
+  <circle cx="600" cy="128" r="4" fill="#5B21B6"/>
+  <path d="M592,120 h16 M600,120 v16" stroke="#5B21B6" stroke-width="1.2"/>
+  <text x="618" y="124" font-size="9.5" fill="#5B21B6">質心</text>
+  <line x1="600" y1="138" x2="600" y2="190" stroke="#8B5CF6" stroke-width="2" marker-end="url(#vci-d)"/>
+  <text x="612" y="178" font-size="10" fill="#5B21B6">mg(重)</text>
+  <text x="600" y="210" text-anchor="middle" font-size="10" fill="#6B7280">質量 + 重量分布(慣性)</text>
+  <text x="600" y="225" text-anchor="middle" font-size="10" fill="#6B7280">算「推它會怎麼動」</text>
+
+  <text x="360" y="262" text-anchor="middle" font-size="11.5" fill="#374151">一個 SDF 模型同時寫這三層:visual 漂亮、collision 簡單夠用、inertial 給物理引擎當依據</text>
+  <text x="360" y="284" text-anchor="middle" font-size="10.5" fill="#6B7280">visual 和 collision 故意不一樣:外觀要細,碰撞用方塊/圓柱才跑得快</text>
+</svg>
