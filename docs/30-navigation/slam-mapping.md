@@ -60,6 +60,10 @@ ros2 launch slam_toolbox online_async_launch.py   # 邊遙控邊建圖
 ros2 run nav2_map_server map_saver_cli -f restaurant_map
 ```
 
+<p align="center"><img src="../../img/rviz-slam-mapping.svg" width="760" alt="RViz 中 slam_toolbox 線上建圖示意:深色背景的占據柵格(灰=free、黑=牆與桌)、紅色 LaserScan 命中點與雷射光束、綠色已走軌跡、藍色 pose graph 節點與黃色 loop closure、機器人 base_link 的 TF 紅綠軸"></p>
+
+*上圖為 RViz 風格示意(自繪),把建圖當下會同時看到的幾層疊在一起:正在長出來的占據柵格、即時的 LaserScan 紅點、走過的軌跡、slam_toolbox 的 pose graph 與 loop closure。真機畫面待在實機跑 `slam_toolbox` 後以 RViz 截圖替換。*
+
 | 要訣 | 原因 |
 |---|---|
 | 慢速行駛(<0.5 m/s)、轉彎更慢 | scan 間重疊多,matching 穩 |

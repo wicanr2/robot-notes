@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 500" font-family="'Noto Sans CJK TC','DejaVu Sans','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="rv-x" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#EF4444"/></marker>
+    <marker id="rv-y" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#22C55E"/></marker>
+  </defs>
+  <!-- RViz 視窗背景 -->
+  <rect width="780" height="500" fill="#262626"/>
+
+  <!-- 頂部標題 bar -->
+  <rect x="0" y="0" width="780" height="24" fill="#1B1B1B"/>
+  <circle cx="14" cy="12" r="4" fill="#E0524D"/><circle cx="28" cy="12" r="4" fill="#E0A33B"/><circle cx="42" cy="12" r="4" fill="#5FB45F"/>
+  <text x="64" y="16" font-size="11" fill="#C8C8C8">RViz — slam_toolbox(線上非同步建圖)</text>
+
+  <!-- 左側 Displays 面板 -->
+  <rect x="0" y="24" width="158" height="476" fill="#333333"/>
+  <text x="12" y="44" font-size="11.5" font-weight="700" fill="#DDDDDD">Displays</text>
+  <g font-size="10.5" fill="#CFCFCF">
+    <text x="16" y="66">☑ Grid</text>
+    <text x="16" y="88">☑ Map</text><rect x="120" y="80" width="10" height="10" fill="#A8A8A8"/>
+    <text x="16" y="110">☑ LaserScan</text><circle cx="125" cy="106" r="4" fill="#FF3B30"/>
+    <text x="16" y="132">☑ TF</text>
+    <text x="16" y="154">☑ Path</text><rect x="120" y="146" width="14" height="4" fill="#22C55E"/>
+    <text x="16" y="176">☑ PoseGraph</text><circle cx="125" cy="172" r="4" fill="#3B82F6"/>
+    <text x="16" y="198">☑ RobotModel</text>
+  </g>
+  <text x="12" y="232" font-size="10" fill="#888">/scan · 10 Hz</text>
+  <text x="12" y="250" font-size="10" fill="#888">/map · 0.05 m</text>
+  <text x="12" y="268" font-size="10" fill="#888">fixed frame:</text>
+  <text x="12" y="284" font-size="10" fill="#888">  map</text>
+
+  <!-- 主視圖 grid -->
+  <g stroke="#363636" stroke-width="1">
+    <line x1="198" y1="24" x2="198" y2="500"/><line x1="238" y1="24" x2="238" y2="500"/><line x1="278" y1="24" x2="278" y2="500"/><line x1="318" y1="24" x2="318" y2="500"/><line x1="358" y1="24" x2="358" y2="500"/><line x1="398" y1="24" x2="398" y2="500"/><line x1="438" y1="24" x2="438" y2="500"/><line x1="478" y1="24" x2="478" y2="500"/><line x1="518" y1="24" x2="518" y2="500"/><line x1="558" y1="24" x2="558" y2="500"/><line x1="598" y1="24" x2="598" y2="500"/><line x1="638" y1="24" x2="638" y2="500"/><line x1="678" y1="24" x2="678" y2="500"/><line x1="718" y1="24" x2="718" y2="500"/><line x1="758" y1="24" x2="758" y2="500"/>
+    <line x1="158" y1="64" x2="780" y2="64"/><line x1="158" y1="104" x2="780" y2="104"/><line x1="158" y1="144" x2="780" y2="144"/><line x1="158" y1="184" x2="780" y2="184"/><line x1="158" y1="224" x2="780" y2="224"/><line x1="158" y1="264" x2="780" y2="264"/><line x1="158" y1="304" x2="780" y2="304"/><line x1="158" y1="344" x2="780" y2="344"/><line x1="158" y1="384" x2="780" y2="384"/><line x1="158" y1="424" x2="780" y2="424"/><line x1="158" y1="464" x2="780" y2="464"/>
+  </g>
+
+  <!-- 占據柵格:free 區(已探索,淺灰) -->
+  <path d="M214,96 H700 V250 H720 V310 H700 V452 H214 Z" fill="#ABABAB"/>
+  <!-- 牆 occupied(黑,略帶起伏) -->
+  <g fill="none" stroke="#0E0E0E" stroke-width="5" stroke-linejoin="round">
+    <path d="M212,96 L701,95 L700,250"/>
+    <path d="M700,310 L701,453 L213,452 L214,96"/>
+  </g>
+  <!-- 桌子 / 障礙(occupied 方塊) -->
+  <g fill="#0E0E0E">
+    <rect x="300" y="150" width="52" height="34" rx="2"/>
+    <rect x="470" y="160" width="40" height="40" rx="2"/>
+    <rect x="560" y="320" width="48" height="34" rx="2"/>
+    <rect x="300" y="350" width="44" height="30" rx="2"/>
+  </g>
+  <!-- 右側開口:未掃區(漸出到背景灰) -->
+  <rect x="700" y="252" width="42" height="56" fill="#3a3a3a"/>
+  <text x="726" y="284" font-size="9" fill="#777" text-anchor="middle">未掃</text>
+
+  <!-- 機器人走過的軌跡 Path(綠) -->
+  <path d="M268,420 C320,400 300,360 360,350 C420,340 380,300 410,300" fill="none" stroke="#22C55E" stroke-width="2.4"/>
+
+  <!-- pose graph:節點 + 邊(藍) + loop closure(黃) -->
+  <g>
+    <line x1="268" y1="420" x2="330" y2="372" stroke="#5B8DEF" stroke-width="1.4"/>
+    <line x1="330" y1="372" x2="360" y2="350" stroke="#5B8DEF" stroke-width="1.4"/>
+    <line x1="360" y1="350" x2="392" y2="318" stroke="#5B8DEF" stroke-width="1.4"/>
+    <line x1="392" y1="318" x2="410" y2="300" stroke="#5B8DEF" stroke-width="1.4"/>
+    <path d="M410,300 C300,250 240,330 268,418" fill="none" stroke="#F5C518" stroke-width="1.4" stroke-dasharray="5,3"/>
+    <text x="250" y="320" font-size="8.5" fill="#F5C518">loop closure</text>
+    <circle cx="268" cy="420" r="4.5" fill="#3B82F6" stroke="#fff" stroke-width="0.8"/>
+    <circle cx="330" cy="372" r="4.5" fill="#3B82F6" stroke="#fff" stroke-width="0.8"/>
+    <circle cx="360" cy="350" r="4.5" fill="#3B82F6" stroke="#fff" stroke-width="0.8"/>
+    <circle cx="392" cy="318" r="4.5" fill="#3B82F6" stroke="#fff" stroke-width="0.8"/>
+  </g>
+
+  <!-- LaserScan 命中點(紅,沿牆與桌邊) -->
+  <g fill="#FF3B30">
+    <circle cx="216" cy="180" r="2"/><circle cx="216" cy="230" r="2"/><circle cx="216" cy="280" r="2"/><circle cx="216" cy="330" r="2"/><circle cx="240" cy="98" r="2"/><circle cx="300" cy="98" r="2"/><circle cx="360" cy="98" r="2"/><circle cx="430" cy="98" r="2"/>
+    <circle cx="300" cy="186" r="2"/><circle cx="326" cy="184" r="2"/><circle cx="352" cy="170" r="2"/><circle cx="468" cy="200" r="2"/><circle cx="490" cy="202" r="2"/>
+    <circle cx="558" cy="338" r="2"/><circle cx="560" cy="320" r="2"/><circle cx="344" cy="356" r="2"/><circle cx="322" cy="380" r="2"/>
+    <circle cx="698" cy="180" r="2"/><circle cx="698" cy="360" r="2"/><circle cx="698" cy="420" r="2"/><circle cx="600" cy="450" r="2"/><circle cx="500" cy="450" r="2"/>
+  </g>
+  <!-- 幾條雷射光束(淡紅,從機器人放射) -->
+  <g stroke="#FF3B30" stroke-width="0.7" opacity="0.45">
+    <line x1="410" y1="300" x2="216" y2="230"/><line x1="410" y1="300" x2="352" y2="170"/><line x1="410" y1="300" x2="490" y2="202"/><line x1="410" y1="300" x2="560" y2="320"/><line x1="410" y1="300" x2="344" y2="356"/><line x1="410" y1="300" x2="698" y2="360"/>
+  </g>
+
+  <!-- 機器人:footprint + TF 軸(紅 x / 綠 y) -->
+  <circle cx="410" cy="300" r="11" fill="#1E3A8A" fill-opacity="0.45" stroke="#60A5FA" stroke-width="1.4"/>
+  <line x1="410" y1="300" x2="438" y2="300" stroke="#EF4444" stroke-width="2.2" marker-end="url(#rv-x)"/>
+  <line x1="410" y1="300" x2="410" y2="272" stroke="#22C55E" stroke-width="2.2" marker-end="url(#rv-y)"/>
+  <text x="416" y="320" font-size="9" fill="#cfcfcf">base_link</text>
+
+  <!-- 角標 -->
+  <rect x="612" y="466" width="160" height="28" rx="4" fill="#1B1B1B" fill-opacity="0.8"/>
+  <text x="622" y="484" font-size="9.5" fill="#9AA0A6">frame: map · 0.05 m/cell</text>
+</svg>
