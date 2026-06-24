@@ -44,6 +44,67 @@ ROS 2 程式是拆成很多**節點(node)**的:一個讀 LiDAR、一個跑定位
 
 一句話:**DDS 是 ROS 2 的「神經系統」**——去中心化、自動發現、可調 QoS;搞懂它,才知道為什麼多容器部署要設 `ROS_DOMAIN_ID`、統一 RMW、處理多播。
 
+## 附:DDS 底層在做什麼(概念 pseudo-code)
+
+想知道「發現」和「可靠傳輸」底層怎麼跑?把 DDS 的傳輸協定 **RTPS** 極度簡化,核心就兩塊:
+
+<p align="center"><img src="../../img/dds-internals.svg" width="720" alt="RTPS 兩大機制:① 發現(往多播發 announce,同 domain+QoS 相容才 match)② 可靠傳輸(data 丟包後,靠 heartbeat 通報進度、ACKNACK 點名缺哪筆、再重傳;best-effort 則不重傳)"></p>
+
+```python
+# 概念骨架:理解 DDS(RTPS)內部在做什麼
+# ⚠ 教學用;生產一律用現成 DDS(Fast DDS / Cyclone),別自己造
+
+MCAST = ("239.255.0.1", 7400 + domain_id * 250)   # domain 決定多播位址/port(概念)
+
+# ── 1. 發現:上線就往多播喊「我是誰、有哪些 reader/writer」──
+def announce_loop(self):
+    every(3, "seconds"):
+        mcast_send(MCAST, Announce(participant_id, domain_id,
+                                   writers=[(topic, qos), ...],
+                                   readers=[(topic, qos), ...]))
+
+def on_announce(self, msg):
+    if msg.domain_id != self.domain_id: return        # 不同 domain,不理
+    add_peer(msg.participant_id, msg.addr)
+    for w in msg.writers:
+        for r in self.readers:
+            if r.topic == w.topic and qos_compatible(r.qos, w.qos):
+                match(r, w)            # 配對成功,之後資料才會流
+
+# ── 2. 發布:writer 把資料發給所有 match 的 reader ──
+def publish(writer, data):
+    writer.seq += 1
+    pkt = cdr_serialize(data, writer.seq)             # 跨平台序列化 + 序號
+    for r in writer.matched_readers:
+        if writer.qos.reliability == BEST_EFFORT:
+            udp_send(r.addr, pkt)                     # 丟了就算了
+        else:                                         # RELIABLE
+            writer.history[writer.seq] = pkt          # 留著以備重傳
+            udp_send(r.addr, pkt)
+
+# ── 3. 可靠:heartbeat 通報進度,ACKNACK 點名缺哪筆,再重傳 ──
+def writer_tick(writer):
+    udp_send_all(writer.matched_readers, Heartbeat(writer.seq))    # 我發到第 N 號
+
+def on_heartbeat(reader, hb):
+    missing = [s for s in range(reader.last+1, hb.seq+1) if s not in reader.got]
+    if missing: udp_send(hb.sender, AckNack(missing))              # 我缺這幾號
+
+def on_acknack(writer, nack):
+    for s in nack.missing:
+        udp_send(nack.sender, writer.history[s])      # 重傳
+```
+
+### 注意事項
+
+1. **別自己造(最重要)**:上面只是讓你看懂機制。真實 RTPS 的 QoS、分片、計時、安全層細節極多,生產一律用 Fast DDS / CycloneDDS。
+2. **多播是發現的命脈**:`announce` 走多播,**跨網段 / docker bridge / 防火牆擋多播就發現失敗**(節點起得來卻互相看不到)→ 改用 discovery server / unicast peers(見 [多容器部署](rmf-multi-container-deploy.md))。
+3. **QoS 不相容就配不上**:`qos_compatible` 沒過(reliability、durability… 不匹配),writer/reader 就 match 不起來——**沒資料也不報錯**,新手最常卡這。
+4. **序列化要跨平台一致**:用 CDR、統一位元組序、型別 / IDL 對齊;不能各送各的格式,否則對端解不開。
+5. **UDP 有 MTU 上限**:資料大於一個封包要分片重組(RTPS fragmentation),別假設一筆送得完。
+6. **reliable 不是免費**:`history` buffer 吃記憶體、重傳增延遲。高頻又容得了丟幾筆的(LiDAR、影像)用 best-effort,命令 / 狀態才用 reliable。
+7. **晚加入者(late joiner)**:`reliable` + `durability=transient_local` 時,晚上線的 reader 要能補拿先前資料,代價是 writer 得一直留 buffer。
+
 ## 來源
 
 - [ROS on DDS(設計文)](https://design.ros2.org/articles/ros_on_dds.html)
