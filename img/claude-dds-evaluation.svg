@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 450" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="740" height="450" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">用 Claude 做「比 Fast DDS / Cyclone 更好的 DDS」?先拆「更好」</text>
+
+  <!-- 左:不可行 -->
+  <rect x="26" y="52" width="338" height="318" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="44" y="76" font-size="13" font-weight="700" fill="#991B1B">✗ 從零做一個「全面更好」的通用 DDS</text>
+  <text x="44" y="98" font-size="10.5" fill="#374151">不可行/不划算——這些護城河 LLM 補不了:</text>
+  <g font-size="10" fill="#6B7280">
+    <text x="48" y="124" font-weight="700" fill="#991B1B">互通性</text><text x="120" y="124">RTPS 線協定符規 + 跨 vendor 測試</text>
+    <text x="48" y="150" font-weight="700" fill="#991B1B">正確性邊角</text><text x="140" y="150">亂序 / 分區 / 競態,</text>
+    <text x="140" y="164">多年現場才挖得完</text>
+    <text x="48" y="190" font-weight="700" fill="#991B1B">生產淬鍊</text><text x="128" y="190">無數現場 bug 累積修正</text>
+    <text x="48" y="216" font-weight="700" fill="#991B1B">形式化 / 壓測</text><text x="152" y="216">大規模、長時間驗證</text>
+  </g>
+  <rect x="44" y="240" width="302" height="110" rx="7" fill="#fff" stroke="#FCA5A5"/>
+  <text x="56" y="262" font-size="10.5" font-weight="700" fill="#991B1B">為什麼 LLM 生成補不了:</text>
+  <text x="56" y="282" font-size="9.5" fill="#6B7280">DDS 的難不在「寫得出 pub/sub」,在</text>
+  <text x="56" y="298" font-size="9.5" fill="#6B7280">那 10% 邊角與 20 年實戰累積的隱性知識。</text>
+  <text x="56" y="318" font-size="9.5" fill="#6B7280">LLM 會生出「看似合理、邊角全是洞」的</text>
+  <text x="56" y="334" font-size="9.5" fill="#6B7280">版本——而那 10% 正是穩定性所在。</text>
+
+  <!-- 右:可行 -->
+  <rect x="376" y="52" width="338" height="318" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="394" y="76" font-size="13" font-weight="700" fill="#065F46">✓ 在窄維度 / 特定場景做得更好</text>
+  <text x="394" y="98" font-size="10.5" fill="#374151">不從零造,改用兩條務實路徑:</text>
+  <g font-size="9.5" fill="#6B7280">
+    <text x="398" y="122" font-weight="700" fill="#065F46">① fork 開源 DDS</text><text x="398" y="136">(Cyclone 輕量好改),只攻你最在乎的</text>
+    <text x="398" y="150">一個維度:某平台延遲 / 某 QoS / 某 transport</text>
+    <text x="398" y="176" font-weight="700" fill="#065F46">② 特化子集</text><text x="398" y="190">為固定拓樸 / 單主機 IPC 做極簡版,</text>
+    <text x="398" y="204">犧牲通用與互通,換更簡單更快</text>
+  </g>
+  <rect x="394" y="218" width="302" height="132" rx="7" fill="#fff" stroke="#6EE7B7"/>
+  <text x="406" y="240" font-size="10.5" font-weight="700" fill="#065F46">Claude 的角色 = 膠水 + 迭代引擎:</text>
+  <text x="406" y="260" font-size="9.5" fill="#6B7280">• 寫 conformance / 丟包-亂序注入測試</text>
+  <text x="406" y="278" font-size="9.5" fill="#6B7280">• QoS 設定產生 + 自動調參掃描</text>
+  <text x="406" y="296" font-size="9.5" fill="#6B7280">• benchmark + 封包(wireshark)分析找 bug</text>
+  <text x="406" y="314" font-size="9.5" fill="#6B7280">• 移植 / 語言綁定 / 把 RTPS 規範轉成測試</text>
+  <text x="406" y="336" font-size="9.5" fill="#9A3412">→ 不是憑空生正確性,是加速「改→測→再改」</text>
+
+  <!-- 底部 loop 前提 -->
+  <rect x="26" y="384" width="688" height="50" rx="9" fill="#FFF7ED" stroke="#F59E0B" stroke-width="1.4"/>
+  <text x="370" y="406" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">關鍵前提:要有快速、確定的 pass/fail loop(效能 benchmark + 互通性 + 丟包重現)</text>
+  <text x="370" y="424" text-anchor="middle" font-size="10" fill="#6B7280">沒有這個 loop,Claude 只能瞎猜、改了也不知好壞(呼應 Physical AI 篇的回饋迴路)</text>
+</svg>
