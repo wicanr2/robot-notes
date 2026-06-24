@@ -21,9 +21,9 @@
 
 「在電腦上模擬主板」要解的就是這個。如果能在 PC 上跑**和燒進真板一模一樣的韌體 binary**,而且電腦不會累、可以開一百份、執行還是確定性的(同樣輸入永遠同樣結果),上面五條痛點同時鬆動。Renode 正是為此而生的工具。
 
-<p align="center"><img src="../../img/renode-feedback-loop.svg" width="660" alt="真板迴路(十幾秒/輪、flaky、板子有限)vs Renode 迴路(秒級、確定、可開N份、進CI)"></p>
+<p align="center"><img src="../../img/renode-feedback-loop.svg" width="660" alt="真板測試迴路又慢又時好時壞、板子還不夠分;Renode 迴路幾秒一輪、每次結果都一樣、可開很多份丟進 CI"></p>
 
-> 對應全域工作原則「Feedback Loop Priority」:面對棘手 bug,第一優先是先建立一個快速、決定性、可自動執行的 pass/fail 訊號。模擬器就是把這個訊號從「分鐘級、flaky」拉到「秒級、確定」的手段。
+> 對應全域工作原則「Feedback Loop Priority」:面對棘手 bug,第一優先是先建立一個快速、決定性、可自動執行的 pass/fail 訊號。在真板上,改一行要等好幾分鐘才知道結果,而且同一個測試這次過、下次掛,你根本不敢信它;模擬器讓同一個測試幾秒就跑完,而且每次跑結果都一樣。
 
 ---
 
@@ -137,7 +137,7 @@ arm-none-eabi-gdb firmware.elf
 
 **能在 CI 跑。** Antmicro 提供官方 **Renode GitHub Action**(`renode-test-action`),自動裝好 Renode 並執行 Robot Framework 測試。搭配 `RENODE_CI_MODE` 等設定確保一致性。於是 R3.1 第 4 條痛點(CI 跑不了韌體)被解掉——**下位機韌體第一次能進自動測試網**:每次 push,CI 在模擬器上跑一遍急停、協議、控制迴路,壞了當場擋下。
 
-把這節收斂:Renode 把下位機韌體的回饋迴路從「分鐘級、flaky、要人工接板」拉到「秒級、確定、CI 自動跑」。R3.1 列的四個失格維度(慢 / 不確定 / 難重現 / 數量有限)被逐一補上。
+把這節收斂:同一個下位機測試,以前在真板上改一行要等好幾分鐘、結果還時好時壞、每次都得自己接板子看 log;搬到 Renode 之後,幾秒就有結果、每次都一樣、還能直接丟給 CI 自動跑。R3.1 列的四個失格維度(慢 / 不確定 / 難重現 / 數量有限)就這樣一一補上。
 
 ---
 
