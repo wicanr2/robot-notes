@@ -28,6 +28,12 @@ SLAM(Simultaneous Localization and Mapping)解決一個「雞生蛋」問題:要
 
 **「找最契合的位置」到底在算什麼?**(第一性原理,把黑盒打開)它不是模糊的「滑來滑去看哪裡順眼」,而是一個明確的最佳化:**找一組微調量 `(Δx, Δy, Δθ)`,讓「每個 scan 點到地圖上最近障礙的距離(殘差)」的平方和最小**。殘差平方和就是代價函數,最小的那個位姿勝出。
 
+用式子寫:把 scan 第 $i$ 個點在車身座標記為 $p_i$,在初猜位姿上疊加微調 $\Delta=(\Delta x,\Delta y,\Delta\theta)$ 後的座標變換記為 $T_\Delta$(先旋轉 $\Delta\theta$、再平移 $(\Delta x,\Delta y)$),要找的是
+
+$$ \Delta^{\star}=\arg\min_{\Delta}\;\sum_{i=1}^{N}\,d\!\big(\mathcal{M},\,T_\Delta(p_i)\big)^{2} $$
+
+其中 $\mathcal{M}$ 是已建好的地圖,$d(\mathcal{M},\,\cdot)$ 是「把這個 scan 點擺到世界座標後,它到地圖上最近障礙的距離」(殘差)。$N$ 個點的殘差平方和就是代價函數,讓它最小的 $\Delta^{\star}$ 就是這一幀的位姿修正量。
+
 > 兩種主流做法目標一致(找最契合位姿)但數學形式不同:**ICP**(迭代最近點)走「最小化殘差平方和」,但每輪要先做一次「資料關聯」(哪個 scan 點對應哪個障礙)再最小化,關聯↔最小化交替迭代;**correlative scan matching**(`slam_toolbox` 預設那類)則是窮舉一堆候選位姿、算 scan 跟占據柵格的**相關性得分取最大**,不顯式算殘差。下文以「殘差平方和」講直覺,實作未必是純 ICP。
 
 <p align="center"><img src="../../img/scan-matching-residual.svg" width="600" alt="scan matching = 找位姿讓 scan 點到牆的殘差平方和最小"></p>
