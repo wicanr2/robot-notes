@@ -1,6 +1,6 @@
 # 用 Claude 完成機器人的 Physical AI 模擬
 
-這份筆記的核心目標:**用 Claude(尤其 Claude Code 這種能讀寫檔案、跑指令的 agent)實際把一套機器人 Physical AI 模擬建起來、跑起來、調到能用**。這篇講方法論——先用第一性原理找出「模擬到底卡在哪」,再說明 Claude 該插在哪幾個環節、怎麼安全地驅動它。
+想用 Claude(尤其 Claude Code 這種能讀寫檔案、跑指令的 agent)把一套機器人 Physical AI 模擬實際建起來、跑起來、調到能用,關鍵其實不在模擬器怎麼操作,而在先看清楚「模擬到底卡在哪」,再決定 Claude 適合插進哪幾個環節、怎麼讓它安全地跑。下面就照這個順序走一遍。
 
 > 前置:先讀 [Physical AI 總覽](physical-ai-overview.md)、[Isaac Sim/Lab](isaac-sim-isaac-lab-amr.md) 或 [Gazebo+ROS2](simulation-gazebo-ros2.md) 其一、[sim-to-real](sim-to-real.md)。
 > 相關:[感測器資料與 3D Gaussian 重建](sensor-data-and-3d-reconstruction.md)。
@@ -11,16 +11,7 @@
 
 直覺會以為「做 Physical AI 模擬」最難的是 GPU 夠不夠、物理引擎準不準。但實際動手會發現,真正吃掉時間的是另一類工作:
 
-```
-建一套能訓練的模擬,你要產出與反覆修改的東西:
-  ├─ 機器人模型      URDF / SDF / USD,關節、慣量、感測器掛載
-  ├─ 場景            world 檔、資產擺位、光照
-  ├─ ROS2 整合       launch file、bridge 設定、base driver node
-  ├─ RL 環境         observation / action / reward / termination 定義
-  ├─ 域隨機化        randomization 設定(隨機什麼、範圍多少)
-  ├─ 分析            解析 log / rosbag,算 success rate,找出為什麼失敗
-  └─ sim-to-real     校準參數、檢查清單、A/B 對比
-```
+<p align="center"><img src="../../img/physical-ai-glue-work.svg" width="720" alt="建一套能訓練的模擬要反覆改的七類東西:機器人模型(URDF/SDF/USD)、場景、ROS2 整合、RL 環境、域隨機化、分析、sim-to-real;全是結構化設定檔與程式碼、每項都要改很多輪"></p>
 
 這些幾乎全是**結構化的設定檔與程式碼**,而且**要改很多輪**:reward 調一個係數重跑、randomization 範圍放寬再跑、感測器位置改了 launch 跟著改。算力是一次性的硬體投資,但這層「膠水 + 迭代」是**持續的人力消耗**——這才是瓶頸。
 
@@ -37,7 +28,7 @@ Claude 之所以能迭代,前提是**每改一次,都有一個快速、確定性
 - **headless、無 GUI**:模擬跑在無畫面模式,結果輸出成檔案(數字、log、必要時 dump PNG 再回讀)。不要開 GUI viewer 阻塞。
 - **有界**:每次跑限定回合數 / frames / `timeout`,不要無限跑。
 - **確定性**:固定隨機種子、固定初始位姿,讓「同樣的改動 → 同樣的結果」,否則 Claude 分不清是改善還是噪聲。
-- **2 秒的確定迴路 > 30 秒的不穩迴路**:先把迴路弄快、弄準,再開始調策略。
+- **迴路寧可慢一點,也要每次結果一致**:一個 2 秒、但每跑都一樣的迴路,比 30 秒卻時準時不準的有用得多。先把迴路弄穩,再開始調策略。
 
 ## 3. Claude 插在哪幾個環節
 
@@ -58,20 +49,7 @@ Claude 之所以能迭代,前提是**每改一次,都有一個快速、確定性
 
 把前面組起來,一輪典型的 agent 驅動流程長這樣:
 
-```
-① 你說目標     「差速送餐機,從門口到 5 號桌,平滑、不撞動態行人、少急停」
-②  Claude 建環境  生成 Isaac Lab env:
-                  observation = LiDAR + 目標相對位姿 + 自身速度
-                  action      = (v, ω)
-                  reward      = 到點獎勵 − 碰撞懲罰 − 急停/抖動懲罰 − 時間懲罰
-③  跑(headless)  num_envs 數千個平行,固定種子,跑固定 iteration
-④  Claude 讀結果  reward 曲線、success rate、碰撞率、平均急停次數
-⑤  Claude 調整    「success 高但急停多 → 加大 jerk 懲罰權重」→ 回 ③
-   …反覆,直到指標達標…
-⑥  域隨機化       隨機化摩擦、感測噪聲、行人軌跡 → 逼策略泛化(為 sim-to-real 鋪路)
-                  (此階段刻意放開隨機,與前面除錯時固定種子的目的不同,不衝突)
-⑦  匯出 policy    .pt → JIT/ONNX,進 sim-to-real 流程(先 Isaac Sim 評估,再小心上實車)
-```
+<p align="center"><img src="../../img/claude-sim-loop.svg" width="760" alt="一輪流程:① 人說目標 → ② Claude 建 RL 環境(obs/action/reward)→ ③ headless 跑 → ④ Claude 讀結果 → ⑤ Claude 調權重 → 回 ③ 反覆到達標 → ⑥ 域隨機化逼泛化 → ⑦ 匯出 policy 進 sim-to-real;Claude 的動作都在改設定/讀數字/再改這層"></p>
 
 注意每一步 Claude 的動作都落在「改設定/程式 → 讀數字 → 再改」,**它沒有取代物理引擎(③ 是 Isaac/PhysX 在算)、也沒有取代 GPU 訓練**。
 
