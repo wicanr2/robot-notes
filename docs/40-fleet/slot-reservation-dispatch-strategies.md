@@ -189,6 +189,40 @@ Open-RMF 沒有「排程當下把目的地鎖死」的單一全域設計,而是�
 
 ---
 
+## 附錄:引用原文(English, verbatim)
+
+上面 §3.3、§4 引用的 [AGV 車隊架構文章](https://www.smartloadinghub.com/insights/agv-amr/designing-agv-fleet-architecture-reliable-warehouse/)為英文,以下節錄**完整原文段落**(未刪節)供對照。
+
+<details>
+<summary>① 四層控制架構(對應 §3.3「儲位歸上位、車隊負責消化」)</summary>
+
+> Most warehouse AGV deployments end up with four control layers. At the top is the host system, usually a WMS or WES, releasing transport orders tied to inventory, wave logic, replenishment, or shipping priority. Below that sits the fleet manager, which performs task allocation, route reservation, traffic control, battery management, and recovery logic. At the equipment layer are PLCs controlling fixed automation such as chain transfers, motor-driven rollers, lift tables, dock interfaces, or safety gates. At the edge are the AGVs themselves, with onboard safety controllers, navigation, load handling, and vehicle health monitoring.
+
+</details>
+
+<details>
+<summary>② 分工的實務模式(對應 §3.3「上位下商業層任務、車隊層 sequence + route」)</summary>
+
+> A practical pattern in brownfield warehouses is to let the WMS or WES issue transport missions at a business level, let the fleet manager sequence and route them, and let station PLCs own all local motion and permissives. That separation sounds obvious, but it reduces ambiguity during faults. If a belt conveyor at a transfer stand is not clear, the PLC should be the source of truth. If an AGV misses a service-level target because of congestion, that belongs in the fleet layer. If inventory cannot be released because an order was shorted upstream, that is a host-system issue.
+
+</details>
+
+<details>
+<summary>③ 重啟/復原:hold 或 resend 任務的模糊會造成重複任務(對應 §3.3 — 直接呼應本題「重複預定」)</summary>
+
+> The restart sequence deserves special attention. After an e-stop event, battery swap, or blocked path alarm, the architecture should make clear whether the AGV may auto-resume, whether the station PLC must reissue permissives, and whether the WMS should hold or resend the transport order. Ambiguity here creates duplicate missions and inventory mismatches. Lockout/tagout and service access are also part of the design. Maintenance teams need a clear method to isolate station conveyors or lifts without confusing the fleet manager into repeatedly dispatching vehicles to an unavailable asset.
+
+</details>
+
+<details>
+<summary>④ 狀態模型不準會太早派下一步(對應 §4「釋放條件要看物理佔用」)</summary>
+
+> One operational detail that repeatedly surfaces during commissioning is the need to prove edge conditions around “load present” signals. Photoeyes can chatter on shrink wrap tails or partially overhanging totes. For pallet AGVs, load detection based only on fork pressure or contour sensing can produce false positives after a failed pickup. That is why many site acceptance tests explicitly force mismatches: vehicle says load present while station says empty, or station says complete while downstream accumulation remains blocked. If the state model is weak, the fleet will dispatch the next move too early and create a cascade of stranded loads.
+
+</details>
+
+---
+
 ## 來源
 
 - Open-RMF:[rmf_traffic](https://github.com/open-rmf/rmf_traffic)・[RMF core 章](https://osrf.github.io/ros2multirobotbook/rmf-core.html)・[mutex 釋放討論](https://github.com/open-rmf/rmf/discussions/466)・[rmf_reservation_node](https://docs.ros.org/en/rolling/p/rmf_reservation_node/)・[rmf_reservation](https://github.com/open-rmf/rmf_reservation)
