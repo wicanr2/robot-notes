@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="mq-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">MQTT 安全(用 EMQX):三層缺一不可</text>
+
+  <!-- 連線兩端 -->
+  <rect x="40" y="60" width="120" height="54" rx="8" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="100" y="82" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">AMR / 設備</text>
+  <text x="100" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">MQTT client</text>
+  <rect x="560" y="60" width="120" height="54" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="620" y="82" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E40AF">EMQX broker</text>
+  <text x="620" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">mqtts :8883</text>
+  <line x1="160" y1="87" x2="558" y2="87" stroke="#6B7280" stroke-width="2" marker-end="url(#mq-a)"/>
+  <text x="360" y="80" text-anchor="middle" font-size="10" fill="#374151">MQTT 連線</text>
+
+  <!-- 三層 -->
+  <rect x="40" y="134" width="640" height="68" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="56" y="156" font-size="12.5" font-weight="700" fill="#065F46">① 傳輸加密(TLS)— 防竊聽 / 竄改</text>
+  <text x="56" y="176" font-size="9.5" fill="#6B7280">mqtts(8883)走 TLS 1.2/1.3;鎖 min version、選 ECDHE + AES-GCM,禁弱 cipher</text>
+  <text x="56" y="192" font-size="9.5" fill="#9A3412">只做這層的話:連線加密了,但「誰都能連、連上能亂發」——不夠</text>
+
+  <rect x="40" y="212" width="640" height="68" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="56" y="234" font-size="12.5" font-weight="700" fill="#9A3412">② 認證(authentication)— 防冒充:誰能連 broker</text>
+  <text x="56" y="254" font-size="9.5" fill="#6B7280">username/password(雜湊存)、JWT、PSK,或 雙向 TLS(mTLS)用 client 憑證</text>
+  <text x="56" y="270" font-size="9.5" fill="#9A3412">mTLS 最強:broker 用 CA 驗每台設備的憑證,沒有有效憑證連不進來</text>
+
+  <rect x="40" y="290" width="640" height="68" rx="9" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="56" y="312" font-size="12.5" font-weight="700" fill="#5B21B6">③ 授權(authorization / ACL)— 防越權:連上後能 pub/sub 哪些 topic</text>
+  <text x="56" y="332" font-size="9.5" fill="#6B7280">依 client_id / username / 憑證身份設 ACL,限制每台設備只能碰自己的 topic</text>
+  <text x="56" y="348" font-size="9.5" fill="#9A3412">沒這層:任一台連上的設備能訂閱 / 發布全車隊的 topic</text>
+
+  <text x="360" y="384" text-anchor="middle" font-size="11" fill="#374151">VDA5050 場景:每台 AMR 一張 client 憑證 + ACL 限定只能碰 vda5050/v2/廠/自己serial/* 的 topic</text>
+  <text x="360" y="408" text-anchor="middle" font-size="10.5" fill="#9A3412">三層一起開才安全:加密(別人看不到)+ 認證(冒充不了)+ 授權(越權不了)</text>
+  <text x="360" y="430" text-anchor="middle" font-size="9.5" fill="#6B7280">EMQX 三層都內建;重點是「三層都設、鎖 TLS 1.2+、per-device 憑證與 ACL」</text>
+</svg>

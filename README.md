@@ -86,6 +86,7 @@
 - [實作小抄:adapter + 派任務](docs/40-fleet/rmf-adapter-cookbook.md) — VDA5050 fleet adapter 骨架 + REST 派任務的最小 pseudo-code
 - [ROS 2 的 DDS:節點怎麼互相講話](docs/40-fleet/ros2-dds-intro.md) — DDS 是什麼、去中心化(無中央 master)、QoS / ROS_DOMAIN_ID / RMW,為何多容器要處理多播
 - [RMF 多容器部署](docs/40-fleet/rmf-multi-container-deploy.md) — adapter/core 各一 docker、DDS 跨容器(host network / discovery server)、最小 docker-compose,附官方出處
+- [MQTT over TLS:用 EMQX 達成 TLS 1.2+ 安全](docs/40-fleet/mqtt-tls-emqx.md) — 三層(加密/認證/授權)、mTLS client 憑證、ACL、TLS 版本與 cipher,附 EMQX 出處
 
 ### 50 Physical AI(進階:術語密度較高,建議先讀完 00/10/30 再來)
 - [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) — Physical AI、World Model、NVIDIA 堆疊、sim-to-real
