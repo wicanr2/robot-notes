@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="gp" markerWidth="11" markerHeight="11" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="840" height="400" fill="#ffffff"/>
+  <text x="420" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">gz gpu_lidar 怎麼用 GPU 算距離:render 深度,不是逐 ray 求交</text>
+  <text x="420" y="48" text-anchor="middle" font-size="11" fill="#6B7280">rasterizer 本來就在算「每個方向最近表面的深度」——把那個深度讀出來就是測距</text>
+
+  <!-- 1) 雷射 -->
+  <g>
+    <rect x="24" y="80" width="150" height="250" rx="9" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="99" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">① 雷射 = 一束方向</text>
+    <circle cx="60" cy="210" r="6" fill="#2563EB"/>
+    <g stroke="#3B82F6" stroke-width="1.2">
+      <line x1="60" y1="210" x2="150" y2="150"/><line x1="60" y1="210" x2="158" y2="180"/><line x1="60" y1="210" x2="160" y2="210"/><line x1="60" y1="210" x2="158" y2="240"/><line x1="60" y1="210" x2="150" y2="270"/>
+    </g>
+    <text x="99" y="300" text-anchor="middle" font-size="9.5" fill="#374151">每條 ray:量到</text>
+    <text x="99" y="314" text-anchor="middle" font-size="9.5" fill="#374151">最近表面的距離</text>
+  </g>
+
+  <!-- 2) 1st pass cubemap depth -->
+  <g>
+    <rect x="204" y="80" width="220" height="250" rx="9" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="314" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">② 1st pass:render 深度到 cubemap</text>
+    <!-- cube faces -->
+    <g>
+      <rect x="280" y="150" width="46" height="46" fill="#FDBA74" stroke="#9A3412"/>
+      <rect x="330" y="150" width="46" height="46" fill="#FB923C" stroke="#9A3412"/>
+      <rect x="280" y="200" width="46" height="46" fill="#FB923C" stroke="#9A3412"/>
+      <rect x="330" y="200" width="46" height="46" fill="#FDBA74" stroke="#9A3412"/>
+    </g>
+    <text x="314" y="264" text-anchor="middle" font-size="9.5" fill="#374151">每面 90° FOV,渲染成「深度圖」</text>
+    <text x="314" y="280" text-anchor="middle" font-size="9.5" fill="#374151">360°/大 FOV → 拼多面(最多 6 面)</text>
+    <text x="314" y="298" text-anchor="middle" font-size="9" fill="#9A3412">GPU rasterizer 並行算所有像素深度</text>
+    <text x="314" y="314" text-anchor="middle" font-size="9" fill="#9CA3AF">深度 buffer 非線性 → projectParams 線性化成真實距離</text>
+  </g>
+
+  <!-- 3) 2nd pass sample -->
+  <g>
+    <rect x="454" y="80" width="220" height="250" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/>
+    <text x="564" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5B21B6">③ 2nd pass:每條 ray 取樣 cubemap</text>
+    <rect x="486" y="140" width="156" height="40" rx="6" fill="#ffffff" stroke="#A78BFA"/>
+    <text x="564" y="158" text-anchor="middle" font-size="9.5" fill="#5B21B6">cubeUV 貼圖(預先算好)</text>
+    <text x="564" y="172" text-anchor="middle" font-size="9" fill="#6B7280">每條 ray → 哪一面 + UV</text>
+    <text x="564" y="205" text-anchor="middle" font-size="10.5" fill="#374151">shader 依方位/俯仰角</text>
+    <text x="564" y="221" text-anchor="middle" font-size="10.5" fill="#374151">查表 → 取樣對應 texel</text>
+    <text x="564" y="237" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5B21B6">= 該 ray 的距離</text>
+    <text x="564" y="270" text-anchor="middle" font-size="9" fill="#9CA3AF">近裁切用「球面」距離</text>
+    <text x="564" y="284" text-anchor="middle" font-size="9" fill="#9CA3AF">(SphericalClipMinDistance)</text>
+  </g>
+
+  <!-- 4) output -->
+  <g>
+    <rect x="704" y="80" width="112" height="250" rx="9" fill="#ECFDF5" stroke="#10B981"/>
+    <text x="760" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">④ 距離陣列</text>
+    <text x="760" y="150" text-anchor="middle" font-size="10" fill="#374151">range buffer</text>
+    <text x="760" y="172" text-anchor="middle" font-size="9.5" fill="#6B7280">(每 ray 一個距離</text>
+    <text x="760" y="186" text-anchor="middle" font-size="9.5" fill="#6B7280">+ 強度)</text>
+    <text x="760" y="222" text-anchor="middle" font-size="10" fill="#065F46">→ LaserScan</text>
+    <text x="760" y="240" text-anchor="middle" font-size="10" fill="#065F46">→ PointCloud</text>
+    <text x="760" y="268" text-anchor="middle" font-size="8.5" fill="#9CA3AF">球座標→直角</text>
+    <text x="760" y="281" text-anchor="middle" font-size="8.5" fill="#9CA3AF">轉成點雲</text>
+  </g>
+
+  <g stroke="#6B7280" stroke-width="1.8" marker-end="url(#gp)">
+    <line x1="174" y1="205" x2="202" y2="205"/>
+    <line x1="424" y1="205" x2="452" y2="205"/>
+    <line x1="674" y1="205" x2="702" y2="205"/>
+  </g>
+
+  <text x="420" y="360" text-anchor="middle" font-size="11" fill="#374151">為什麼 GPU:rasterizer 是「算每方向最近表面深度」的專用硬體,一次 render 就拿到所有 ray 的距離(大量並行)</text>
+  <text x="420" y="380" text-anchor="middle" font-size="10" fill="#9CA3AF">沒 GPU → 軟體渲染(llvmpipe 用 CPU 模擬 rasterizer)能跑但慢——這就是免費 CI runner 出 /scan 不穩的原因</text>
+</svg>

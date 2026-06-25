@@ -99,6 +99,7 @@
 - [用 Isaac Sim + Isaac Lab 模擬 AMR](docs/50-physical-ai/isaac-sim-isaac-lab-amr.md) — NVIDIA 堆疊、URDF→USD、ROS2 橋接、RL 訓練、合成資料
 - [用 Gazebo + ROS2 模擬 AMR](docs/50-physical-ai/simulation-gazebo-ros2.md) — gz sim 版本對應、diff_drive、Nav2 閉迴路;§7 把 Classic 世界(AWS Small Warehouse)遷移到新 Gazebo 的機械清單、踩到的真 bug 與驗證/CI 手法(成品另在 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic))
 - [在 Gazebo 倉庫用 slam_toolbox 建圖](docs/50-physical-ai/gazebo-slam-warehouse.md) — 可重跑教學:幫叉車加 gpu_lidar 與里程計、world 掛 Sensors、Docker(Jazzy+Harmonic+slam_toolbox)、ros_gz_bridge、tf 樹三段、繞倉庫建圖+RViz;誠實標明實跑要 GPU、CI 能驗到哪
+- [gpu_lidar 怎麼運作(讀原始碼)](docs/50-physical-ai/gpu-lidar-how-it-works.md) — 第一性原理 + 讀 gz-sensors/gz-rendering 程式碼:為何用 GPU **render 深度**而非逐 ray 求交、cubemap 1st/2nd pass、深度線性化、球面近裁切、為何「不算真 ray tracing」、為何沒 GPU 就慢
 - [SDF 3D 模型檔:從零開始](docs/50-physical-ai/sdf-3d-models.md) — 給完全沒碰過 3D 模型的人:mesh / visual / collision / inertial、SDF 資料夾結構、Poly Haven 的 HDRIs/Textures/Models 差異、差速搬運車 AMR 範例
 - [Sim-to-real](docs/50-physical-ai/sim-to-real.md) — reality gap、domain randomization、上車檢查清單
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
