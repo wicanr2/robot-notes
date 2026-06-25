@@ -76,7 +76,7 @@
 
 ### 30 導航
 - [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、loop closure
-- [3D LiDAR SLAM 建圖](docs/30-navigation/slam-3d-lidar.md) — 接續 2D:點雲配準(ICP/NDT/LOAM 特徵)、LIO 融 IMU 去畸變、LOAM→LeGO-LOAM→LIO-SAM→FAST-LIO 演進、loop closure/pose graph、點雲地圖表示,附論文出處
+- [3D LiDAR SLAM 建圖](docs/30-navigation/slam-3d-lidar.md) — 接續 2D:點雲配準(ICP/NDT/LOAM 特徵)、LIO 融 IMU 去畸變、LOAM→LeGO-LOAM→LIO-SAM→FAST-LIO 演進、loop closure/pose graph、點雲地圖表示;§8 ROS2 上能跑的套件盤點(KISS-ICP/FAST-LIO2/DLIO/GLIM/RTAB-Map/MOLA…,原生 vs 需自 build),附論文與 repo 出處
 - [定位](docs/30-navigation/localization.md) — AMCL、odometry、地標/AprilTag 定位
 - [座標轉換與 TF](docs/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
 - [路徑規劃與軌跡(Nav2)](docs/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹

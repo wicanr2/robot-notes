@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="800" height="400" fill="#ffffff"/>
+  <text x="400" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">ROS2 上的 3D SLAM 套件地圖:方法家族 × ROS2 成熟度</text>
+  <text x="400" y="46" text-anchor="middle" font-size="11" fill="#6B7280">同一個方法家族,有的原生 apt 裝得到、有的官方只給 ROS2 branch 要自己 build、有的得靠社群移植</text>
+
+  <!-- 圖例 -->
+  <g font-size="10" fill="#374151">
+    <rect x="150" y="58" width="14" height="11" rx="2" fill="#ECFDF5" stroke="#10B981"/><text x="170" y="68">原生(apt / ROS Index / 官方 ros2 package)</text>
+    <rect x="400" y="58" width="14" height="11" rx="2" fill="#FFFBEB" stroke="#F59E0B"/><text x="420" y="68">官方 ROS2 branch,需自 build / 過渡</text>
+    <rect x="640" y="58" width="14" height="11" rx="2" fill="#F3F4F6" stroke="#9CA3AF"/><text x="660" y="68">官方 ROS1,需社群移植</text>
+  </g>
+
+  <!-- Lane 1:純 LiDAR 里程計 -->
+  <rect x="24" y="84" width="752" height="64" rx="9" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <text x="40" y="112" font-size="12.5" font-weight="700" fill="#1F2937">純 LiDAR 里程計</text>
+  <text x="40" y="130" font-size="9.5" fill="#9CA3AF">無 IMU</text>
+  <g>
+    <rect x="180" y="102" width="96" height="28" rx="14" fill="#ECFDF5" stroke="#10B981"/><circle cx="196" cy="116" r="4" fill="#10B981"/><text x="208" y="120" font-size="11" font-weight="700" fill="#065F46">KISS-ICP</text>
+    <rect x="288" y="102" width="70" height="28" rx="14" fill="#F3F4F6" stroke="#9CA3AF"/><circle cx="304" cy="116" r="4" fill="#9CA3AF"/><text x="314" y="120" font-size="11" font-weight="700" fill="#4B5563">DLO</text>
+    <text x="380" y="120" font-size="9.5" fill="#9CA3AF">(走 §2.1 ICP;不調參、最省事的起點)</text>
+  </g>
+
+  <!-- Lane 2:LIO -->
+  <rect x="24" y="158" width="752" height="64" rx="9" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <text x="40" y="186" font-size="12.5" font-weight="700" fill="#1F2937">LIO</text>
+  <text x="40" y="204" font-size="9.5" fill="#9CA3AF">LiDAR + IMU 緊耦合</text>
+  <g>
+    <rect x="180" y="176" width="100" height="28" rx="14" fill="#FFFBEB" stroke="#F59E0B"/><circle cx="196" cy="190" r="4" fill="#F59E0B"/><text x="208" y="194" font-size="11" font-weight="700" fill="#92400E">FAST-LIO2</text>
+    <rect x="292" y="176" width="66" height="28" rx="14" fill="#FFFBEB" stroke="#F59E0B"/><circle cx="307" cy="190" r="4" fill="#F59E0B"/><text x="317" y="194" font-size="11" font-weight="700" fill="#92400E">DLIO</text>
+    <rect x="370" y="176" width="92" height="28" rx="14" fill="#FFFBEB" stroke="#F59E0B"/><circle cx="386" cy="190" r="4" fill="#F59E0B"/><text x="398" y="194" font-size="11" font-weight="700" fill="#92400E">LIO-SAM</text>
+    <rect x="474" y="176" width="92" height="28" rx="14" fill="#F3F4F6" stroke="#9CA3AF"/><circle cx="490" cy="190" r="4" fill="#9CA3AF"/><text x="502" y="194" font-size="11" font-weight="700" fill="#4B5563">Point-LIO</text>
+    <rect x="578" y="176" width="76" height="28" rx="14" fill="#F3F4F6" stroke="#9CA3AF"/><circle cx="594" cy="190" r="4" fill="#9CA3AF"/><text x="606" y="194" font-size="11" font-weight="700" fill="#4B5563">iG-LIO</text>
+    <text x="664" y="194" font-size="9" fill="#9CA3AF">§2.3/§4</text>
+  </g>
+
+  <!-- Lane 3:完整 SLAM 框架 -->
+  <rect x="24" y="232" width="752" height="98" rx="9" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <text x="40" y="266" font-size="12.5" font-weight="700" fill="#1F2937">完整 SLAM 框架</text>
+  <text x="40" y="284" font-size="9.5" fill="#9CA3AF">建圖 + 迴路</text>
+  <text x="40" y="297" font-size="9.5" fill="#9CA3AF">閉合 + 後端</text>
+  <g>
+    <rect x="180" y="248" width="70" height="28" rx="14" fill="#ECFDF5" stroke="#10B981"/><circle cx="196" cy="262" r="4" fill="#10B981"/><text x="208" y="266" font-size="11" font-weight="700" fill="#065F46">GLIM</text>
+    <rect x="262" y="248" width="100" height="28" rx="14" fill="#ECFDF5" stroke="#10B981"/><circle cx="278" cy="262" r="4" fill="#10B981"/><text x="290" y="266" font-size="11" font-weight="700" fill="#065F46">RTAB-Map</text>
+    <rect x="374" y="248" width="70" height="28" rx="14" fill="#ECFDF5" stroke="#10B981"/><circle cx="390" cy="262" r="4" fill="#10B981"/><text x="402" y="266" font-size="11" font-weight="700" fill="#065F46">MOLA</text>
+    <rect x="456" y="248" width="108" height="28" rx="14" fill="#FFFBEB" stroke="#F59E0B"/><circle cx="472" cy="262" r="4" fill="#F59E0B"/><text x="484" y="266" font-size="11" font-weight="700" fill="#92400E">Cartographer</text>
+    <text x="576" y="266" font-size="9" fill="#9CA3AF">(限維護)</text>
+
+    <rect x="180" y="290" width="100" height="28" rx="14" fill="#F3F4F6" stroke="#9CA3AF"/><circle cx="196" cy="304" r="4" fill="#9CA3AF"/><text x="208" y="308" font-size="11" font-weight="700" fill="#4B5563">KISS-SLAM</text>
+    <rect x="292" y="290" width="126" height="28" rx="14" fill="#F3F4F6" stroke="#9CA3AF"/><circle cx="308" cy="304" r="4" fill="#9CA3AF"/><text x="320" y="308" font-size="11" font-weight="700" fill="#4B5563">hdl_graph_slam</text>
+    <rect x="430" y="290" width="116" height="28" rx="14" fill="#FFFBEB" stroke="#F59E0B"/><circle cx="446" cy="304" r="4" fill="#F59E0B"/><text x="458" y="308" font-size="11" font-weight="700" fill="#92400E">Open3D-SLAM</text>
+    <text x="558" y="308" font-size="9" fill="#9CA3AF">(過渡中)</text>
+  </g>
+
+  <text x="400" y="354" text-anchor="middle" font-size="10.5" fill="#374151">坑:知名 LIO 的官方主分支多是 ROS1,ROS2 在獨立 branch(要自己 build);原生 apt 裝得到的反而是 KISS-ICP / MOLA / RTAB-Map / GLIM</text>
+  <text x="400" y="376" text-anchor="middle" font-size="9.5" fill="#9CA3AF">室內 AMR:KISS-ICP / FAST-LIO2 / RTAB-Map　·　戶外測繪:GLIM / LIO-SAM / MOLA　·　商用注意 GPL(FAST-LIO2/MOLA)</text>
+  <text x="400" y="393" text-anchor="middle" font-size="8.5" fill="#9CA3AF">ROS2 支援狀態與 distro 會變動,以 2026-06 各 repo / ROS Index 查證為準;採用前請即時確認</text>
+</svg>
