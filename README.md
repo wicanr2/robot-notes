@@ -4,6 +4,7 @@
 
 > 進行中的整理計畫與分輪進度見 [PLAN.md](PLAN.md)。
 > 這個 repo 怎麼寫的、踩過哪些雷 → [寫作慣例與 lessons learned](docs/_meta/lessons-learned.md)。
+> 用 **GitHub Actions** 驗證 / 視覺化 gz sim 模型(無 GPU 也能跑)→ [GitHub Actions × gz sim playbook](docs/_meta/github-actions-gz-sim-playbook.md)。
 > **看不懂的名詞** → 查 [CONTEXT.md 術語表](CONTEXT.md);**看到 `§11.3` 之類的編號不知在哪個檔** → 查 [章節對照表](docs/section-map.md)。
 
 <p align="center">

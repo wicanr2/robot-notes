@@ -239,6 +239,22 @@ tf 樹由三方各補一段,合起來才完整:
 
 要穩定產圖/影片,實務上的可靠路線是:① 用**帶正確 Mesa/GL 的 Docker image**、② **GPU runner**(self-hosted 或付費大型 runner)、③ 或**本機一次性截圖**(開 gz 截一張就關,是單發、非持續負載)。**結論:把「需不需要 render」當成 CI 設計的分水嶺**——不需 render 的驗證盡量自動化上 CI;需要 render 的視覺產出,別硬塞免費 runner。
 
+### 「看」機器人走場景,其實不必 render
+
+要讓人「看到」叉車在倉庫裡走,**不一定要 render 3D 畫面**:把叉車的**位姿軌跡記下來、用 matplotlib 畫成俯視路徑圖**(純 CPU,無 GPU 也 100% 可靠)。下圖就是在 CI 上驅動舵輪叉車、記錄位姿、疊到 AWS 倉庫佈局畫出的行走軌跡:
+
+<p align="center"><img src="../../img/forklift-warehouse-path.png" width="520" alt="叉車在 AWS Small Warehouse 走道開出弧線的俯視軌跡(CI 實跑位姿,純物理無 render)"></p>
+
+一個關鍵洞見讓這變可靠:**dartsim(Harmonic 預設物理)不支援 mesh 碰撞**,而倉庫地板/貨架的 collision 都是 mesh → 對物理零影響。所以叉車「在倉庫開」與「在一塊平面地板上開」**物理完全等價**;重倉庫在免費 runner 上 sim 只跑 ~4% 真實時間(叉車幾乎不動),於是改在輕量世界開出路徑、再疊到倉庫佈局——物理等價、又快又穩。
+
+至於真的 render 出來的 3D 畫面,軟體渲染雖不穩,但成功過一次(下圖是 CI headless 渲染的方塊叉車,構圖陽春但證明管線可行):
+
+<p align="center"><img src="../../img/forklift-ci-render.png" width="300" alt="CI headless 渲染的舵輪叉車俯視圖(EGL 軟體渲染)"></p>
+
+> 這整套「用 GitHub Actions 驗證與看 gz sim 模型」的做法、job 結構、踩過的雷,整理成可重用的 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md)。
+
+來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)
+
 來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)、[gz 資源路徑](https://gazebosim.org/api/sim/8/resources.html)、[world 系統 plugin](https://gazebosim.org/docs/latest/sdf_worlds/)、[AWS Small Warehouse(Classic 原始)](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)。
 
 ---
