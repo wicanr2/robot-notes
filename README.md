@@ -102,6 +102,10 @@
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
 - [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md) — capstone:URDF 設計、物理參數設定、第一性原理 worklist(M0–M7)、取放/派工/VDA5050 對映
 
+### 55 VLM & LLM(機器人的「大腦」:看懂、聽懂、本地跑)
+- [LLM 與 VLM 給機器人](docs/55-vlm-llm/llm-vlm-for-robots.md) — 第一性原理:token 化、自注意力在解什麼、autoregressive 為何能湧現能力;VLM 把影像 patch 變 token(視覺編碼器+投影+LLM);VLA、grounding、開放詞彙感知對機器人的意義,與傳統 pipeline 的分工,誠實標研究階段
+- [在 NVIDIA GB10(DGX Spark)上架本地 LLM](docs/55-vlm-llm/local-llm-on-nvidia-gb10.md) — FLOP/FLOPS 量級與精度第一性原理;為何 LLM 推論是「記憶體頻寬 bound」;統一記憶體 vs 獨顯對跑大模型的取捨;量化(FP16→FP4/NVFP4);GB10 官方規格查證(128GB 統一記憶體/1 PFLOP FP4/aarch64,附 NVIDIA 來源);Ollama/llama.cpp/vLLM/TensorRT-LLM/NIM 軟體堆疊與機器人結合
+
 ### 60 法規與認證
 - [法規與認證總覽](docs/60-compliance/README.md) — 合規地圖:一台機器人要過哪些關
 - [電池認證法規](docs/60-compliance/battery-certification.md) — UL 2271 vs UL 2580、為何選 LFP + 金屬外殼、供應商認證、配套標準

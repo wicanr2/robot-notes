@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="780" height="400" fill="#ffffff"/>
+  <text x="390" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">同一顆晶片,精度越低 → FLOPS 數字越大</text>
+  <text x="390" y="52" text-anchor="middle" font-size="12.5" fill="#6B7280">精度減半,吞吐常翻倍(近似規律)。所以「多少 FLOPS」要先問「哪種精度」</text>
+
+  <!-- baseline -->
+  <line x1="90" y1="330" x2="720" y2="330" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="60" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90,60,200)">相對吞吐(FLOPS)</text>
+
+  <!-- bars: FP64, FP32, FP16, FP8, FP4 -->
+  <!-- FP64 -->
+  <rect x="110" y="306" width="80" height="24" fill="#94A3B8"/>
+  <text x="150" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">FP64</text>
+  <text x="150" y="367" text-anchor="middle" font-size="10.5" fill="#6B7280">64-bit</text>
+  <text x="150" y="298" text-anchor="middle" font-size="11" fill="#334155">1×</text>
+
+  <!-- FP32 -->
+  <rect x="230" y="282" width="80" height="48" fill="#64748B"/>
+  <text x="270" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">FP32</text>
+  <text x="270" y="367" text-anchor="middle" font-size="10.5" fill="#6B7280">32-bit 單精度</text>
+  <text x="270" y="274" text-anchor="middle" font-size="11" fill="#334155">2×</text>
+
+  <!-- FP16 -->
+  <rect x="350" y="234" width="80" height="96" fill="#3B82F6"/>
+  <text x="390" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">FP16</text>
+  <text x="390" y="367" text-anchor="middle" font-size="10.5" fill="#6B7280">16-bit 半精度</text>
+  <text x="390" y="226" text-anchor="middle" font-size="11" fill="#1E40AF">4×</text>
+
+  <!-- FP8 -->
+  <rect x="470" y="138" width="80" height="192" fill="#F97316"/>
+  <text x="510" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">FP8</text>
+  <text x="510" y="367" text-anchor="middle" font-size="10.5" fill="#6B7280">8-bit</text>
+  <text x="510" y="130" text-anchor="middle" font-size="11" fill="#9A3412">8×</text>
+
+  <!-- FP4 -->
+  <rect x="590" y="90" width="80" height="240" fill="#DC2626"/>
+  <text x="630" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#991B1B">FP4</text>
+  <text x="630" y="367" text-anchor="middle" font-size="10.5" fill="#6B7280">4-bit(最低)</text>
+  <text x="630" y="82" text-anchor="middle" font-size="11" fill="#991B1B">16×</text>
+
+  <!-- sparsity note on FP4 -->
+  <rect x="585" y="62" width="90" height="22" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1"/>
+  <text x="630" y="77" text-anchor="middle" font-size="10" fill="#991B1B">+ sparsity ≈ 再×2</text>
+
+  <!-- direction arrow -->
+  <text x="390" y="392" text-anchor="middle" font-size="11.5" fill="#9CA3AF">精度高 → 數值準、適合訓練　|　精度低 → 數字漂亮、適合推論,但 bit 太少會掉準度</text>
+</svg>

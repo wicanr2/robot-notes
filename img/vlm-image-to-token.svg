@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="840" height="400" fill="#ffffff"/>
+  <text x="420" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">VLM:把影像也變成 token,餵進同一個 Transformer</text>
+
+  <!-- image with patches -->
+  <text x="105" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">① 影像切成 patch</text>
+  <g>
+    <rect x="40" y="80" width="130" height="130" fill="#E0F2FE" stroke="#0369A1" stroke-width="1.5"/>
+    <!-- grid lines -->
+    <line x1="73" y1="80" x2="73" y2="210" stroke="#7DD3FC" stroke-width="1"/>
+    <line x1="106" y1="80" x2="106" y2="210" stroke="#7DD3FC" stroke-width="1"/>
+    <line x1="139" y1="80" x2="139" y2="210" stroke="#7DD3FC" stroke-width="1"/>
+    <line x1="40" y1="113" x2="170" y2="113" stroke="#7DD3FC" stroke-width="1"/>
+    <line x1="40" y1="146" x2="170" y2="146" stroke="#7DD3FC" stroke-width="1"/>
+    <line x1="40" y1="179" x2="170" y2="179" stroke="#7DD3FC" stroke-width="1"/>
+    <!-- a simple cup glyph -->
+    <rect x="88" y="120" width="34" height="30" rx="3" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+    <path d="M122,126 q12,2 12,10 q0,8 -12,10" fill="none" stroke="#0369A1" stroke-width="1.5"/>
+    <text x="105" y="202" text-anchor="middle" font-size="9.5" fill="#0369A1">每塊 16×16 像素</text>
+  </g>
+
+  <line x1="172" y1="145" x2="208" y2="145" stroke="#9CA3AF" stroke-width="2"/>
+  <polygon points="208,140 218,145 208,150" fill="#9CA3AF"/>
+
+  <!-- vision encoder -->
+  <rect x="220" y="100" width="120" height="90" rx="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="280" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#15803D">② 視覺編碼器</text>
+  <text x="280" y="152" text-anchor="middle" font-size="11" fill="#374151">每 patch → 向量</text>
+  <text x="280" y="170" text-anchor="middle" font-size="10.5" fill="#6B7280">(ViT / CLIP 視覺端)</text>
+
+  <line x1="340" y1="145" x2="376" y2="145" stroke="#9CA3AF" stroke-width="2"/>
+  <polygon points="376,140 386,145 376,150" fill="#9CA3AF"/>
+
+  <!-- projector -->
+  <rect x="388" y="100" width="120" height="90" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="448" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#92400E">③ 投影層</text>
+  <text x="448" y="148" text-anchor="middle" font-size="11" fill="#374151">對齊到文字</text>
+  <text x="448" y="164" text-anchor="middle" font-size="11" fill="#374151">token 的語意空間</text>
+  <text x="448" y="181" text-anchor="middle" font-size="10" fill="#9CA3AF">讓影像/文字「講同種話」</text>
+
+  <!-- image tokens out -->
+  <g>
+    <rect x="540" y="108" width="22" height="22" rx="3" fill="#FB923C"/>
+    <rect x="566" y="108" width="22" height="22" rx="3" fill="#FB923C"/>
+    <rect x="592" y="108" width="22" height="22" rx="3" fill="#FB923C"/>
+    <text x="610" y="103" text-anchor="middle" font-size="10.5" fill="#9A3412">影像 token</text>
+  </g>
+
+  <!-- text tokens -->
+  <text x="448" y="232" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">＋ 文字問題:「哪一桌沒人坐?」</text>
+  <g>
+    <rect x="540" y="142" width="22" height="22" rx="3" fill="#2563EB"/>
+    <rect x="566" y="142" width="22" height="22" rx="3" fill="#2563EB"/>
+    <rect x="592" y="142" width="22" height="22" rx="3" fill="#2563EB"/>
+    <text x="630" y="158" text-anchor="middle" font-size="10.5" fill="#1E40AF">文字 token</text>
+  </g>
+
+  <!-- merge arrow -->
+  <line x1="618" y1="135" x2="654" y2="135" stroke="#9CA3AF" stroke-width="2"/>
+  <polygon points="654,130 664,135 654,140" fill="#9CA3AF"/>
+
+  <!-- combined sequence into LLM -->
+  <rect x="540" y="262" width="260" height="110" rx="8" fill="#FFF7ED" stroke="#EA580C" stroke-width="1.8"/>
+  <text x="670" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">④ 同一個 LLM(Transformer)</text>
+  <text x="670" y="312" text-anchor="middle" font-size="11.5" fill="#374151">影像 token + 文字 token 串成一串</text>
+  <text x="670" y="330" text-anchor="middle" font-size="11.5" fill="#374151">自注意力讓文字「看」影像 patch</text>
+  <text x="670" y="350" text-anchor="middle" font-size="11.5" fill="#374151">autoregressive 生成文字回答</text>
+
+  <!-- arrow combined tokens down to LLM -->
+  <path d="M664,135 L760,135 L760,262" fill="none" stroke="#9CA3AF" stroke-width="2"/>
+  <polygon points="755,252 760,262 765,252" fill="#9CA3AF"/>
+
+  <!-- answer -->
+  <rect x="540" y="262" width="0" height="0"/>
+  <text x="280" y="330" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803D">→ 「靠窗的第 3 桌沒人坐」</text>
+  <path d="M540,330 L420,330" fill="none" stroke="#16A34A" stroke-width="2"/>
+  <polygon points="420,325 410,330 420,335" fill="#16A34A"/>
+
+  <text x="420" y="392" text-anchor="middle" font-size="11.5" fill="#9CA3AF">核心:影像變成和文字同構的 token 後,既有的「token + 自注意力 + 下一個 token 預測」框架原封不動就能用</text>
+</svg>
