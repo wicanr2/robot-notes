@@ -49,6 +49,4 @@
 - [ROS2 的 DDS](../40-fleet/ros2-dds-intro.md)(含 DDS-Security 概念與「別把隔離當安全」)
 - [上下位機通訊協議](../20-firmware/host-mcu-protocol.md)(CRC / 序號 / 心跳的完整性)
 - [OTA 更新的韌體簽章](ota-firmware-signing.md)(code signing、Mender/RAUC/MCUboot)
-
-**待寫**:
-- secure boot(開機信任鏈;OTA 簽章的另一端)
+- [Secure boot:為什麼 bootloader 需要 security](secure-boot.md)(信任鏈、root of trust、威脅模型取捨)

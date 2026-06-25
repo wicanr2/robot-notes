@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="sb-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+  </defs>
+  <rect width="740" height="440" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">Secure boot:從不可變的根,逐層驗章才執行(信任鏈)</text>
+
+  <text x="40" y="62" font-size="10" fill="#6B7280">開機</text>
+  <text x="40" y="76" font-size="10" fill="#6B7280">順序 ↓</text>
+
+  <!-- 信任鏈 4 層 -->
+  <rect x="80" y="52" width="360" height="60" rx="8" fill="#E0E7FF" stroke="#6366F1" stroke-width="2"/>
+  <text x="260" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#3730A3">① 不可變 boot ROM / OTP(信任根)</text>
+  <text x="260" y="94" text-anchor="middle" font-size="9.5" fill="#4338CA">燒死、改不了;裡面有一把公鑰</text>
+  <text x="260" y="107" text-anchor="middle" font-size="9" fill="#6B7280">root of trust — 攻擊者動不了這裡</text>
+
+  <rect x="80" y="142" width="360" height="50" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="260" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">② bootloader</text>
+  <text x="260" y="181" text-anchor="middle" font-size="9.5" fill="#6B7280">驗過簽章才被執行</text>
+
+  <rect x="80" y="222" width="360" height="50" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="260" y="243" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">③ OS firmware(Linux / RTOS)</text>
+  <text x="260" y="261" text-anchor="middle" font-size="9.5" fill="#6B7280">bootloader 驗過它的簽章才載入</text>
+
+  <rect x="80" y="302" width="360" height="56" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="260" y="323" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">④ 應用(ROS2、TLS、SROS2、OTA 驗章…)</text>
+  <text x="260" y="341" text-anchor="middle" font-size="9.5" fill="#6B7280">上層所有安全機制都在這層</text>
+
+  <!-- 逐層驗章箭頭 -->
+  <g stroke="#10B981" stroke-width="2" marker-end="url(#sb-g)">
+    <line x1="260" y1="112" x2="260" y2="140"/><line x1="260" y1="192" x2="260" y2="220"/><line x1="260" y1="272" x2="260" y2="300"/>
+  </g>
+  <text x="270" y="130" font-size="8.5" fill="#065F46">用公鑰驗 ② 簽章 → 通過才交棒</text>
+  <text x="270" y="210" font-size="8.5" fill="#065F46">驗 ③ 簽章 → 通過才載入</text>
+  <text x="270" y="290" font-size="8.5" fill="#065F46">驗 ④ 簽章 → 通過才跑</text>
+
+  <!-- 右側說明 -->
+  <rect x="468" y="52" width="252" height="86" rx="8" fill="#F0FDF4" stroke="#22C55E"/>
+  <text x="480" y="72" font-size="10.5" font-weight="700" fill="#065F46">為什麼根要不可變</text>
+  <text x="480" y="90" font-size="9" fill="#6B7280">上層的「驗章程式」自己也在 Flash;</text>
+  <text x="480" y="104" font-size="9" fill="#6B7280">能改 Flash 的攻擊者會直接改掉它。</text>
+  <text x="480" y="122" font-size="9" fill="#9A3412">所以驗章的起點必須在改不了的硬體</text>
+
+  <rect x="468" y="150" width="252" height="76" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="480" y="170" font-size="10.5" font-weight="700" fill="#374151">chain of trust</text>
+  <text x="480" y="188" font-size="9" fill="#6B7280">每層驗過下一層才把控制權交出去;</text>
+  <text x="480" y="204" font-size="9" fill="#6B7280">任一層被竄改 → 簽章對不上 →</text>
+  <text x="480" y="218" font-size="9" fill="#065F46">開機當場擋下,不往下跑</text>
+
+  <rect x="468" y="238" width="252" height="120" rx="8" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="480" y="258" font-size="10.5" font-weight="700" fill="#991B1B">沒有 secure boot 會怎樣</text>
+  <text x="480" y="276" font-size="9" fill="#6B7280">bootloader 無條件載入 Flash 裡的東西</text>
+  <text x="480" y="290" font-size="9" fill="#6B7280">→ 被實體/JTAG/供應鏈竄改的韌體照跑</text>
+  <text x="480" y="308" font-size="9" fill="#991B1B">→ 連上層驗章程式都可能被換成「永遠</text>
+  <text x="480" y="322" font-size="9" fill="#991B1B">   通過」→ 所有安全被繞過</text>
+  <text x="480" y="340" font-size="9" fill="#991B1B">→ 韌體層後門,重灌 OS 也清不掉</text>
+
+  <text x="370" y="392" text-anchor="middle" font-size="11" fill="#374151">OTA 簽章守「裝什麼」(更新時驗),secure boot 守「跑什麼」(開機時驗)——同一條信任鏈的兩端</text>
+  <text x="370" y="416" text-anchor="middle" font-size="10" fill="#6B7280">代價:OTP 燒公鑰不可逆、開發/除錯變麻煩、金鑰管理 → 要不要做看威脅模型(實體接觸風險、法規)</text>
+</svg>
