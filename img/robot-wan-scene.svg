@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 540" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B1026"/>
+      <stop offset="0.4" stop-color="#1E293B"/>
+      <stop offset="0.72" stop-color="#60A5FA" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#E8F1FB"/>
+    </linearGradient>
+    <linearGradient id="grd" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E7F2E9"/><stop offset="1" stop-color="#CFE3D5"/>
+    </linearGradient>
+    <radialGradient id="beamLeo" cx="0.5" cy="0" r="1">
+      <stop offset="0" stop-color="#FB923C" stop-opacity="0.22"/><stop offset="1" stop-color="#FB923C" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="g" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+    <marker id="b" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker>
+    <marker id="o" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EA580C"/></marker>
+  </defs>
+
+  <rect width="840" height="400" fill="url(#sky)"/>
+  <rect y="400" width="840" height="140" fill="url(#grd)"/>
+  <line x1="0" y1="400" x2="840" y2="400" stroke="#9CA3AF"/>
+  <g fill="#fff"><circle cx="70" cy="44" r="1.4"/><circle cx="200" cy="68" r="1"/><circle cx="330" cy="34" r="1.3"/><circle cx="500" cy="56" r="1"/><circle cx="600" cy="30" r="1.4"/><circle cx="740" cy="64" r="1.1"/><circle cx="790" cy="40" r="1.2"/><circle cx="270" cy="96" r="1"/></g>
+
+  <text x="420" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#F8FAFC">機器人怎麼連上廣域網路:從廠區 5G 到太空衛星直連</text>
+
+  <!-- LEO 衛星(Lucide satellite) -->
+  <g transform="translate(118,52) scale(2.6)" fill="none" stroke="#FB923C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m13.5 6.5-3.148-3.148a1.205 1.205 0 0 0-1.704 0L6.352 5.648a1.205 1.205 0 0 0 0 1.704L9.5 10.5"/>
+    <path d="M16.5 7.5 19 5"/>
+    <path d="m17.5 10.5 3.148 3.148a1.205 1.205 0 0 1 0 1.704l-2.296 2.296a1.205 1.205 0 0 1-1.704 0L13.5 14.5"/>
+    <path d="M9 21a6 6 0 0 0-6-6"/>
+    <path d="M9.352 10.648a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l4.296-4.296a1.205 1.205 0 0 0 0-1.704l-2.296-2.296a1.205 1.205 0 0 0-1.704 0z"/>
+  </g>
+  <text x="150" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#FDBA74">LEO 低軌衛星(D2D)</text>
+
+  <!-- GEO 衛星(satellite-dish 當高軌示意) -->
+  <g transform="translate(672,40) scale(1.9)" fill="none" stroke="#C4B5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 10a7.31 7.31 0 0 0 10 10Z"/><path d="m9 15 3-3"/><path d="M17 13a6 6 0 0 0-6-6"/><path d="M21 13A10 10 0 0 0 11 3"/>
+  </g>
+  <text x="708" y="34" text-anchor="middle" font-size="10.5" font-weight="700" fill="#C4B5FD">GEO 同步軌道</text>
+  <text x="708" y="96" text-anchor="middle" font-size="8.5" fill="#DDD6FE">來回 ≥250 ms · 不適合即時</text>
+
+  <text x="455" y="138" text-anchor="middle" font-size="9.5" font-style="italic" fill="#C4B5FD">6G NTN 願景:太空–空中–地面無縫一體(ITU IMT-2030)</text>
+
+  <!-- 雲端 / 車隊(Lucide cloud) -->
+  <g transform="translate(548,176) scale(2.7)" fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+  </g>
+  <text x="582" y="208" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E40AF">雲端 / 車隊</text>
+  <text x="582" y="222" text-anchor="middle" font-size="8.5" fill="#64748B">OpenRMF 調度</text>
+
+  <!-- 廠區 private 5G(Lucide factory + 天線) -->
+  <g transform="translate(44,330) scale(3.0)" fill="none" stroke="#475569" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 16h.01"/><path d="M16 16h.01"/>
+    <path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/>
+    <path d="M8 16h.01"/>
+  </g>
+  <line x1="60" y1="332" x2="60" y2="312" stroke="#065F46" stroke-width="2"/><circle cx="60" cy="309" r="3.4" fill="#10B981"/>
+  <text x="86" y="395" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">廠區 Private 5G</text>
+
+  <!-- 公網基地台(Lucide radio-tower) -->
+  <g transform="translate(688,330) scale(2.9)" fill="none" stroke="#475569" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9"/><path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5"/><circle cx="12" cy="9" r="2"/><path d="M16.2 4.8c2 2 2.26 5.11.8 7.47"/><path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1"/><path d="M9.5 18h5"/><path d="m8 22 4-11 4 11"/>
+  </g>
+  <text x="722" y="395" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E40AF">公網 4G/5G 基地台</text>
+
+  <!-- 機器人(Lucide bot 放大 + 輪子 + 托盤) -->
+  <g transform="translate(378,398)">
+    <ellipse cx="40" cy="2" rx="46" ry="7" fill="#000" opacity="0.12"/>
+  </g>
+  <g transform="translate(348,326) scale(3.4)" fill="none" stroke="#334155" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2" fill="#F1F5F9"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+  </g>
+  <circle cx="386" cy="398" r="6.5" fill="#1F2937"/><circle cx="402" cy="398" r="6.5" fill="#1F2937"/>
+  <g transform="translate(420,348)" fill="none" stroke="#0EA5E9" stroke-width="1.6" stroke-linecap="round"><path d="M0,6 a8,8 0 0 1 11,0"/><path d="M2.5,9 a4.5,4.5 0 0 1 6,0"/><circle cx="5.5" cy="11.5" r="1.2" fill="#0EA5E9" stroke="none"/></g>
+  <text x="400" y="426" text-anchor="middle" font-size="11" font-weight="700" fill="#1F2937">機器人(戶外 AMR)</text>
+
+  <!-- 連線:廠區 Private 5G → 機器人 -->
+  <path d="M96,318 Q230,332 348,366" fill="none" stroke="#10B981" stroke-width="2.4" marker-end="url(#g)"/>
+  <rect x="150" y="320" width="156" height="20" rx="10" fill="#ECFDF5" stroke="#10B981"/><text x="228" y="334" text-anchor="middle" font-size="9.5" font-weight="700" fill="#065F46">Private 5G · URLLC ~1ms</text>
+
+  <!-- 連線:基地台 → 機器人(公網+VPN) -->
+  <path d="M690,332 Q560,350 452,368" fill="none" stroke="#2563EB" stroke-width="2.4" marker-end="url(#b)"/>
+  <rect x="476" y="338" width="150" height="20" rx="10" fill="#EFF6FF" stroke="#2563EB"/><text x="551" y="352" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1E40AF">公網 5G + VPN 加密</text>
+
+  <!-- 連線:基地台 → 雲端 -->
+  <path d="M700,330 Q660,270 612,212" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="680" y="280" font-size="8.5" fill="#1E40AF">回連雲端</text>
+
+  <!-- 連線:LEO 衛星 → 機器人(D2D) -->
+  <path d="M165,96 Q280,240 384,330" fill="none" stroke="#EA580C" stroke-width="2.2" stroke-dasharray="7,5" marker-end="url(#o)"/>
+  <rect x="220" y="206" width="172" height="20" rx="10" fill="#FFF7ED" stroke="#EA580C"/><text x="306" y="220" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A3412">衛星 D2D · 偏遠補洞 · 數十ms</text>
+
+  <text x="420" y="462" text-anchor="middle" font-size="11" fill="#1F2937">地面 5G 做即時控制(綠/藍),衛星 D2D 補「沒有地面網路」的洞(橘),6G 願景把兩者整合</text>
+  <text x="420" y="484" text-anchor="middle" font-size="9" fill="#6B7280">延遲量級:Private/公網 5G ms 級 · LEO 數十 ms · GEO ≥250 ms(軌道高度決定,非工程可調)</text>
+  <text x="420" y="506" text-anchor="middle" font-size="8.5" fill="#9CA3AF">圖示積木:Lucide(ISC 授權)重繪。各家衛星商轉/beta 時程為廠商規劃值(截至 2026 初),會變動</text>
+</svg>
