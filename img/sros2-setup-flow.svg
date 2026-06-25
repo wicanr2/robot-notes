@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 480" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ss-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="740" height="480" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">SROS2 / DDS-Security 設定流程:幫 ROS2 通訊加上三件套</text>
+
+  <!-- 5 步驟 -->
+  <rect x="40" y="50" width="430" height="56" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="56" y="70" font-size="11.5" font-weight="700" fill="#1E40AF">① 建 keystore(含 CA 根憑證)</text>
+  <text x="56" y="90" font-size="9.5" fill="#374151">ros2 security create_keystore &lt;dir&gt;</text>
+
+  <rect x="40" y="120" width="430" height="60" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="56" y="140" font-size="11.5" font-weight="700" fill="#065F46">② 為每個程序建 enclave(身分)</text>
+  <text x="56" y="158" font-size="9.5" fill="#374151">ros2 security create_enclave &lt;keystore&gt; &lt;name&gt;</text>
+  <text x="56" y="173" font-size="9" fill="#6B7280">→ identity 憑證 cert.pem + 私鑰 key.pem</text>
+
+  <rect x="40" y="194" width="430" height="68" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <text x="56" y="214" font-size="11.5" font-weight="700" fill="#9A3412">③ 產生授權與策略(都要 CA 簽)</text>
+  <text x="56" y="232" font-size="9.5" fill="#374151">generate_policy → create_permission(或 generate_artifacts)</text>
+  <text x="56" y="247" font-size="9" fill="#6B7280">→ permissions.p7s(能 pub/sub 哪些 topic)</text>
+  <text x="56" y="260" font-size="9" fill="#6B7280">→ governance.p7s(domain 級:要不要加密/認證)</text>
+
+  <rect x="40" y="276" width="430" height="62" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="56" y="296" font-size="11.5" font-weight="700" fill="#5B21B6">④ 設環境變數</text>
+  <text x="56" y="314" font-size="9" fill="#374151">ROS_SECURITY_KEYSTORE=... ・ ROS_SECURITY_ENABLE=true</text>
+  <text x="56" y="328" font-size="9" fill="#374151">ROS_SECURITY_STRATEGY=Enforce(找不到安全檔就拒啟動)</text>
+
+  <rect x="40" y="352" width="430" height="60" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="56" y="372" font-size="11.5" font-weight="700" fill="#991B1B">⑤ 跑節點 → DDS-Security plugin 自動生效</text>
+  <text x="56" y="390" font-size="9.5" fill="#374151">rmw_fastrtps_cpp(Fast DDS,Humble 預設)載入 enclave</text>
+  <text x="56" y="404" font-size="9" fill="#6B7280">→ 節點間雙向認證 + 加密 + topic ACL,全自動</text>
+
+  <g stroke="#6B7280" stroke-width="1.6" marker-end="url(#ss-a)">
+    <line x1="255" y1="106" x2="255" y2="118"/><line x1="255" y1="180" x2="255" y2="192"/><line x1="255" y1="262" x2="255" y2="274"/><line x1="255" y1="338" x2="255" y2="350"/>
+  </g>
+
+  <!-- 右側:三件套對應 -->
+  <text x="600" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">這就湊齊三件套</text>
+  <rect x="490" y="80" width="226" height="66" rx="8" fill="#ECFDF5" stroke="#10B981"/>
+  <text x="502" y="100" font-size="11" font-weight="700" fill="#065F46">cryptographic = 加密</text>
+  <text x="502" y="118" font-size="9" fill="#6B7280">通道加密,封包別人看不到</text>
+  <text x="502" y="134" font-size="9" fill="#6B7280">(governance 決定 domain 是否加密)</text>
+
+  <rect x="490" y="156" width="226" height="66" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="502" y="176" font-size="11" font-weight="700" fill="#9A3412">authentication = 認證</text>
+  <text x="502" y="194" font-size="9" fill="#6B7280">PKI 雙向:每個 enclave 用 CA 簽的</text>
+  <text x="502" y="210" font-size="9" fill="#6B7280">憑證互相驗證,冒充不了</text>
+
+  <rect x="490" y="232" width="226" height="66" rx="8" fill="#F5F3FF" stroke="#8B5CF6"/>
+  <text x="502" y="252" font-size="11" font-weight="700" fill="#5B21B6">access control = 授權</text>
+  <text x="502" y="270" font-size="9" fill="#6B7280">permissions 限制每個身分</text>
+  <text x="502" y="286" font-size="9" fill="#6B7280">只能 pub/sub 指定的 topic</text>
+
+  <rect x="490" y="312" width="226" height="100" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
+  <text x="502" y="332" font-size="10.5" font-weight="700" fill="#374151">DDS-Security(OMG 規範)</text>
+  <text x="502" y="350" font-size="9" fill="#6B7280">定義 5 個 SPI,ROS2 用前三:</text>
+  <text x="502" y="366" font-size="9" fill="#6B7280">authentication / access control /</text>
+  <text x="502" y="380" font-size="9" fill="#6B7280">cryptographic</text>
+  <text x="502" y="400" font-size="9" fill="#9A3412">SROS2 = 建在 DDS-Security 上的工具鏈</text>
+
+  <text x="370" y="448" text-anchor="middle" font-size="10.5" fill="#374151">關鍵:Strategy 設 Enforce 才會真的擋;憑證/CA 的簽發、輪換、撤銷是主要運維成本(也是「常沒人開」的原因)</text>
+  <text x="370" y="468" text-anchor="middle" font-size="9.5" fill="#6B7280">DOMAIN_ID 只是隔離不是安全;這套才是真正的「認證 + 加密 + 授權」</text>
+</svg>

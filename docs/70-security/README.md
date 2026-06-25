@@ -9,7 +9,7 @@
 | 通訊面 | 威脅 | 成熟手段 | 詳細子篇 |
 |---|---|---|---|
 | **下位機↔上位機**(UART/CAN) | 封閉但匯流排無加密無認證 | CRC + 序號 + 心跳(完整性/防重放);要防竄改 → SecOC | [上下位機協議](../20-firmware/host-mcu-protocol.md) |
-| **ROS2 節點間**(DDS) | ⚠ 預設明文,同網路可注入 `/cmd_vel` | DDS-Security / SROS2:認證 + 加密 + ACL | [DDS 簡介](../40-fleet/ros2-dds-intro.md)(SROS2 待專文) |
+| **ROS2 節點間**(DDS) | ⚠ 預設明文,同網路可注入 `/cmd_vel` | DDS-Security / SROS2:認證 + 加密 + ACL | [SROS2 / DDS-Security](sros2-dds-security.md) |
 | **車↔車隊**(MQTT/VDA5050、REST) | 明文誰都能 pub/sub | mqtts + mTLS + ACL;HTTPS + token | [MQTT over TLS(EMQX)](../40-fleet/mqtt-tls-emqx.md) |
 | **對外/雲端/OTA** | 公網暴露、惡意韌體 | TLS + VPN;韌體簽章 + secure boot | (待專文) |
 | **MCU 端** | 私鑰外洩、弱亂數 | mbedTLS + 硬體 RNG/CRYP + RDP | [STM32 REST+TLS](../20-firmware/stm32-rest-tls.md) |
@@ -45,9 +45,9 @@
 **已有**:
 - [MCU 端:STM32F4 上的 REST API + TLS 1.2](../20-firmware/stm32-rest-tls.md)
 - [車隊:MQTT over TLS(用 EMQX)](../40-fleet/mqtt-tls-emqx.md)
+- [SROS2 / DDS-Security:幫 ROS2 通訊加上認證+加密+授權](sros2-dds-security.md)
 - [ROS2 的 DDS](../40-fleet/ros2-dds-intro.md)(含 DDS-Security 概念與「別把隔離當安全」)
 - [上下位機通訊協議](../20-firmware/host-mcu-protocol.md)(CRC / 序號 / 心跳的完整性)
 
 **待寫**:
-- ROS2 DDS-Security / SROS2 的實作(憑證、access control、效能取捨)
 - OTA 韌體簽章 + secure boot
