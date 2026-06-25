@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="wf-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+    <marker id="wf-o" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="760" height="470" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">robot-notes 的寫作工作流與 lessons learned</text>
+
+  <!-- 6 步 -->
+  <g>
+    <rect x="24" y="60" width="116" height="56" rx="7" fill="#EFF6FF" stroke="#3B82F6"/><text x="82" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">① 研究 + 查證</text><text x="82" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">sub-agent + 搜尋</text>
+    <rect x="148" y="60" width="116" height="56" rx="7" fill="#ECFDF5" stroke="#10B981"/><text x="206" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">② 第一性原理寫</text><text x="206" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">先講「為什麼」</text>
+    <rect x="272" y="60" width="116" height="56" rx="7" fill="#FFF7ED" stroke="#F97316"/><text x="330" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">③ 配 SVG</text><text x="330" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">數學/概念都配圖</text>
+    <rect x="396" y="60" width="116" height="56" rx="7" fill="#F5F3FF" stroke="#8B5CF6"/><text x="454" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">④ 去 AI 味</text><text x="454" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">白話 + 刪 slop</text>
+    <rect x="520" y="60" width="116" height="56" rx="7" fill="#F3F4F6" stroke="#9CA3AF"/><text x="578" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">⑤ push GitHub</text><text x="578" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">小步、訊息清楚</text>
+    <rect x="644" y="60" width="92" height="56" rx="7" fill="#FEF2F2" stroke="#EF4444"/><text x="690" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#991B1B">⑥ 審查</text><text x="690" y="100" text-anchor="middle" font-size="8.5" fill="#6B7280">專家+學生</text>
+  </g>
+  <g stroke="#6B7280" stroke-width="1.6" marker-end="url(#wf-a)">
+    <line x1="140" y1="88" x2="146" y2="88"/><line x1="264" y1="88" x2="270" y2="88"/><line x1="388" y1="88" x2="394" y2="88"/><line x1="512" y1="88" x2="518" y2="88"/><line x1="636" y1="88" x2="642" y2="88"/>
+  </g>
+  <!-- 迭代迴圈 ⑥ → ② -->
+  <path d="M690,116 C690,150 206,150 206,118" fill="none" stroke="#F97316" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#wf-o)"/>
+  <text x="448" y="144" text-anchor="middle" font-size="9.5" fill="#9A3412">審查抓到的問題 → 回 ② 迭代修正</text>
+
+  <!-- lessons -->
+  <text x="40" y="194" font-size="12.5" font-weight="700" fill="#1F2937">一路踩過的雷(lessons)</text>
+  <g font-size="10">
+    <text x="44" y="218" font-weight="700" fill="#9A3412">·</text><text x="58" y="218" fill="#374151">GitHub 行內 <tspan font-family="monospace">$...$</tspan> 不渲染(中文段落內漏成純文字)→ 一律用反引號 + Unicode 符號;block <tspan font-family="monospace">$$</tspan> 才較穩</text>
+    <text x="44" y="242" font-weight="700" fill="#9A3412">·</text><text x="58" y="242" fill="#374151">查證常抓出自己的記憶錯——WireGuard 的 RFC、STM32 哪些有 CRYP、SROS2 的 CLI、rmf 部署範本的佐證,全都靠查證糾正</text>
+    <text x="44" y="266" font-weight="700" fill="#9A3412">·</text><text x="58" y="266" fill="#374151">誠實標註:廠商數字標來源、時程會 drift、延遲用量級而非單一精確值、不確定就標「待查證」</text>
+    <text x="44" y="290" font-weight="700" fill="#9A3412">·</text><text x="58" y="290" fill="#374151">「第一性原理」是方法不是口頭禪——一篇貼 10 次就成了 AI 味,稀釋成自然說法</text>
+    <text x="44" y="314" font-weight="700" fill="#9A3412">·</text><text x="58" y="314" fill="#374151">寫成人話,不要「分鐘級 → 秒級」這種規格表簡寫;把具體情境講出來</text>
+    <text x="44" y="338" font-weight="700" fill="#9A3412">·</text><text x="58" y="338" fill="#374151">「流程圖」≠「概念圖」:對方要 sequence 步驟順序,就別只給分層架構圖</text>
+    <text x="44" y="362" font-weight="700" fill="#9A3412">·</text><text x="58" y="362" fill="#374151">ASCII art 一律升級成 SVG;每張 SVG 都用 chrome-headless 渲染後讀圖,檢查爆框/截字</text>
+    <text x="44" y="386" font-weight="700" fill="#9A3412">·</text><text x="58" y="386" fill="#374151">同一篇可被多視角索引(STM32 TLS 既是韌體篇也是資安子篇)→ 用連結組階層,別實體搬檔破壞既有分類</text>
+  </g>
+
+  <text x="380" y="424" text-anchor="middle" font-size="11" fill="#374151">核心一句:每個技術主張都要能追到出處或可驗證的依據,不靠「自言自語」</text>
+  <text x="380" y="448" text-anchor="middle" font-size="10" fill="#6B7280">這套工作流已封裝成 skill「first-principles-tech-notes」,可重用到其他知識庫</text>
+</svg>

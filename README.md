@@ -3,6 +3,7 @@
 從**軟體到硬體**,完整整理機器人相關知識。以**送餐機器人(室內 AMR)** 為主軸,逐步擴展到多機調度、主板模擬與 Physical AI。寫給想把機器人從頭搞懂的人,特別照顧「軟體背景、硬體不熟」的讀者。
 
 > 進行中的整理計畫與分輪進度見 [PLAN.md](PLAN.md)。
+> 這個 repo 怎麼寫的、踩過哪些雷 → [寫作慣例與 lessons learned](docs/_meta/lessons-learned.md)。
 > **看不懂的名詞** → 查 [CONTEXT.md 術語表](CONTEXT.md);**看到 `§11.3` 之類的編號不知在哪個檔** → 查 [章節對照表](docs/section-map.md)。
 
 <p align="center">
