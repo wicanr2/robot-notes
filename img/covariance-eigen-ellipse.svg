@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 770 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ev1" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#EA580C"/></marker>
+    <marker id="ev2" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#2563EB"/></marker>
+  </defs>
+  <rect width="770" height="400" fill="#ffffff"/>
+  <text x="385" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">協方差矩陣怎麼變成橢圓:特徵分解</text>
+  <text x="385" y="52" text-anchor="middle" font-size="12" fill="#6B7280">看似嚇人的 Σ,拆成「軸的方向」和「軸的長度」兩件事就懂了</text>
+
+  <!-- ===== 左:公式流 ===== -->
+  <!-- Σ 矩陣 -->
+  <text x="40" y="108" font-size="20" fill="#1F2937">Σ =</text>
+  <text x="92" y="98" font-size="34" fill="#9CA3AF">[</text>
+  <text x="150" y="98" text-anchor="middle" font-size="15" fill="#1F2937">σx²</text>
+  <text x="208" y="98" text-anchor="middle" font-size="15" fill="#1F2937">σxy</text>
+  <text x="150" y="122" text-anchor="middle" font-size="15" fill="#1F2937">σxy</text>
+  <text x="208" y="122" text-anchor="middle" font-size="15" fill="#1F2937">σy²</text>
+  <text x="232" y="118" font-size="34" fill="#9CA3AF">]</text>
+  <text x="262" y="112" font-size="11" fill="#6B7280">對稱、半正定</text>
+
+  <text x="60" y="158" font-size="13" fill="#374151">↓ 特徵分解(eigendecomposition)</text>
+
+  <!-- Σ = R Λ Rᵀ -->
+  <text x="40" y="196" font-size="20" fill="#1F2937">Σ = R Λ Rᵀ</text>
+
+  <rect x="40" y="216" width="300" height="58" rx="8" fill="#FFF7ED" stroke="#EA580C"/>
+  <text x="52" y="237" font-size="12.5" font-weight="700" fill="#9A3412">R = [ v₁  v₂ ] — 特徵向量</text>
+  <text x="52" y="255" font-size="11" fill="#374151">兩個互相垂直的單位向量,就是橢圓</text>
+  <text x="52" y="269" font-size="11" fill="#374151">兩根軸「指的方向」。</text>
+
+  <rect x="40" y="282" width="300" height="58" rx="8" fill="#EFF6FF" stroke="#2563EB"/>
+  <text x="52" y="303" font-size="12.5" font-weight="700" fill="#1E40AF">Λ = diag(λ₁, λ₂) — 特徵值</text>
+  <text x="52" y="321" font-size="11" fill="#374151">沿各軸方向的變異數。半軸長 = √λ</text>
+  <text x="52" y="335" font-size="11" fill="#374151">(λ 越大,那個方向越不確定、軸越長)。</text>
+
+  <!-- 分隔 -->
+  <line x1="370" y1="70" x2="370" y2="350" stroke="#E5E7EB"/>
+
+  <!-- ===== 右:橢圓 + 特徵向量 ===== -->
+  <!-- 淡座標軸 -->
+  <line x1="430" y1="210" x2="730" y2="210" stroke="#E5E7EB"/>
+  <line x1="575" y1="90" x2="575" y2="340" stroke="#E5E7EB"/>
+  <text x="724" y="226" font-size="11" fill="#9CA3AF">x</text>
+  <text x="582" y="100" font-size="11" fill="#9CA3AF">y</text>
+
+  <!-- 橢圓(沿 v1 傾斜) -->
+  <ellipse cx="575" cy="210" rx="115" ry="56" fill="#FEF3C7" fill-opacity="0.5" stroke="#CA8A04" stroke-width="2" transform="rotate(-26 575 210)"/>
+  <circle cx="575" cy="210" r="3.5" fill="#1F2937"/>
+  <text x="556" y="206" font-size="11" fill="#1F2937">μ(中心)</text>
+
+  <!-- v1 沿長軸 (-26°) -->
+  <line x1="575" y1="210" x2="678" y2="160" stroke="#EA580C" stroke-width="2.4" marker-end="url(#ev1)"/>
+  <text x="640" y="150" font-size="13" font-weight="700" fill="#9A3412">v₁</text>
+  <text x="612" y="196" font-size="12" fill="#9A3412">√λ₁(長軸半長)</text>
+
+  <!-- v2 沿短軸 (垂直 v1) -->
+  <line x1="575" y1="210" x2="600" y2="260" stroke="#2563EB" stroke-width="2.4" marker-end="url(#ev2)"/>
+  <text x="606" y="258" font-size="13" font-weight="700" fill="#1E40AF">v₂</text>
+  <text x="500" y="262" font-size="12" fill="#1E40AF">√λ₂(短軸半長)</text>
+
+  <!-- 角度 θ -->
+  <path d="M 620 210 A 45 45 0 0 0 615 188" fill="none" stroke="#6B7280" stroke-width="1.4"/>
+  <text x="628" y="200" font-size="12" fill="#6B7280">θ</text>
+  <text x="430" y="324" font-size="11" fill="#374151">θ = 最大特徵向量 v₁ 與 x 軸的夾角 = 橢圓轉了多少</text>
+
+  <text x="385" y="372" text-anchor="middle" font-size="11.5" fill="#374151">等高線 <tspan font-style="italic">(x−μ)ᵀ Σ⁻¹ (x−μ) = 常數</tspan> 就是這一圈橢圓;軸 = 特徵向量、半軸長 = √特徵值。</text>
+  <text x="385" y="392" text-anchor="middle" font-size="10.5" fill="#9CA3AF">註:畫幾倍 √λ 取決於信賴水準(1σ ≈ 39%、2σ、95% 對應不同放大係數);此處示意取 1σ。</text>
+</svg>

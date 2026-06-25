@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">兩個高斯相乘 = 融合(P3):精度相加,用實際數字看</text>
+  <text x="380" y="50" text-anchor="middle" font-size="12" fill="#6B7280">把兩個「不準的估計」乘起來再歸一化,結果更靠近比較確定的那個,而且比兩者都更確定</text>
+
+  <!-- 座標軸 -->
+  <line x1="40" y1="250" x2="720" y2="250" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="726" y="254" font-size="12" fill="#6B7280">值</text>
+
+  <!-- 輸入 A:寬、矮(不確定) μ1=2, σ1²=4 -->
+  <path d="M123,250 C203,250 224,195 273,195 C322,195 343,250 423,250" fill="none" stroke="#2563EB" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="273" y1="250" x2="273" y2="195" stroke="#2563EB" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="273" y="183" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">輸入 A</text>
+  <text x="273" y="268" text-anchor="middle" font-size="11" fill="#1E40AF">μ₁=2 · σ₁²=4</text>
+  <text x="273" y="283" text-anchor="middle" font-size="10.5" fill="#6B7280">精度 ¼(較不確定→寬矮)</text>
+
+  <!-- 輸入 B:窄、高(較確定) μ2=6, σ2²=1 -->
+  <path d="M411,250 C449,250 459,140 486,140 C513,140 523,250 561,250" fill="none" stroke="#EA580C" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="486" y1="250" x2="486" y2="140" stroke="#EA580C" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="486" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">輸入 B</text>
+  <text x="486" y="268" text-anchor="middle" font-size="11" fill="#9A3412">μ₂=6 · σ₂²=1</text>
+  <text x="486" y="283" text-anchor="middle" font-size="10.5" fill="#6B7280">精度 1(較確定→窄高)</text>
+
+  <!-- 結果:最窄最高,μ=5.2 -->
+  <path d="M377,250 C410.5,250 425.2,127 444,127 C462.8,127 477.5,250 511,250 Z" fill="#D1FAE5" fill-opacity="0.55" stroke="#059669" stroke-width="2.8"/>
+  <line x1="444" y1="250" x2="444" y2="127" stroke="#059669" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="444" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">相乘結果</text>
+  <circle cx="444" cy="250" r="3" fill="#059669"/>
+  <text x="392" y="305" text-anchor="middle" font-size="11.5" font-weight="700" fill="#065F46">μ=5.2 · σ²=0.8(比 A、B 都更窄)</text>
+
+  <!-- 拉向 B 的箭頭示意 -->
+  <path d="M300,232 C360,224 410,226 440,238" fill="none" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <text x="360" y="220" text-anchor="middle" font-size="10.5" fill="#9CA3AF">結果被拉向「比較確定」的 B</text>
+
+  <!-- ===== 算式框 ===== -->
+  <rect x="40" y="318" width="680" height="54" rx="9" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="56" y="340" font-size="12.5" fill="#065F46"><tspan font-weight="700">精度(=1/變異數)相加:</tspan> 1/σ² = 1/σ₁² + 1/σ₂² = 1/4 + 1/1 = 1.25 → σ² = 0.8(更確定)</text>
+  <text x="56" y="362" font-size="12.5" fill="#1F2937"><tspan font-weight="700" fill="#9A3412">精度加權平均:</tspan> μ = (μ₁/σ₁² + μ₂/σ₂²) ÷ (1/σ²) = (2/4 + 6/1) ÷ 1.25 = 6.5 ÷ 1.25 = 5.2 —— 這正是卡爾曼更新</text>
+</svg>

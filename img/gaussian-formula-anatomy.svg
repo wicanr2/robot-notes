@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">高斯公式拆解:每個部位在做什麼</text>
+  <text x="380" y="52" text-anchor="middle" font-size="12" fill="#6B7280">背式子之前先看懂——它其實只在說「離中心越遠、機率平滑地越低」</text>
+
+  <!-- ===== 公式本體 ===== -->
+  <!-- p(x) = -->
+  <text x="40" y="128" font-size="26" fill="#1F2937">p(x) =</text>
+
+  <!-- 歸一化分數 (藍) -->
+  <text x="170" y="112" text-anchor="middle" font-size="20" fill="#2563EB">1</text>
+  <line x1="128" y1="122" x2="212" y2="122" stroke="#2563EB" stroke-width="2"/>
+  <text x="170" y="146" text-anchor="middle" font-size="18" fill="#2563EB">√(2π) · σ</text>
+
+  <!-- · e -->
+  <text x="226" y="128" font-size="26" fill="#1F2937">·</text>
+  <text x="244" y="128" font-size="26" fill="#7C3AED">e</text>
+
+  <!-- 指數(上標,較小) -->
+  <text x="268" y="110" font-size="18" fill="#7C3AED">−</text>
+  <!-- 分數:分子 (x−μ)²,分母 2σ² -->
+  <text x="338" y="100" text-anchor="middle" font-size="17" fill="#1F2937">(<tspan fill="#EA580C">x − μ</tspan>)<tspan fill="#059669" font-size="13" dy="-7">2</tspan></text>
+  <line x1="292" y1="108" x2="386" y2="108" stroke="#9CA3AF" stroke-width="1.6"/>
+  <text x="338" y="128" text-anchor="middle" font-size="17" fill="#B45309">2σ²</text>
+
+  <!-- ===== 引線 + 說明框 ===== -->
+  <!-- 歸一化 -->
+  <line x1="170" y1="156" x2="170" y2="196" stroke="#2563EB" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <rect x="40" y="198" width="250" height="70" rx="8" fill="#EFF6FF" stroke="#2563EB"/>
+  <text x="52" y="220" font-size="12.5" font-weight="700" fill="#1E40AF">歸一化常數</text>
+  <text x="52" y="240" font-size="11" fill="#374151">只跟 σ 有關。把整條曲線下的面積</text>
+  <text x="52" y="257" font-size="11" fill="#374151">壓成 1(機率總和=1),不改變形狀。</text>
+
+  <!-- e 指數 -->
+  <line x1="250" y1="118" x2="250" y2="288" stroke="#7C3AED" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <rect x="305" y="198" width="250" height="70" rx="8" fill="#F5F3FF" stroke="#7C3AED"/>
+  <text x="317" y="220" font-size="12.5" font-weight="700" fill="#5B21B6">指數 e^(−…)</text>
+  <text x="317" y="240" font-size="11" fill="#374151">把「負距離平方」映成平滑衰減:指數項</text>
+  <text x="317" y="257" font-size="11" fill="#374151">本身峰值=1(還沒乘前面係數),兩側→0。</text>
+
+  <!-- 距離 (x−μ) -->
+  <rect x="396" y="278" width="320" height="40" rx="8" fill="#FFF7ED" stroke="#EA580C"/>
+  <text x="408" y="296" font-size="12.5" font-weight="700" fill="#9A3412">x − μ:離中心多遠</text>
+  <text x="408" y="312" font-size="11" fill="#374151">x 離平均 μ 越遠,這個差越大。</text>
+
+  <!-- 平方 -->
+  <rect x="40" y="278" width="345" height="40" rx="8" fill="#ECFDF5" stroke="#059669"/>
+  <text x="52" y="296" font-size="12.5" font-weight="700" fill="#065F46">平方 ( )²:對稱 + 放大遠處</text>
+  <text x="52" y="312" font-size="11" fill="#374151">不分左右(±同等),且遠處的懲罰被放大。</text>
+
+  <!-- 2σ² -->
+  <line x1="360" y1="134" x2="360" y2="338" stroke="#B45309" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <rect x="40" y="338" width="676" height="42" rx="8" fill="#FEFCE8" stroke="#CA8A04"/>
+  <text x="52" y="357" font-size="12.5" font-weight="700" fill="#854D0E">分母 2σ²:控制鐘的胖瘦</text>
+  <text x="52" y="373" font-size="11" fill="#374151">σ 越大 → 分母越大 → 同樣的距離懲罰越輕 → 衰減慢 → 鐘越胖、越不確定;σ 越小 → 越尖、越確定。</text>
+
+  <text x="380" y="402" text-anchor="middle" font-size="11" fill="#6B7280">一句話:核心是 <tspan font-style="italic">e^(−距離²)</tspan>——距離以平方進指數,於是離中心越遠,機率急速但平滑地掉到 0。</text>
+</svg>
