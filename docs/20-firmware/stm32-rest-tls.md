@@ -65,6 +65,10 @@ void on_https_request(Request r) {        // r 已過 TLS 解密
 }
 ```
 
+一筆 HTTPS 請求從進來到回應的流程是這樣——handshake 是一次性大開銷,之後每筆只走「解密 → route → handler → 加密」:
+
+<p align="center"><img src="../../img/stm32-https-flow.svg" width="720" alt="STM32 處理 HTTPS 請求流程:① TLS 1.2 handshake(mbedTLS,硬體 RNG/ECDHE/CRYP,最吃 RAM/CPU)→ ② 加密 request 進來、mbedTLS 解密成明文 HTTP → ③ parse+route+handler 產生 JSON → ④ mbedTLS 加密回應"></p>
+
 ## 結論
 
 STM32F4 上做 TLS 1.2「**能做,但吃緊**」。要做就照這條清單:**選對型號**(要 crypto 加速就用 F437/F439,不要 F407 硬扛)、**砍 mbedTLS 配置省 RAM**、**硬體 RNG + CRYP 加速**、**限連線數**、**升級 mbedTLS 版本**。若安全需求高而 F4 資源不夠,務實選項是換 **STM32F7 / H7**(更多 RAM、更強 crypto)或讓一台**閘道器代理 TLS**(MCU 走內網明文、閘道器對外做 TLS)。

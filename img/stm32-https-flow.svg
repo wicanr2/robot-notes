@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="hf-r" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">STM32F4 處理一筆 HTTPS / REST 請求的流程</text>
+
+  <rect x="90" y="46" width="140" height="40" rx="8" fill="#F5F3FF" stroke="#8B5CF6"/>
+  <text x="160" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5B21B6">用戶端</text>
+  <rect x="500" y="46" width="150" height="40" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="575" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E40AF">STM32F4 :443</text>
+  <line x1="160" y1="86" x2="160" y2="396" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <line x1="575" y1="86" x2="575" y2="396" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- 階段1:TLS handshake(熱點) -->
+  <rect x="36" y="96" width="640" height="78" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="160" y="116" text-anchor="middle" font-size="10" fill="#991B1B">🔥 資源熱點</text>
+  <line x1="166" y1="132" x2="569" y2="132" stroke="#6B7280" stroke-width="1.6" marker-end="url(#hf-r)"/>
+  <text x="368" y="127" text-anchor="middle" font-size="9.5" fill="#374151">1. TCP :443 → TLS 1.2 handshake(mbedTLS)</text>
+  <text x="368" y="150" text-anchor="middle" font-size="9" fill="#991B1B">硬體 RNG 餵 entropy、ECDHE 金鑰交換、(F437 有 CRYP 可加速)</text>
+  <line x1="569" y1="166" x2="166" y2="166" stroke="#EF4444" stroke-width="1.6" marker-end="url(#hf-r)"/>
+  <text x="368" y="161" text-anchor="middle" font-size="9.5" fill="#991B1B">handshake 完成 → 加密通道(這段最吃 RAM/CPU)</text>
+
+  <!-- 階段2:request 解密 -->
+  <rect x="36" y="184" width="640" height="52" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.2"/>
+  <line x1="166" y1="208" x2="569" y2="208" stroke="#6B7280" stroke-width="1.6" marker-end="url(#hf-r)"/>
+  <text x="368" y="203" text-anchor="middle" font-size="9.5" fill="#374151">2. 加密的 HTTP request →</text>
+  <text x="368" y="226" text-anchor="middle" font-size="9.5" fill="#9A3412">3. mbedTLS 解密 → 明文 HTTP(method / path / body)</text>
+
+  <!-- 階段3:REST route + handler -->
+  <rect x="36" y="246" width="640" height="74" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.2"/>
+  <text x="575" y="266" text-anchor="middle" font-size="9.5" fill="#065F46">在 STM32 內處理:</text>
+  <text x="575" y="283" text-anchor="middle" font-size="9" fill="#6B7280">4. parse + route(GET /status、POST /cmd…)</text>
+  <text x="575" y="299" text-anchor="middle" font-size="9" fill="#6B7280">5. handler 做事 → 產生 JSON 回應</text>
+  <text x="160" y="285" text-anchor="middle" font-size="9.5" fill="#065F46">(JSON 解析</text>
+  <text x="160" y="300" text-anchor="middle" font-size="9.5" fill="#065F46"> 用 jsmn 等)</text>
+
+  <!-- 階段4:response 加密 -->
+  <rect x="36" y="330" width="640" height="40" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.2"/>
+  <line x1="569" y1="354" x2="166" y2="354" stroke="#3B82F6" stroke-width="1.6" marker-end="url(#hf-r)"/>
+  <text x="368" y="349" text-anchor="middle" font-size="9.5" fill="#1E40AF">6. mbedTLS 加密 JSON 回應 → 回傳用戶端</text>
+
+  <text x="360" y="396" text-anchor="middle" font-size="9.5" fill="#6B7280">handshake 是一次性大開銷;之後每筆請求只走「解密 → route → handler → 加密」</text>
+</svg>

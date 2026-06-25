@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="mf-r" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">MQTT mTLS 連線流程:加密 → 認證 → 授權</text>
+
+  <!-- lifelines -->
+  <rect x="100" y="46" width="130" height="40" rx="8" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="165" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">AMR client</text>
+  <rect x="490" y="46" width="130" height="40" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="555" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E40AF">EMQX :8883</text>
+  <line x1="165" y1="86" x2="165" y2="396" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <line x1="555" y1="86" x2="555" y2="396" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- 階段1:handshake -->
+  <rect x="40" y="96" width="560" height="92" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.2"/>
+  <text x="165" y="116" text-anchor="middle" font-size="10" fill="#065F46">① 加密 + ② 認證</text>
+  <line x1="170" y1="132" x2="550" y2="132" stroke="#6B7280" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="127" text-anchor="middle" font-size="9.5" fill="#374151">1. TCP connect :8883 → 開始 TLS handshake</text>
+  <line x1="550" y1="156" x2="170" y2="156" stroke="#6B7280" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="151" text-anchor="middle" font-size="9.5" fill="#374151">2. server 憑證(client 驗)+ 要求 client 憑證(mTLS)</text>
+  <line x1="170" y1="180" x2="550" y2="180" stroke="#10B981" stroke-width="1.8" marker-end="url(#mf-r)"/>
+  <text x="360" y="175" text-anchor="middle" font-size="9.5" fill="#065F46">3. client 憑證 + ECDHE → broker 用 CA 驗(verify_peer)→ 加密通道</text>
+
+  <!-- 階段2:connect/authn -->
+  <rect x="40" y="198" width="560" height="62" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.2"/>
+  <text x="165" y="218" text-anchor="middle" font-size="10" fill="#9A3412">② 認證(authn)</text>
+  <line x1="170" y1="234" x2="550" y2="234" stroke="#6B7280" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="229" text-anchor="middle" font-size="9.5" fill="#374151">4. MQTT CONNECT(身份 = 憑證 CN / 帳密)→ broker 認證</text>
+  <line x1="550" y1="252" x2="170" y2="252" stroke="#F97316" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="247" text-anchor="middle" font-size="9.5" fill="#9A3412">5. 認證通過 → CONNACK(不過就斷線)</text>
+
+  <!-- 階段3:pub/sub/authz -->
+  <rect x="40" y="270" width="560" height="80" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.2"/>
+  <text x="165" y="290" text-anchor="middle" font-size="10" fill="#5B21B6">③ 授權(ACL)</text>
+  <line x1="170" y1="306" x2="550" y2="306" stroke="#6B7280" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="301" text-anchor="middle" font-size="9.5" fill="#374151">6. SUBSCRIBE / PUBLISH 某 topic</text>
+  <text x="555" y="324" text-anchor="middle" font-size="9" fill="#5B21B6">broker 查 ACL:這身份能碰此 topic 嗎?</text>
+  <line x1="550" y1="340" x2="170" y2="340" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#mf-r)"/>
+  <text x="360" y="335" text-anchor="middle" font-size="9.5" fill="#5B21B6">7. 允許 → SUBACK/PUBACK;越權 → 拒絕</text>
+
+  <text x="360" y="378" text-anchor="middle" font-size="10.5" fill="#374151">每次 pub/sub 都再過一次 ACL → 一台設備只能碰自己 serial 的 topic</text>
+  <text x="360" y="400" text-anchor="middle" font-size="9.5" fill="#6B7280">三層依序把關:握手加密 → 連線認證 → 每筆訊息授權</text>
+</svg>
