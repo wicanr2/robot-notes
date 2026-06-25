@@ -64,6 +64,32 @@
 
 一句話:**衛星 D2D 是「補覆蓋的洞」,不是取代地面網路**;機器人的廣域連線會是「地面 5G 做即時、衛星補偏遠」的混合,而 6G 的願景是把這兩者無縫整合起來。
 
+## 7. 相關標準與白皮書
+
+這議題橫跨幾個標準組織,主角是 **3GPP**(把「衛星直連」寫進行動通訊標準)與 **ITU**(5G/6G 願景框架與衛星頻譜)。可查證的規格頁、白皮書與報告:
+
+**3GPP — NTN(非地面網路)**
+- [TR 38.811](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3234) — NTN 部署情境與通道模型(Rel-15 研究)
+- [TR 38.821](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3525) — NR 支援 NTN 的解決方案(Rel-16 研究)
+- [NTN 總覽](https://www.3gpp.org/technologies/ntn-overview) — Rel-15 研究 → Rel-17 正式納入的演進
+- `TS 33.501` — 5G 安全架構(對外連線的認證/加密)
+
+**ITU-R — 5G/6G 願景與衛星頻譜**
+- [M.2083](https://www.itu.int/rec/R-REC-M.2083-0-201509-I/en) — IMT-2020(5G)願景框架(eMBB/URLLC/mMTC 三情境)
+- [M.2410](https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-M.2410-2017-PDF-E.pdf) — IMT-2020 最低技術需求(report)
+- [M.2160](https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.2160-0-202311-I!!PDF-E.pdf) — IMT-2030(6G)框架
+- [WRC-23](https://www.itu.int/wrc-23/) — 世界無線電通信大會,修訂衛星(GSO/NGSO)頻譜規則
+
+**產業白皮書**
+- 5G-ACIA:[工業 5G 白皮書](https://5g-acia.org/whitepapers/5g-for-connected-industries-and-automation-second-edition/)、[AGV/行動機器人 sidelink](https://5g-acia.org/whitepapers/using-5g-sidelink-in-industrial-factory-applications/)
+- GSMA:[D2D 頻譜政策報告](https://www.gsma.com/connectivity-for-good/spectrum/gsma_resources/spectrum-for-d2d-public-policy-paper/)、[Satellite 2.0: Going Direct to Device](https://www.gsmaintelligence.com/research/satellite-2-0-going-direct-to-device)
+- Ericsson:[衛星 D2D 通訊](https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/satellite-direct-to-device-communication)、[Rel-19 NTN payload(把 gNB 放上衛星)](https://www.ericsson.com/en/blog/2024/10/ntn-payload-architecture)
+
+**安全 / VPN(對外連線,呼應資安章)**
+- [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446) — TLS 1.3
+- [RFC 4301](https://datatracker.ietf.org/doc/html/rfc4301) — IPsec 安全架構
+- WireGuard — **沒有 IETF 標準軌 RFC**(常被誤標);權威規格見[官方論文](https://www.wireguard.com/papers/wireguard.pdf)
+
 ## 來源
 
 - 5G:[eMBB/URLLC/mMTC](https://www.techtarget.com/searchnetworking/definition/What-are-eMBB-URLLC-and-mMTC-in-5G-Use-cases-explained)、[network slicing](https://www.5gtechnologyworld.com/how-5g-network-slicing-works-part-1/)、[Private 5G(Ericsson 倉儲)](https://www.ericsson.com/en/industries/warehousing-and-logistics)
