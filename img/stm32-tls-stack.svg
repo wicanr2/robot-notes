@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 450" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="st-a" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="740" height="450" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">在 STM32F4 上跑 REST + TLS 1.2:堆疊與資源熱點</text>
+
+  <!-- 分層(由上到下)-->
+  <rect x="40" y="52" width="380" height="56" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="56" y="74" font-size="12.5" font-weight="700" fill="#1E40AF">REST / 應用層</text>
+  <text x="56" y="94" font-size="9.5" fill="#6B7280">HTTP method + path routing + JSON 解析(如 jsmn)</text>
+
+  <rect x="40" y="116" width="380" height="62" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="56" y="138" font-size="12.5" font-weight="700" fill="#991B1B">TLS 1.2 — mbedTLS　🔥 資源熱點</text>
+  <text x="56" y="157" font-size="9.5" fill="#6B7280">handshake(ECDHE/RSA)+ 對稱加密(AES-GCM/CBC)</text>
+  <text x="56" y="171" font-size="9.5" fill="#6B7280">憑證驗證、亂數、session</text>
+
+  <rect x="40" y="186" width="380" height="48" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <text x="56" y="207" font-size="12" font-weight="700" fill="#9A3412">altcp_tls — lwIP 的 TLS 抽象層</text>
+  <text x="56" y="224" font-size="9.5" fill="#6B7280">LWIP_ALTCP_TLS_MBEDTLS:把 TLS 接到 mbedTLS 後端</text>
+
+  <rect x="40" y="242" width="380" height="44" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="56" y="263" font-size="12" font-weight="700" fill="#065F46">TCP / IP — lwIP</text>
+  <text x="56" y="279" font-size="9.5" fill="#6B7280">輕量嵌入式 TCP/IP stack</text>
+
+  <rect x="40" y="294" width="380" height="56" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="56" y="316" font-size="12" font-weight="700" fill="#374151">硬體 — STM32F4(168 MHz)</text>
+  <text x="56" y="335" font-size="9.5" fill="#6B7280">ETH MAC + 外接 PHY(或 WiFi 模組)・RNG・(部分型號)CRYP/HASH</text>
+
+  <g stroke="#6B7280" stroke-width="1.4" marker-end="url(#st-a)">
+    <line x1="230" y1="108" x2="230" y2="114"/><line x1="230" y1="178" x2="230" y2="184"/><line x1="230" y1="234" x2="230" y2="240"/><line x1="230" y1="286" x2="230" y2="292"/>
+  </g>
+
+  <!-- 右側熱點與硬體加速 -->
+  <rect x="440" y="116" width="270" height="120" rx="8" fill="#FFF7ED" stroke="#F59E0B"/>
+  <text x="452" y="136" font-size="11" font-weight="700" fill="#9A3412">TLS 層的兩個瓶頸</text>
+  <text x="452" y="156" font-size="9.5" fill="#6B7280">• RAM:約 23 KB+/連線(預設 16 KB</text>
+  <text x="452" y="170" font-size="9.5" fill="#6B7280">  收發 buffer)→ F407 的 192 KB 很緊</text>
+  <text x="452" y="190" font-size="9.5" fill="#6B7280">• CPU:handshake 的 ECDHE/RSA 很重,</text>
+  <text x="452" y="204" font-size="9.5" fill="#6B7280">  168 MHz 純軟體可達數百 ms~秒</text>
+  <text x="452" y="224" font-size="9.5" fill="#9A3412">→ 砍 buffer、選 ECC、session 續用</text>
+
+  <rect x="440" y="246" width="270" height="104" rx="8" fill="#F0FDF4" stroke="#22C55E"/>
+  <text x="452" y="266" font-size="11" font-weight="700" fill="#065F46">用硬體加速(很關鍵)</text>
+  <text x="452" y="286" font-size="9.5" fill="#6B7280">• RNG:硬體亂數餵 mbedTLS entropy</text>
+  <text x="452" y="300" font-size="9.5" fill="#6B7280">  (別用 rand());F4 內建 TRNG</text>
+  <text x="452" y="320" font-size="9.5" fill="#6B7280">• CRYP/HASH:僅 F415/417/437/439 有</text>
+  <text x="452" y="334" font-size="9.5" fill="#991B1B">  (GCM 要 F437/439;F405/407 純軟體更慢)</text>
+
+  <text x="370" y="378" text-anchor="middle" font-size="11" fill="#374151">結論:F4 上 TLS「能做但吃緊」——要 crypto 加速就選帶 CRYP 的型號(如 F437),沒有就純軟體扛</text>
+  <text x="370" y="400" text-anchor="middle" font-size="10" fill="#6B7280">省資源:max_fragment_length 砍 buffer、關 KEEP_PEER_CERTIFICATE、ECC 小曲線、限制並發連線數</text>
+  <text x="370" y="424" text-anchor="middle" font-size="9.5" fill="#9A3412">⚠ STM32CubeF4 附的 mbedTLS 偏舊(2.16 級,有 CVE、缺 GCM)→ production 要自行升級版本評估</text>
+</svg>

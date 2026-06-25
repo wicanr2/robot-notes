@@ -70,6 +70,7 @@
 - [下位機運動控制](docs/20-firmware/low-level-control.md) — M1 知識清單、運動學解算 vs PID
 - [上下位機通訊協議](docs/20-firmware/host-mcu-protocol.md) — 從三個根本痛點推出 framing/CRC16/心跳逾時/序號;韌體↔軟體的契約
 - [主板模擬:Renode](docs/20-firmware/board-simulation-renode.md) — 為何模擬主板(回饋迴路)、STM32 全系統模擬、確定性測試進 CI、Arduino/AVR 現況
+- [STM32F4 上的 REST API + TLS 1.2](docs/20-firmware/stm32-rest-tls.md) — MCU 跑 HTTPS:lwIP + mbedTLS 堆疊、RAM/CPU 瓶頸、硬體 crypto/RNG、cipher suite,附 ST / mbedTLS 出處
 
 ### 30 導航
 - [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、loop closure
