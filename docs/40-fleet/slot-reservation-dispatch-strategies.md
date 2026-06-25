@@ -28,7 +28,7 @@
 - 往 B **放貨**的角色叫**生產者(producer)**,前提是 **B 必須空**;從 B **取貨**的角色叫**消費者(consumer)**,前提是 **B 必須滿**。
 - 在**本例的任務集**下,車1(`A取B放`、`C取B放`)整路都在放、剛好扮 producer;車2(`B取E放`、`B取F放`)整路都在取、扮 consumer。但要注意:**一般情況下這兩個角色是「看任務而定」的**,同一台車對同一個 B 也可能又放又取、輪替扮演——別把 producer/consumer 當成固定的車身屬性。
 
-<p align="center"><img src="../img/slot-reservation-strategies.svg" width="860" alt="B 是容量 1 的共用暫存格:車1 放(producer,需 B 空)、車2 取(consumer,需 B 滿);策略二允許一次排入、靠 B 空/滿 gating 自動交錯成生產者-消費者流水,策略一則在 B 被預定時拒絕第二筆放 B,逼使用者手動分批補單"></p>
+<p align="center"><img src="../../img/slot-reservation-strategies.svg" width="860" alt="B 是容量 1 的共用暫存格:車1 放(producer,需 B 空)、車2 取(consumer,需 B 滿);策略二允許一次排入、靠 B 空/滿 gating 自動交錯成生產者-消費者流水,策略一則在 B 被預定時拒絕第二筆放 B,逼使用者手動分批補單"></p>
 
 理想的流水是自動交錯的:**車1 放 B(B 滿)→ 車2 把 B 取走(B 空)→ 車1 再放 B(B 滿)→ 車2 再取走**。這正是作業系統教科書裡的 **producer–consumer 問題**(白話:一個人放、一個人拿、中間只有一格暫存,得排好先後別撞在一起),核心約束是 **mutual exclusion(互斥)**:任何時刻只能有一台車對 B 動作。
 
