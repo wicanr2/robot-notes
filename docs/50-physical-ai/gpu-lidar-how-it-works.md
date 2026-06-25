@@ -98,6 +98,31 @@ z = depth * sin(inclination);
 
 乘下來每幀就是**數十億到上百億次求交**。所以幾十年來 ray tracing 都是「**離線算**」的(電影一幀算好幾小時、靠農場機房);**即時**ray tracing 一直做不到,直到 GPU 內建了**專用硬體**(在晶片上做 BVH 走訪與射線求交,例如 NVIDIA 的 RTX,**2018**)才在遊戲/模擬裡跑得動。物理上它最迷人:反射、折射、軟陰影、多次反彈的光,都自然算出來——代價就是這個運算量。
 
+### ray tracing 的數學:一條 ray 怎麼求交、複雜度怎麼來
+
+一條 ray 用參數式寫成 `P(t) = O + t·D`(`O` 是起點、`D` 是單位方向向量、`t ≥ 0` 是沿射線走的距離)。「找這條 ray 第一個打中什麼」= 對場景裡每個幾何體,解出它跟 ray 相交的 `t`,取**最小的正根**。幾個基本幾何體都有封閉解:
+
+- **球面**(中心 `C`、半徑 `r`):把 `P(t)` 代進 `|P − C|² = r²`,展開成一元二次方程,解 `t`:
+
+$$ (D\cdot D)\,t^2 + 2\,D\cdot(O-C)\,t + \big(|O-C|^2 - r^2\big) = 0 $$
+
+  判別式 `< 0` 就是沒打中;有兩個正根時取小的(較近的交點)。
+
+- **平面**(平面上一點 `Q`、法向量 `n`):`t = (Q − O)·n / (D·n)`;`D·n = 0` 代表 ray 平行於平面、不相交。
+- **三角形**(網格的基本單位):用 Möller–Trumbore 演算法,一次解出 `t` 和重心座標,順便判斷交點是否落在三角形內([Möller & Trumbore, 1997](https://doi.org/10.1080/10867651.1997.10487468))。
+
+把場景所有幾何體的 `t` 算出來、取最小正根,就得到「這條 ray 的最近表面」。複雜度就從這裡長出來:設畫面 `P` 個像素、每像素發 `S` 條取樣 ray、每條 ray 遞迴 `B` 層、場景有 `N` 個幾何體——
+
+$$ \text{樸素法} \approx O(P \cdot S \cdot B \cdot N) \qquad\Longrightarrow\qquad \text{加速結構(BVH/kd-tree)} \approx O(P \cdot S \cdot B \cdot \log N) $$
+
+BVH(bounding volume hierarchy)把「跟全部 `N` 個幾何體比對」變成「在樹上走 `log N` 層」,這是讓 ray tracing 能加速的關鍵資料結構,也是 RTX 在硬體裡專門做的事。代個數字感受一下:1080p(`P ≈ 2×10⁶`)、每像素 64 取樣、反彈 8 層、就算有 BVH(`log N ≈ 20`),一幀也要約 `2×10⁶ × 64 × 8 × 20 ≈ 2×10¹⁰` 次求交——**兩百億**。這就是「為什麼即時做不到、得上專用硬體」的具體數字。
+
+要算得物理正確,完整描述是 **rendering equation**(Kajiya, 1986):一個表面點往某方向射出的光,等於它自己發的光,加上**對整個半球所有入射方向的反射積分**:
+
+$$ L_o(x,\omega_o) = L_e(x,\omega_o) + \int_{\Omega} f_r(x,\omega_i,\omega_o)\, L_i(x,\omega_i)\, (\omega_i \cdot n)\, d\omega_i $$
+
+這個積分沒有解析解,只能用大量 ray 去 Monte Carlo 取樣逼近——上面公式裡的 `S`(每像素取樣數)就是在逼近這個積分,取樣不夠就是畫面的雜訊。**運算量的根源,就是這個「對每個交點再積分一次」的遞迴**([Kajiya, 1986](https://dl.acm.org/doi/10.1145/15922.15902))。
+
 ### 那 `gpu_lidar` 跟 ray tracing 是什麼關係
 
 - **概念上**:LiDAR「每個方向一條 ray、量到最近表面」就是 ray casting 的語意,所以直覺把它跟 ray tracing 連在一起不算錯。
@@ -121,4 +146,5 @@ z = depth * sin(inclination);
 - `gz-rendering` `BaseGpuRays.hh`(GpuRays 介面:角度/ray 數/clip 設定):https://github.com/gazebosim/gz-rendering/blob/gz-rendering8/include/gz/rendering/base/BaseGpuRays.hh
 - 概念對照:GPU depth/Z-buffer 與 rasterization(維基):https://en.wikipedia.org/wiki/Z-buffering
 - ray tracing 歷史:Appel 1968「Some techniques for shading machine renderings of solids」https://dl.acm.org/doi/10.1145/1468075.1468082 ；Whitted 1980「An Improved Illumination Model for Shaded Display」https://dl.acm.org/doi/10.1145/358876.358882 ；綜述 https://en.wikipedia.org/wiki/Ray_tracing_(graphics)
+- ray tracing 數學:Möller & Trumbore 1997「Fast, Minimum Storage Ray-Triangle Intersection」https://doi.org/10.1080/10867651.1997.10487468 ；Kajiya 1986「The Rendering Equation」https://dl.acm.org/doi/10.1145/15922.15902 ；BVH https://en.wikipedia.org/wiki/Bounding_volume_hierarchy
 - 硬體 ray tracing:NVIDIA RTX(2018)https://www.nvidia.com/en-us/geforce/news/geforce-rtx-real-time-ray-tracing/ ；Isaac Sim RTX Lidar https://docs.isaacsim.omniverse.nvidia.com/latest/sensors/isaacsim_sensors_rtx_based_lidar.html
