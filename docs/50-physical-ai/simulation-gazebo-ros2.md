@@ -178,6 +178,50 @@ tf 樹由三方各補一段,合起來才完整:
 
 ---
 
+## 7. 把舊世界搬上新 Gazebo:以 AWS Small Warehouse 為例
+
+網路上現成的模擬世界(餐廳、倉庫、辦公室)很多都是 **Gazebo Classic** 時代的,直接丟進 `gz sim` 不會動。這節用實際把 **AWS RoboMaker Small Warehouse**(Classic)遷到 **Harmonic** 的經驗,講「為什麼不能直接載、要改什麼、怎麼確認改對了」。完整可跑的成品在獨立 repo:[aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
+
+### 為什麼 Classic 的 `.world` 不能直接在 gz sim 跑
+
+關鍵認知:**卡住的不是幾何**。倉庫 9 成是靜態 mesh(地板、牆、貨架),mesh(Collada/OBJ/STL)兩套 Gazebo 通用。真正不相容的是三件機械性的事:
+
+| 卡點 | Classic | 新 gz sim | 
+|---|---|---|
+| 資源路徑環境變數 | `GAZEBO_MODEL_PATH` | **`GZ_SIM_RESOURCE_PATH`**(解析 `model://`) |
+| plugin | `libgazebo_ros_*` | **`gz-sim-*-system`**,`name=` 要填 C++ 類別全名;硬載對方 plugin 會 crash |
+| world 系統 plugin | Classic 內建 | 要自掛 Physics / SceneBroadcaster / UserCommands / Sensors,否則沒物理、沒感測、GUI 不動 |
+
+加上 SDF 版本要升、材質可能要從 Classic 材質腳本改走 mesh 自帶 / PBR。AWS 倉庫的好消息是:**14 個模型全部沒有 plugin、沒有材質腳本、全 `<static>`**,所以模型層只要升 SDF 版本(`1.6 → 1.10`),材質與 mesh 原封不動;world 層補上 4 個系統 plugin、清掉 `<pose frame="">`、physics 區塊處理一下即可。
+
+### 遷移時意外踩到的坑(這幾個最值得記)
+
+把檔案改完不等於對。用 `gz sdf` 與嚴格 XML 解析器一驗,跳出幾個一開始沒料到的:
+
+1. **`<physics>` 的 `type` 是 SDFormat 必填屬性**。新版 gz sim 的物理引擎其實是由 `gz-sim-physics-system` plugin 決定(預設 dartsim),於是直覺會想把 Classic 的 `type="ode"` 拿掉——結果 SDFormat 直接報錯(缺必填屬性)。正解是**保留 `type` 字串**(留 `ode` 即可),引擎選擇交給 plugin。
+2. **慣性張量要過三角不等式**。AWS 的 GroundB(地板)、RoofB(屋頂)原始 inertia 其實是壞的(`ixx+izz < iyy`),Classic 不檢查、新版 sdformat 直接 Error。這兩個是 static 裝飾物,慣性根本不影響模擬,改成合法值即可——但**沒有驗證就不會發現原始資料是錯的**。
+3. **XML 註解裡不能有 `--`(雙連字號)**。在註解寫了 `--physics-engine`,`gz sdf` 用的 tinyxml2 容忍,但嚴格的解析器(Python expat)直接拒——這是 XML 規格,不是 bug。寫中文註解時很容易不小心帶到。
+
+> 這三個都是「Classic 容忍、新版較嚴」的典型:遷移的工作量常常不在搬幾何,而在補上新版才會檢查的正確性。
+
+### 怎麼確認改對了(驗證 + CI,省本機 CPU)
+
+`gz sim` 跑起來吃 CPU/GPU;但**驗證模型不必真的開模擬**。分兩層:
+
+- **輕量靜態驗證**(只解析,CPU 吃很少,本機可跑):
+  - `gz sdf -k <model.sdf>` 逐一驗模型結構(就是它抓出上面的慣性錯)。
+  - world 用嚴格 XML 解析器驗良構(抓出 `--` 那種)。
+  - 另外檢查 world 裡每個 `model://NAME` 都對應得到 `models/NAME/` 目錄。
+- **真正載入**:只有 `gz sim` 能解析 `model://`(它在執行期靠 `GZ_SIM_RESOURCE_PATH` + Fuel 註冊 findFile callback);獨立的 `gz sdf` 工具沒這個 callback,會報 `callback is empty`,**所以 world 的 include 解析驗證只能交給 `gz sim`**,headless 跑幾百個 iteration 即可。
+
+本機 CPU 吃緊時,把這兩層丟上 **GitHub Actions**:runner 裝 Gazebo Harmonic,push 後自動跑靜態驗證 + `gz sim` headless 載入(用 xvfb 軟體渲染)。改一行 push 一次,綠燈才算數,完全不占你本機資源。設定見 model repo 的 [`.github/workflows/validate.yml`](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic/blob/main/.github/workflows/validate.yml) 與 [`MIGRATION.md`](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic/blob/main/MIGRATION.md)。
+
+> 一個工作習慣:**先在本機把驗證腳本跑通,再寫成 CI**。CI 腳本自己也有盲點(例如一開始用 `gz sdf -p` 想驗 world,卻因為它解析不了 `model://` 而誤判),先在本機踩過,CI 才不會綠得不明不白或紅得冤枉。
+
+來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)、[gz 資源路徑](https://gazebosim.org/api/sim/8/resources.html)、[world 系統 plugin](https://gazebosim.org/docs/latest/sdf_worlds/)、[AWS Small Warehouse(Classic 原始)](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)。
+
+---
+
 ## 參考來源(實際查證)
 
 - Gazebo Classic EOL 公告:https://discourse.openrobotics.org/t/gazebo-classic-11-has-reached-end-of-life-x-post-gazebo-sim-community/41852
@@ -193,5 +237,9 @@ tf 樹由三方各補一段,合起來才完整:
 - Gazebo Harmonic Binary Install(官方):https://gazebosim.org/docs/harmonic/install_ubuntu/
 - 模擬器比較(SVRC):https://www.roboticscenter.ai/learn/robot-simulation-software-comparison
 - 模擬器比較(Black Coffee Robotics, 2026):https://www.blackcoffeerobotics.com/blog/which-robot-simulation-software-to-use
+- Classic → gz sim 遷移(SDF/plugin 差異):https://gazebosim.org/api/sim/8/migrationsdf.html
+- gz sim 資源路徑(GZ_SIM_RESOURCE_PATH / model://):https://gazebosim.org/api/sim/8/resources.html
+- AWS Small Warehouse(Classic 原始,MIT):https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+- 本系列遷移成品 + 驗證 CI:https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic
 </content>
 </invoke>
