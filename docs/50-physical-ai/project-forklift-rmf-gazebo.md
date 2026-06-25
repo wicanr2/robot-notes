@@ -58,6 +58,12 @@
 
 關鍵是「升降 = `prismatic`(滑動)關節」:`base_link --fixed--> mast_link --prismatic(Z 軸)--> fork_carriage_link --fixed--> 貨叉`。底盤掛 DiffDrive plugin（出 `/odom`、tf）、gpu_lidar（`/scan`）、imu；升降關節用 ros2_control 的 `JointTrajectoryController` 控位置。**`fork_carriage_link` 是取放的關鍵 link**——當 DetachableJoint 的 `parent_link`。
 
+`base_link` 是整台車的 tf 根:所有感測器、輪子、mast 的位姿都相對它定義,Nav2 的 footprint 也以它為原點。但 **`base_link` 原點通常不在車身幾何中心**——慣例放在「驅動軸附近、貼地投影處」,牙叉再往 +x 伸出去,於是車身範圍是**前長後短的非對稱長方形**。對照模型看一次最清楚:
+
+<p align="center"><img src="../../img/forklift-base-link-extent.svg" width="720" alt="base_link 原點在叉車模型的位置與外型範圍:俯視顯示 footprint 前+0.9/後-0.5/±0.4、輪距0.6、base_link 在驅動軸貼地處;側視顯示輪徑0.1、mast、fork_carriage 升降行程0~1.5m"></p>
+
+這也是為什麼後面 Nav2 的 footprint 寫成 `[[0.9,0.4],[0.9,-0.4],[-0.5,-0.4],[-0.5,0.4]]`(見 §19 導航):**前緣 +0.9 m 一路到牙叉尖、後緣只有 −0.5 m**,左右各 0.4 m。原點在 `base_link`,這串數字就是上圖的範圍——感測器外參、輪子位置、footprint 全都從這個原點量起。
+
 ### 4.2 棧板、貨架、倉儲場景
 
 - **棧板 pallet**:一個 box model,尺寸取 EPAL 標準 1.2 × 0.8 m;要有 `visual + collision + inertial` 三件(少了 inertial 物理會出錯)。

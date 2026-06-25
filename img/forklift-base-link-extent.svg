@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ax" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/></marker>
+    <marker id="ay" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+    <marker id="az" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker>
+    <marker id="dim" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="840" height="430" fill="#ffffff"/>
+  <text x="420" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">base_link 在叉車模型的實際位置與範圍</text>
+  <text x="420" y="46" text-anchor="middle" font-size="11.5" fill="#6B7280">原點 = base_link;牙叉朝 +x;數值取自 Nav2 footprint 與 DiffDrive 參數(1 格 = 0.1 m)</text>
+
+  <!-- ================= 俯視圖 ================= -->
+  <text x="40" y="74" font-size="13" font-weight="700" fill="#1F2937">俯視(top view)</text>
+
+  <!-- 比例:1m=130px;base_link 原點在 (230,170) -->
+  <!-- 淡格線(每 0.1m) -->
+  <g stroke="#EEF2F7" stroke-width="1">
+    <line x1="165" y1="92" x2="165" y2="248"/><line x1="191" y1="92" x2="191" y2="248"/><line x1="217" y1="92" x2="217" y2="248"/><line x1="243" y1="92" x2="243" y2="248"/><line x1="269" y1="92" x2="269" y2="248"/><line x1="295" y1="92" x2="295" y2="248"/><line x1="321" y1="92" x2="321" y2="248"/><line x1="347" y1="92" x2="347" y2="248"/>
+    <line x1="155" y1="118" x2="357" y2="118"/><line x1="155" y1="144" x2="357" y2="144"/><line x1="155" y1="196" x2="357" y2="196"/><line x1="155" y1="222" x2="357" y2="222"/>
+  </g>
+
+  <!-- footprint 外框(x −0.5..0.9, y −0.4..0.4)→ 螢幕 165..347 , 118..222 -->
+  <rect x="165" y="118" width="182" height="104" fill="none" stroke="#9333EA" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="350" y="116" font-size="9.5" fill="#7C3AED">Nav2 footprint</text>
+
+  <!-- 車體(x −0.5..0.35) -->
+  <rect x="165" y="123" width="111" height="94" rx="4" fill="#FEF3C7" stroke="#CA8A04" stroke-width="1.6"/>
+  <text x="210" y="175" text-anchor="middle" font-size="10.5" fill="#854D0E">車體 chassis</text>
+  <!-- 桅杆 mast(x≈0.35) -->
+  <rect x="276" y="128" width="10" height="84" fill="#6B7280"/>
+  <text x="281" y="240" text-anchor="middle" font-size="9" fill="#6B7280">mast</text>
+  <!-- 兩支牙叉(x 0.35..0.9) -->
+  <rect x="286" y="135" width="61" height="16" fill="#FACC15" stroke="#CA8A04"/>
+  <rect x="286" y="189" width="61" height="16" fill="#FACC15" stroke="#CA8A04"/>
+  <text x="320" y="173" text-anchor="middle" font-size="9.5" fill="#854D0E">牙叉 fork</text>
+  <!-- 驅動輪(y=±0.3 → 螢幕 131/209;x≈0.15 → 250) -->
+  <rect x="242" y="125" width="16" height="12" fill="#1F2937"/><rect x="242" y="203" width="16" height="12" fill="#1F2937"/>
+  <text x="250" y="123" text-anchor="middle" font-size="8.5" fill="#374151">驅動輪</text>
+  <!-- 後輪/轉向(x=−0.4 → 178, y=0) -->
+  <circle cx="178" cy="170" r="6" fill="#374151"/>
+  <text x="178" y="153" text-anchor="middle" font-size="8.5" fill="#374151">後輪</text>
+
+  <!-- base_link 原點 + 座標軸(x 紅向前, y 綠向左) -->
+  <line x1="230" y1="170" x2="268" y2="170" stroke="#DC2626" stroke-width="2" marker-end="url(#ax)"/>
+  <line x1="230" y1="170" x2="230" y2="132" stroke="#059669" stroke-width="2" marker-end="url(#ay)"/>
+  <circle cx="230" cy="170" r="3.5" fill="#1F2937"/>
+  <text x="272" y="174" font-size="11" font-weight="700" fill="#DC2626">+x</text>
+  <text x="234" y="130" font-size="11" font-weight="700" fill="#059669">+y</text>
+  <text x="214" y="186" font-size="10.5" font-weight="700" fill="#1F2937">base_link</text>
+
+  <!-- 尺寸:總長 1.4m、前 0.9、後 0.5、寬 0.8、輪距 0.6 -->
+  <line x1="165" y1="262" x2="347" y2="262" stroke="#6B7280" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <text x="256" y="276" text-anchor="middle" font-size="10" fill="#374151">總長 1.4 m(後 −0.5 ～ 前 +0.9)</text>
+  <line x1="230" y1="262" x2="230" y2="252" stroke="#9CA3AF" stroke-dasharray="3,2"/>
+  <line x1="384" y1="118" x2="384" y2="222" stroke="#6B7280" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <text x="396" y="173" font-size="10" fill="#374151">寬 0.8 m</text>
+  <text x="396" y="187" font-size="9" fill="#9CA3AF">(±0.4)</text>
+  <line x1="250" y1="100" x2="250" y2="100" />
+  <line x1="142" y1="131" x2="142" y2="209" stroke="#2563EB" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <text x="138" y="173" text-anchor="end" font-size="9.5" fill="#1E40AF">輪距 0.6</text>
+
+  <!-- ================= 側視圖 ================= -->
+  <text x="470" y="74" font-size="13" font-weight="700" fill="#1F2937">側視(side view)</text>
+
+  <!-- 地面 z=0 → 螢幕 y=300;比例 1m=130px;base_link x 原點 → 螢幕 x=560 -->
+  <line x1="470" y1="300" x2="800" y2="300" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="804" y="304" font-size="9.5" fill="#9CA3AF">地面 z=0</text>
+  <!-- 格線 -->
+  <g stroke="#EEF2F7"><line x1="495" y1="120" x2="495" y2="300"/><line x1="560" y1="110" x2="560" y2="300"/><line x1="625" y1="120" x2="625" y2="300"/><line x1="690" y1="120" x2="690" y2="300"/></g>
+
+  <!-- 車輪 r=0.1 → 13px,輪心 z=0.1 → y=287 -->
+  <circle cx="606" cy="287" r="13" fill="none" stroke="#1F2937" stroke-width="2"/>
+  <circle cx="512" cy="287" r="13" fill="none" stroke="#1F2937" stroke-width="2"/>
+  <text x="606" y="318" text-anchor="middle" font-size="9" fill="#374151">輪徑 0.1</text>
+
+  <!-- 車體 box:x −0.5..0.35(495..606),z 0.05..0.5(294..235) -->
+  <rect x="495" y="235" width="111" height="59" rx="3" fill="#FEF3C7" stroke="#CA8A04" stroke-width="1.6"/>
+  <text x="548" y="268" text-anchor="middle" font-size="10" fill="#854D0E">車體</text>
+
+  <!-- 桅杆 mast:x≈0.35(606),z 0.1..1.6(287..92) -->
+  <rect x="606" y="92" width="9" height="195" fill="#6B7280"/>
+  <text x="611" y="86" text-anchor="middle" font-size="9" fill="#6B7280">mast</text>
+
+  <!-- 牙叉托架 fork_carriage:在 mast 前,可沿 Z 升降 -->
+  <rect x="615" y="270" width="62" height="12" fill="#FACC15" stroke="#CA8A04"/>
+  <text x="690" y="279" font-size="9.5" fill="#854D0E">fork_carriage</text>
+  <!-- 升降行程箭頭 0~1.5m -->
+  <line x1="690" y1="276" x2="690" y2="120" stroke="#2563EB" stroke-width="1.6" stroke-dasharray="5,3" marker-start="url(#dim)" marker-end="url(#az)"/>
+  <text x="698" y="180" font-size="10" fill="#1E40AF">prismatic 升降</text>
+  <text x="698" y="194" font-size="9.5" fill="#1E40AF">行程 0 ~ 1.5 m</text>
+
+  <!-- base_link 原點(z=0.1, x=0)+ 軸:x 紅向前、z 藍向上 -->
+  <line x1="560" y1="287" x2="598" y2="287" stroke="#DC2626" stroke-width="2" marker-end="url(#ax)"/>
+  <line x1="560" y1="287" x2="560" y2="249" stroke="#2563EB" stroke-width="2" marker-end="url(#az)"/>
+  <circle cx="560" cy="287" r="3.5" fill="#1F2937"/>
+  <text x="602" y="291" font-size="11" font-weight="700" fill="#DC2626">+x</text>
+  <text x="564" y="247" font-size="11" font-weight="700" fill="#2563EB">+z</text>
+  <text x="560" y="303" text-anchor="middle" font-size="10" font-weight="700" fill="#1F2937">base_link</text>
+
+  <text x="420" y="356" text-anchor="middle" font-size="11" fill="#374151">關鍵:<tspan font-weight="700">base_link 原點不在車中心,而在「驅動軸附近、貼地投影處」</tspan>;牙叉往 +x 伸出到 0.9 m,所以 footprint 前長後短。</text>
+  <text x="420" y="378" text-anchor="middle" font-size="10.5" fill="#6B7280">Nav2 規劃用這個非對稱 footprint 才不會誤判車身大小而擦撞貨架;tf 上所有感測器/輪子的位姿都相對 base_link 定義。</text>
+  <text x="420" y="402" text-anchor="middle" font-size="9.5" fill="#9CA3AF">註:base_link 的 z 高度與車體確切尺寸依各人 URDF 而定;此處 footprint(前0.9/後0.5/±0.4)、輪距0.6、輪徑0.1、行程0~1.5m 取自本篇設定。</text>
+</svg>
