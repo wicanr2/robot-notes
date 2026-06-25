@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="540" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">機器人的廣域連線:從廠區 5G 到衛星 Direct-to-Device</text>
+  <text x="380" y="48" text-anchor="middle" font-size="10" fill="#6B7280">← 成熟 / 即時控制　　　　　　　　　　　　　　　　　　未來 / 偶發回報 →</text>
+
+  <!-- 卡1 Private 5G -->
+  <rect x="30" y="58" width="700" height="96" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="46" y="80" font-size="13" font-weight="700" fill="#065F46">① 廠區內:Private 5G / Wi-Fi</text>
+  <text x="46" y="100" font-size="9.5" fill="#374151">場景:工廠 / 倉儲 AMR(室內、跨距大)　特性:URLLC 低延遲(~1 ms)、network slicing + MEC、換手少</text>
+  <text x="46" y="118" font-size="9.5" fill="#6B7280">案例:Ericsson(Ford / Toyota / Tesla 廠)、Nokia(Hyundai 廠數百台 AMR)　※ 廠商自述數據</text>
+  <text x="46" y="138" font-size="9.5" fill="#065F46">→ 即時運動控制 / 影像回傳的最佳選擇</text>
+
+  <!-- 卡2 公網 5G + VPN -->
+  <rect x="30" y="162" width="700" height="92" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="46" y="184" font-size="13" font-weight="700" fill="#1E40AF">② 戶外有覆蓋:公網 4G / 5G + VPN</text>
+  <text x="46" y="204" font-size="9.5" fill="#374151">場景:戶外 / 跨場域 AMR、無人機,有 cellular 覆蓋</text>
+  <text x="46" y="222" font-size="9.5" fill="#6B7280">安全:公網動態 IP → VPN(WireGuard / IPsec)或 Private APN / 固定 IP SIM,建安全通道回控制中心</text>
+  <text x="46" y="240" font-size="9.5" fill="#1E40AF">→ 回連雲端 / 車隊調度(對應資安篇的「對外連線要加密」)</text>
+
+  <!-- 卡3 衛星 D2D -->
+  <rect x="30" y="262" width="700" height="116" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="46" y="284" font-size="13" font-weight="700" fill="#9A3412">③ 偏遠 / 海上(無地面覆蓋):衛星 Direct-to-Device(D2D)</text>
+  <text x="46" y="304" font-size="9.5" fill="#374151">場景:偏遠巡檢、農業、海事、無人機 BVLOS、災難救援　關鍵:標準設備直連衛星,不需專用終端</text>
+  <text x="46" y="322" font-size="9.5" fill="#6B7280">標準:3GPP NTN(非地面網路)— Rel-17 首次納入「直接衛星接取」,Rel-18 演進(新頻段、覆蓋增強)</text>
+  <text x="46" y="340" font-size="9.5" fill="#6B7280">玩家:Apple×Globalstar(緊急 SOS 簡訊)、Lynk(簡訊+警報)、Skylo(NB-IoT)、Starlink Direct to Cell、AST SpaceMobile(寬頻目標)</text>
+  <text x="46" y="360" font-size="9.5" fill="#9A3412">⚠ 目前多為低頻寬 / 高延遲 → 先做 IoT / 簡訊 / 緊急;補「沒地面網路」的洞,不適合即時遙控</text>
+
+  <!-- 卡4 6G NTN -->
+  <rect x="30" y="386" width="700" height="84" rx="9" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="46" y="408" font-size="13" font-weight="700" fill="#5B21B6">④ 未來:6G 非地面網路(NTN)整合</text>
+  <text x="46" y="428" font-size="9.5" fill="#374151">願景:ITU-R IMT-2030 / Rec. M.2160 — 地面 + 非地面(衛星 / 高空 HAPS)一體、3D 全球覆蓋、AI-native</text>
+  <text x="46" y="446" font-size="9.5" fill="#6B7280">時程:願景 2023 完成、需求/評估約 2024–2027、規格約 2030　→ 太空-空中-地面無縫覆蓋</text>
+
+  <text x="380" y="494" text-anchor="middle" font-size="10.5" fill="#374151">即時遙控 / 視訊 → 用地面 5G(尤其 private 5G);衛星 D2D 是「補覆蓋的洞」不是取代地面網路</text>
+  <text x="380" y="514" text-anchor="middle" font-size="9.5" fill="#6B7280">延遲量級:LEO(低軌)約數~數十 ms、GEO(同步軌道)來回 ≥250 ms——GEO 高延遲對閉環即時控制不友善</text>
+  <text x="380" y="532" text-anchor="middle" font-size="9" fill="#9CA3AF">註:各家衛星商轉 / beta 時程為廠商規劃值(截至 2025–2026 初),會變動</text>
+</svg>
