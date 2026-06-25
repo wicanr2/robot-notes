@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ot-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+    <marker id="ot-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+    <marker id="ot-r" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+  </defs>
+  <rect width="740" height="430" fill="#ffffff"/>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">OTA 韌體簽章:確保「推來的更新是官方的、沒被竄改」</text>
+
+  <!-- 發布方 -->
+  <rect x="30" y="56" width="300" height="150" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="180" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">發布方(你 / CI)</text>
+  <rect x="50" y="92" width="120" height="30" rx="5" fill="#fff" stroke="#9CA3AF"/><text x="110" y="111" text-anchor="middle" font-size="10" fill="#374151">韌體 firmware.bin</text>
+  <text x="180" y="111" text-anchor="middle" font-size="11" fill="#6B7280">→</text>
+  <rect x="190" y="92" width="120" height="30" rx="5" fill="#fff" stroke="#9CA3AF"/><text x="250" y="111" text-anchor="middle" font-size="10" fill="#374151">算 hash(SHA-256)</text>
+  <line x1="180" y1="128" x2="180" y2="140" stroke="#6B7280" stroke-width="1.4" marker-end="url(#ot-a)"/>
+  <rect x="50" y="142" width="260" height="30" rx="5" fill="#DBEAFE" stroke="#3B82F6"/><text x="180" y="161" text-anchor="middle" font-size="10" fill="#1E40AF">用私鑰簽 hash(ECDSA / RSA)= 簽章</text>
+  <text x="180" y="190" text-anchor="middle" font-size="9.5" fill="#9A3412">🔑 私鑰嚴格保管(離線 / HSM),絕不放設備上</text>
+
+  <!-- 傳輸 -->
+  <line x1="332" y1="131" x2="406" y2="131" stroke="#6B7280" stroke-width="2" marker-end="url(#ot-a)"/>
+  <text x="369" y="122" text-anchor="middle" font-size="9.5" fill="#374151">韌體 + 簽章</text>
+  <text x="369" y="148" text-anchor="middle" font-size="9" fill="#6B7280">經 TLS 通道</text>
+
+  <!-- 設備 -->
+  <rect x="410" y="56" width="300" height="240" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="560" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">設備(機器人 / MCU)</text>
+  <rect x="430" y="92" width="260" height="28" rx="5" fill="#fff" stroke="#9CA3AF"/><text x="560" y="110" text-anchor="middle" font-size="10" fill="#374151">收到韌體 + 簽章 → 自己算一次 hash</text>
+  <line x1="560" y1="120" x2="560" y2="132" stroke="#6B7280" stroke-width="1.4" marker-end="url(#ot-a)"/>
+  <rect x="430" y="134" width="260" height="38" rx="5" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="560" y="152" text-anchor="middle" font-size="10" fill="#9A3412">用內建公鑰驗簽:hash 對得上 + 簽章有效?</text>
+  <text x="560" y="166" text-anchor="middle" font-size="9" fill="#6B7280">(公鑰 = 信任根,出廠燒進設備)</text>
+  <line x1="500" y1="172" x2="500" y2="200" stroke="#10B981" stroke-width="1.8" marker-end="url(#ot-g)"/>
+  <text x="468" y="190" font-size="9.5" fill="#065F46">通過</text>
+  <line x1="620" y1="172" x2="620" y2="200" stroke="#EF4444" stroke-width="1.8" marker-end="url(#ot-r)"/>
+  <text x="648" y="190" font-size="9.5" fill="#991B1B">失敗</text>
+  <rect x="430" y="202" width="130" height="34" rx="5" fill="#D1FAE5" stroke="#10B981"/><text x="495" y="223" text-anchor="middle" font-size="10" fill="#065F46">寫入 / 安裝</text>
+  <rect x="570" y="202" width="120" height="34" rx="5" fill="#FEE2E2" stroke="#EF4444"/><text x="630" y="223" text-anchor="middle" font-size="10" fill="#991B1B">拒絕,不安裝</text>
+  <text x="560" y="258" text-anchor="middle" font-size="9.5" fill="#374151">→ 只有「真的用官方私鑰簽過」的韌體才裝得進去</text>
+  <text x="560" y="276" text-anchor="middle" font-size="9" fill="#6B7280">竄改 / 惡意來源 / 中間人換包 → hash 對不上 → 驗簽失敗</text>
+
+  <text x="370" y="324" text-anchor="middle" font-size="11" fill="#374151">關鍵分工:TLS 保護「傳輸通道」(防竊聽),簽章保護「內容真實性與來源」(防竄改/防偽造)——兩者角色不同,都要</text>
+  <text x="370" y="350" text-anchor="middle" font-size="10" fill="#6B7280">配套:anti-rollback(防裝回有漏洞的舊版)、A/B 分區 + 失敗自動回退(可靠性)、金鑰輪換與撤銷</text>
+  <text x="370" y="376" text-anchor="middle" font-size="10" fill="#9A3412">務實:別自己捲;用成熟 OTA 框架(都內建簽章驗證 + 回滾)</text>
+</svg>
