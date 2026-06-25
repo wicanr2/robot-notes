@@ -87,6 +87,7 @@
 - [VDA5050 協定](docs/40-fleet/vda5050.md) — 為何標準化(N×M→N+M)、order/state、released/horizon、職責邊界、**完整 order JSON 範例**
 - [Fleet 深入:API/圖資/座標/避塞車](docs/40-fleet/rmf-maps-and-traffic.md) — RMF 三層 API、VDA5050 圖資匯入(LIF)、reference_coordinates 座標對齊、rmf_traffic 避塞車原語
 - [私有系統案例:任意起點大迴轉,在 ROS2 會發生嗎](docs/40-fleet/proprietary-vs-ros2-arbitrary-start.md) — 速度方向放錯層的真實案例、車身座標 forward 投影定前進/倒車、RMF 拓樸 vs Nav2 運動規劃的責任邊界
+- [目的點重複預定:預排即拒絕 vs 調度層序列化](docs/40-fleet/slot-reservation-dispatch-strategies.md) — 把「B 點被兩筆任務搶」拆成容量 1 暫存格(producer-consumer);悲觀鎖 vs 樂觀+序列化、Open-RMF/VDA5050/WCS 怎麼做、死結與飢餓防護、為何沒有單一正解
 - [實作小抄:adapter + 派任務](docs/40-fleet/rmf-adapter-cookbook.md) — VDA5050 fleet adapter 骨架 + REST 派任務的最小 pseudo-code
 - [ROS 2 的 DDS:節點怎麼互相講話](docs/40-fleet/ros2-dds-intro.md) — DDS 是什麼、去中心化(無中央 master)、QoS / ROS_DOMAIN_ID / RMW,為何多容器要處理多播
 - [RMF 多容器部署](docs/40-fleet/rmf-multi-container-deploy.md) — adapter/core 各一 docker、DDS 跨容器(host network / discovery server)、最小 docker-compose,附官方出處

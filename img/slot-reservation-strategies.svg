@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+    <marker id="g" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+    <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="7" stroke="#DC2626" stroke-width="2"/></pattern>
+  </defs>
+  <rect width="880" height="560" fill="#ffffff"/>
+  <text x="440" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">目的點 B 重複預定:同一個 B 既是「放」的目的,也是「取」的來源</text>
+  <text x="440" y="48" text-anchor="middle" font-size="11.5" fill="#6B7280">把 B 看成容量 1 的共用暫存格:車1 往 B 放(producer)、車2 從 B 取(consumer)——一次只能一台對 B 動作</text>
+
+  <!-- ① 機制 -->
+  <text x="40" y="82" font-size="12.5" font-weight="700" fill="#374151">① 機制:B 是容量 1 的共用暫存格(producer–consumer)</text>
+  <rect x="40" y="96" width="150" height="56" rx="8" fill="#DBEAFE" stroke="#2563EB"/>
+  <text x="115" y="119" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E40AF">車1(producer)</text>
+  <text x="115" y="137" text-anchor="middle" font-size="10" fill="#374151">A取B放 / C取B放</text>
+  <rect x="370" y="92" width="120" height="64" rx="8" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.6"/>
+  <text x="430" y="116" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">暫存格 B</text>
+  <text x="430" y="136" text-anchor="middle" font-size="10" fill="#6B7280">空 ⇄ 滿 切換</text>
+  <rect x="690" y="96" width="150" height="56" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="765" y="119" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5B21B6">車2(consumer)</text>
+  <text x="765" y="137" text-anchor="middle" font-size="10" fill="#374151">B取E放 / B取F放</text>
+  <line x1="190" y1="124" x2="368" y2="124" stroke="#2563EB" stroke-width="1.8" marker-end="url(#a)"/>
+  <text x="279" y="116" text-anchor="middle" font-size="10" fill="#1E40AF">放:需 B 空</text>
+  <line x1="490" y1="124" x2="688" y2="124" stroke="#7C3AED" stroke-width="1.8" marker-end="url(#a)"/>
+  <text x="589" y="116" text-anchor="middle" font-size="10" fill="#5B21B6">取:需 B 滿</text>
+
+  <line x1="40" y1="172" x2="840" y2="172" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- 時間軸刻度函式:x = 150 + n*80, n=0..8 -->
+  <!-- ② 策略二 -->
+  <text x="40" y="200" font-size="12.5" font-weight="700" fill="#065F46">② 策略二:允許一次排入 + 調度層序列化 → 自動交錯流水</text>
+  <text x="40" y="218" font-size="10" fill="#6B7280">四筆任務一次送出;靠「B 空/滿」當 gating,排程器自己排成一條生產者-消費者流水。</text>
+  <!-- 車道標籤 -->
+  <text x="44" y="252" font-size="10.5" font-weight="700" fill="#1E40AF">車1</text>
+  <text x="44" y="292" font-size="10.5" font-weight="700" fill="#5B21B6">車2</text>
+  <!-- 車1 bars -->
+  <rect x="150" y="238" width="160" height="24" rx="4" fill="#DBEAFE" stroke="#2563EB"/><text x="230" y="254" text-anchor="middle" font-size="10" fill="#1E40AF">A取B放(放入 B)</text>
+  <line x1="310" y1="250" x2="470" y2="250" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4,3"/><text x="390" y="245" text-anchor="middle" font-size="8.5" fill="#9CA3AF">等 B 空</text>
+  <rect x="470" y="238" width="160" height="24" rx="4" fill="#DBEAFE" stroke="#2563EB"/><text x="550" y="254" text-anchor="middle" font-size="10" fill="#1E40AF">C取B放(再放入 B)</text>
+  <!-- 車2 bars -->
+  <line x1="150" y1="290" x2="310" y2="290" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4,3"/><text x="230" y="285" text-anchor="middle" font-size="8.5" fill="#9CA3AF">等 B 滿</text>
+  <rect x="310" y="278" width="160" height="24" rx="4" fill="#EDE9FE" stroke="#7C3AED"/><text x="390" y="294" text-anchor="middle" font-size="10" fill="#5B21B6">B取E放(取走→B 空)</text>
+  <line x1="470" y1="290" x2="630" y2="290" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4,3"/><text x="550" y="285" text-anchor="middle" font-size="8.5" fill="#9CA3AF">等 B 滿</text>
+  <rect x="630" y="278" width="160" height="24" rx="4" fill="#EDE9FE" stroke="#7C3AED"/><text x="710" y="294" text-anchor="middle" font-size="10" fill="#5B21B6">B取F放(取走→B 空)</text>
+  <!-- gating 觸發箭頭 -->
+  <line x1="310" y1="264" x2="310" y2="276" stroke="#059669" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="470" y1="304" x2="470" y2="237" stroke="#059669" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="630" y1="264" x2="630" y2="276" stroke="#059669" stroke-width="1.6" marker-end="url(#g)"/>
+  <text x="316" y="320" font-size="8.5" fill="#065F46">B 滿→車2 可取</text>
+  <text x="430" y="332" font-size="8.5" fill="#065F46">B 空→車1 可放</text>
+  <text x="636" y="320" font-size="8.5" fill="#065F46">B 滿→車2 可取</text>
+  <text x="800" y="254" font-size="9" fill="#059669">→ 時間</text>
+
+  <line x1="40" y1="352" x2="840" y2="352" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- ③ 策略一 -->
+  <text x="40" y="382" font-size="12.5" font-weight="700" fill="#9A3412">③ 策略一:預排即拒絕(B 一被預定就鎖住)→ 不能一次排入</text>
+  <text x="40" y="400" font-size="10" fill="#6B7280">B 已被「A取B放」預定,第二筆放 B(C取B放)當下就被擋下;使用者得盯著狀態、手動補單。</text>
+  <text x="44" y="434" font-size="10.5" font-weight="700" fill="#1E40AF">車1</text>
+  <text x="44" y="474" font-size="10.5" font-weight="700" fill="#5B21B6">車2</text>
+  <rect x="150" y="420" width="160" height="24" rx="4" fill="#DBEAFE" stroke="#2563EB"/><text x="230" y="436" text-anchor="middle" font-size="10" fill="#1E40AF">A取B放(放入 B)</text>
+  <rect x="470" y="420" width="160" height="24" rx="4" fill="url(#hatch)" stroke="#DC2626" stroke-dasharray="4,3"/><text x="550" y="436" text-anchor="middle" font-size="9.5" font-weight="700" fill="#991B1B">C取B放 被拒</text>
+  <text x="550" y="458" text-anchor="middle" font-size="8.5" fill="#9A3412">(B 已預定,排不進去)</text>
+  <rect x="310" y="460" width="160" height="24" rx="4" fill="#EDE9FE" stroke="#7C3AED"/><text x="390" y="476" text-anchor="middle" font-size="10" fill="#5B21B6">B取E放(取走→B 空)</text>
+  <!-- 人工補單 -->
+  <line x1="470" y1="484" x2="470" y2="446" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="3,2" marker-end="url(#a)"/>
+  <text x="478" y="500" font-size="9" fill="#991B1B">B 空出後,使用者「人工」才能補按 C取B放</text>
+  <text x="800" y="436" font-size="9" fill="#9A3412">→ 時間</text>
+
+  <text x="40" y="534" font-size="10.5" fill="#374151">取捨:策略一<tspan font-weight="700" fill="#9A3412">一致性強、實作簡單</tspan>,但逼人手動分批、吞吐低;策略二<tspan font-weight="700" fill="#065F46">吞吐高、貼近「上位塞、車隊消化」</tspan>,代價是序列化/釋放條件要做紮實(否則 deadlock/飢餓)。</text>
+</svg>
