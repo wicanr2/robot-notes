@@ -28,6 +28,10 @@
 
 **Network slicing(網路切片)+ MEC(邊緣運算)**:把一張實體網切成多個有獨立 SLA 的虛擬網,可為「即時控制」切一條低延遲高可靠 slice,跟「影像回傳」隔離;MEC 把運算下放邊緣縮短往返([slicing 說明](https://www.5gtechnologyworld.com/how-5g-network-slicing-works-part-1/))。
 
+<p align="center"><img src="../../img/network-slicing.svg" width="720" alt="5G 網路切片:同一套實體基礎設施(5G 基地台 RAN→邊緣運算→傳輸網路→虛擬化核心網)被切成 URLLC(即時控制)、eMBB(影像回傳)、mMTC(海量感測)三條端到端、各有品質保證的虛擬網;機器人把即時控制放 URLLC 切片、影像放 eMBB 切片,互不搶資源"></p>
+
+<p align="center"><sub>概念參考自 5G Technology World 的 network slicing 圖,重繪並補上機器人情境。</sub></p>
+
 **Private 5G(企業私有 5G)** 在工廠 / 倉儲 AMR 明確成形:相較 Wi-Fi,換手更少、延遲更穩、覆蓋更省設備;已見於 Ford、Toyota、Tesla 等廠,Nokia 為 Hyundai 廠協調數百台 AMR([Ericsson 案例](https://www.ericsson.com/en/industries/warehousing-and-logistics))。
 
 一個講得比較具體的案例是 **Ericsson × 韓國 CJ Logistics 物流倉**:把原本 300 個 Wi-Fi AP(無線基地台)換成 **22 個 5G radio dot(室內小型天線)**,整個倉庫當成「一個訊號細胞(single cell)」運作——AMR / AGV 車隊在裡面全速跑、不再因為跨 AP 換手而斷線或減速;Ericsson 揭露的數字是生產力 +20%、資本支出 −15%([Ericsson CJ Logistics 案例](https://www.ericsson.com/en/cases/2023/transforming-warehouse-operations))。「換手少」對機器人為什麼重要:Wi-Fi 跨 AP 切換的瞬間會掉封包,正在跑的車就可能頓一下;5G 單一細胞把這個切換點消掉了。*(注:這類「省幾個 AP、提升幾 %」是廠商揭露的數字,看的時候要意識到來源。)*
