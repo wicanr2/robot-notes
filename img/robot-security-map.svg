@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="sm-a" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="760" height="500" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">機器人通訊安全全景:每個通訊面都要 加密 + 認證 + 授權</text>
+
+  <!-- 中心:機器人 -->
+  <rect x="24" y="200" width="150" height="104" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="99" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="#1E40AF">機器人</text>
+  <text x="99" y="266" text-anchor="middle" font-size="9.5" fill="#6B7280">多個通訊面,</text>
+  <text x="99" y="280" text-anchor="middle" font-size="9.5" fill="#6B7280">威脅各不同</text>
+
+  <g stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#sm-a)">
+    <line x1="174" y1="225" x2="206" y2="98"/><line x1="174" y1="240" x2="206" y2="178"/><line x1="174" y1="255" x2="206" y2="256"/><line x1="174" y1="270" x2="206" y2="336"/><line x1="174" y1="285" x2="206" y2="416"/>
+  </g>
+
+  <!-- 5 個通訊面卡 -->
+  <g>
+    <rect x="208" y="56" width="540" height="74" rx="8" fill="#F3F4F6" stroke="#9CA3AF"/>
+    <text x="222" y="76" font-size="12" font-weight="700" fill="#374151">下位機 ↔ 上位機(UART / CAN)</text>
+    <text x="222" y="94" font-size="9.5" fill="#6B7280">威脅:多在封閉機體內,但匯流排本身無加密無認證</text>
+    <text x="222" y="110" font-size="9.5" fill="#065F46">手段:CRC + 序號 + 心跳逾時(完整性/防重放);要防實體竄改 → 訊息鑑別碼 / CAN SecOC</text>
+
+    <rect x="208" y="138" width="540" height="74" rx="8" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="222" y="158" font-size="12" font-weight="700" fill="#991B1B">ROS2 節點間(DDS)　⚠ 最常被忽略</text>
+    <text x="222" y="176" font-size="9.5" fill="#6B7280">威脅:DDS 預設明文 + 自動發現,同網路可訂閱 topic、注入 /cmd_vel 劫持車</text>
+    <text x="222" y="192" font-size="9.5" fill="#065F46">手段:DDS-Security / SROS2 — 節點雙向認證 + 加密 + topic 級存取控制(DOMAIN_ID 只是隔離)</text>
+
+    <rect x="208" y="220" width="540" height="74" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="222" y="240" font-size="12" font-weight="700" fill="#9A3412">車 ↔ 車隊調度(MQTT / VDA5050、REST)</text>
+    <text x="222" y="258" font-size="9.5" fill="#6B7280">威脅:明文 MQTT 誰都能 pub/sub 全車隊 topic</text>
+    <text x="222" y="274" font-size="9.5" fill="#065F46">手段:mqtts + mTLS client 憑證 + per-device ACL;REST 走 HTTPS + token</text>
+
+    <rect x="208" y="302" width="540" height="74" rx="8" fill="#F5F3FF" stroke="#8B5CF6"/>
+    <text x="222" y="322" font-size="12" font-weight="700" fill="#5B21B6">對外 / 雲端 / 遠端(監控、OTA)</text>
+    <text x="222" y="340" font-size="9.5" fill="#6B7280">威脅:公網暴露、被換上惡意韌體</text>
+    <text x="222" y="356" font-size="9.5" fill="#065F46">手段:TLS + 認證 + VPN / 網段隔離;OTA 要韌體簽章 + secure boot + 防回滾</text>
+
+    <rect x="208" y="384" width="540" height="74" rx="8" fill="#ECFDF5" stroke="#10B981"/>
+    <text x="222" y="404" font-size="12" font-weight="700" fill="#065F46">MCU 端(STM32 提供 HTTPS / 連 mqtts)</text>
+    <text x="222" y="422" font-size="9.5" fill="#6B7280">威脅:私鑰外洩、弱亂數讓 TLS 形同虛設</text>
+    <text x="222" y="438" font-size="9.5" fill="#065F46">手段:mbedTLS + 硬體 RNG/CRYP、私鑰存 Flash + 讀保護(RDP)、secure boot</text>
+  </g>
+
+  <text x="380" y="482" text-anchor="middle" font-size="10.5" fill="#374151">三件套缺一不可:加密(別人看不到)+ 認證(冒充不了)+ 授權(越權不了);按威脅模型投入,別把隔離當安全</text>
+</svg>
