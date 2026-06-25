@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="bs" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="800" height="330" fill="#ffffff"/>
+  <text x="400" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">安全序列:B 這格隨四步「空↔滿」翻面,四筆都收得了尾</text>
+  <text x="400" y="46" text-anchor="middle" font-size="11" fill="#6B7280">放行前 banker's 先確認「整批湊得出這樣一條完成順序」;存在就准許全部排入</text>
+
+  <!-- 四個步驟欄,x 中心:110, 290, 470, 650;再加起始狀態在最左 -->
+  <!-- 時間軸 -->
+  <line x1="60" y1="170" x2="745" y2="170" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="745" y="162" font-size="9" fill="#9CA3AF">時間 →</text>
+
+  <!-- 起始 -->
+  <text x="70" y="120" text-anchor="middle" font-size="9.5" fill="#6B7280">起始</text>
+  <rect x="48" y="128" width="44" height="44" rx="6" fill="#F3F4F6" stroke="#9CA3AF"/>
+  <text x="70" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#6B7280">B 空</text>
+
+  <!-- 通用:每步一個箭頭 + 動作 + 結果格子 -->
+  <!-- step1 車1 A取B放 空→滿 -->
+  <line x1="96" y1="150" x2="150" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#bs)"/>
+  <text x="200" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF">① 車1 A取B放</text>
+  <text x="200" y="111" text-anchor="middle" font-size="8.5" fill="#6B7280">需 B 空 ✓ → 放入</text>
+  <rect x="156" y="128" width="88" height="44" rx="6" fill="#DBEAFE" stroke="#2563EB"/>
+  <text x="200" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">B 滿</text>
+
+  <!-- step2 車2 B取E放 滿→空 -->
+  <line x1="248" y1="150" x2="296" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#bs)"/>
+  <text x="344" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6">② 車2 B取E放</text>
+  <text x="344" y="111" text-anchor="middle" font-size="8.5" fill="#6B7280">需 B 滿 ✓ → 取走</text>
+  <rect x="300" y="128" width="88" height="44" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="344" y="151" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">B 空</text>
+  <text x="344" y="166" text-anchor="middle" font-size="8" fill="#6B7280">E 滿</text>
+
+  <!-- step3 車1 C取B放 空→滿 -->
+  <line x1="392" y1="150" x2="440" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#bs)"/>
+  <text x="488" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF">③ 車1 C取B放</text>
+  <text x="488" y="111" text-anchor="middle" font-size="8.5" fill="#6B7280">需 B 空 ✓ → 放入</text>
+  <rect x="444" y="128" width="88" height="44" rx="6" fill="#DBEAFE" stroke="#2563EB"/>
+  <text x="488" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">B 滿</text>
+
+  <!-- step4 車2 B取F放 滿→空 -->
+  <line x1="536" y1="150" x2="584" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#bs)"/>
+  <text x="632" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6">④ 車2 B取F放</text>
+  <text x="632" y="111" text-anchor="middle" font-size="8.5" fill="#6B7280">需 B 滿 ✓ → 取走</text>
+  <rect x="588" y="128" width="88" height="44" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="632" y="151" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">B 空</text>
+  <text x="632" y="166" text-anchor="middle" font-size="8" fill="#6B7280">F 滿</text>
+
+  <!-- 完成 -->
+  <line x1="680" y1="150" x2="720" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#bs)"/>
+  <text x="720" y="138" text-anchor="middle" font-size="11" fill="#065F46">✓</text>
+  <text x="720" y="155" text-anchor="middle" font-size="8.5" fill="#065F46">四筆</text>
+  <text x="720" y="166" text-anchor="middle" font-size="8.5" fill="#065F46">完成</text>
+
+  <!-- 車道圖例 + 結論 -->
+  <rect x="60" y="215" width="14" height="14" rx="3" fill="#DBEAFE" stroke="#2563EB"/><text x="80" y="226" font-size="9.5" fill="#374151">車1(producer:往 B 放,需 B 空)</text>
+  <rect x="300" y="215" width="14" height="14" rx="3" fill="#EDE9FE" stroke="#7C3AED"/><text x="320" y="226" font-size="9.5" fill="#374151">車2(consumer:從 B 取,需 B 滿)</text>
+
+  <text x="400" y="268" text-anchor="middle" font-size="11" fill="#374151">每一步的前提(B 空 / B 滿)都剛好被前一步滿足 → 存在一條讓四筆都做完的順序 = <tspan font-weight="700" fill="#065F46">安全序列</tspan></text>
+  <text x="400" y="292" text-anchor="middle" font-size="10.5" fill="#6B7280">banker's 在放行前就確認「這條順序存在」才准排入;策略一只看到「B 被放了第二次」就直接拒掉,連這條安全的流水也擋掉</text>
+  <text x="400" y="314" text-anchor="middle" font-size="9.5" fill="#9CA3AF">註:存在安全序列只代表「有解」;執行期仍靠 B 空/滿的 gating 真的照可行順序走</text>
+</svg>
