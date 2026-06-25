@@ -15,6 +15,8 @@
 
 > **沿著「這個方向」這條射線,第一個碰到的場景表面有多遠?**
 
+<p align="center"><img src="../../img/gpu-lidar-what-it-measures.svg" width="760" alt="俯視:LiDAR 在房間中央往四面八方射出 ray,每條打到牆或障礙的最近表面、量得一個距離;N 個距離連起來就是一筆 LaserScan(掃描輪廓),障礙會在輪廓上咬出一個缺口"></p>
+
 ## 2. 兩種算法:逐 ray 求交 vs render 深度
 
 **做法 A — CPU 逐 ray 求幾何交點(直覺、慢)**:對每一條 ray,跟場景裡每個三角形算「射線–三角形交點」,取最近的。複雜度 ~ O(ray 數 × 三角形數)。一顆 360 線的 LiDAR、場景幾十萬個三角形,每幀就是上億次運算。雖然有 BVH 之類加速結構,但仍是「逐 ray」的活。
@@ -82,15 +84,27 @@ z = depth * sin(inclination);
 
 `LaserScan`(2D)直接用距離陣列;`PointCloud`(3D)用上面的轉換。這就是 `/scan`、`/points` 的由來。
 
-## 5. 為什麼這「不算真正的 ray tracing」
+## 5. ray tracing 是什麼,為什麼那麼吃運算
 
-很多人(包括 SDF 標籤直覺)會說 LiDAR 模擬是 ray tracing。嚴格講:
+前面一直說 gz「不是用 ray tracing」,那 ray tracing 到底是什麼、為什麼大家提到它都說「很貴」?
 
-- **概念上**對:每個方向一條 ray、量到最近表面——這是 ray casting 的語意。
-- **實作上**不是典型 ray tracing:gz 沒有對每條 ray 去場景做「射線–幾何求交」,而是用 **rasterization(把場景深度畫出來)+ cubemap + 深度取樣**。這在通用 GPU 上快得多,也不需要 RTX 那種硬體 ray tracing 單元。
-- 真正的硬體 ray tracing(RTX / `VK_KHR_ray_tracing`)是另一條路:逐 ray 在 BVH 上追蹤交點,對「反射、折射、非直線光路」更精確,但需要特定硬體。gz 的 `gpu_lidar` 為了**通用、夠快、夠準**,選了 rasterized depth 這條。
+**它的核心想法很老、也很直白**:從相機(眼睛)出發,**對每個像素射一條 ray 進場景,找它第一個打中的表面**。這叫 **ray casting**,Arthur Appel 在 **1968** 年就提出([Appel, 1968](https://dl.acm.org/doi/10.1145/1468075.1468082))。十二年後,Turner Whitted 在 **1980** 年把它變成**遞迴**的:ray 打中表面後,**再生出新的 ray**——往鏡射方向的「反射 ray」、穿過透明材質的「折射 ray」、朝光源問「我被擋住了沒」的「陰影 ray」;這些新 ray 又可能再打中表面、再分裂下去。這就是現代「Whitted-style ray tracing」([Whitted, 1980](https://dl.acm.org/doi/10.1145/358876.358882))。所以它其實是 **1960~80 年代**的算法,不是 90 年代才出現。
 
-> 所以「`gpu_lidar` = ray tracing」是個方便但不精確的說法;精確講是「**用 GPU rasterizer render 深度來模擬 ray 測距**」。
+<p align="center"><img src="../../img/ray-tracing-cost.svg" width="760" alt="ray tracing 的遞迴:相機射出 primary ray 打中鏡面,分裂出反射、折射、陰影 ray,二次命中再分裂;成本是像素×取樣×反彈次數×場景幾何相乘,每幀數十億次求交"></p>
+
+**為什麼這麼吃運算**:成本大致是**相乘**的——
+
+> 像素數(1080p 約 2 百萬) × 每像素取樣數(去鋸齒、降噪要好幾條) × 每條 ray 的反彈次數(遞迴深度) × 每次「射線–幾何求交」要掃的場景複雜度。
+
+乘下來每幀就是**數十億到上百億次求交**。所以幾十年來 ray tracing 都是「**離線算**」的(電影一幀算好幾小時、靠農場機房);**即時**ray tracing 一直做不到,直到 GPU 內建了**專用硬體**(在晶片上做 BVH 走訪與射線求交,例如 NVIDIA 的 RTX,**2018**)才在遊戲/模擬裡跑得動。物理上它最迷人:反射、折射、軟陰影、多次反彈的光,都自然算出來——代價就是這個運算量。
+
+### 那 `gpu_lidar` 跟 ray tracing 是什麼關係
+
+- **概念上**:LiDAR「每個方向一條 ray、量到最近表面」就是 ray casting 的語意,所以直覺把它跟 ray tracing 連在一起不算錯。
+- **gz 的實作不是**:gz 沒有對每條 ray 去做「射線–幾何求交」(那就是上面那筆貴帳),而是用 **rasterization 把場景深度畫出來 + cubemap + 深度取樣**(§2~§4)。它繞開了逐 ray 求交,用通用 GPU 就快——代價是少了反射/折射這些光路效果(對一般 LiDAR 測距夠用)。
+- **真的用 ray tracing 的模擬也有**:像 NVIDIA Isaac Sim 的 **RTX Lidar** 就是用 RTX 硬體 ray tracing 算 LiDAR,能模擬玻璃/鏡面反射、材質反射率這些 `gpu_lidar` 做不到的效果——但要 RTX 等級的 GPU。**這正是「rasterized depth(快、通用)」與「hardware ray tracing(準、要專用硬體)」的取捨**。
+
+> 所以「`gpu_lidar` = ray tracing」是個方便但不精確的說法;精確講是「**用 GPU rasterizer render 深度來模擬 ray 測距**」。要真 ray tracing 的物理保真度,得上 RTX 那條路。
 
 ## 6. 回扣:為什麼沒 GPU / CI 軟體渲染就慢
 
@@ -106,3 +120,5 @@ z = depth * sin(inclination);
 - `gz-rendering` `Ogre2GpuRays.cc`(cubemap 1st pass 深度、2nd pass 取樣、線性化、球面近裁切):https://github.com/gazebosim/gz-rendering/blob/gz-rendering8/ogre2/src/Ogre2GpuRays.cc
 - `gz-rendering` `BaseGpuRays.hh`(GpuRays 介面:角度/ray 數/clip 設定):https://github.com/gazebosim/gz-rendering/blob/gz-rendering8/include/gz/rendering/base/BaseGpuRays.hh
 - 概念對照:GPU depth/Z-buffer 與 rasterization(維基):https://en.wikipedia.org/wiki/Z-buffering
+- ray tracing 歷史:Appel 1968「Some techniques for shading machine renderings of solids」https://dl.acm.org/doi/10.1145/1468075.1468082 ；Whitted 1980「An Improved Illumination Model for Shaded Display」https://dl.acm.org/doi/10.1145/358876.358882 ；綜述 https://en.wikipedia.org/wiki/Ray_tracing_(graphics)
+- 硬體 ray tracing:NVIDIA RTX(2018)https://www.nvidia.com/en-us/geforce/news/geforce-rtx-real-time-ray-tracing/ ；Isaac Sim RTX Lidar https://docs.isaacsim.omniverse.nvidia.com/latest/sensors/isaacsim_sensors_rtx_based_lidar.html

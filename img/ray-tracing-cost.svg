@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="r" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+  </defs>
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">ray tracing 為什麼那麼貴:每打中一次,就分裂出更多 ray</text>
+  <text x="380" y="48" text-anchor="middle" font-size="11" fill="#6B7280">每個像素至少一條 primary ray;碰到表面再生反射/折射/陰影 ray,遞迴下去 → ray 數爆炸</text>
+
+  <!-- 左:場景與遞迴 ray -->
+  <text x="40" y="80" font-size="12" font-weight="700" fill="#374151">一條 primary ray 打中後…</text>
+  <!-- 眼睛/相機 -->
+  <circle cx="60" cy="200" r="6" fill="#1F2937"/><text x="60" y="222" text-anchor="middle" font-size="9" fill="#374151">相機</text>
+  <!-- 表面 1(反射面) -->
+  <line x1="200" y1="110" x2="240" y2="290" stroke="#9CA3AF" stroke-width="3"/>
+  <text x="246" y="200" font-size="9" fill="#9CA3AF">鏡面</text>
+  <!-- primary ray -->
+  <line x1="66" y1="200" x2="214" y2="186" stroke="#2563EB" stroke-width="2.2" marker-end="url(#r)"/>
+  <text x="120" y="183" font-size="9.5" font-weight="700" fill="#1E40AF">primary</text>
+  <!-- 命中點 -->
+  <circle cx="218" cy="186" r="4" fill="#DC2626"/>
+  <!-- 反射 ray -->
+  <line x1="218" y1="186" x2="330" y2="120" stroke="#EA580C" stroke-width="1.8" marker-end="url(#r)"/>
+  <text x="300" y="120" font-size="9" fill="#9A3412">反射</text>
+  <!-- 折射 ray -->
+  <line x1="218" y1="186" x2="330" y2="250" stroke="#7C3AED" stroke-width="1.8" marker-end="url(#r)"/>
+  <text x="300" y="262" font-size="9" fill="#5B21B6">折射</text>
+  <!-- 陰影 ray 朝光源 -->
+  <line x1="218" y1="186" x2="300" y2="90" stroke="#059669" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#r)"/>
+  <text x="250" y="96" font-size="9" fill="#065F46">陰影(問光源遮到沒)</text>
+  <circle cx="312" cy="78" r="7" fill="#FDE047" stroke="#CA8A04"/><text x="312" y="64" text-anchor="middle" font-size="8.5" fill="#854D0E">光源</text>
+  <!-- 二次命中再分裂 -->
+  <circle cx="334" cy="118" r="3.5" fill="#DC2626"/>
+  <line x1="334" y1="118" x2="410" y2="90" stroke="#EA580C" stroke-width="1.3" marker-end="url(#r)"/>
+  <line x1="334" y1="118" x2="410" y2="150" stroke="#7C3AED" stroke-width="1.3" marker-end="url(#r)"/>
+  <text x="360" y="178" font-size="9" fill="#9CA3AF">…每次命中再生更多 ray(遞迴)</text>
+
+  <!-- 右:成本量級 -->
+  <rect x="470" y="74" width="266" height="270" rx="9" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <text x="486" y="98" font-size="12.5" font-weight="700" fill="#1F2937">成本大致是相乘的</text>
+  <g font-size="10.5" fill="#374151">
+    <text x="486" y="124">像素數(1080p ≈ 2百萬)</text>
+    <text x="486" y="146">× 每像素取樣數(去鋸齒/降噪)</text>
+    <text x="486" y="168">× 每條 ray 的反彈次數(遞迴深度)</text>
+    <text x="486" y="190">× 每次求交要掃的場景幾何</text>
+    <text x="486" y="216" font-weight="700" fill="#9A3412">= 每幀數十億～上百億次求交</text>
+  </g>
+  <text x="486" y="248" font-size="10" fill="#6B7280">所以幾十年來都是「離線算」(電影一幀算幾小時)。</text>
+  <text x="486" y="272" font-size="10" fill="#6B7280">即時 ray tracing 要等到 GPU 內建專用</text>
+  <text x="486" y="286" font-size="10" fill="#6B7280">硬體(BVH 走訪單元,如 RTX,2018)。</text>
+  <text x="486" y="316" font-size="10" fill="#374151">對照:gz 的 gpu_lidar 走 <tspan font-weight="700">rasterized depth</tspan>,</text>
+  <text x="486" y="332" font-size="10" fill="#374151">繞開逐 ray 求交,用通用 GPU 就快。</text>
+</svg>
