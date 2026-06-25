@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="nc" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">近裁切:相機用「平面」,但 LiDAR 的 range_min 是「球面」</text>
+  <text x="380" y="46" text-anchor="middle" font-size="11" fill="#6B7280">直接套相機的平面近裁切,斜射方向會把「其實夠遠、該保留」的表面誤砍掉</text>
+
+  <!-- 前方軸 -->
+  <line x1="110" y1="210" x2="300" y2="210" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="285" y="226" font-size="9" fill="#9CA3AF">正前方</text>
+
+  <!-- 球面近裁切弧(半徑 130) -->
+  <path d="M 240 210 A 130 130 0 0 1 153.5 87.6" fill="none" stroke="#059669" stroke-width="2.4"/>
+  <text x="250" y="150" font-size="10" font-weight="700" fill="#065F46">球面裁切</text>
+  <text x="250" y="165" font-size="8.5" fill="#065F46">(各方向等距 = range_min)</text>
+
+  <!-- 平面近裁切(垂直線 x=240) -->
+  <line x1="240" y1="60" x2="240" y2="210" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="246" y="74" font-size="10" font-weight="700" fill="#991B1B">平面裁切</text>
+  <text x="246" y="88" font-size="8.5" fill="#991B1B">(固定垂直距離)</text>
+
+  <!-- LiDAR -->
+  <circle cx="110" cy="210" r="6" fill="#1F2937"/>
+  <text x="110" y="230" text-anchor="middle" font-size="9" fill="#374151">LiDAR</text>
+
+  <!-- 斜射 ray 50° -->
+  <line x1="116" y1="206" x2="245" y2="49" stroke="#374151" stroke-width="1.6" marker-end="url(#nc)"/>
+  <text x="120" y="190" font-size="9" fill="#374151">斜射 ray</text>
+  <!-- 被平面多砍的區段(弧交點→平面交點)紅色粗線 -->
+  <line x1="193.6" y1="110.4" x2="240" y2="55.3" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  <circle cx="193.6" cy="110.4" r="3.5" fill="#059669"/>
+  <circle cx="240" cy="55.3" r="3.5" fill="#DC2626"/>
+
+  <!-- 說明右側 -->
+  <rect x="430" y="80" width="310" height="200" rx="9" fill="#FFFBEB" stroke="#F59E0B"/>
+  <text x="448" y="106" font-size="12" font-weight="700" fill="#92400E">橘色這段:被平面「誤砍」的表面</text>
+  <g font-size="10.5" fill="#374151">
+    <text x="448" y="132">沿斜射 ray,表面到 LiDAR 的<tspan font-weight="700">真實距離</tspan></text>
+    <text x="448" y="150">已經<tspan font-weight="700" fill="#065F46"> &gt; range_min</tspan>(過了綠色球面),</text>
+    <text x="448" y="168">本該<tspan font-weight="700">保留並回報</tspan>。</text>
+    <text x="448" y="194">但它的「垂直距離」還沒到平面,</text>
+    <text x="448" y="212">平面裁切就把它<tspan font-weight="700" fill="#991B1B">當成太近、砍掉</tspan>。</text>
+    <text x="448" y="244" font-size="10" fill="#6B7280">角度越斜,平面交點離得越遠,</text>
+    <text x="448" y="260" font-size="10" fill="#6B7280">這段誤砍就越長。改用球面就對齊各方向。</text>
+  </g>
+</svg>

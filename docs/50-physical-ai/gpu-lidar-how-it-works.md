@@ -74,6 +74,8 @@ this->dataPtr->gpuRays->SetFarClipPlane(this->RangeMax());
 
 一個容易忽略的細節(實作 corner case,不影響理解主線,可跳過):相機的近裁切面是**平面**,但 LiDAR 的 `range_min` 是**球面半徑**(各方向等距)。直接用平面近裁切,斜射的 ray 會被錯誤裁掉。gz 為此寫了一個自訂 shader `Ogre2GzHlmsSphericalClipMinDistance`,把近裁切改成球面距離。這種小地方正是「模擬要對得起物理」的功夫。
 
+<p align="center"><img src="../../img/gpu-lidar-near-clip.svg" width="760" alt="近裁切:綠色弧是球面裁切(各方向等距 range_min),紅色虛線是相機的平面裁切;沿斜射 ray,橘色那段表面真實距離已大於 range_min、本該保留,卻因垂直距離還沒到平面而被平面誤砍——角度越斜誤砍越長,改用球面才對齊各方向"></p>
+
 ### 4.5 深度 → 距離 → 點雲
 
 回到 `GpuLidarSensor.cc`:拿到每條 ray 的深度後,`FillPointCloudMsg()` 用**球座標轉直角座標**把它變成 3D 點:
