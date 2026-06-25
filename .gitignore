@@ -5,3 +5,6 @@ Thumbs.db
 .scratch/
 node_modules/
 __pycache__/
+
+# 內部工作對話紀錄(含客戶名,勿公開)
+talk_record/
