@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 350" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="350" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">點雲配準三路線:找一個變換把當前點雲對齊參考</text>
+
+  <!-- ICP -->
+  <g>
+    <rect x="20" y="48" width="232" height="284" rx="9" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="136" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">ICP:逐點最近鄰</text>
+    <!-- target 點(藍) + source 點(橘) + 對應線 -->
+    <g>
+      <circle cx="60" cy="110" r="3" fill="#2563EB"/><circle cx="95" cy="118" r="3" fill="#2563EB"/><circle cx="130" cy="120" r="3" fill="#2563EB"/><circle cx="165" cy="116" r="3" fill="#2563EB"/><circle cx="200" cy="108" r="3" fill="#2563EB"/>
+      <circle cx="64" cy="138" r="3" fill="#EA580C"/><circle cx="99" cy="146" r="3" fill="#EA580C"/><circle cx="134" cy="148" r="3" fill="#EA580C"/><circle cx="169" cy="144" r="3" fill="#EA580C"/><circle cx="204" cy="136" r="3" fill="#EA580C"/>
+      <g stroke="#9CA3AF" stroke-width="0.9" stroke-dasharray="3,2"><line x1="64" y1="138" x2="60" y2="110"/><line x1="99" y1="146" x2="95" y2="118"/><line x1="134" y1="148" x2="130" y2="120"/><line x1="169" y1="144" x2="165" y2="116"/><line x1="204" y1="136" x2="200" y2="108"/></g>
+    </g>
+    <text x="136" y="172" text-anchor="middle" font-size="9.5" fill="#6B7280">藍=參考 橘=當前;找最近點對應</text>
+    <!-- p2point vs p2plane -->
+    <text x="32" y="200" font-size="10" font-weight="700" fill="#1E40AF">point-to-point</text>
+    <text x="32" y="215" font-size="9" fill="#374151">罰兩點距離,收斂慢</text>
+    <text x="32" y="238" font-size="10" font-weight="700" fill="#1E40AF">point-to-plane</text>
+    <text x="32" y="253" font-size="9" fill="#374151">罰點到切平面距離,</text>
+    <text x="32" y="266" font-size="9" fill="#374151">貼合「量到的是表面」,更快</text>
+    <text x="136" y="296" text-anchor="middle" font-size="9" fill="#B91C1C">弱點:需好初值、易陷局部最小、慢</text>
+    <text x="136" y="316" text-anchor="middle" font-size="9" fill="#9CA3AF">每輪都要最近鄰搜尋</text>
+  </g>
+
+  <!-- NDT -->
+  <g>
+    <rect x="264" y="48" width="232" height="284" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/>
+    <text x="380" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#5B21B6">NDT:體素高斯分布</text>
+    <!-- voxel grid -->
+    <g stroke="#DDD6FE" stroke-width="1">
+      <line x1="300" y1="92" x2="300" y2="200"/><line x1="340" y1="92" x2="340" y2="200"/><line x1="380" y1="92" x2="380" y2="200"/><line x1="420" y1="92" x2="420" y2="200"/><line x1="460" y1="92" x2="460" y2="200"/>
+      <line x1="300" y1="92" x2="460" y2="92"/><line x1="300" y1="128" x2="460" y2="128"/><line x1="300" y1="164" x2="460" y2="164"/><line x1="300" y1="200" x2="460" y2="200"/>
+    </g>
+    <!-- gaussian blobs in some voxels -->
+    <ellipse cx="320" cy="110" rx="14" ry="6" fill="#A78BFA" fill-opacity="0.55" transform="rotate(20 320 110)"/>
+    <ellipse cx="400" cy="146" rx="15" ry="5" fill="#A78BFA" fill-opacity="0.55" transform="rotate(-10 400 146)"/>
+    <ellipse cx="440" cy="182" rx="12" ry="7" fill="#A78BFA" fill-opacity="0.55" transform="rotate(40 440 182)"/>
+    <ellipse cx="360" cy="182" rx="13" ry="5" fill="#A78BFA" fill-opacity="0.55"/>
+    <text x="380" y="226" text-anchor="middle" font-size="9.5" fill="#6B7280">每個體素內的點 → 一個高斯</text>
+    <text x="380" y="252" text-anchor="middle" font-size="9.5" fill="#374151">整張參考圖 = 連續機率密度</text>
+    <text x="380" y="272" text-anchor="middle" font-size="9.5" fill="#374151">最大化當前點落在 PDF 的似然</text>
+    <text x="380" y="298" text-anchor="middle" font-size="9" fill="#9CA3AF">免最近鄰、較平滑、對初值較寬容</text>
+  </g>
+
+  <!-- LOAM 特徵 -->
+  <g>
+    <rect x="508" y="48" width="232" height="284" rx="9" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="624" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">LOAM:邊緣 + 平面特徵</text>
+    <!-- 牆角形狀 -->
+    <path d="M540,180 L620,180 L620,100" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <!-- 平面點(綠) -->
+    <g fill="#059669"><circle cx="556" cy="180" r="3"/><circle cx="576" cy="180" r="3"/><circle cx="596" cy="180" r="3"/></g>
+    <!-- 邊緣點(紅,角) -->
+    <circle cx="620" cy="180" r="4.5" fill="#DC2626"/>
+    <!-- 垂直平面點 -->
+    <g fill="#059669"><circle cx="620" cy="160" r="3"/><circle cx="620" cy="138" r="3"/><circle cx="620" cy="116" r="3"/></g>
+    <text x="556" y="208" font-size="9.5" fill="#059669">● 平面點(曲率小)</text>
+    <text x="556" y="224" font-size="9.5" fill="#DC2626">● 邊緣/角點(曲率大)</text>
+    <text x="624" y="252" text-anchor="middle" font-size="9.5" fill="#374151">只用少數特徵點配準:</text>
+    <text x="624" y="270" text-anchor="middle" font-size="9.5" fill="#374151">邊緣→線、平面→面</text>
+    <text x="624" y="296" text-anchor="middle" font-size="9" fill="#9CA3AF">點數降一兩量級 → 又快又穩</text>
+  </g>
+</svg>

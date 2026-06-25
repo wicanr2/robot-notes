@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ev" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker></defs>
+  <rect width="820" height="300" fill="#ffffff"/>
+  <text x="410" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">3D LiDAR SLAM 演進:每代只多解一件事</text>
+
+  <!-- 時間軸 -->
+  <line x1="40" y1="80" x2="790" y2="80" stroke="#D1D5DB" stroke-width="2" marker-end="url(#ev)"/>
+
+  <!-- 節點 -->
+  <g>
+    <circle cx="90" cy="80" r="7" fill="#2563EB"/>
+    <text x="90" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">LOAM</text>
+    <text x="90" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2014</text>
+  </g>
+  <g>
+    <circle cx="230" cy="80" r="7" fill="#059669"/>
+    <text x="230" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">LeGO-LOAM</text>
+    <text x="230" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2018</text>
+  </g>
+  <g>
+    <circle cx="370" cy="80" r="7" fill="#7C3AED"/>
+    <text x="370" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">LIO-SAM</text>
+    <text x="370" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2020</text>
+  </g>
+  <g>
+    <circle cx="510" cy="80" r="7" fill="#EA580C"/>
+    <text x="510" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">FAST-LIO</text>
+    <text x="510" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2021</text>
+  </g>
+  <g>
+    <circle cx="640" cy="80" r="7" fill="#EA580C"/>
+    <text x="640" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">FAST-LIO2</text>
+    <text x="640" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2022</text>
+  </g>
+  <g>
+    <circle cx="760" cy="80" r="7" fill="#DC2626"/>
+    <text x="760" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#991B1B">Faster-LIO</text>
+    <text x="760" y="100" text-anchor="middle" font-size="9.5" fill="#6B7280">2022</text>
+  </g>
+
+  <!-- 說明卡 -->
+  <g font-size="9.5" fill="#374151">
+    <rect x="40" y="128" width="146" height="64" rx="7" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="50" y="146" font-weight="700" fill="#1E40AF">奠基</text>
+    <text x="50" y="162">邊緣+平面特徵、</text>
+    <text x="50" y="176">point-to-line/plane、</text>
+    <text x="50" y="189">odometry+mapping 雙緒</text>
+
+    <rect x="196" y="128" width="146" height="64" rx="7" fill="#ECFDF5" stroke="#6EE7B7"/>
+    <text x="206" y="146" font-weight="700" fill="#065F46">輕量、地面車</text>
+    <text x="206" y="162">+地面分割、</text>
+    <text x="206" y="176">兩步優化、</text>
+    <text x="206" y="189">內建 loop closure</text>
+
+    <rect x="352" y="128" width="146" height="64" rx="7" fill="#F5F3FF" stroke="#C4B5FD"/>
+    <text x="362" y="146" font-weight="700" fill="#5B21B6">緊耦合 LIO</text>
+    <text x="362" y="162">+IMU 預積分、</text>
+    <text x="362" y="176">factor graph(GTSAM)、</text>
+    <text x="362" y="189">關鍵幀滑動視窗</text>
+
+    <rect x="508" y="128" width="146" height="64" rx="7" fill="#FFF7ED" stroke="#FDBA74"/>
+    <text x="518" y="146" font-weight="700" fill="#9A3412">iEKF 提速</text>
+    <text x="518" y="162">新卡爾曼增益:運算量</text>
+    <text x="518" y="176">隨「狀態維度」而非</text>
+    <text x="518" y="189">「量測維度」,&lt;25ms</text>
+
+    <rect x="664" y="128" width="146" height="64" rx="7" fill="#FEF2F2" stroke="#FCA5A5"/>
+    <text x="674" y="146" font-weight="700" fill="#991B1B">直接點 + ikd-tree</text>
+    <text x="674" y="162">不抽特徵、增量 k-d</text>
+    <text x="674" y="176">tree 維護最近鄰,</text>
+    <text x="674" y="189">100Hz+(更通用)</text>
+  </g>
+
+  <text x="410" y="226" text-anchor="middle" font-size="10.5" fill="#374151">Faster-LIO(2022):把 ikd-tree 換成 iVox 增量稀疏體素 + 並行,固態 LiDAR 可達 1000–2000Hz</text>
+  <text x="410" y="256" text-anchor="middle" font-size="10" fill="#9CA3AF">主線:特徵法 → 緊耦合慣性 → 換濾波器數學(iEKF)→ 換資料結構(ikd-tree/iVox)逼極致效率</text>
+  <text x="410" y="278" text-anchor="middle" font-size="9.5" fill="#9CA3AF">框架始終是「前端配準里程計 + 後端 pose graph + loop closure」,演進都在讓它在 3D 維度爆炸下還能即時</text>
+</svg>

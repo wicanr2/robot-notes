@@ -63,6 +63,7 @@
 - [馬達與 FOC 控制](docs/10-hardware/motors-and-foc.md) — FOC、定子/轉子、有刷/無刷、功率橋、閘極驅動
 - [編碼器](docs/10-hardware/encoders.md) — 霍爾、增量式 A/B 相、STM32 讀取
 - [感測器](docs/10-hardware/sensors.md) — 2D LiDAR、深度相機、IMU
+- [LiDAR 完整解析](docs/10-hardware/lidar-landscape.md) — 第一性原理(dToF/相位/FMCW 測距、905 vs 1550nm、機械/MEMS/Flash/稜鏡掃描、2D vs 3D)+ 2025–2026 廠商產品盤點(SICK/Hokuyo/Ouster/Hesai/RoboSense/Livox…)與選型,附出處
 - [通訊匯流排](docs/10-hardware/communication-buses.md) — CAN 與 RS485,STM32F4 串接
 - [數位電路](docs/10-hardware/digital-circuits.md) — open-drain、GPIO 輸出形式
 - [電源與安全](docs/10-hardware/power-and-safety.md) — 電壓法規、急停、ramp/過流/堵轉保護
@@ -75,6 +76,7 @@
 
 ### 30 導航
 - [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、loop closure
+- [3D LiDAR SLAM 建圖](docs/30-navigation/slam-3d-lidar.md) — 接續 2D:點雲配準(ICP/NDT/LOAM 特徵)、LIO 融 IMU 去畸變、LOAM→LeGO-LOAM→LIO-SAM→FAST-LIO 演進、loop closure/pose graph、點雲地圖表示,附論文出處
 - [定位](docs/30-navigation/localization.md) — AMCL、odometry、地標/AprilTag 定位
 - [座標轉換與 TF](docs/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
 - [路徑規劃與軌跡(Nav2)](docs/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹

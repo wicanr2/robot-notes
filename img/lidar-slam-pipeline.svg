@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="pa" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="800" height="330" fill="#ffffff"/>
+  <text x="400" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">3D LiDAR SLAM 管線:前端即時里程計 + 後端全圖優化</text>
+
+  <!-- 輸入 -->
+  <rect x="24" y="70" width="120" height="46" rx="8" fill="#EFF6FF" stroke="#3B82F6"/>
+  <text x="84" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">3D LiDAR</text>
+  <text x="84" y="106" text-anchor="middle" font-size="9.5" fill="#6B7280">點雲(數萬點/幀)</text>
+  <rect x="24" y="138" width="120" height="46" rx="8" fill="#ECFDF5" stroke="#10B981"/>
+  <text x="84" y="158" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">IMU</text>
+  <text x="84" y="174" text-anchor="middle" font-size="9.5" fill="#6B7280">高頻(數百Hz)</text>
+
+  <!-- 前端 LIO -->
+  <rect x="190" y="56" width="300" height="150" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="340" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">前端:LiDAR-慣性里程計(LIO)</text>
+  <rect x="206" y="92" width="130" height="44" rx="7" fill="#ffffff" stroke="#FB923C"/>
+  <text x="271" y="110" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">IMU 去畸變</text>
+  <text x="271" y="125" text-anchor="middle" font-size="9" fill="#6B7280">幀內補回同一時刻</text>
+  <rect x="344" y="92" width="132" height="44" rx="7" fill="#ffffff" stroke="#FB923C"/>
+  <text x="410" y="110" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">配準 scan-to-map</text>
+  <text x="410" y="125" text-anchor="middle" font-size="9" fill="#6B7280">ICP/NDT/特徵 + 緊耦合</text>
+  <text x="340" y="158" text-anchor="middle" font-size="9.5" fill="#374151">高頻輸出即時位姿;IMU 提供初值、頂住退化方向</text>
+  <text x="340" y="176" text-anchor="middle" font-size="9.5" fill="#9CA3AF">(LIO-SAM / FAST-LIO 都在這層)</text>
+  <text x="340" y="194" text-anchor="middle" font-size="9.5" fill="#6B7280">輸出:位姿 + 局部地圖</text>
+
+  <!-- 後端 -->
+  <rect x="536" y="56" width="240" height="150" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="656" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#5B21B6">後端:位姿圖全圖優化</text>
+  <!-- pose graph 小圖 -->
+  <g>
+    <circle cx="576" cy="116" r="6" fill="#7C3AED"/><circle cx="616" cy="106" r="6" fill="#7C3AED"/><circle cx="656" cy="118" r="6" fill="#7C3AED"/><circle cx="696" cy="108" r="6" fill="#7C3AED"/><circle cx="728" cy="128" r="6" fill="#7C3AED"/>
+    <g stroke="#A78BFA" stroke-width="1.6"><line x1="576" y1="116" x2="616" y2="106"/><line x1="616" y1="106" x2="656" y2="118"/><line x1="656" y1="118" x2="696" y2="108"/><line x1="696" y1="108" x2="728" y2="128"/></g>
+    <path d="M576,116 Q650,160 728,128" fill="none" stroke="#EA580C" stroke-width="1.6" stroke-dasharray="5,3"/>
+    <text x="650" y="172" text-anchor="middle" font-size="9" fill="#9A3412">迴路閉合(Scan Context)</text>
+  </g>
+  <text x="656" y="190" text-anchor="middle" font-size="9.5" fill="#374151">GTSAM/g2o/Ceres 攤掉累積漂移</text>
+
+  <!-- 輸出 -->
+  <rect x="320" y="252" width="160" height="46" rx="8" fill="#ECFDF5" stroke="#10B981"/>
+  <text x="400" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">全局一致 3D 地圖</text>
+  <text x="400" y="288" text-anchor="middle" font-size="9.5" fill="#6B7280">點雲 / OctoMap / NDT</text>
+
+  <!-- 箭頭 -->
+  <g stroke="#6B7280" stroke-width="1.6" marker-end="url(#pa)">
+    <line x1="144" y1="93" x2="188" y2="100"/>
+    <line x1="144" y1="161" x2="188" y2="140"/>
+    <line x1="490" y1="131" x2="534" y2="131"/>
+    <line x1="656" y1="206" x2="450" y2="252"/>
+  </g>
+</svg>

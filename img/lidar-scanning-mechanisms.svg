@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 410" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="410" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">掃描機制:怎麼把一束光鋪成面</text>
+  <text x="380" y="48" text-anchor="middle" font-size="11.5" fill="#6B7280">機械旋轉有大型可動件;MEMS / Flash / 稜鏡屬固態或混合固態,可動件更少</text>
+
+  <!-- 機械旋轉 -->
+  <g>
+    <rect x="24" y="66" width="346" height="156" rx="9" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="44" y="90" font-size="13" font-weight="700" fill="#1E40AF">① 機械旋轉(spinning)</text>
+    <circle cx="120" cy="158" r="40" fill="none" stroke="#2563EB" stroke-width="2"/>
+    <circle cx="120" cy="158" r="6" fill="#2563EB"/>
+    <g stroke="#3B82F6" stroke-width="1.4">
+      <line x1="120" y1="158" x2="160" y2="158"/><line x1="120" y1="158" x2="148" y2="130"/><line x1="120" y1="158" x2="148" y2="186"/><line x1="120" y1="158" x2="92" y2="130"/><line x1="120" y1="158" x2="92" y2="186"/><line x1="120" y1="158" x2="80" y2="158"/>
+    </g>
+    <path d="M120,108 A50,50 0 0 1 170,158" fill="none" stroke="#F97316" stroke-width="1.6" marker-end="url(#rot)"/>
+    <text x="250" y="150" text-anchor="middle" font-size="10.5" fill="#374151">整組收發旋轉掃 360°</text>
+    <text x="250" y="170" text-anchor="middle" font-size="9.5" fill="#9CA3AF">成熟、長距好;可動件大</text>
+  </g>
+
+  <!-- MEMS -->
+  <g>
+    <rect x="390" y="66" width="346" height="156" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/>
+    <text x="410" y="90" font-size="13" font-weight="700" fill="#5B21B6">② MEMS 微鏡</text>
+    <rect x="430" y="150" width="16" height="40" rx="2" fill="#7C3AED"/>
+    <text x="438" y="206" text-anchor="middle" font-size="9" fill="#7C3AED">微鏡</text>
+    <line x1="446" y1="170" x2="500" y2="140" stroke="#A78BFA" stroke-width="1.4"/>
+    <line x1="446" y1="170" x2="500" y2="160" stroke="#A78BFA" stroke-width="1.4"/>
+    <line x1="446" y1="170" x2="500" y2="180" stroke="#A78BFA" stroke-width="1.4"/>
+    <line x1="446" y1="170" x2="500" y2="200" stroke="#A78BFA" stroke-width="1.4"/>
+    <path d="M508,135 Q520,170 508,205" fill="none" stroke="#F97316" stroke-width="1.4"/>
+    <text x="620" y="150" text-anchor="middle" font-size="10.5" fill="#374151">微鏡擺動導引光束掃描</text>
+    <text x="620" y="170" text-anchor="middle" font-size="9.5" fill="#9CA3AF">體積小、可量產;視場受限</text>
+  </g>
+
+  <!-- Flash -->
+  <g>
+    <rect x="24" y="234" width="346" height="156" rx="9" fill="#ECFDF5" stroke="#10B981"/>
+    <text x="44" y="258" font-size="13" font-weight="700" fill="#065F46">③ Flash 泛光成像</text>
+    <circle cx="110" cy="320" r="6" fill="#059669"/>
+    <path d="M110,320 L180,288 L180,352 Z" fill="#A7F3D0" fill-opacity="0.6" stroke="#10B981" stroke-width="1.4"/>
+    <line x1="180" y1="294" x2="190" y2="294" stroke="#10B981"/><line x1="180" y1="320" x2="190" y2="320" stroke="#10B981"/><line x1="180" y1="346" x2="190" y2="346" stroke="#10B981"/>
+    <text x="270" y="312" text-anchor="middle" font-size="10.5" fill="#374151">一次泛光照亮整場</text>
+    <text x="270" y="332" text-anchor="middle" font-size="9.5" fill="#9CA3AF">無掃描件、單發成幀;量程受限</text>
+  </g>
+
+  <!-- 稜鏡 Risley -->
+  <g>
+    <rect x="390" y="234" width="346" height="156" rx="9" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="410" y="258" font-size="13" font-weight="700" fill="#9A3412">④ 稜鏡 / Risley(Livox)</text>
+    <g transform="translate(470,320)" fill="none" stroke="#EA580C" stroke-width="1.3">
+      <path d="M0,0 C20,-30 40,-30 30,0 C40,30 20,30 0,0 C-20,-30 -40,-30 -30,0 C-40,30 -20,30 0,0"/>
+      <path d="M0,0 C28,-18 28,18 0,28 C-28,18 -28,-18 0,-28 C18,-28 18,28 0,0" stroke-opacity="0.5"/>
+    </g>
+    <text x="620" y="305" text-anchor="middle" font-size="10.5" fill="#374151">雙稜鏡畫花瓣狀軌跡</text>
+    <text x="620" y="324" text-anchor="middle" font-size="9.5" fill="#374151">非重複掃描:靜止時點越補越密</text>
+    <text x="620" y="343" text-anchor="middle" font-size="9.5" fill="#9CA3AF">便宜;點雲非規則,需專屬演算法</text>
+  </g>
+
+  <defs><marker id="rot" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L7,4 L0,7 Z" fill="#F97316"/></marker></defs>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="330" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">LiDAR 三種測距:量時間、量相位、量拍頻</text>
+  <text x="380" y="48" text-anchor="middle" font-size="11.5" fill="#6B7280">根本式都是 d = c·t/2;差在「怎麼從一束光取得時間資訊」</text>
+
+  <!-- dToF -->
+  <g>
+    <rect x="20" y="66" width="230" height="232" rx="9" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="135" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#1E40AF">dToF 直接飛時</text>
+    <text x="135" y="106" text-anchor="middle" font-size="10" fill="#6B7280">量脈衝來回的絕對時間</text>
+    <!-- 發射脈衝 -->
+    <line x1="40" y1="150" x2="230" y2="150" stroke="#CBD5E1"/>
+    <path d="M55,150 L75,150 L80,128 L85,150 L230,150" fill="none" stroke="#2563EB" stroke-width="2"/>
+    <text x="40" y="142" font-size="9" fill="#2563EB">發射 ↗</text>
+    <!-- 回波脈衝 -->
+    <line x1="40" y1="200" x2="230" y2="200" stroke="#CBD5E1"/>
+    <path d="M55,200 L150,200 L155,178 L160,200 L230,200" fill="none" stroke="#059669" stroke-width="2"/>
+    <text x="40" y="192" font-size="9" fill="#059669">回波 ↙</text>
+    <!-- Δt -->
+    <line x1="80" y1="220" x2="155" y2="220" stroke="#EA580C" stroke-width="1.4"/>
+    <line x1="80" y1="215" x2="80" y2="225" stroke="#EA580C"/><line x1="155" y1="215" x2="155" y2="225" stroke="#EA580C"/>
+    <text x="117" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">Δt</text>
+    <text x="135" y="270" text-anchor="middle" font-size="10.5" fill="#374151">d = c·Δt / 2</text>
+    <text x="135" y="288" text-anchor="middle" font-size="9.5" fill="#9CA3AF">主流、長距好;對環境光敏感</text>
+  </g>
+
+  <!-- AMCW -->
+  <g>
+    <rect x="265" y="66" width="230" height="232" rx="9" fill="#F5F3FF" stroke="#8B5CF6"/>
+    <text x="380" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#5B21B6">AMCW 相位式</text>
+    <text x="380" y="106" text-anchor="middle" font-size="10" fill="#6B7280">量連續波的相位差</text>
+    <path d="M285,160 Q300,130 315,160 T345,160 T375,160 T405,160 T435,160 T465,160" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M300,210 Q315,180 330,210 T360,210 T390,210 T420,210 T450,210 T480,210" fill="none" stroke="#059669" stroke-width="2"/>
+    <text x="290" y="148" font-size="9" fill="#7C3AED">發射</text>
+    <text x="290" y="232" font-size="9" fill="#059669">回波(相位移)</text>
+    <line x1="315" y1="245" x2="330" y2="245" stroke="#EA580C" stroke-width="1.4"/>
+    <text x="380" y="270" text-anchor="middle" font-size="10.5" fill="#374151">d ∝ 相位差 Δφ</text>
+    <text x="380" y="288" text-anchor="middle" font-size="9.5" fill="#9CA3AF">有距離模糊上限,多用中短距</text>
+  </g>
+
+  <!-- FMCW -->
+  <g>
+    <rect x="510" y="66" width="230" height="232" rx="9" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="625" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">FMCW 調頻連續波</text>
+    <text x="625" y="106" text-anchor="middle" font-size="10" fill="#6B7280">量收發混頻的拍頻</text>
+    <!-- chirp 斜線(頻率隨時間上升) -->
+    <line x1="530" y1="200" x2="720" y2="140" stroke="#EA580C" stroke-width="2"/>
+    <line x1="555" y1="200" x2="720" y2="148" stroke="#059669" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="535" y="135" font-size="9" fill="#EA580C">發射 chirp</text>
+    <text x="610" y="205" font-size="9" fill="#059669">回波(延遲+都卜勒)</text>
+    <line x1="530" y1="215" x2="555" y2="215" stroke="#6B7280" stroke-width="1.4"/>
+    <text x="542" y="230" text-anchor="middle" font-size="9" fill="#6B7280">Δt→拍頻</text>
+    <text x="625" y="262" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">同時得到距離 + 速度</text>
+    <text x="625" y="282" text-anchor="middle" font-size="9.5" fill="#9CA3AF">天生抗太陽光/他台干擾;成本高</text>
+  </g>
+</svg>
