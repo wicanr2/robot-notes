@@ -17,24 +17,24 @@
 
 | 層次 | 分界 | 24V 機器人的位置 |
 |---|---|---|
-| **SELV / ES1**(產品安全標準,IEC 62368-1 / 60950-1) | ≤60V DC(穩態)、42.4V AC peak | ✓ 24V(含 48V)落在內:單一故障下不構成觸電危險,絕緣/防護設計要求大幅簡化 |
+| **ES1**(產品安全「可觸及限值」,IEC 62368-1;前身 60950-1) | ≤60V DC(穩態)、42.4V AC peak | ✓ 24V(含 48V)落在內:單一故障下不構成觸電危險,絕緣/防護設計要求大幅簡化 |
 | 日本「低圧/高圧」(電気設備技術基準) | 低圧:AC ≤600V、**DC ≤750V**;高圧:其上至 7kV | 24V 遠低於任何分界 |
 | 台灣「低壓/高壓」(用戶用電設備裝置規則體系) | 600V 以下為低壓,>600V 即高壓;台電高壓用戶常見供電 11.4kV / 22.8kV | 同上 |
 
-> 一個常被混用的精確點:表中「≤60V DC」是**產品安全標準**(IEC 62368-1 ES1 / 60950-1)的「可觸及限值」;若引另一條母標 IEC 61140,SELV 的 DC 上限其實是 **120V(ripple-free)**。兩者不衝突——60V 是「正常+單一故障下可直接觸碰仍安全」的較嚴門檻。24V/48V 兩條都過。
+> (想精確再看,初次可跳過)「SELV」與「ES1」常被混講:表中 ≤60V DC 是**產品安全**(IEC 62368-1 ES1)的「可觸及限值」;另一條安裝母標 IEC 61140 的 SELV,DC 上限其實是 **120V(ripple-free)**。兩者不衝突——60V 是「正常+單一故障下可直接觸碰仍安全」的較嚴門檻。重點不變:**24V/48V 兩條都過**。
 
 所以正確理解是:**24V 系統屬 SELV 範圍,觸電風險面的法規負擔極輕**;但「免高壓法規」≠ 免一切——以下項目照樣要做:
 
 - **鋰電池本體**:電芯安全(IEC/CNS 62133)、運輸(UN 38.3,空運海運必備)。
 - **充電器/變壓器**(插市電的那顆):台灣 BSMI、日本 PSE(電気用品安全法)強制檢驗——機器人本體 24V 不管,**插 AC 110V/100V 的充電器一定管**。
-- **EMC 電磁相容**:整機輻射/抗擾(CISPR 系列;台灣資訊設備射頻擾動現行為 **CNS 15936**(對應 CISPR 32),已於 2022 年取代舊版 CNS 13438)。
-- **無線模組**:WiFi/BT,台灣 NCC 型式認證、日本「技適」(電波法)。
+- **EMC 電磁相容**:整機輻射/抗擾(CISPR 系列;台灣資訊設備射頻擾動現行為 **CNS 15936**(對應 CISPR 32),已取代舊版 CNS 13438——確切生效日以 BSMI 公告為準)。
+- **無線模組**:WiFi/BT,台灣 NCC 型式認證、日本「技適」(技適=技術基準適合証明,無線電波合規認證;依電波法)。
 
 ### 18.2 日本:服務機器人標準體系(較成熟)
 
-- **ISO 13482:2014**——個人照護/服務機器人(personal care robots)安全的國際標準,由 **ISO/TC184/SC2/WG7** 制定(英國 Gurvinder Virk 召集、14 國共同參與,**日本為主要推動與貢獻國**,而非單一「日本主導」);日本以 **JIS B 8445:2016** 等同採用(IDT),並自行追加 **JIS B 8446 系列**(按機器人類型細分的具體要求,並由日本提案回饋 ISO)。室內配膳機器人走的就是這條線。
+- **ISO 13482:2014**——個人照護/服務機器人(personal care robots)安全的國際標準,由 **ISO/TC184/SC2/WG7** 制定(英國 Gurvinder Virk 召集、14 國共同參與,**日本為主要推動與貢獻國**,而非單一「日本主導」;機器人標準現由新設的 ISO/TC 299 維護);日本以 **JIS B 8445:2016** 等同採用(IDT = identical,內容與 ISO 原文完全一致),並自行追加 **JIS B 8446 系列**(按機器人類型細分的具體要求,並由日本提案回饋 ISO)。室內配膳機器人走的就是這條線。
 - 性質:**自願性認證**(非強制),由 JQA(日本品質保證機構)、JET 等機構驗證;安全功能涉及控制系統時引用機能安全標準(ISO 13849-1、IEC 62061)。商用配膳機器人(如各品牌貓型機)在日本大量部署的合規組合 = ISO 13482 系自願認證 + PSE(充電器)+ 技適(無線)。
-- **室外人行道配送**是另一個世界:2023 年 4 月道路交通法修正新增「**遠隔操作型小型車**」制度——限速 6 km/h、車體尺寸上限(約長 120 × 寬 70 × 高 120 cm)、向公安委員會屆出制。**餐廳室內送餐不適用**,但若產品線延伸到戶外外送就會碰到。
+- **室外人行道配送**是另一個世界:2023 年 4 月道路交通法修正新增「**遠隔操作型小型車**」制度——限速 6 km/h、車體尺寸上限(約長 120 × 寬 70 × 高 120 cm)、向公安委員会**屆出**(申報/報備)制。**餐廳室內送餐不適用**,但若產品線延伸到戶外外送就會碰到。
 
 ### 18.3 台灣:無專屬強制標準,走「零組件強制 + 整機自願」
 
@@ -51,7 +51,7 @@
 
 > **Sources**(2026-06 查證,標準版本以官方公告為準):
 > - 電壓分級:[IEC 62368-1 標準頁](https://webstore.iec.ch/publication/27412)、[ES1/SELV/PELV 比較(Delta)](https://psu.deltaww.com/en/industry-know-how/what-is-the-difference-between-selv-pelv-and-es1-in-ac-dc-power-supplies)、[SELV(IEC glossary)](https://products.iec.ch/view/glossary/17e7cfd3fe5d723be2b917962d27408b)、[日本電壓種別(電気技術者協会 JEEA)](https://jeea.or.jp/latest-info/release/pdf/080408.pdf)、[台灣用戶用電設備裝置規則(全國法規)](https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=J0030018)
-> - 服務機器人標準:[ISO 13482:2014](https://www.iso.org/standard/53820.html)、[ISO 13482 制定史/召集人(CLAWAR)](https://clawar.org/wp-content/uploads/2015/04/ISOStandardization.pdf)、[JIS B 8445/8446 首張認證(Panasonic HOSPI)](https://news.panasonic.com/global/topics/5001)、[JQA ISO 13482 認證](https://www.jqa.jp/service_list/fs/service/13482/)、[JET 機器人認證](https://www.jet.or.jp/en/products/robot/index.html)、[ISO 13849-1](https://www.iso.org/standard/69883.html)、[ISO 3691-4:2023](https://www.iso.org/standard/83545.html)
+> - 服務機器人標準:[ISO 13482:2014](https://www.iso.org/standard/53820.html)、[ISO 13482 制定史/召集人(CLAWAR)](https://clawar.org/wp-content/uploads/2015/04/ISOStandardization.pdf)、[JIS B 8445/8446 認證例(Panasonic HOSPI)](https://news.panasonic.com/global/topics/5001)、[JQA ISO 13482 認證](https://www.jqa.jp/service_list/fs/service/13482/)、[JET 機器人認證](https://www.jet.or.jp/en/products/robot/index.html)、[ISO 13849-1](https://www.iso.org/standard/69883.html)、[ISO 3691-4:2023](https://www.iso.org/standard/83545.html)
 > - 日本室外配送法規:[2023 道交法改正・遠隔操作型小型車(警察庁)](https://www.npa.go.jp/bureau/traffic/selfdriving/roadtesting/kaiseidourokoutuuhou.pdf)、[施行細節(大阪府警)](https://www.police.pref.osaka.lg.jp/kotsu/kaisei/14144.html)
 > - 零組件強制檢驗:[BSMI](https://www.bsmi.gov.tw/)、[日本 PSE 直流電源裝置對象](https://www.unifive.com/quality/11.html)、[日本技適(總務省)](https://www.tele.soumu.go.jp/j/sys/equ/tech/index.htm)、[UN 38.3 鋰電池運輸](https://www.intertek.com/batteries/un-38-3-testing/)、[IEC 62133 電池安全](https://www.tuvsud.com/en/services/testing/battery-testing/battery-transportation-safety-testing-iec-62133)、[CNS 13438→CNS 15936(EMC 改版)](https://www.isl.com.tw/news-id.asp?islid=287)、[無人載具科技創新實驗條例(全國法規)](https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=J0030147)
 
@@ -79,22 +79,36 @@
 
 ### 25.2 STO:現代驅動器的標準急停入口
 
-STO(**Safe Torque Off**,安全轉矩關斷)是 FOC 驅動器普遍內建的安全輸入腳:拉斷它,驅動器**直接在閘極驅動層封鎖 PWM**(§12.4 的欠壓鎖定同層),馬達無法產生扭矩——但驅動器的邏輯電源、通訊都還活著,可以回報狀態。比「用繼電器硬切 24V 動力線」優雅:無大電流接點火花、恢復快、狀態可觀測。選驅動器時把「有無 STO 輸入」列入規格檢查項。
+STO(**Safe Torque Off**,安全轉矩關斷)是 FOC 驅動器普遍內建的安全輸入腳:拉斷它,驅動器**直接在閘極驅動層封鎖 PWM**(閘極=功率電晶體 MOSFET 的開關控制腳;封住它,功率級就無法導通、馬達拿不到電流,§12.4 的欠壓鎖定同層),馬達無法產生扭矩——但驅動器的邏輯電源、通訊都還活著,可以回報狀態。打個比方:**STO 像把馬達的「油門訊號」從源頭剪斷,但儀表電腦還醒著能回報;用繼電器硬切 24V 動力線則像直接拔整台車的電瓶——粗暴、有火花、也不知道發生什麼**。所以 STO 優雅在:無大電流接點火花、恢復快、狀態可觀測。選驅動器時把「有無 STO 輸入」列入規格檢查項。
 
 ### 25.3 「斷動力」≠「煞車」:急停後車會滑行
 
-切斷馬達動力後,車靠慣性繼續滑行(freewheel)。對策分層:
+切斷馬達動力後,車靠慣性繼續滑行(freewheel)。要理解煞車選項,得先補一個關鍵概念——**反電動勢(back-EMF)**:
 
-| 機制 | 原理 | 適用 |
+> 馬達轉起來時,自己也會像發電機一樣產生一個**反向電壓**,**轉越快這電壓越大、轉速歸零它就歸零**(`E = kₑ·ω`,與轉速成正比)。這條簡單的正比關係,同時是「短路煞車能煞車」與「堵轉會燒」的共同原因。
+
+<p align="center"><img src="../../img/back-emf-speed.svg" width="740" alt="反電動勢與轉速成正比 E=kₑ·ω:高轉速端反電動勢大,三相短路時可驅動電流經繞組電阻耗散成煞車力矩(§25.3);零轉速(堵轉)端反電動勢=0,沒有反電壓擋電流,電流飆到 V/R 最大、能量全變熱(§26.3)"></p>
+
+知道反電動勢後,煞車對策分層:
+
+| 機制 | 原理 | 適用 / 與 STO 的關係 |
 |---|---|---|
-| 三相短路煞車 (dynamic/short braking) | 把三相繞組短路,轉動產生的反電動勢變成煞車力矩 | 多數驅動器內建,急停時自動切入 |
-| 電磁抱閘 (electromagnetic brake) | 斷電時彈簧夾緊、通電才釋放(fail-safe 方向) | 有坡道的場域必備(§17.5 選型確認項) |
+| 三相短路煞車 (dynamic/short braking) | 把三相繞組短路,轉動產生的反電動勢驅動電流、經繞組電阻耗散成煞車力矩 | **與 STO 互斥**:STO 封住閘極→只能 freewheel,無法主動短路;要短路煞車得把驅動器設成 dynamic-brake 停止模式(二選一) |
+| 電磁抱閘 (electromagnetic brake) | 斷電時彈簧夾緊、通電才釋放(fail-safe 方向) | 有坡道的場域必備(§17.5);**可與 STO 並存**——STO 一斷電,抱閘的彈簧就夾住,正好同向 |
+
+> 釐清一個常見誤解:STO 急停本身得到的是 **freewheel(滑行)**,不是短路煞車——因為 STO 的定義就是封鎖閘極,驅動器沒辦法再主動導通去短路繞組。要在坡道「停住不溜」,靠的是斷電上閘的**電磁抱閘**(它和 STO 同向,斷電即夾),不是短路煞車。
 
 ### 25.4 完整的停止層級(對照 IEC 60204-1 停止類別)
 
+IEC 60204-1 把停止分成三個類別(差別在「斷不斷動力」與「斷之前有沒有受控減速」):
+
+- **Cat 0**:**立即切斷致動器動力**(uncontrolled,會 freewheel 滑行)——最硬、最快,STO 屬這類。
+- **Cat 1**:**先受控減速到停、再切斷動力**——既快又少滑行,但減速這段仍依賴驅動器運作。
+- **Cat 2**:**受控減速到停,但動力不切斷**(停著仍保持位置)——一般運轉的「停下來」用這類,不算急停。
+
 <p align="center"><img src="../../img/stop-categories.svg" width="640" alt="停止層級:硬體急停 Cat0(不經CPU)→ 韌體層 → 受控減速 Cat1/2,每層失效有更硬一層兜底"></p>
 
-設計準則:**每一層失效,都有更硬的一層兜底**;M1 驗收(§4.4)要分層測試——按鈕測 Cat 0、拔通訊線測韌體層、UI 取消任務測軟體層。
+設計準則:**每一層失效,都有更硬的一層兜底**;M1 驗收(§4.4)要分層測試——按鈕測 Cat 0、拔通訊線測韌體層、UI 取消任務測軟體層。(急停只能用 Cat 0 或 Cat 1,不能用 Cat 2——見 ISO 13850。)
 
 > **Sources**(§25,2026-06 查證):
 > - 停止類別 Cat 0/1/2:[IEC 60204-1 標準頁](https://webstore.iec.ch/publication/63273)、[停止類別解說(Schneider FA225420)](https://www.se.com/eg/en/faqs/FA225420/)、[Stop Categories(machinerysafety101)](https://machinerysafety101.com/2010/09/27/emergency-stop-categories/)
