@@ -34,7 +34,13 @@
 3. **端點防護**：設備本體是否具備惡意程式、防竄改、存取控制等防護。
 4. **安全監控**：事件紀錄、異常偵測、資安監控與回應能力。
 
-PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E187`、`CMMI` 等框架拿來協助企業做供應商資安風險管理。這類工作非常有價值，但它的性質比較接近：
+PwC Taiwan 的定位，可以直接從其半導體服務頁的「資安策略與 AI 治理」段落讀到：PwC 表示會結合 **NIST 網路安全框架（CSF）**、**產業標準 SEMI E187**、以及 **CMMI 能力成熟度模型**，協助企業建立可衡量的供應商資安風險管理方案。這個外部頁面很適合拿來佐證「PwC 是協助導入／評估」而不是「PwC 發 SEMI 證書」。
+
+- PwC Taiwan 半導體服務頁：<https://www.pwc.tw/zh/industries/semiconductor.html>
+- NIST Cybersecurity Framework：<https://www.nist.gov/cyberframework>
+- CMMI Institute：<https://cmmiinstitute.com/>
+
+所以這類工作非常有價值，但它的性質比較接近：
 
 - SEMI E187 導入輔導；
 - 資安成熟度評估；
@@ -53,7 +59,14 @@ PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E
 
 ## 3. SEMI E187 正式認驗證：看制度，不看顧問名氣
 
-來源筆記提到：台灣的 SEMI E187 認驗證制度由**數位發展部數位產業署**與 **SEMI** 共同推動，並依循 `ISO/IEC 17025` 與 `ISO/IEC 17065` 建立第三方公正性的架構。
+SEMI 官方商店頁把 `SEMI E187` 命名為 **Specification for Cybersecurity of Fab Equipment**（晶圓廠設備資安規範），這也說明它本質上是「fab equipment 資安」標準，不是一般機器人移動安全標準。
+
+- SEMI E187 官方頁：<https://store-us.semi.org/products/e18700-semi-e187-specification-for-cybersecurity-of-fab-equipment>
+
+來源筆記提到：台灣的 SEMI E187 認驗證制度由**數位發展部數位產業署**與 **SEMI** 共同推動，並依循 `ISO/IEC 17025` 與 `ISO/IEC 17065` 建立第三方公正性的架構。這裡要把兩件事分開看：
+
+- **SEMI E187**：定義設備資安要看什麼。
+- **ISO/IEC 17025 / 17065**：定義「誰來測、誰來驗證」要怎麼維持能力與公正性。
 
 這兩個 ISO/IEC 標準不是機器人本體標準，而是「認驗證制度如何可信」的底層規則：
 
@@ -61,6 +74,12 @@ PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E
 |---|---|---|
 | **ISO/IEC 17025** | 檢測與校正實驗室能力 | 實驗室要能證明測試方法、設備、品質系統與人員能力可靠 |
 | **ISO/IEC 17065** | 產品、流程與服務驗證機構 | 發證／驗證機構要有公正性、審查流程與證書管理能力 |
+
+參考入口：
+
+- ISO/IEC 17025 官方搜尋入口：<https://www.iso.org/search.html?q=ISO%2FIEC%2017025>
+- ISO/IEC 17065 官方搜尋入口：<https://www.iso.org/search.html?q=ISO%2FIEC%2017065>
+- IAF（International Accreditation Forum）認可機構入口：<https://iaf.nu/en/accreditation-bodies/>
 
 所以正式流程可以想成兩段：
 
@@ -72,6 +91,48 @@ PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E
 合格實驗室依 SEMI E187 做檢測
         ↓
 驗證機構依制度審查、發證、管理證書
+```
+
+把 PwC 放進流程圖，會更清楚：
+
+```text
+                 +--------------------------------------------+
+                 | 公司 / 設備商 / 供應商                     |
+                 | 想證明設備符合 SEMI E187 資安要求          |
+                 +--------------------+-----------------------+
+                                      |
+                                      | 1. 界定範圍：設備型號、版本、場域、客戶要求
+                                      v
+        +------------------------------------------------------------+
+        | PwC / 顧問協助區                                           |
+        | - 解讀 SEMI E187 / NIST CSF / CMMI 等框架                  |
+        | - 做資安成熟度評估與 gap analysis                          |
+        | - 協助建立改善 roadmap、證據清單、文件與內部控制            |
+        | - 模擬客戶稽核 / 認證前準備                                 |
+        +--------------------+---------------------------------------+
+                             |
+                             | 2. 企業完成補強與送測準備
+                             v
+        +------------------------------------------------------------+
+        | 合格檢測實驗室（ISO/IEC 17025 邏輯）                       |
+        | - 依 SEMI E187 與制度要求測試                               |
+        | - 產出測試報告與證據                                        |
+        +--------------------+---------------------------------------+
+                             |
+                             | 3. 測試資料送驗證審查
+                             v
+        +------------------------------------------------------------+
+        | 驗證 / 發證機構（ISO/IEC 17065 邏輯）                       |
+        | - 審查測試結果與符合性                                      |
+        | - 做驗證決定、核發 / 維持 / 撤銷證書                        |
+        +--------------------+---------------------------------------+
+                             |
+                             v
+                    +---------------------+
+                    | 正式證書 / 驗證結果 |
+                    +---------------------+
+
+重點：PwC 協助的是「準備好去被測、被驗證」；正式檢測與發證仍屬於制度指定或認可的第三方檢測 / 驗證流程。
 ```
 
 其中 PwC 可能站在前兩段，協助企業把控制項補齊、把證據整理好；但後面的「實驗室檢測」與「驗證機構發證」要回到正式制度。
@@ -109,6 +170,12 @@ PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E
 
 > **Industrial trucks — Safety requirements and verification**
 > 工業車輛的安全要求與驗證。
+
+ISO 官方搜尋入口可用來查最新版本與修訂：
+
+- ISO 3691-1 官方搜尋入口：<https://www.iso.org/search.html?q=ISO%203691-1>
+- ISO 3691-4 官方搜尋入口：<https://www.iso.org/search.html?q=ISO%203691-4>
+- ISO 3691-4 標題也常見於第三方標準商頁面，完整名稱為 *Industrial trucks — Safety requirements and verification — Part 4: Driverless industrial trucks and their systems*（例如 ANSI Webstore：<https://webstore.ansi.org/standards/iso/iso36912020>）。
 
 這條線跟 SEMI E187 完全不同。SEMI E187 管資安；ISO 3691 管工業車輛／叉車安全。
 
@@ -180,6 +247,27 @@ PwC Taiwan 的定位，從來源筆記整理來看，是把 `NIST CSF`、`SEMI E
 
 ---
 
-## 9. 一句話總結
+## 9. 外部參考 URL
+
+本篇用到的外部入口集中如下，方便回查與更新：
+
+| 主題 | URL | 本篇用途 |
+|---|---|---|
+| PwC Taiwan 半導體服務 | <https://www.pwc.tw/zh/industries/semiconductor.html> | 佐證 PwC 把 NIST CSF、SEMI E187、CMMI 用於供應鏈資安成熟度評估；定位為顧問／輔導／評估 |
+| SEMI E187 官方頁 | <https://store-us.semi.org/products/e18700-semi-e187-specification-for-cybersecurity-of-fab-equipment> | 佐證 SEMI E187 是 fab equipment cybersecurity specification |
+| NIST CSF | <https://www.nist.gov/cyberframework> | PwC 服務頁提到的資安框架之一 |
+| CMMI Institute | <https://cmmiinstitute.com/> | PwC 服務頁提到的成熟度模型來源 |
+| ISO/IEC 17025 搜尋入口 | <https://www.iso.org/search.html?q=ISO%2FIEC%2017025> | 查檢測／校正實驗室能力標準 |
+| ISO/IEC 17065 搜尋入口 | <https://www.iso.org/search.html?q=ISO%2FIEC%2017065> | 查產品／流程／服務驗證機構標準 |
+| IAF 認可機構入口 | <https://iaf.nu/en/accreditation-bodies/> | 補充第三方驗證／認可制度的角色 |
+| ISO 3691-1 搜尋入口 | <https://www.iso.org/search.html?q=ISO%203691-1> | 查有人駕駛工業車輛安全要求 |
+| ISO 3691-4 搜尋入口 | <https://www.iso.org/search.html?q=ISO%203691-4> | 查 driverless industrial trucks / AGV / AMR 安全要求 |
+| ANSI Webstore: ISO 3691-4 | <https://webstore.ansi.org/standards/iso/iso36912020> | 補充 ISO 3691-4 英文標題與版本資訊入口 |
+
+> 註：ISO / SEMI 標準原文多半需要購買；上面 URL 是公開入口與標題／範圍查核點。真正做認證時，仍要用正式購買的標準原文、客戶最新規範與當期認驗證制度文件。
+
+---
+
+## 10. 一句話總結
 
 **PwC 可以幫你準備 SEMI E187；SEMI / 制度決定標準與認驗證框架；合格實驗室與驗證機構才處理正式檢測與發證；ISO 3691-4 則是無人叉車／AMR 的移動安全線，跟 SEMI E187 資安線並行不互相取代。**
