@@ -114,6 +114,7 @@
 - [法規與認證總覽](docs/60-compliance/README.md) — 合規地圖:一台機器人要過哪些關
 - [電池認證法規](docs/60-compliance/battery-certification.md) — UL 2271 vs UL 2580、為何選 LFP + 金屬外殼、供應商認證、配套標準
 - [半導體 fab AMR 規範](docs/60-compliance/semiconductor-amr-standards.md) — SEMI S2/S8/E84、AMHS、潔淨室/ESD、ISO 3691-4 對照
+- [PwC、SEMI E187 與 ISO 3691 認證角色](docs/60-compliance/pwc-semi-iso3691-certification.md) — PwC 顧問/評估 vs 官方檢測發證、SEMI E187 資安認驗證、ISO 3691-1/3691-4 分界
 
 ### 70 資安
 - [機器人通訊安全(總覽)](docs/70-security/README.md) — 五個通訊面(下位機/DDS/MQTT/雲端/MCU)的威脅與手段、加密+認證+授權三件套、誠實現況;聚合 STM32 TLS、MQTT EMQX 等安全子篇

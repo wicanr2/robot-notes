@@ -29,3 +29,4 @@
 
 - [電池認證法規](battery-certification.md) — UL 2271 vs UL 2580、LFP、金屬外殼、供應商、配套標準
 - [半導體 fab AMR 規範](semiconductor-amr-standards.md) — SEMI S2/S8/E84、AMHS、潔淨室/ESD、ISO 3691-4
+- [PwC、SEMI E187 與 ISO 3691 認證角色](pwc-semi-iso3691-certification.md) — PwC 顧問/評估 vs 官方檢測發證、SEMI E187 資安認驗證、ISO 3691-1/3691-4 分界
