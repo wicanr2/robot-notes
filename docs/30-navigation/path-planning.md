@@ -71,6 +71,20 @@ Nav2 用**行為樹(Behavior Tree)**編排整個流程:規劃 → 跟隨 → 卡
 
 - 規劃都在 **map frame** 裡做,座標關係見 [座標轉換與 TF](kinematics-and-coordinate-transforms.md);定位提供的 map→base_link 決定「車在地圖哪裡」。
 - costmap 的 obstacle layer 吃 [感測器](../10-hardware/sensors.md) 的 LiDAR/深度;controller 輸出的 `(v, ω)` 經 [上下位機協議](../20-firmware/host-mcu-protocol.md) 下到 [下位機](../20-firmware/low-level-control.md) 做運動學逆解。
+- Nav2 之上還有跨車隊調度那一層,見 [OpenRMF](../40-fleet/open-rmf.md):RMF 規劃到 waypoint 為止,實際開過去的是 Nav2。
+
+### 實作與量測:接進 RMF 車隊之後
+
+季享 Open-RMF 先期研究把 Nav2 接成 RMF 的一個車隊(跨樓層換圖、進出電梯轎廂),
+組態怎麼調、為什麼那樣調、量到什麼,在該 repo 的 `docs/knowledge/nav2-operations.md`。
+幾件純概念層看不出來的事:
+
+- `bt_navigator.default_server_timeout` 預設 **20 ms**,在容器裡會讓行為樹在路徑還沒開始
+  算的時候就 abort,而症狀長得像規劃失敗。
+- 換樓層要換圖,而**換圖前必須先把在飛的目標收乾淨**——否則 planner 會拿到一半舊圖一半
+  新圖,規劃出一條看起來完全合法的路。
+- 車**進**轎廂比**出**轎廂慢 2.8 倍(同一條 1.0 m 的路,7.7 s vs 2.7 s)。疑似膨脹層蓋滿
+  了門口,未定論。
 
 ## 7. 來源
 
