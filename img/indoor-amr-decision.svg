@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 456" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="eo" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
     <marker id="eg" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#6B7280"/></marker>
   </defs>
-  <rect width="880" height="456" fill="#ffffff"/>
+  <rect width="880" height="480" fill="#ffffff"/>
   <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">兩條決策路徑:關鍵不是車有幾台,是「這些車的介面改不改得動」</text>
 
   <!-- root question -->
@@ -48,12 +48,13 @@
   <text x="476" y="348" font-size="11.5" fill="#1D4ED8">一個廠牌能夠承諾、也能被驗證的抽象。</text>
 
   <!-- pragmatic step -->
-  <rect x="456" y="398" width="400" height="46" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <rect x="456" y="398" width="400" height="64" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
   <text x="470" y="418" font-size="12" font-weight="700" fill="#9A3412">第一階段先做分區授權</text>
-  <text x="470" y="436" font-size="11.5" fill="#1F2937">專屬區各自管,只有共享空間交出來排隊。吞吐會損失,但風險與工程量明顯低於全域協商。</text>
+  <text x="470" y="436" font-size="11.5" fill="#1F2937">專屬區各自管,只有共享空間交出來排隊。</text>
+  <text x="470" y="454" font-size="11.5" fill="#1F2937">吞吐會損失,但風險與工程量明顯低於全域協商。</text>
 
   <!-- switch thresholds -->
-  <rect x="24" y="398" width="400" height="46" rx="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+  <rect x="24" y="398" width="400" height="64" rx="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
   <text x="38" y="418" font-size="12" font-weight="700" fill="#475569">什麼時候要重新考慮</text>
   <text x="38" y="436" font-size="11.5" fill="#1F2937">同層超過數十台 → 分區;要接別家車 → 轉路線 B;布局常變 → 加自由空間</text>
 </svg>

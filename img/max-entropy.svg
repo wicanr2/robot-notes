@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 250" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <rect width="480" height="250" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 250" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="560" height="250" fill="#ffffff"/>
   <text x="240" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">同樣的平均與胖瘦,為什麼選高斯?</text>
   <text x="240" y="46" text-anchor="middle" font-size="12" fill="#6B7280">三條曲線「平均、變異數都一樣」,但高斯最攤平 = 假設最少</text>
 

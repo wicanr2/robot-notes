@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 280" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <rect width="620" height="280" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 665 280" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="665" height="280" fill="#ffffff"/>
   <text x="310" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">為什麼定位用「粒子」不用「單一高斯」</text>
   <text x="310" y="46" text-anchor="middle" font-size="12" fill="#6B7280">對稱走廊兩端長得一樣 → 信念是「兩個峰」,高斯只裝得下一個</text>
 
