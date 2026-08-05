@@ -105,6 +105,9 @@ AWS RoboMaker **已於 2025-09-10 終止支援**,主控台與服務資源都下�
 
 Isaac Sim 裡從 `Window > Browsers > NVIDIA Assets` 開,分類瀏覽並拖進場景。倉儲相關在 `Industrial` 底下(Buildings → Warehouse 等)。這是 Isaac 生態最省事的入口——資產已經是 USD、已經帶物理。
 
+- 倉儲資產教學:<https://docs.isaacsim.omniverse.nvidia.com/latest/digital_twin/warehouse_logistics/tutorial_static_assets.html>(實測 200)
+- Asset Browser 說明:[5.1.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/utilities/asset_browser.html)、[5.0.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/utilities/asset_browser.html)。⚠ **`latest` 與 `6.0.0` 的同名路徑實測 404**——6.0 顯然搬過位置。查文件時**認版本號**,不要用 `latest` 深層連結。
+
 ### 4.2 SimReady 資產
 
 Omniverse 的 **SimReady** 是一個明確的品質標準:資產**內嵌物理屬性與語意標註**,不是只有好看的 mesh。對做合成資料與 AI 訓練是關鍵差別——語意標籤直接就是 ground truth。工業與倉儲題材的覆蓋相對完整。
@@ -116,6 +119,17 @@ Isaac 的官方資產放在一個可直接存取的雲端 root 底下,**可以�
 ```
 https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<版本>/
 ```
+
+**2026-08-05 實測**:抓 `<版本>/Isaac/Samples/ROS2/Robots/Nova_Carter_ROS.usd`,四個版本都回 200——
+
+| 版本 | HTTP | 該檔大小 |
+|---|---|---|
+| 6.0 | 200 | 153,649 B |
+| 5.1 | 200 | 151,435 B |
+| 5.0 | 200 | 135,278 B |
+| 4.5 | 200 | 85,526 B |
+
+單檔一百多 KB,整條 payload 鏈也只有幾個檔。**不需要 GPU、不需要裝 Isaac Sim,就能把 USD 內部結構拉下來核對。**
 
 這在兩種情況特別有用:一是沒有大顯卡的機器上想**核對 USD 內部的 prim 路徑**(payload 鏈通常只有幾個檔、幾百 KB);二是 CI 裡要驗證資產引用是否還對得上。
 
@@ -133,13 +147,13 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 這一類來自學術界,特點是**真實建築的 3D 重建 + 語意標註**,規模大、擬真度高,但題材偏居家與辦公,**不是倉儲**。適合做視覺導航、物件搜尋、開放詞彙感知這類研究;要驗倉儲 AMR 的派工與交管,用處有限。
 
-| 資料集 / 平台 | 規模(依官方說法) | 適合什麼 |
-|---|---|---|
-| **HM3D**(Habitat-Matterport 3D) | 1,000 棟建築的高擬真重建;HM3DSem v0.2 有 142,646 個物件實例標註、涵蓋 216 個空間 | 語意導航、物件搜尋 |
-| **Matterport3D** | 10,800 張全景 | RGB-D 室內理解 |
-| **Gibson** | 572 棟建築、1,400+ 個樓層空間 | 視覺導航訓練 |
-| **AI2-THOR / ProcTHOR** | ProcTHOR 走程序生成路線,可大量產生房屋 | 需要場景多樣性時 |
-| **iGibson / OmniGibson / BEHAVIOR-1K** | 互動式場景(物件可操作) | 移動操作(mobile manipulation) |
+| 資料集 / 平台 | 規模(依官方說法) | 適合什麼 | 入口 |
+|---|---|---|---|
+| **HM3D**(Habitat-Matterport 3D) | 1,000 棟建築的高擬真重建;HM3DSem v0.2 有 142,646 個物件實例標註、涵蓋 216 個空間 | 語意導航、物件搜尋 | [aihabitat.org](https://aihabitat.org/datasets/hm3d/) · [habitat-sim](https://github.com/facebookresearch/habitat-sim) |
+| **Matterport3D** | 10,800 張全景 | RGB-D 室內理解 | [niessner.github.io/Matterport](https://niessner.github.io/Matterport/) |
+| **Gibson / iGibson** | 572 棟建築、1,400+ 個樓層空間 | 視覺導航訓練 | [svl.stanford.edu/igibson](https://svl.stanford.edu/igibson/) · [iGibson](https://github.com/StanfordVL/iGibson) |
+| **OmniGibson / BEHAVIOR-1K** | 互動式場景(物件可操作) | 移動操作(mobile manipulation) | [behavior.stanford.edu](https://behavior.stanford.edu/) · [OmniGibson](https://github.com/StanfordVL/OmniGibson) |
+| **AI2-THOR / ProcTHOR** | ProcTHOR 走程序生成路線,可大量產生房屋 | 需要場景多樣性時 | [ai2thor.allenai.org](https://ai2thor.allenai.org/) · [procthor.allenai.org](https://procthor.allenai.org/) |
 
 搭配的模擬器多半是各自的(Habitat、AI2-THOR),要搬進 Gazebo 或 Isaac 得自己轉。**先確認你要的是「場景多樣性」還是「物理正確性」**——這批的強項是前者。
 
@@ -151,10 +165,10 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 | 來源 | 授權 | 注意 |
 |---|---|---|
-| **Poly Haven** | CC0 | HDRIs / Textures / Models 三類別要分清(見 [SDF 3D 模型檔 §8](sdf-3d-models.md)) |
-| **Sketchfab** | 逐個模型不同 | 可篩 CC 授權;品質與拓樸差異大 |
-| **BlenderKit** | 逐個不同 | Blender 內建整合 |
-| **Objaverse** | 大規模物件集合 | 偏 AI 訓練用,品質不齊 |
+| **[Poly Haven](https://polyhaven.com/)** | CC0 | HDRIs / Textures / Models 三類別要分清(見 [SDF 3D 模型檔 §8](sdf-3d-models.md)) |
+| **[Sketchfab](https://sketchfab.com/)** | 逐個模型不同 | 可篩 CC 授權;品質與拓樸差異大 |
+| **[BlenderKit](https://www.blenderkit.com/)** | 逐個不同 | Blender 內建整合 |
+| **[Objaverse](https://objaverse.allenai.org/)** | 大規模物件集合 | 偏 AI 訓練用,品質不齊 |
 
 這條路的代價很明確:拿到的是**只有外觀的 mesh**,要自己補 collision 與 inertial 才能進模擬(見下節)。
 
@@ -198,7 +212,57 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 ---
 
-## 9. 查證方式與日期
+## 9. 來源清單與實測狀態(2026-08-05)
+
+### 9.1 網址
+
+| 來源 | URL | HTTP |
+|---|---|---|
+| Gazebo Fuel API | `https://fuel.gazebosim.org/1.0/models` | 200 |
+| Gazebo app 首頁 | `https://app.gazebosim.org/` | 200 |
+| ~~Gazebo Fuel 深層路徑~~ | `https://app.gazebosim.org/fuel` | **404** |
+| Isaac 雲端 asset root | `https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/{4.5,5.0,5.1,6.0}/` | 四版皆 200 |
+| Isaac 倉儲資產教學 | `.../latest/digital_twin/warehouse_logistics/tutorial_static_assets.html` | 200 |
+| Isaac Asset Browser 說明 | `.../5.1.0/utilities/asset_browser.html` | 200 |
+| ~~同上 latest / 6.0.0~~ | `.../{latest,6.0.0}/utilities/asset_browser.html` | **404** |
+| NVIDIA SimReady | `https://developer.nvidia.com/omniverse/simready-assets` | 200 |
+| Poly Haven | `https://polyhaven.com/` | 200 |
+| Sketchfab | `https://sketchfab.com/` | 200 |
+| BlenderKit | `https://www.blenderkit.com/` | 200 |
+| Objaverse | `https://objaverse.allenai.org/` | 200 |
+| HM3D(Habitat) | `https://aihabitat.org/datasets/hm3d/` | 200 |
+| Matterport3D | `https://niessner.github.io/Matterport/` | 200 |
+| iGibson | `https://svl.stanford.edu/igibson/` | 200 |
+| BEHAVIOR-1K | `https://behavior.stanford.edu/` | 200 |
+| AI2-THOR | `https://ai2thor.allenai.org/` | 200 |
+| ProcTHOR | `https://procthor.allenai.org/` | 200 |
+
+### 9.2 GitHub repo
+
+| Repo | ★ | 最後 push | 封存 | 授權 |
+|---|---:|---|---|---|
+| `isaac-sim/IsaacLab` | 7,838 | 2026-08-05 | 否 | BSD-3-Clause |
+| `facebookresearch/habitat-sim` | 3,773 | 2026-07-21 | 否 | MIT |
+| `facebookresearch/habitat-lab` | 3,084 | 2026-05-07 | 否 | MIT |
+| `allenai/ai2thor` | 1,777 | 2025-11-04 | 否 | Apache-2.0 |
+| `StanfordVL/OmniGibson` | 1,616 | 2026-08-03 | 否 | 無授權標示 |
+| `gazebosim/gz-sim` | 1,437 | 2026-08-04 | 否 | Apache-2.0 |
+| `StanfordVL/iGibson` | 808 | 2024-06-26 | 否 | MIT |
+| `open-rmf/rmf_demos` | 574 | 2026-06-17 | 否 | Apache-2.0 |
+| `allenai/procthor` | 461 | **2023-04-07** | 否 | Apache-2.0 |
+| `aws-robotics/aws-robomaker-small-warehouse-world` | 492 | 2026-07-21 | **是** | 無授權標示 |
+| `aws-robotics/aws-robomaker-small-house-world` | 321 | 2026-07-21 | **是** | 無授權標示 |
+| `aws-robotics/aws-robomaker-hospital-world` | 272 | 2026-07-21 | **是** | 無授權標示 |
+| `aws-robotics/aws-robomaker-bookstore-world` | 92 | 2026-07-21 | **是** | 無授權標示 |
+| `aws-robotics/aws-robomaker-racetrack-world` | 56 | 2026-07-21 | **是** | 無授權標示 |
+
+三件值得注意的:
+
+1. **AWS 那五個全部已封存**,而且 **GitHub 上沒有授權標示**——repo 內可能有 LICENSE 檔,但 API 抓不到 SPDX 識別。要商用前自己開 repo 確認。
+2. **`allenai/procthor` 最後 push 是 2023-04-07**,三年多沒動。用之前先確認它跟你手上的 AI2-THOR 版本還相容。
+3. **`StanfordVL/OmniGibson` 沒有授權標示**,但仍在活躍開發(2026-08-03 剛 push)。
+
+### 9.3 複驗指令
 
 本篇的數字都是 2026-08-05 實查,方法留在這裡供之後複驗:
 
@@ -210,12 +274,23 @@ curl -sD - -o /dev/null "https://fuel.gazebosim.org/1.0/worlds?per_page=1" | gre
 # 特定關鍵字在 Fuel 上的命中數
 curl -sD - -o /dev/null "https://fuel.gazebosim.org/1.0/models?q=forklift&per_page=1" | grep -i x-total-count
 
-# AWS world repo 是否已封存
-gh api repos/aws-robotics/aws-robomaker-small-warehouse-world --jq '.archived, .pushed_at'
+# repo 是否已封存 / 最後 push / 授權
+gh api repos/aws-robotics/aws-robomaker-small-warehouse-world \
+  --jq '"archived=\(.archived) push=\(.pushed_at[0:10]) license=\(.license.spdx_id // "none")"'
 
 # rmf_demos 有哪些場景
 gh api repos/open-rmf/rmf_demos/contents/rmf_demos_maps/maps --jq '.[].name'
+
+# Isaac 雲端 asset root 是否可用(不必裝 Isaac Sim)
+R=https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac
+curl -sI "$R/6.0/Isaac/Samples/ROS2/Robots/Nova_Carter_ROS.usd" | head -1
 ```
+
+> ⚠ **jq 的陷阱**:`--jq '.archived and "已封存" or "活躍"'` 這種寫法**不會如預期運作**。
+> jq 的 `and` / `or` 回傳**布林值**而不是運算元(跟 JavaScript 不同),所以
+> `false and "x"` → `false`,再 `false or "活躍"` → `true`——**不管 archived 是什麼都印 `true`**。
+> 要判斷就直接輸出 `.archived`,或用 `if .archived then "已封存" else "活躍" end`。
+> (寫這篇時就踩到了,結論剛好沒錯但驗證方法是壞的。)
 
 ## 10. 誠實的邊界
 
