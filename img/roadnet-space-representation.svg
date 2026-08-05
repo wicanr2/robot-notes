@@ -88,7 +88,7 @@
   <!-- ============ bottom summary ============ -->
   <rect x="24" y="304" width="852" height="56" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
   <text x="42" y="326" font-size="12.5" font-weight="700" fill="#1E3A8A">為什麼多車場域傾向路網:</text>
-  <text x="196" y="326" font-size="12.5" fill="#1F2937">搜尋空間小 3–4 個數量級(交管每 100ms 要重算)· 路徑可預測 · 交管規則能掛在拓樸上 · 現場人員維護得動</text>
+  <text x="196" y="326" font-size="12.5" fill="#1F2937">搜尋空間小 2–4 個數量級(交管每 100ms 要重算)· 路徑可預測 · 交管規則能掛在拓樸上 · 現場人員維護得動</text>
   <text x="42" y="348" font-size="12.5" font-weight="700" fill="#B91C1C">要付的代價:</text>
   <text x="130" y="348" font-size="12.5" fill="#1F2937">里程比自由空間長(經驗上 5–15%,視路網密度)· 圖資要持續維護 · 圖與現場會漂移</text>
 </svg>

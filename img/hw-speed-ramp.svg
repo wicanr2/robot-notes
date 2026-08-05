@@ -5,7 +5,7 @@
   </defs>
   <rect width="700" height="350" fill="#ffffff"/>
   <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">加減速 ramp:插一層「變化率限幅器」,把步階指令變成斜坡</text>
-  <text x="350" y="47" text-anchor="middle" font-size="11" fill="#6B7280">上位機指令是步階(瞬間到 0.8 m/s);ramp 把它壓成固定斜率(= a_max)爬升的斜坡,避免電流暴衝、輪子打滑</text>
+  <text x="350" y="47" text-anchor="middle" font-size="11" fill="#6B7280">上位機指令是步階(瞬間到 0.8 m/s);ramp 把它壓成固定斜率(= a_max)爬升的斜坡,避免湯灑出、輪子打滑(odometry 毀)、電流暴衝</text>
 
   <line x1="330" y1="80" x2="330" y2="308" stroke="#E5E7EB" stroke-width="1"/>
 

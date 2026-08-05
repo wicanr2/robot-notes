@@ -49,6 +49,7 @@
   <line x1="510" y1="112" x2="826" y2="112" stroke="#1F2937" stroke-width="1.6" marker-end="url(#bk)"/>
   <text x="836" y="116" font-size="11.5" fill="#1F2937">位置</text>
   <text x="486" y="306" font-size="11.5" fill="#1F2937">時間</text>
+  <text x="486" y="320" font-size="9.5" fill="#6B7280">越往下越晚</text>
 
   <!-- junction band -->
   <rect x="646" y="112" width="48" height="188" fill="#FEF3C7" opacity="0.75"/>

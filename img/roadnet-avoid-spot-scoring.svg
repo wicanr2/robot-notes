@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="fo" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="fr" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#EF4444"/></marker>
+    <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#FCA5A5" stroke-width="2.5"/>
+    </pattern>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="440" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">挑迴避點:先用禁止層刷掉,再對活下來的評分</text>
+  <text x="440" y="48" text-anchor="middle" font-size="11.5" fill="#6B7280">難的不是「找一個空位」,是「別讓讓路車本身變成下一個阻塞源」</text>
+
+  <!-- ================= LEFT: map ================= -->
+  <rect x="20" y="62" width="452" height="300" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="34" y="84" font-size="12.5" font-weight="700" fill="#475569">第一步:禁止層(有色塊 = 不能去)</text>
+
+  <!-- forbidden: explicit prohibited area -->
+  <rect x="108" y="96" width="96" height="56" fill="url(#hatch)" stroke="#EF4444" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <text x="156" y="108" text-anchor="middle" font-size="9.5" fill="#B91C1C">明言禁止區</text>
+
+  <!-- forbidden: opponent path head -->
+  <rect x="228" y="96" width="120" height="46" fill="url(#hatch)" stroke="#EF4444" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <text x="288" y="108" text-anchor="middle" font-size="9.5" fill="#B91C1C">他車路徑頭 5m</text>
+
+  <!-- forbidden: buffer around occupied spot -->
+  <rect x="286" y="284" width="104" height="52" fill="url(#hatch)" stroke="#EF4444" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <text x="338" y="330" text-anchor="middle" font-size="9.5" fill="#B91C1C">已佔用點的緩衝帶</text>
+
+  <!-- corridor -->
+  <line x1="44" y1="216" x2="452" y2="216" stroke="#CBD5E1" stroke-width="1.2" stroke-dasharray="9 7"/>
+
+  <!-- car A (needs to yield) -->
+  <rect x="140" y="200" width="36" height="30" rx="5" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="158" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">A</text>
+  <text x="158" y="248" text-anchor="middle" font-size="9.5" fill="#1E3A8A">要讓路的車</text>
+
+  <!-- car B (opponent) -->
+  <rect x="392" y="200" width="36" height="30" rx="5" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="410" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">B</text>
+  <text x="410" y="248" text-anchor="middle" font-size="9.5" fill="#065F46">對手,要過去</text>
+  <line x1="386" y1="216" x2="330" y2="216" stroke="#10B981" stroke-width="2" marker-end="url(#fo)"/>
+
+  <!-- candidates -->
+  <g font-size="11" font-weight="700">
+    <circle cx="150" cy="124" r="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/><text x="150" y="128" text-anchor="middle" fill="#B91C1C">①</text>
+    <circle cx="286" cy="118" r="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/><text x="286" y="122" text-anchor="middle" fill="#B91C1C">②</text>
+    <circle cx="176" cy="306" r="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2.4"/><text x="176" y="310" text-anchor="middle" fill="#065F46">③</text>
+    <circle cx="338" cy="308" r="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/><text x="338" y="312" text-anchor="middle" fill="#B91C1C">④</text>
+    <circle cx="62" cy="300" r="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2.4"/><text x="62" y="304" text-anchor="middle" fill="#065F46">⑤</text>
+  </g>
+  <line x1="140" y1="136" x2="130" y2="150" stroke="#EF4444" stroke-width="2" marker-end="url(#fr)"/>
+  <text x="96" y="164" font-size="9" fill="#B91C1C">刷掉</text>
+  <text x="252" y="160" font-size="9" fill="#B91C1C">刷掉</text>
+  <text x="376" y="300" font-size="9" fill="#B91C1C">刷掉</text>
+
+  <text x="62" y="330" text-anchor="middle" font-size="9" fill="#6B7280">在 A 後方 → 要倒車</text>
+  <text x="176" y="334" text-anchor="middle" font-size="9" fill="#6B7280">側邊 → 橫移即可</text>
+  <text x="34" y="356" font-size="11" fill="#065F46">③、⑤ 通過初篩 → 進入評分</text>
+
+  <!-- ================= RIGHT: scoring ================= -->
+  <rect x="488" y="62" width="372" height="300" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="502" y="84" font-size="12.5" font-weight="700" fill="#475569">第二步:對活下來的兩個評分(分數越低越好)</text>
+
+  <!-- table header -->
+  <line x1="502" y1="96" x2="846" y2="96" stroke="#CBD5E1"/>
+  <text x="516" y="114" font-size="11" font-weight="700" fill="#475569">候選</text>
+  <text x="586" y="114" font-size="11" font-weight="700" fill="#475569">距離成本</text>
+  <text x="700" y="114" font-size="11" font-weight="700" fill="#475569">動作成本</text>
+  <text x="800" y="114" font-size="11" font-weight="700" fill="#475569">總分</text>
+  <line x1="502" y1="122" x2="846" y2="122" stroke="#CBD5E1"/>
+
+  <!-- row 3 (winner) -->
+  <rect x="502" y="128" width="344" height="52" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="518" y="150" font-size="13" font-weight="700" fill="#065F46">③</text>
+  <text x="518" y="168" text-anchor="middle" font-size="9.5" fill="#065F46">採用</text>
+  <text x="562" y="146" font-size="10.5" fill="#1F2937">我 6m / 對手 8m</text>
+  <text x="562" y="164" font-size="10" fill="#6B7280">取較大 → 8</text>
+  <text x="694" y="146" font-size="10.5" fill="#1F2937">需橫移 +10</text>
+  <text x="694" y="164" font-size="10" fill="#6B7280">不必倒車</text>
+  <text x="806" y="156" font-size="15" font-weight="700" fill="#065F46">18</text>
+
+  <!-- row 5 -->
+  <rect x="502" y="188" width="344" height="52" rx="6" fill="#ffffff" stroke="#CBD5E1" stroke-width="1.3"/>
+  <text x="518" y="210" font-size="13" font-weight="700" fill="#475569">⑤</text>
+  <text x="562" y="206" font-size="10.5" fill="#1F2937">我 14m / 對手 5m</text>
+  <text x="562" y="224" font-size="10" fill="#6B7280">取較大 → 14</text>
+  <text x="694" y="206" font-size="10.5" fill="#1F2937">要倒車 +100</text>
+  <text x="694" y="224" font-size="10" fill="#6B7280">大迴轉很貴</text>
+  <text x="802" y="216" font-size="15" font-weight="700" fill="#94A3B8">114</text>
+
+  <!-- why max -->
+  <rect x="502" y="250" width="344" height="46" rx="7" fill="#FFF7ED" stroke="#F97316" stroke-width="1.3"/>
+  <text x="514" y="268" font-size="10.5" fill="#9A3412"><tspan font-weight="700">為何距離取「雙方的較大值」:</tspan>只算自己的話,會挑到</text>
+  <text x="514" y="284" font-size="10.5" fill="#9A3412">一個對手還要開很久才到得了的點 —— 讓完路還得繼續等。</text>
+
+  <rect x="502" y="304" width="344" height="46" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.3"/>
+  <text x="514" y="322" font-size="10.5" fill="#1E3A8A"><tspan font-weight="700">為何倒車罰這麼重:</tspan>直線距離最近但要倒車掉頭的點,</text>
+  <text x="514" y="338" font-size="10.5" fill="#1E3A8A">實際耗時可能是次近點的三倍 —— 把運動學代價拉進決策。</text>
+
+  <!-- bottom -->
+  <rect x="20" y="376" width="840" height="48" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="38" y="396" font-size="12" fill="#991B1B"><tspan font-weight="700">選完還要逐一精確驗證</tspan>:能不能真的規劃出路線、會不會跟正在避車或取放貨的車打架、會不會把對方頂死在死路裡。</text>
+  <text x="38" y="416" font-size="12" fill="#991B1B">通不過的按嚴重程度降級當備選。<tspan font-weight="700">寧可用一個有瑕疵的解,也不要回傳「找不到」</tspan>——找不到就等於現場要人去推車。</text>
+</svg>

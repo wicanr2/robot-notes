@@ -60,7 +60,7 @@ robot-notes/
 | **R6** | 圖文並茂 | 把既有 ASCII 圖逐步升級成 SVG;數學概念一律配圖(已起步) | 🔄 進行中 |
 | **R7** | 第一性原理補強 | 核心公式(差速/odometry/FOC/AMCL…)從根本推導 + 7 張數學 SVG | ✅ 完成 |
 | **R8** | 法規與認證 | 電池認證(UL 2271/2580、LFP)、半導體 fab AMR(SEMI S2/E84) | ✅ 完成 |
-| **R11** | 路網規劃與交管 + 全 repo ASCII→SVG | `40-fleet/roadnet-and-traffic-control.md`(三條技術路線第一性原理比較:空間表示、衝突偵測、仲裁脫困;前導線公式推導、柵格化理由、環形鎖 DFS)、`40-fleet/indoor-amr-roadnet-selection.md`(叉車/搬運車/送貨機器人分場景選型)+ 6 張 SVG;既有硬體/導航文件的 ASCII 概念圖批次升級 SVG;README 重編(加全書地圖、補回漏索引的資安三篇) | 🔄 進行中 |
+| **R11** | 路網規劃與交管 + 全 repo ASCII→SVG | `40-fleet/roadnet-and-traffic-control.md`(三條技術路線第一性原理比較:空間表示、衝突偵測、仲裁脫困;前導線公式推導、柵格化理由、環形鎖 DFS)、`40-fleet/indoor-amr-roadnet-selection.md`(叉車/搬運車/送貨機器人分場景選型)+ 6 張 SVG;既有硬體/導航文件的 ASCII 概念圖批次升級 SVG;README 重編(加全書地圖、補回漏索引的資安三篇);經專家(技術正確性)+ 學生(可讀性)審查並修補(R11.5:AprilTag 斜看方向鏡像、Clarke α 軸對齊 a 軸、前導線圖文編號統一、地標算例自洽化、I²t 疊純 I²t 參考線、補 base_link/Nav2/MAPF/潛伏頂升的首次出現解釋) | ✅ 完成 |
 | **R10** | VLM & LLM + 本地 AI 硬體 | `55-vlm-llm/llm-vlm-for-robots.md`(LLM/VLM/VLA 第一性原理)、`local-llm-on-nvidia-gb10.md`(FLOP 量級+記憶體頻寬 bound+量化+GB10/DGX Spark 官方規格查證+本地部署)+ 7 張第一性原理 SVG;經專家(技術正確性)+ 學生(可讀性)審查並修補(FP4→FP16 換算修正、prefill/batching/KV cache 限定、補 self-attention QKV 圖等) | ✅ 完成 |
 
 > 輪次可調整;新需求隨時插入。已寫好的檔不重做,只增修。
@@ -101,6 +101,11 @@ robot-notes/
   8. **wired-AND 跨章節 SVG 錨點**(供 CAN 仲裁、I²C、共享中斷線共同回指) — `digital-circuits.md §13.4` → `communication-buses.md §6.2`
 
   > SVG 補強優先給 ASCII 畫不好的數學概念(ICC 幾何、sinθ 曲線、bias 發散、多峰分布、scan 殘差),結構剖面圖維持 ASCII。
+
+## 待辦(R11 學生審查提出,尚未處理)
+
+- **`roadnet-and-traffic-control.md` §2.5 兩層路網配圖**:目前純文字描述「節點路網 + 道路級粗圖」的疊合關係,一張「細圖疊粗圖」示意會比文字快。(§4.3 迴避點評分的圖已於 R11.5 補上。)
+- 較深的跨檔 `§N` 引用逐步改為帶連結的引用 —— R11.5 已修掉 `localization.md` 一處指錯的 `§3.3`,其餘待掃。
 
 ## 內容原則
 

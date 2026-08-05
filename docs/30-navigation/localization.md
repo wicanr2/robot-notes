@@ -213,7 +213,7 @@ $$(x,\ y) = (10.0,\ 5.0) - 2.0 \cdot (\cos 12°,\ \sin 12°) = (8.0,\ 4.6)$$
 
 - **相機內參標定 (camera intrinsic calibration)**:用棋盤格拍 20~30 張,解出焦距 (fx, fy)、光心 (cx, cy)、鏡頭畸變係數。這描述「3D 點如何投影到像素」,是後面一切幾何的前提(OpenCV `calibrateCamera` / ROS `camera_calibration` 包)。
 - **登錄地標**:量好每張碼的實體邊長 s,與它在地圖座標系的位姿(貼哪、朝哪),存成設定檔。
-- **手眼標定 (extrinsic)**:量出相機相對車體中心 (`base_link`) 的安裝位姿,寫進 URDF/TF(§3.3)。
+- **手眼標定 (extrinsic)**:量出相機相對車體中心 (`base_link`) 的安裝位姿,寫進 URDF/TF(見[座標轉換與 TF](kinematics-and-coordinate-transforms.md))。
 
 **線上五步(每幀影像)**
 

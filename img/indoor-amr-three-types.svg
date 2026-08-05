@@ -41,7 +41,11 @@
     <rect x="404" y="100" width="72" height="56" rx="8" fill="#ffffff" stroke="#065F46" stroke-width="2"/>
     <rect x="398" y="112" width="10" height="32" rx="2" fill="#065F46"/>
     <rect x="472" y="112" width="10" height="32" rx="2" fill="#065F46"/>
+    <circle cx="440" cy="128" r="15" fill="#ECFDF5" stroke="#065F46" stroke-width="1.6"/>
     <circle cx="440" cy="128" r="4" fill="#10B981"/>
+    <line x1="455" y1="128" x2="500" y2="128" stroke="#065F46" stroke-width="1"/>
+    <text x="504" y="125" font-size="9.5" fill="#065F46">頂升盤</text>
+    <text x="504" y="137" font-size="9" fill="#6B7280">鑽到貨架下抬起</text>
     <path d="M468,80 A 56 56 0 1 1 387,109" fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#do)"/>
     <text x="566" y="92" text-anchor="end" font-size="10.5" fill="#9A3412">可原地旋轉</text>
   </g>
