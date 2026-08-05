@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="mrA" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker></defs>
+  <rect width="880" height="360" fill="#ffffff"/>
+
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">可控自由度比任務需要的多,差額就是冗餘</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">冗餘不是浪費,是一筆必須明確花掉的預算</text>
+
+  <!-- 左:可控 -->
+  <rect x="20" y="70" width="270" height="170" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="155" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">機器人能控的</text>
+  <rect x="40" y="106" width="230" height="44" rx="7" fill="#ffffff" stroke="#93C5FD"/>
+  <text x="54" y="124" font-size="11" fill="#1F2937">底盤位姿 (x, y, θ)</text>
+  <text x="252" y="124" text-anchor="end" font-size="14" font-weight="700" fill="#1E3A8A">3</text>
+  <text x="54" y="141" font-size="9" fill="#991B1B">差速車只能控 2 個——不能橫移</text>
+  <rect x="40" y="158" width="230" height="30" rx="7" fill="#ffffff" stroke="#93C5FD"/>
+  <text x="54" y="178" font-size="11" fill="#1F2937">手臂關節 q₁…q₆</text>
+  <text x="252" y="178" text-anchor="end" font-size="14" font-weight="700" fill="#1E3A8A">6</text>
+  <line x1="40" y1="198" x2="270" y2="198" stroke="#93C5FD"/>
+  <text x="54" y="220" font-size="11.5" font-weight="700" fill="#1E3A8A">合計</text>
+  <text x="252" y="222" text-anchor="end" font-size="20" font-weight="700" fill="#1E3A8A">9</text>
+
+  <!-- 右:任務 -->
+  <rect x="590" y="70" width="270" height="170" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="725" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">任務真正需要的</text>
+  <rect x="610" y="106" width="230" height="30" rx="7" fill="#ffffff" stroke="#6EE7B7"/>
+  <text x="624" y="126" font-size="11" fill="#1F2937">末端位置 (x, y, z)</text>
+  <text x="822" y="126" text-anchor="end" font-size="14" font-weight="700" fill="#065F46">3</text>
+  <rect x="610" y="144" width="230" height="30" rx="7" fill="#ffffff" stroke="#6EE7B7"/>
+  <text x="624" y="164" font-size="11" fill="#1F2937">末端姿態 (roll, pitch, yaw)</text>
+  <text x="822" y="164" text-anchor="end" font-size="14" font-weight="700" fill="#065F46">3</text>
+  <line x1="610" y1="184" x2="840" y2="184" stroke="#6EE7B7"/>
+  <text x="624" y="206" font-size="11.5" font-weight="700" fill="#065F46">合計</text>
+  <text x="822" y="208" text-anchor="end" font-size="20" font-weight="700" fill="#065F46">6</text>
+
+  <!-- 中:差額 -->
+  <line x1="296" y1="155" x2="330" y2="155" stroke="#6B7280" stroke-width="2" marker-end="url(#mrA)"/>
+  <line x1="584" y1="155" x2="550" y2="155" stroke="#6B7280" stroke-width="2" marker-end="url(#mrA)"/>
+  <rect x="336" y="112" width="208" height="86" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="440" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">9 − 6 = 3</text>
+  <text x="440" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">冗餘 3 個自由度</text>
+  <text x="440" y="182" text-anchor="middle" font-size="9.5" fill="#6B7280">同一個末端位姿,有無限多組解</text>
+
+  <!-- 底:預算花在哪 -->
+  <text x="30" y="272" font-size="11.5" font-weight="700" fill="#374151">這 3 個自由度可以拿去做什麼(必須明講,否則求解器自己亂挑、行為不可重現)</text>
+  <g font-size="10">
+    <rect x="20" y="284" width="200" height="52" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
+    <text x="120" y="304" text-anchor="middle" font-weight="700" fill="#374151">遠離奇異點</text>
+    <text x="120" y="322" text-anchor="middle" fill="#6B7280">最大化可操作度 w</text>
+    <rect x="232" y="284" width="200" height="52" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
+    <text x="332" y="304" text-anchor="middle" font-weight="700" fill="#374151">避開關節極限</text>
+    <text x="332" y="322" text-anchor="middle" fill="#6B7280">往各軸中位靠</text>
+    <rect x="444" y="284" width="200" height="52" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
+    <text x="544" y="304" text-anchor="middle" font-weight="700" fill="#374151">避開障礙與自身碰撞</text>
+    <text x="544" y="322" text-anchor="middle" fill="#6B7280">構型繞開,末端不變</text>
+    <rect x="656" y="284" width="204" height="52" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="758" y="304" text-anchor="middle" font-weight="700" fill="#9A3412">讓底盤盡量少動</text>
+    <text x="758" y="322" text-anchor="middle" fill="#6B7280">底盤動一次的不確定性最大</text>
+  </g>
+</svg>

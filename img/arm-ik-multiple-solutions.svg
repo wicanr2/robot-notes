@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="860" height="380" fill="#ffffff"/>
+
+  <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">同一個末端位姿,不只一組關節角</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">IK 回傳的是候選集合,挑哪一組是另一個獨立的決策</text>
+
+  <!-- Panel 1:肘上 -->
+  <rect x="20" y="70" width="250" height="216" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.7"/>
+  <text x="145" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">解 A:肘上</text>
+  <line x1="40" y1="238" x2="250" y2="238" stroke="#D1D5DB" stroke-width="2"/>
+  <g stroke="#3B82F6" stroke-width="7" stroke-linecap="round" fill="none">
+    <line x1="60" y1="210" x2="141" y2="170"/>
+    <line x1="141" y1="170" x2="210" y2="210"/>
+  </g>
+  <circle cx="60" cy="210" r="8" fill="#1E3A8A"/>
+  <circle cx="141" cy="170" r="7" fill="#ffffff" stroke="#1E3A8A" stroke-width="2.5"/>
+  <circle cx="210" cy="210" r="6" fill="#EF4444"/>
+  <text x="60" y="232" text-anchor="middle" font-size="9.5" fill="#374151">基座</text>
+  <text x="141" y="158" text-anchor="middle" font-size="9.5" fill="#1E3A8A">肘</text>
+  <text x="222" y="205" font-size="9.5" font-weight="700" fill="#991B1B">目標</text>
+  <text x="145" y="266" text-anchor="middle" font-size="10" fill="#374151">關節角 (q₁, q₂) = (+26°, −56°)</text>
+
+  <!-- Panel 2:肘下 -->
+  <rect x="290" y="70" width="250" height="216" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
+  <text x="415" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">解 B:肘下</text>
+  <line x1="310" y1="238" x2="520" y2="238" stroke="#D1D5DB" stroke-width="2"/>
+  <g stroke="#10B981" stroke-width="7" stroke-linecap="round" fill="none">
+    <line x1="330" y1="180" x2="411" y2="220"/>
+    <line x1="411" y1="220" x2="480" y2="180"/>
+  </g>
+  <circle cx="330" cy="180" r="8" fill="#065F46"/>
+  <circle cx="411" cy="220" r="7" fill="#ffffff" stroke="#065F46" stroke-width="2.5"/>
+  <circle cx="480" cy="180" r="6" fill="#EF4444"/>
+  <text x="330" y="168" text-anchor="middle" font-size="9.5" fill="#374151">基座</text>
+  <text x="411" y="238" text-anchor="middle" font-size="9.5" fill="#065F46">肘</text>
+  <text x="492" y="176" font-size="9.5" font-weight="700" fill="#991B1B">目標</text>
+  <text x="415" y="266" text-anchor="middle" font-size="10" fill="#374151">關節角 (q₁, q₂) = (−26°, +56°)</text>
+
+  <!-- Panel 3:八組 -->
+  <rect x="560" y="70" width="280" height="216" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.7"/>
+  <text x="700" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">六軸手臂:2 × 2 × 2 = 8 組</text>
+  <g font-size="10.5">
+    <rect x="576" y="110" width="248" height="34" rx="7" fill="#ffffff" stroke="#FDBA74"/>
+    <text x="590" y="125" font-weight="700" fill="#9A3412">肩</text><text x="620" y="125" fill="#374151">手臂朝前 / 朝後</text>
+    <text x="590" y="139" font-size="9" fill="#6B7280">shoulder left – right</text>
+    <rect x="576" y="152" width="248" height="34" rx="7" fill="#ffffff" stroke="#FDBA74"/>
+    <text x="590" y="167" font-weight="700" fill="#9A3412">肘</text><text x="620" y="167" fill="#374151">肘上 / 肘下</text>
+    <text x="590" y="181" font-size="9" fill="#6B7280">elbow up – down(左邊那兩張)</text>
+    <rect x="576" y="194" width="248" height="34" rx="7" fill="#ffffff" stroke="#FDBA74"/>
+    <text x="590" y="209" font-weight="700" fill="#9A3412">腕</text><text x="620" y="209" fill="#374151">腕翻轉,兩組差 180°</text>
+    <text x="590" y="223" font-size="9" fill="#6B7280">wrist flip</text>
+  </g>
+  <text x="700" y="252" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">末端位姿完全相同</text>
+  <text x="700" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">差別全在手臂自己擺成什麼樣</text>
+
+  <!-- 底部 -->
+  <rect x="20" y="300" width="820" height="60" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.3" stroke-dasharray="5,4"/>
+  <text x="40" y="322" font-size="11.5" font-weight="700" fill="#991B1B">八組解在幾何上等價,在工程上完全不等價</text>
+  <text x="40" y="342" font-size="10.5" fill="#374151">有的會撞到自己、有的會撞到工作台、有的離關節極限只剩幾度、有的要從現在的姿勢繞一大圈才過得去。挑哪一組,才是規劃器真正在做的事。</text>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="jtG" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+    <marker id="jtO" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="900" height="400" fill="#ffffff"/>
+
+  <text x="450" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">機器人能控的量,和任務關心的量,不是同一組</text>
+  <text x="450" y="48" text-anchor="middle" font-size="12" fill="#6B7280">兩個空間之間的兩個方向,難度完全不對稱</text>
+
+  <!-- 關節空間 -->
+  <rect x="30" y="72" width="270" height="200" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="165" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A8A">關節空間</text>
+  <text x="165" y="116" text-anchor="middle" font-size="10" fill="#2563EB">馬達直接能控的量</text>
+  <g font-size="11" fill="#1F2937">
+    <text x="165" y="146" text-anchor="middle">q = ( q₁, q₂, q₃, q₄, q₅, q₆ )</text>
+  </g>
+  <g stroke="#3B82F6" stroke-width="1.4" fill="none">
+    <circle cx="70" cy="182" r="13"/><circle cx="108" cy="182" r="13"/><circle cx="146" cy="182" r="13"/>
+    <circle cx="184" cy="182" r="13"/><circle cx="222" cy="182" r="13"/><circle cx="260" cy="182" r="13"/>
+  </g>
+  <g stroke="#1E3A8A" stroke-width="2" stroke-linecap="round">
+    <line x1="70" y1="182" x2="70" y2="172"/><line x1="108" y1="182" x2="116" y2="173"/>
+    <line x1="146" y1="182" x2="155" y2="185"/><line x1="184" y1="182" x2="177" y2="173"/>
+    <line x1="222" y1="182" x2="230" y2="188"/><line x1="260" y1="182" x2="252" y2="176"/>
+  </g>
+  <text x="165" y="220" text-anchor="middle" font-size="10" fill="#6B7280">n 個關節角,每個都有一顆馬達</text>
+  <text x="165" y="248" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E3A8A">能直接下指令的就是這些</text>
+
+  <!-- 工作空間 -->
+  <rect x="600" y="72" width="270" height="200" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="735" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">工作空間</text>
+  <text x="735" y="116" text-anchor="middle" font-size="10" fill="#059669">任務真正關心的量</text>
+  <text x="735" y="146" text-anchor="middle" font-size="11" fill="#1F2937">x = ( 位置 3 , 姿態 3 )</text>
+  <g stroke-width="2.2" stroke-linecap="round">
+    <line x1="700" y1="205" x2="760" y2="205" stroke="#DC2626"/>
+    <line x1="700" y1="205" x2="700" y2="168" stroke="#16A34A"/>
+    <line x1="700" y1="205" x2="676" y2="228" stroke="#2563EB"/>
+  </g>
+  <text x="766" y="209" font-size="9.5" fill="#DC2626">x</text>
+  <text x="694" y="163" font-size="9.5" fill="#16A34A">z</text>
+  <text x="664" y="238" font-size="9.5" fill="#2563EB">y</text>
+  <text x="735" y="248" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">夾爪要到的位姿</text>
+
+  <!-- 兩個方向 -->
+  <line x1="308" y1="132" x2="592" y2="132" stroke="#10B981" stroke-width="2.4" marker-end="url(#jtG)"/>
+  <text x="450" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">正運動學 FK:x = f(q)</text>
+  <text x="450" y="152" text-anchor="middle" font-size="10.5" fill="#374151">矩陣連乘,是<tspan font-weight="700">求值</tspan></text>
+  <text x="450" y="168" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">一定有解,而且唯一</text>
+
+  <line x1="592" y1="228" x2="308" y2="228" stroke="#F97316" stroke-width="2.4" marker-end="url(#jtO)"/>
+  <text x="450" y="220" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">逆運動學 IK:q = f⁻¹(x)</text>
+  <text x="450" y="248" text-anchor="middle" font-size="10.5" fill="#374151">解非線性三角方程組,是<tspan font-weight="700">求根</tspan></text>
+  <text x="450" y="264" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">不保證有解</text>
+
+  <!-- IK 的三種結果 -->
+  <rect x="30" y="292" width="840" height="70" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.4" stroke-dasharray="5,4"/>
+  <text x="48" y="314" font-size="11.5" font-weight="700" fill="#9A3412">IK 可能回傳的三種東西</text>
+
+  <text x="230" y="314" font-size="10.5" font-weight="700" fill="#991B1B">無解</text>
+  <text x="230" y="332" font-size="9.5" fill="#374151">構不到,或位置到得了</text>
+  <text x="230" y="348" font-size="9.5" fill="#374151">但姿態轉不過去</text>
+
+  <text x="450" y="314" font-size="10.5" font-weight="700" fill="#9A3412">有限多解</text>
+  <text x="450" y="332" font-size="9.5" fill="#374151">六軸手臂典型 8 組</text>
+  <text x="450" y="348" font-size="9.5" fill="#374151">肩 × 肘 × 腕,各二選一</text>
+
+  <text x="670" y="314" font-size="10.5" font-weight="700" fill="#1E3A8A">無限多解</text>
+  <text x="670" y="332" font-size="9.5" fill="#374151">冗餘手臂(7 軸以上)</text>
+  <text x="670" y="348" font-size="9.5" fill="#374151">或底盤 + 手臂一起算</text>
+
+  <line x1="340" y1="302" x2="340" y2="352" stroke="#FED7AA"/>
+  <line x1="560" y1="302" x2="560" y2="352" stroke="#FED7AA"/>
+</svg>

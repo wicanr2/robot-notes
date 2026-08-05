@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="toG" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#10B981"/></marker>
+    <marker id="toR" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+    <marker id="toB" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#3B82F6"/></marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">伸臂會改變重心:判準不是靜態重心,是合力的作用線</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">靜止時算過沒問題,一煞車就翻——差的就是慣性力那一項</text>
+
+  <!-- 左:手臂收起 -->
+  <rect x="20" y="68" width="410" height="256" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
+  <text x="225" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">手臂收起、車靜止</text>
+  <line x1="50" y1="288" x2="400" y2="288" stroke="#9CA3AF" stroke-width="2.5"/>
+  <rect x="140" y="252" width="130" height="30" rx="5" fill="#9CA3AF"/>
+  <circle cx="160" cy="288" r="7" fill="#374151"/><circle cx="250" cy="288" r="7" fill="#374151"/>
+  <line x1="160" y1="288" x2="250" y2="288" stroke="#10B981" stroke-width="5"/>
+  <text x="205" y="308" text-anchor="middle" font-size="10" font-weight="700" fill="#065F46">支撐多邊形(側視就是這一段)</text>
+  <g stroke="#6B7280" stroke-width="6" stroke-linecap="round" fill="none">
+    <line x1="205" y1="252" x2="205" y2="204"/>
+    <line x1="205" y1="204" x2="240" y2="188"/>
+  </g>
+  <circle cx="205" cy="228" r="9" fill="#065F46"/>
+  <text x="180" y="222" text-anchor="end" font-size="10" font-weight="700" fill="#065F46">合成重心</text>
+  <line x1="205" y1="240" x2="205" y2="278" stroke="#10B981" stroke-width="2.4" stroke-dasharray="5,3" marker-end="url(#toG)"/>
+  <text x="225" y="264" font-size="9.5" fill="#065F46">mg</text>
+  <rect x="290" y="200" width="126" height="46" rx="8" fill="#ffffff" stroke="#10B981"/>
+  <text x="353" y="220" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">作用線落在段內</text>
+  <text x="353" y="238" text-anchor="middle" font-size="9.5" fill="#374151">穩</text>
+
+  <!-- 右:伸臂 + 負載 + 煞車 -->
+  <rect x="450" y="68" width="410" height="256" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.7"/>
+  <text x="655" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">手臂伸出、抓了重物、而且在煞車</text>
+  <line x1="480" y1="288" x2="830" y2="288" stroke="#9CA3AF" stroke-width="2.5"/>
+  <rect x="530" y="252" width="130" height="30" rx="5" fill="#9CA3AF"/>
+  <circle cx="550" cy="288" r="7" fill="#374151"/><circle cx="640" cy="288" r="7" fill="#374151"/>
+  <line x1="550" y1="288" x2="640" y2="288" stroke="#EF4444" stroke-width="5"/>
+  <g stroke="#6B7280" stroke-width="6" stroke-linecap="round" fill="none">
+    <line x1="595" y1="252" x2="595" y2="192"/>
+    <line x1="595" y1="192" x2="700" y2="176"/>
+  </g>
+  <rect x="694" y="168" width="26" height="22" rx="3" fill="#9A3412"/>
+  <text x="707" y="158" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A3412">負載</text>
+  <circle cx="648" cy="212" r="9" fill="#991B1B"/>
+  <text x="540" y="216" text-anchor="end" font-size="10" font-weight="700" fill="#991B1B">合成重心外移</text>
+  <line x1="546" y1="212" x2="637" y2="212" stroke="#991B1B" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <line x1="648" y1="224" x2="648" y2="272" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4,3"/>
+  <text x="628" y="252" text-anchor="end" font-size="9.5" fill="#991B1B">mg</text>
+  <line x1="648" y1="212" x2="702" y2="212" stroke="#3B82F6" stroke-width="2.2" marker-end="url(#toB)"/>
+  <text x="708" y="209" font-size="9.5" fill="#1E3A8A">慣性力 ma</text>
+  <line x1="648" y1="212" x2="719" y2="282" stroke="#DC2626" stroke-width="2.8" marker-end="url(#toR)"/>
+  <text x="742" y="252" font-size="10" font-weight="700" fill="#991B1B">合力</text>
+  <g stroke="#DC2626" stroke-width="3" stroke-linecap="round">
+    <line x1="717" y1="280" x2="733" y2="296"/><line x1="733" y1="280" x2="717" y2="296"/>
+  </g>
+  <text x="745" y="314" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">落在支撐段外 → 翻</text>
+
+  <!-- 底部 -->
+  <rect x="20" y="336" width="840" height="52" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
+  <text x="40" y="358" font-size="11.5" font-weight="700" fill="#374151">三個效應會疊加:手臂自重外移 + 負載(力矩隨伸展半徑線性成長)+ 加速度讓有效重力方向傾斜</text>
+  <text x="40" y="378" font-size="10.5" fill="#374151">對策:把「伸展半徑 × 負載」變成規劃約束、手臂伸出時自動限制底盤加速度,或乾脆分階段——手臂伸出時底盤不動,慣性力項直接歸零。</text>
+</svg>

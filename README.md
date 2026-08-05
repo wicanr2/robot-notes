@@ -1,10 +1,12 @@
 # robot-notes — 機器人知識筆記
 
-一份從硬體寫到調度的機器人筆記。主軸是送餐機器人(室內 AMR),再往外延伸到多機調度、路網交管、主板模擬、Physical AI。
+一份從硬體寫到調度的機器人筆記,涵蓋輪式 AMR、移動操作(車 + 機械手臂)、四足與人形四種形態。
 
-- **在講什麼** — 一台自走機器人從馬達、感測器、韌體,一路到導航、多車交管與模擬驗證,每一層各自要解什麼問題、為什麼是這個設計。
+- **在講什麼** — 一台機器人從馬達、感測器、韌體,一路到導航、多車交管與模擬驗證,每一層各自要解什麼問題、為什麼是這個設計。
+- **怎麼組織** — 拆成[共通核心](docs/10-core/)與[形態分支](docs/20-forms/)兩塊。判準是一句話:**把形態換掉,這篇還成不成立?** FOC 換相、編碼器解碼、SLAM、costmap 這些換成四足照樣成立,放核心;差速運動學、手臂 IK、雙足平衡只對特定形態成立,放分支。
 - **寫給誰** — 想把機器人從頭搞懂的人,尤其是寫軟體、但對硬體不熟的那種。名詞第一次出現就當場翻譯。
-- **規模** — 50+ 篇主題文件、150+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
+- **規模** — 60+ 篇主題文件、180+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
+- **完整度不均** — 輪式 AMR(送餐機器人、物流搬運車)是最早展開、覆蓋最完整的一條線;移動操作剛起頭;四足與人形還沒寫。進度見 [PLAN.md](PLAN.md)。
 
 <p align="center">
   <img src="img/bellabot.png" height="180" alt="Pudu BellaBot 送餐機器人">
@@ -67,6 +69,8 @@
 | **做多車調度 / 路網交管** | [路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) → [室內 AMR 路網選型](docs/40-fleet/indoor-amr-roadnet-selection.md) → [OpenRMF](docs/40-fleet/open-rmf.md) → [VDA5050](docs/40-fleet/vda5050.md) |
 | 想做 AI 模擬(進階) | 先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
 | 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
+| **想比較不同形態** | [形態分支總覽](docs/20-forms/) — 一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪 |
+| 要在搬運車上裝手臂 | [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) |
 
 > 進階小節(如數位電路 §15 半導體物理、定位 §28 地標 PnP)初讀可跳過,需要時再回來。
 > 看到 `§11.3` 之類的編號不知在哪個檔 → 查 [章節對照表](docs/section-map.md)。看不懂的名詞 → 查 [術語表](CONTEXT.md)。
@@ -77,6 +81,14 @@
 
 ### 00 系統全貌
 - [系統架構](docs/00-overview/system-architecture.md) — 上位機/下位機分層、資料流、硬體選型、軟體架構、研發路線
+
+### 形態:換了形態哪幾層會變
+- [形態分支總覽](docs/20-forms/) — 四種形態在自由度、支撐面、運動學、控制核心、狀態估計、法規上的分岔點對照
+- [輪式 AMR](docs/20-forms/wheeled-amr/) — 為什麼輪式的問題最「乾淨」(支撐面固定 + 平面運動 + 接觸不切換)
+  - [底盤與傳動](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 兩輪差速、萬向輪、輪轂馬達、行星減速機
+- [移動操作:搬運車 + 機械手臂](docs/20-forms/mobile-manipulator/) — 兩者相加才長出來的三件事
+  - [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) — FK/IK 為什麼難度不對稱、DH 為什麼 4 個參數、球型手腕是機構遷就求解、Jacobian 的三重身分
+  - [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) — 冗餘與零空間投影、誤差預算、傾覆判準、安全標準之間的空隙
 
 ### 10 硬體
 - [底盤與驅動系統](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機

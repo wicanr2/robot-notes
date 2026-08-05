@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 375" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ebA" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#9CA3AF"/></marker>
+    <marker id="ebR" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+    <marker id="ebL" markerWidth="9" markerHeight="9" refX="2" refY="3.5" orient="auto"><path d="M7,0 L0,3.5 L7,7 Z" fill="#DC2626"/></marker>
+  </defs>
+  <rect width="880" height="375" fill="#ffffff"/>
+
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">誤差預算:底盤停得再準,也差抓取一個數量級</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">誤差不會消失,只會被移到某個能吸收它的地方</text>
+
+  <!-- 對數刻度軸 -->
+  <line x1="80" y1="150" x2="810" y2="150" stroke="#9CA3AF" stroke-width="1.6" marker-end="url(#ebA)"/>
+  <g font-size="10" fill="#6B7280" text-anchor="middle">
+    <line x1="100" y1="145" x2="100" y2="155" stroke="#9CA3AF"/><text x="100" y="170">1 mm</text>
+    <line x1="440" y1="145" x2="440" y2="155" stroke="#9CA3AF"/><text x="440" y="170">10 mm</text>
+    <line x1="780" y1="145" x2="780" y2="155" stroke="#9CA3AF"/><text x="780" y="170">100 mm</text>
+  </g>
+  <text x="820" y="154" font-size="9.5" fill="#6B7280">誤差</text>
+
+  <!-- 抓取需求 -->
+  <rect x="96" y="106" width="110" height="26" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="151" y="124" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">抓取需求</text>
+  <line x1="151" y1="132" x2="151" y2="146" stroke="#10B981" stroke-width="1.6"/>
+  <text x="151" y="94" text-anchor="middle" font-size="10" fill="#065F46">公釐級</text>
+
+  <!-- AMR 定位 -->
+  <rect x="542" y="106" width="140" height="26" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="612" y="124" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">AMR 定位精度</text>
+  <line x1="612" y1="132" x2="612" y2="146" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="612" y="94" text-anchor="middle" font-size="10" fill="#991B1B">公分級(LiDAR + AMCL)</text>
+
+  <!-- 落差 -->
+  <line x1="215" y1="119" x2="533" y2="119" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4" marker-start="url(#ebL)" marker-end="url(#ebR)"/>
+  <rect x="316" y="106" width="116" height="26" rx="13" fill="#ffffff"/>
+  <text x="374" y="124" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">差一個數量級</text>
+
+  <text x="440" y="200" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">這個落差補不上——不是「把底盤停得更準」能解決的,要換成別的東西吸收</text>
+
+  <!-- 三種吸收方式 -->
+  <rect x="20" y="216" width="272" height="140" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
+  <circle cx="46" cy="242" r="13" fill="#10B981"/><text x="46" y="247" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">1</text>
+  <text x="68" y="247" font-size="12.5" font-weight="700" fill="#065F46">改用相對定位</text>
+  <text x="36" y="272" font-size="10" fill="#374151">夾爪或手腕上裝相機/深度,直接看目標,</text>
+  <text x="36" y="290" font-size="10" fill="#374151">任務從「到世界座標某點」改成</text>
+  <text x="36" y="308" font-size="10" fill="#374151">「到相對夾爪的某個位姿」。</text>
+  <text x="36" y="332" font-size="10.5" font-weight="700" fill="#065F46">底盤誤差在數學上被消掉了</text>
+  <text x="36" y="348" font-size="9.5" fill="#6B7280">它不再出現在誤差鏈裡——最有效的一條</text>
+
+  <rect x="304" y="216" width="272" height="140" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.7"/>
+  <circle cx="330" cy="242" r="13" fill="#3B82F6"/><text x="330" y="247" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">2</text>
+  <text x="352" y="247" font-size="12.5" font-weight="700" fill="#1E3A8A">工作空間留餘裕</text>
+  <text x="320" y="272" font-size="10" fill="#374151">不能把目標規劃在手臂伸展的極限,</text>
+  <text x="320" y="290" font-size="10" fill="#374151">否則底盤停偏幾公分就構不到。</text>
+  <text x="320" y="314" font-size="10.5" font-weight="700" fill="#1E3A8A">預留至少等同底盤誤差的餘裕</text>
+  <text x="320" y="336" font-size="9.5" fill="#6B7280">這會反過來限制底盤該停在哪個範圍——</text>
+  <text x="320" y="350" font-size="9.5" fill="#6B7280">手臂的能力決定了底盤的驗收標準</text>
+
+  <rect x="588" y="216" width="272" height="140" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.7"/>
+  <circle cx="614" cy="242" r="13" fill="#F97316"/><text x="614" y="247" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">3</text>
+  <text x="636" y="247" font-size="12.5" font-weight="700" fill="#9A3412">用順從性吃最後幾公釐</text>
+  <text x="604" y="272" font-size="10" fill="#374151">插銷入孔這類動作,靠位置控制對到</text>
+  <text x="604" y="290" font-size="10" fill="#374151">公釐級很痛苦;改用力控讓接觸自行</text>
+  <text x="604" y="308" font-size="10" fill="#374151">導引(碰到斜面就順著滑進去)。</text>
+  <text x="604" y="332" font-size="10.5" font-weight="700" fill="#9A3412">幾何誤差被機械式地吸收</text>
+  <text x="604" y="348" font-size="9.5" fill="#6B7280">位置控制碰到硬物會硬推,力控不會</text>
+</svg>

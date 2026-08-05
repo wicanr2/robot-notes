@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="sgTip" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker>
+    <marker id="sgRed" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+  </defs>
+  <rect width="860" height="440" fill="#ffffff"/>
+
+  <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">奇異點:少一個方向,而且靠近時關節速度會發散</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">真機的表現不是「動不了」,是突然高速甩動</text>
+
+  <!-- 左:肘奇異幾何 -->
+  <rect x="20" y="68" width="450" height="290" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.6"/>
+  <text x="245" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">肘奇異:手臂完全伸直</text>
+
+  <g stroke="#6B7280" stroke-width="7" stroke-linecap="round">
+    <line x1="70" y1="190" x2="190" y2="190"/>
+    <line x1="190" y1="190" x2="300" y2="190"/>
+  </g>
+  <circle cx="70" cy="190" r="8" fill="#374151"/>
+  <circle cx="190" cy="190" r="7" fill="#ffffff" stroke="#374151" stroke-width="2.5"/>
+  <circle cx="300" cy="190" r="6" fill="#1F2937"/>
+  <text x="70" y="212" text-anchor="middle" font-size="9.5" fill="#374151">基座</text>
+  <text x="190" y="212" text-anchor="middle" font-size="9.5" fill="#374151">肘(伸直)</text>
+  <text x="300" y="212" text-anchor="middle" font-size="9.5" fill="#374151">末端</text>
+
+  <!-- 可動方向(綠)與不可動方向(紅) -->
+  <line x1="300" y1="180" x2="300" y2="136" stroke="#10B981" stroke-width="2.4" marker-end="url(#sgTip)"/>
+  <line x1="300" y1="200" x2="300" y2="244" stroke="#10B981" stroke-width="2.4" marker-end="url(#sgTip)"/>
+  <text x="314" y="140" font-size="10" fill="#065F46">上下還動得了</text>
+  <line x1="312" y1="190" x2="360" y2="190" stroke="#DC2626" stroke-width="2.6" stroke-dasharray="5,4" marker-end="url(#sgRed)"/>
+  <g stroke="#DC2626" stroke-width="3" stroke-linecap="round">
+    <line x1="368" y1="182" x2="384" y2="198"/><line x1="384" y1="182" x2="368" y2="198"/>
+  </g>
+  <text x="330" y="176" font-size="10" font-weight="700" fill="#991B1B">徑向動不了</text>
+  <text x="245" y="304" text-anchor="middle" font-size="10" fill="#374151">兩節連桿共線 → 沿伸長方向已經到極限</text>
+  <text x="245" y="324" text-anchor="middle" font-size="10.5" font-weight="700" fill="#374151">數學上就是 J 掉秩,det J = 0</text>
+
+  <!-- 右:速度發散曲線 -->
+  <rect x="490" y="68" width="350" height="290" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="665" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">末端要動同樣一小段,關節要多快</text>
+
+  <line x1="520" y1="322" x2="520" y2="105" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#sgTip)"/>
+  <line x1="520" y1="322" x2="815" y2="322" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#sgTip)"/>
+  <line x1="520" y1="120" x2="810" y2="120" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="6,4"/>
+  <text x="812" y="116" text-anchor="end" font-size="9" font-weight="700" fill="#991B1B">馬達速度上限</text>
+
+  <path d="M783.2,120.0 L780.6,120.0 L777.9,120.0 L775.3,120.0 L772.7,136.4 L770.0,153.4 L767.4,167.6 L764.8,179.8 L762.1,190.2 L759.5,199.3 L756.9,207.3 L754.2,214.3 L751.6,220.6 L749.0,226.3 L746.4,231.4 L743.7,236.0 L741.1,240.2 L738.5,244.0 L735.8,247.5 L733.2,250.8 L730.6,253.8 L727.9,256.6 L725.3,259.2 L722.7,261.6 L720.0,263.8 L717.4,265.9 L714.8,267.9 L712.1,269.8 L709.5,271.5 L706.9,273.2 L704.2,274.7 L701.6,276.2 L699.0,277.6 L696.3,278.9 L693.7,280.2 L691.1,281.4 L688.4,282.6 L685.8,283.7 L683.2,284.7 L680.6,285.7 L677.9,286.7 L675.3,287.6 L672.7,288.4 L670.0,289.3 L667.4,290.1 L664.8,290.9 L662.1,291.6 L659.5,292.3 L656.9,293.0 L654.2,293.7 L651.6,294.3 L649.0,295.0 L646.3,295.6 L643.7,296.1 L641.1,296.7 L638.4,297.2 L635.8,297.8 L633.2,298.3 L630.5,298.8 L627.9,299.2 L625.3,299.7 L622.6,300.2 L620.0,300.6 L617.4,301.0 L614.8,301.4 L612.1,301.8 L609.5,302.2 L606.9,302.6 L604.2,303.0 L601.6,303.3 L599.0,303.7 L596.3,304.0 L593.7,304.3 L591.1,304.7 L588.4,305.0 L585.8,305.3 L583.2,305.6 L580.5,305.9 L577.9,306.2 L575.3,306.5 L572.6,306.7 L570.0,307.0 L567.4,307.3 L564.7,307.5 L562.1,307.8 L559.5,308.0 L556.8,308.2 L554.2,308.5 L551.6,308.7 L549.0,308.9 L546.3,309.1 L543.7,309.4 L541.1,309.6 L538.4,309.8 L535.8,310.0 L533.2,310.2 L530.5,310.4 L527.9,310.6 L525.3,310.7 L522.6,310.9 L520.0,311.1"
+        fill="none" stroke="#DC2626" stroke-width="2.6"/>
+  <rect x="770" y="112" width="42" height="210" fill="#DC2626" opacity="0.08"/>
+  <text x="791" y="220" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B" transform="rotate(90 791 220)">追不上</text>
+
+  <text x="512" y="338" text-anchor="end" font-size="9" fill="#6B7280">遠</text>
+  <text x="796" y="338" text-anchor="middle" font-size="9" fill="#6B7280">貼近奇異點</text>
+  <text x="665" y="352" text-anchor="middle" font-size="9.5" fill="#374151">離奇異構型的距離 →</text>
+  <text x="508" y="210" text-anchor="middle" font-size="9.5" fill="#374151" transform="rotate(-90 508 210)">所需關節速度</text>
+
+  <text x="430" y="386" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F2937">q̇ = J⁻¹ ẋ ——— J 接近掉秩時,要除以一個趨近於零的量</text>
+  <text x="430" y="408" text-anchor="middle" font-size="10.5" fill="#374151">所以控制器不能等到抵達奇異點才處理,必須偵測「還有多遠」並提前限速。</text>
+  <text x="430" y="430" text-anchor="middle" font-size="10.5" fill="#374151">實務上用可操作度 w = √det(J·Jᵀ) 當距離指標,w 掉到門檻以下就降速或改走別的構型。</text>
+</svg>

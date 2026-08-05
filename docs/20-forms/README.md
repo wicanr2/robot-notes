@@ -20,7 +20,7 @@
 ## 各形態
 
 - **[輪式 AMR](wheeled-amr/)** — 差速底盤、萬向輪、輪轂馬達與減速機。本筆記覆蓋最完整的一條線,送餐機器人與物流搬運車都在這裡。
-- **[移動操作:搬運車 + 機械手臂](mobile-manipulator/)** — 底盤那半用輪式的答案,難的是手臂:運動學、Jacobian 與奇異點、MoveIt 2、抓取與力控,以及「底盤動了手臂怎麼補償」。
+- **[移動操作:搬運車 + 機械手臂](mobile-manipulator/)** — 底盤那半沿用輪式的答案,難的是相加才長出來的三件事:冗餘與零空間、定位精度差抓取一個數量級、伸臂會翻車。含[手臂運動學](mobile-manipulator/arm-kinematics.md)與[底盤手臂耦合](mobile-manipulator/mobile-manipulation.md)兩篇。
 - **四足**(待後續輪次)— 步態、ZMP、浮動基座估計、RL locomotion。
 - **人形**(待後續輪次)— 雙足平衡、全身控制、上肢操作、VLA 模型。
 
