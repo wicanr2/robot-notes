@@ -102,6 +102,20 @@ robot-notes/
 
   > SVG 補強優先給 ASCII 畫不好的數學概念(ICC 幾何、sinθ 曲線、bias 發散、多峰分布、scan 殘差),結構剖面圖維持 ASCII。
 
+## 待辦(R12 中斷,下次接續)
+
+R12 派了 5 個補圖/稽核 agent,全部因 session 額度用盡中斷。**已完成並驗過的**:
+`img/stack-overview.svg`(分層堆疊全景)、`img/hero-robot-exploded.svg`(爆炸圖),README 已改寫。
+
+**未完成,下次接續**(檔案已在 `img/` 但**尚未經過把關、也還沒插進任何文件**,先驗再用):
+
+- `cmp-compliance-map.svg`、`cmp-ul2271-vs-2580.svg`、`cmp-semi-standards-map.svg` — 要插進 `60-compliance/` 對應各篇;還缺 `pwc-semi-iso3691-certification.md` 的「三種認證角色」圖。
+- `pai-reality-gap.svg`、`pai-gap-techniques.svg` — 要插進 `50-physical-ai/sim-to-real.md`;`isaac-sim-isaac-lab-amr.md` 的兩張還沒畫。
+- `_meta/github-actions-gz-sim-playbook.md` 的 CI 階梯圖沒畫;`section-map.md` 要不要圖尚未判斷。
+- 全 repo 視覺一致性稽核(SVG 風格、圖文比例、`width` 慣例、過長段落、標題層級)沒跑完。
+
+> 這五個 SVG 是中斷的 agent 留下的,**沒有經過 chrome 自檢與內容核實**。接手時先渲染看過、確認法規類數字沒臆造,再決定用或重畫。
+
 ## 待辦(R11 學生審查提出,尚未處理)
 
 - **`roadnet-and-traffic-control.md` §2.5 兩層路網配圖**:目前純文字描述「節點路網 + 道路級粗圖」的疊合關係,一張「細圖疊粗圖」示意會比文字快。(§4.3 迴避點評分的圖已於 R11.5 補上。)

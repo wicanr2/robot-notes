@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 592" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="so-d" markerWidth="12" markerHeight="12" refX="6" refY="9" orient="auto"><path d="M0,0 L10,0 L5,10 Z" fill="#F97316"/></marker>
+    <marker id="so-s" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#94A3B8"/></marker>
+  </defs>
+  <rect width="900" height="592" fill="#ffffff"/>
+
+  <text x="450" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">這份筆記在講什麼:一台機器人從硬體到調度的完整堆疊</text>
+  <text x="450" y="54" text-anchor="middle" font-size="12" fill="#6B7280">中間四層是資料實際流過的路徑;左右兩側是貫穿每一層的橫切主題。方塊上的編號就是 docs/ 的資料夾</text>
+
+  <!-- ============ 左側:50 Physical AI ============ -->
+  <rect x="24" y="76" width="150" height="400" rx="10" fill="#F0FDFA" stroke="#14B8A6" stroke-width="1.8"/>
+  <text x="99" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#0F766E">50 Physical AI</text>
+  <text x="99" y="122" text-anchor="middle" font-size="11" fill="#0F766E">模擬驗證整條堆疊</text>
+  <line x1="44" y1="134" x2="154" y2="134" stroke="#99F6E4" stroke-width="1.2"/>
+  <text x="44" y="156" font-size="11" fill="#134E4A">· Gazebo + ROS 2</text>
+  <text x="44" y="176" font-size="11" fill="#134E4A">· Isaac Sim / Lab</text>
+  <text x="44" y="196" font-size="11" fill="#134E4A">· gpu_lidar 原理</text>
+  <text x="44" y="216" font-size="11" fill="#134E4A">· 3D 重建 / 3DGS</text>
+  <text x="44" y="236" font-size="11" fill="#134E4A">· sim-to-real</text>
+  <text x="44" y="256" font-size="11" fill="#134E4A">· 叉車搬運專案</text>
+  <rect x="40" y="278" width="118" height="72" rx="7" fill="#ffffff" stroke="#5EEAD4" stroke-width="1.2"/>
+  <text x="99" y="298" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0F766E">為什麼在旁邊</text>
+  <text x="50" y="316" font-size="10" fill="#134E4A">模擬不是另一層,</text>
+  <text x="50" y="332" font-size="10" fill="#134E4A">是「把右邊整條</text>
+  <text x="50" y="346" font-size="10" fill="#134E4A">堆疊搬進電腦裡」</text>
+  <line x1="174" y1="276" x2="192" y2="276" stroke="#14B8A6" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#so-s)"/>
+
+  <!-- ============ 主堆疊 ============ -->
+
+  <!-- 40 調度 -->
+  <rect x="194" y="76" width="500" height="76" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="212" y="102" font-size="15" font-weight="700" fill="#9A3412">40　多機調度</text>
+  <text x="212" y="124" font-size="11.5" fill="#7C2D12">一個場域裡好幾台車,誰先走、誰讓路、電梯給誰</text>
+  <text x="212" y="143" font-size="11" fill="#9A3412">Open-RMF　·　VDA5050　·　路網模型與交通管制　·　目的點預定</text>
+
+  <!-- arrow 40 → 30 -->
+  <line x1="444" y1="152" x2="444" y2="176" stroke="#F97316" stroke-width="2.6" marker-end="url(#so-d)"/>
+  <text x="458" y="171" font-size="11" fill="#9A3412">任務 / 路權</text>
+
+  <!-- 上位機 -->
+  <rect x="194" y="184" width="500" height="112" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="212" y="208" font-size="15" font-weight="700" fill="#1E3A8A">上位機 — 負責「想」(Linux / ROS 2)</text>
+  <rect x="208" y="218" width="292" height="64" rx="7" fill="#ffffff" stroke="#93C5FD" stroke-width="1.4"/>
+  <text x="222" y="238" font-size="12.5" font-weight="700" fill="#1E3A8A">30　導航</text>
+  <text x="222" y="256" font-size="10.5" fill="#1F2937">我在哪 · 怎麼過去</text>
+  <text x="222" y="272" font-size="10.5" fill="#475569">SLAM · 定位 · 座標轉換 · 路徑規劃</text>
+  <rect x="512" y="218" width="168" height="64" rx="7" fill="#ffffff" stroke="#93C5FD" stroke-width="1.4"/>
+  <text x="526" y="238" font-size="12.5" font-weight="700" fill="#1E3A8A">55　VLM &amp; LLM</text>
+  <text x="526" y="256" font-size="10.5" fill="#1F2937">看得懂 · 聽得懂</text>
+  <text x="526" y="272" font-size="10.5" fill="#475569">本地跑大模型的帳</text>
+
+  <!-- arrow 30 → 20 -->
+  <line x1="444" y1="296" x2="444" y2="320" stroke="#F97316" stroke-width="2.6" marker-end="url(#so-d)"/>
+  <text x="458" y="315" font-size="11" fill="#9A3412">(v, ω) 指令　↑ odometry 回報</text>
+
+  <!-- 20 韌體 -->
+  <rect x="194" y="328" width="500" height="72" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="212" y="352" font-size="15" font-weight="700" fill="#991B1B">20　下位機韌體 — 負責「動」(STM32 MCU)</text>
+  <text x="212" y="373" font-size="11.5" fill="#7F1D1D">硬即時:馬達閉迴路、odometry 積分、撞到立刻停</text>
+  <text x="212" y="391" font-size="11" fill="#991B1B">運動控制　·　上下位機通訊協議　·　Renode 主板模擬</text>
+
+  <!-- link 20 → 10 -->
+  <line x1="444" y1="400" x2="444" y2="412" stroke="#94A3B8" stroke-width="2"/>
+
+  <!-- 10 硬體 -->
+  <rect x="194" y="414" width="500" height="62" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="212" y="438" font-size="15" font-weight="700" fill="#065F46">10　硬體 — 真正會動、會發熱、會壞的那些</text>
+  <text x="212" y="461" font-size="11" fill="#064E3B">底盤 · 馬達與 FOC · 編碼器 · 感測器/LiDAR · 電源與安全 · 匯流排 · 數位電路</text>
+
+  <!-- ============ 右側:橫切主題 ============ -->
+  <rect x="714" y="76" width="162" height="192" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1.8"/>
+  <text x="795" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">60 法規與認證</text>
+  <text x="795" y="122" text-anchor="middle" font-size="11" fill="#92400E">上線前要過的關</text>
+  <line x1="734" y1="134" x2="856" y2="134" stroke="#FDE68A" stroke-width="1.2"/>
+  <text x="734" y="156" font-size="11" fill="#78350F">· 電池(UL 2271/2580)</text>
+  <text x="734" y="176" font-size="11" fill="#78350F">· 半導體 fab(SEMI)</text>
+  <text x="734" y="196" font-size="11" fill="#78350F">· ISO 3691 無人叉車</text>
+  <text x="734" y="216" font-size="11" fill="#78350F">· 顧問評估 ≠ 發證</text>
+  <text x="734" y="244" font-size="10" fill="#92400E">每一層都可能被要求</text>
+  <text x="734" y="258" font-size="10" fill="#92400E">提出證據,不只硬體</text>
+
+  <rect x="714" y="284" width="162" height="192" rx="10" fill="#F1F5F9" stroke="#64748B" stroke-width="1.8"/>
+  <text x="795" y="310" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">70 資安</text>
+  <text x="795" y="330" text-anchor="middle" font-size="11" fill="#334155">五個通訊面</text>
+  <line x1="734" y1="342" x2="856" y2="342" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="734" y="364" font-size="11" fill="#1E293B">· 下位機 UART/CAN</text>
+  <text x="734" y="384" font-size="11" fill="#1E293B">· ROS 2 DDS(預設明文)</text>
+  <text x="734" y="404" font-size="11" fill="#1E293B">· 車隊 MQTT / mTLS</text>
+  <text x="734" y="424" font-size="11" fill="#1E293B">· OTA 簽章</text>
+  <text x="734" y="444" font-size="11" fill="#1E293B">· Secure boot</text>
+  <text x="734" y="466" font-size="10" fill="#334155">加密 + 認證 + 授權三件套</text>
+
+  <!-- 連到主堆疊的橫切示意 -->
+  <line x1="708" y1="172" x2="696" y2="172" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="708" y1="380" x2="696" y2="380" stroke="#64748B" stroke-width="2" stroke-dasharray="4 3"/>
+
+  <!-- ============ 底部:90 數學基礎 ============ -->
+  <rect x="24" y="488" width="852" height="52" rx="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
+  <text x="44" y="521" font-size="13" font-weight="700" fill="#475569">90　數學基礎</text>
+  <text x="150" y="512" font-size="11.5" fill="#1F2937">高斯分布的第一性原理:從最大熵與中央極限定理兩條路推出同一個式子,</text>
+  <text x="150" y="528" font-size="11.5" fill="#1F2937">再用它統一理解 Kalman/EKF、AMCL 粒子權重、scan matching 的最小二乘、3D Gaussian Splatting。</text>
+
+  <!-- 底注 -->
+  <text x="24" y="566" font-size="11.5" fill="#6B7280">00 系統全貌 = 這張圖的文字版(含硬體選型與研發路線)　·　每個方塊都對應 docs/ 底下同編號的資料夾,索引在下方</text>
+</svg>

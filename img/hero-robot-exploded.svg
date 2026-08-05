@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 960" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="960" fill="#ffffff"/>
+
+  <!-- 標題 -->
+  <text x="450" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">送餐機器人拆開來看:每個零件對應哪一章</text>
+  <text x="450" y="56" text-anchor="middle" font-size="12" fill="#6B7280">沿中心虛線垂直分解,右側標籤對照筆記章節(§)</text>
+
+  <!-- 組裝軸 -->
+  <line x1="230" y1="80" x2="230" y2="883" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6 6"/>
+  <circle cx="230" cy="80" r="3" fill="#94A3B8"/>
+
+  <!-- ============ Row1 托盤層 (cy=118) ============ -->
+  <g>
+    <line x1="172" y1="92" x2="172" y2="144" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="288" y1="92" x2="288" y2="144" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+    <rect x="165" y="92" width="130" height="8" rx="2" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="165" y="114" width="130" height="8" rx="2" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="165" y="136" width="130" height="8" rx="2" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <circle cx="280" cy="96" r="3" fill="#F97316"/>
+  </g>
+  <circle cx="300" cy="118" r="2" fill="#94A3B8"/>
+  <line x1="300" y1="118" x2="480" y2="118" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="108" font-size="13" font-weight="700" fill="#1F2937">托盤層</text>
+  <text x="490" y="124" font-size="10.5" fill="#6B7280">載餐,托盤感測器確認取餐</text>
+
+  <!-- ============ Row2 人機介面 (cy=203) ============ -->
+  <g>
+    <rect x="185" y="168" width="90" height="70" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="196" y="178" width="68" height="42" rx="4" fill="#1E3A8A"/>
+    <circle cx="215" cy="195" r="3" fill="#EFF6FF"/>
+    <circle cx="245" cy="195" r="3" fill="#EFF6FF"/>
+    <path d="M212,206 Q230,214 248,206" stroke="#EFF6FF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="213" cy="228" r="2" fill="#94A3B8"/>
+    <circle cx="230" cy="228" r="2" fill="#94A3B8"/>
+    <circle cx="247" cy="228" r="2" fill="#94A3B8"/>
+  </g>
+  <circle cx="280" cy="203" r="2" fill="#94A3B8"/>
+  <line x1="280" y1="203" x2="480" y2="203" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="193" font-size="13" font-weight="700" fill="#1F2937">人機介面</text>
+  <text x="490" y="209" font-size="10.5" fill="#6B7280">觸控點選、語音提示</text>
+
+  <!-- ============ Row3 深度相機 (cy=288) ============ -->
+  <g>
+    <rect x="170" y="272" width="120" height="32" rx="6" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <circle cx="196" cy="288" r="10" fill="#1E3A8A"/><circle cx="193" cy="285" r="2.5" fill="#93C5FD"/>
+    <circle cx="230" cy="288" r="10" fill="#1E3A8A"/><circle cx="227" cy="285" r="2.5" fill="#93C5FD"/>
+    <circle cx="264" cy="288" r="10" fill="#1E3A8A"/><circle cx="261" cy="285" r="2.5" fill="#93C5FD"/>
+  </g>
+  <circle cx="295" cy="288" r="2" fill="#94A3B8"/>
+  <line x1="295" y1="288" x2="480" y2="288" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="274" font-size="13" font-weight="700" fill="#1F2937">深度相機</text>
+  <text x="490" y="290" font-size="10.5" fill="#6B7280">看得到桌面、玻璃、矮障礙</text>
+  <text x="490" y="306" font-size="10" fill="#9A3412">§10 感測器</text>
+
+  <!-- ============ Row4 上位機 (cy=373) ============ -->
+  <g>
+    <rect x="188" y="351" width="84" height="44" rx="6" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="196" y1="357" x2="196" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <line x1="206" y1="357" x2="206" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <line x1="216" y1="357" x2="216" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <line x1="226" y1="357" x2="226" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <line x1="236" y1="357" x2="236" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <line x1="246" y1="357" x2="246" y2="367" stroke="#93C5FD" stroke-width="2"/>
+    <circle cx="262" cy="359" r="2.5" fill="#10B981"/>
+    <rect x="200" y="389" width="8" height="4" fill="#6B7280"/>
+    <rect x="218" y="389" width="8" height="4" fill="#6B7280"/>
+    <rect x="236" y="389" width="8" height="4" fill="#6B7280"/>
+  </g>
+  <circle cx="277" cy="373" r="2" fill="#94A3B8"/>
+  <line x1="277" y1="373" x2="480" y2="373" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="359" font-size="13" font-weight="700" fill="#1F2937">上位機</text>
+  <text x="490" y="375" font-size="10.5" fill="#6B7280">跑 Linux/ROS2,負責「想」</text>
+  <text x="490" y="391" font-size="10" fill="#9A3412">§30 導航 · §55 VLM</text>
+
+  <!-- ============ Row5 下位機 MCU (cy=458) ============ -->
+  <g>
+    <rect x="170" y="436" width="120" height="44" rx="3" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="178" y="442" width="10" height="7" fill="#9CA3AF"/>
+    <rect x="178" y="466" width="10" height="7" fill="#9CA3AF"/>
+    <rect x="252" y="444" width="16" height="10" rx="1" fill="#374151"/>
+    <rect x="205" y="446" width="40" height="24" fill="#065F46"/>
+    <line x1="199" y1="452" x2="205" y2="452" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="199" y1="458" x2="205" y2="458" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="199" y1="464" x2="205" y2="464" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="245" y1="452" x2="251" y2="452" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="245" y1="458" x2="251" y2="458" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="245" y1="464" x2="251" y2="464" stroke="#065F46" stroke-width="1.5"/>
+    <line x1="180" y1="478" x2="180" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="190" y1="478" x2="190" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="200" y1="478" x2="200" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="210" y1="478" x2="210" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="220" y1="478" x2="220" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="230" y1="478" x2="230" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="240" y1="478" x2="240" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="250" y1="478" x2="250" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="260" y1="478" x2="260" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+    <line x1="270" y1="478" x2="270" y2="482" stroke="#6B7280" stroke-width="1.3"/>
+  </g>
+  <circle cx="295" cy="458" r="2" fill="#94A3B8"/>
+  <line x1="295" y1="458" x2="480" y2="458" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="444" font-size="13" font-weight="700" fill="#1F2937">下位機 MCU</text>
+  <text x="490" y="460" font-size="10.5" fill="#6B7280">即時控制馬達、回報里程</text>
+  <text x="490" y="476" font-size="10" fill="#9A3412">§20 韌體</text>
+
+  <!-- ============ Row6 馬達驅動器 ×2 (cy=543) ============ -->
+  <g>
+    <rect x="165" y="522" width="55" height="42" rx="3" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="245" y="522" width="55" height="42" rx="3" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="182" y="534" width="20" height="16" fill="#065F46"/>
+    <rect x="262" y="534" width="20" height="16" fill="#065F46"/>
+    <line x1="172" y1="561" x2="172" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="180" y1="561" x2="180" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="188" y1="561" x2="188" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="196" y1="561" x2="196" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="204" y1="561" x2="204" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="212" y1="561" x2="212" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="252" y1="561" x2="252" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="260" y1="561" x2="260" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="268" y1="561" x2="268" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="276" y1="561" x2="276" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="284" y1="561" x2="284" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+    <line x1="292" y1="561" x2="292" y2="565" stroke="#6B7280" stroke-width="1.2"/>
+  </g>
+  <circle cx="305" cy="543" r="2" fill="#94A3B8"/>
+  <line x1="305" y1="543" x2="480" y2="543" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="529" font-size="13" font-weight="700" fill="#1F2937">馬達驅動器</text>
+  <text x="490" y="545" font-size="10.5" fill="#6B7280">FOC 閉迴路,走 CAN</text>
+  <text x="490" y="561" font-size="10" fill="#9A3412">§10 馬達與 FOC</text>
+
+  <!-- ============ Row7 電池組 (cy=628) ============ -->
+  <g>
+    <rect x="165" y="603" width="150" height="50" rx="6" fill="#EFF6FF" stroke="#1E3A8A" stroke-width="2.2"/>
+    <rect x="223" y="596" width="16" height="9" rx="2" fill="#94A3B8"/>
+    <rect x="255" y="598" width="30" height="15" rx="2" fill="#ECFDF5" stroke="#10B981" stroke-width="1.3"/>
+    <text x="270" y="609" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">BMS</text>
+    <text x="192" y="636" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">+</text>
+    <text x="288" y="634" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">-</text>
+    <rect x="213" y="628" width="10" height="14" fill="#93C5FD"/>
+    <rect x="227" y="621" width="10" height="21" fill="#60A5FA"/>
+    <rect x="241" y="614" width="10" height="28" fill="#3B82F6"/>
+  </g>
+  <circle cx="320" cy="628" r="2" fill="#94A3B8"/>
+  <line x1="320" y1="628" x2="480" y2="628" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="614" font-size="13" font-weight="700" fill="#1F2937">電池組</text>
+  <text x="490" y="630" font-size="10.5" fill="#6B7280">LFP + 金屬外殼</text>
+  <text x="490" y="646" font-size="10" fill="#9A3412">§10 電源 · §60 電池認證</text>
+
+  <!-- ============ Row8 2D LiDAR (cy=713) ============ -->
+  <g>
+    <ellipse cx="230" cy="726" rx="46" ry="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="184" y="700" width="92" height="26" fill="#EFF6FF"/>
+    <line x1="184" y1="700" x2="184" y2="726" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="276" y1="700" x2="276" y2="726" stroke="#3B82F6" stroke-width="1.5"/>
+    <ellipse cx="230" cy="700" rx="46" ry="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <ellipse cx="230" cy="700" rx="68" ry="17" fill="none" stroke="#F97316" stroke-width="1.3" stroke-dasharray="3 4"/>
+  </g>
+  <circle cx="305" cy="713" r="2" fill="#94A3B8"/>
+  <line x1="305" y1="713" x2="480" y2="713" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="699" font-size="13" font-weight="700" fill="#1F2937">2D LiDAR</text>
+  <text x="490" y="715" font-size="10.5" fill="#6B7280">水平掃一個平面,SLAM 與定位主力</text>
+  <text x="490" y="731" font-size="10" fill="#9A3412">§30 SLAM</text>
+
+  <!-- ============ Row9 底盤板 / 急停 (cy=798) ============ -->
+  <g>
+    <rect x="130" y="789" width="200" height="18" rx="3" fill="#E2E8F0" stroke="#6B7280" stroke-width="1.5"/>
+    <rect x="226" y="780" width="8" height="12" fill="#94A3B8"/>
+    <circle cx="230" cy="770" r="15" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+    <circle cx="230" cy="770" r="10" fill="#EF4444"/>
+  </g>
+  <circle cx="335" cy="798" r="2" fill="#94A3B8"/>
+  <line x1="335" y1="798" x2="480" y2="798" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="784" font-size="13" font-weight="700" fill="#1F2937">底盤板 / 急停</text>
+  <text x="490" y="800" font-size="10.5" fill="#6B7280">急停是硬接線,不經過軟體</text>
+  <text x="490" y="816" font-size="10" fill="#9A3412">§10 電源與安全</text>
+
+  <!-- ============ Row10 差速底盤(驅動輪 ×2 + 萬向輪 ×2) (cy=883) ============ -->
+  <g>
+    <circle cx="150" cy="883" r="32" fill="#374151" stroke="#1F2937" stroke-width="1.5"/>
+    <circle cx="150" cy="883" r="11" fill="#CBD5E1"/>
+    <circle cx="310" cy="883" r="32" fill="#374151" stroke="#1F2937" stroke-width="1.5"/>
+    <circle cx="310" cy="883" r="11" fill="#CBD5E1"/>
+    <circle cx="198" cy="883" r="10" fill="#D1D5DB" stroke="#6B7280" stroke-width="1.5"/>
+    <path d="M198,876 v14 M191,883 h14" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="262" cy="883" r="10" fill="#D1D5DB" stroke="#6B7280" stroke-width="1.5"/>
+    <path d="M262,876 v14 M255,883 h14" stroke="#6B7280" stroke-width="1"/>
+  </g>
+  <circle cx="347" cy="883" r="2" fill="#94A3B8"/>
+  <line x1="347" y1="883" x2="480" y2="883" stroke="#94A3B8" stroke-width="1"/>
+  <text x="490" y="869" font-size="13" font-weight="700" fill="#1F2937">差速底盤</text>
+  <text x="490" y="885" font-size="10.5" fill="#6B7280">兩輪速差轉向</text>
+  <text x="490" y="901" font-size="10" fill="#9A3412">§10 底盤與驅動</text>
+
+  <!-- 頁尾 -->
+  <text x="450" y="944" text-anchor="middle" font-size="9.5" fill="#94A3B8">§ 為本筆記章節編號,完整目錄見 README</text>
+</svg>
