@@ -24,7 +24,7 @@ SLAM(Simultaneous Localization and Mapping)解決一個「雞生蛋」問題:要
 
 <p align="center"><img src="../../img/slam-build-loop.svg" width="720" alt="建圖主迴圈三步:① odometry 預測出有漂移的位姿初猜 → ② scan matching 把這幀 scan 對齊已建地圖、順便修正位姿 → ③ ray casting 沿光束把穿過的格標 free、端點格標 occupied"></p>
 
-關鍵理解:**scan matching 是在「用地圖反過來修定位」**——odometry 每步都有小誤差(§3.3 打滑),靠「這幀 scan 跟地圖對不上就挪到對得上」持續拉回來。這也解釋了為什麼 §4.1 說 odometry 標定品質決定 SLAM 上限:初猜偏太多,scan matching 會對到錯的位置上。
+關鍵理解:**scan matching 是在「用地圖反過來修定位」**——odometry 每步都有小誤差([§3.3](../10-hardware/sensors.md) 打滑),靠「這幀 scan 跟地圖對不上就挪到對得上」持續拉回來。這也解釋了為什麼 [§4.1](../20-firmware/low-level-control.md) 說 odometry 標定品質決定 SLAM 上限:初猜偏太多,scan matching 會對到錯的位置上。
 
 **「找最契合的位置」到底在算什麼?**(第一性原理,把黑盒打開)它不是模糊的「滑來滑去看哪裡順眼」,而是一個明確的最佳化:**找一組微調量 `(Δx, Δy, Δθ)`,讓「每個 scan 點到地圖上最近障礙的距離(殘差)」的平方和最小**。殘差平方和就是代價函數,最小的那個位姿勝出。
 
@@ -72,7 +72,7 @@ ros2 run nav2_map_server map_saver_cli -f restaurant_map
 | 桌椅就定位後再建圖 | 地圖反映「平常的樣子」,AMCL 比對才像 |
 | 建完用 RViz 檢查牆是否筆直、有無雙重牆 | 雙重牆 = loop closure 失敗,重建 |
 
-建圖是**部署時做一次**的離線工作(§3.3 的分工);日常營運跑的是下一節的 AMCL。
+建圖是**部署時做一次**的離線工作([§3.3](../10-hardware/sensors.md) 的分工);日常營運跑的是下一節的 AMCL。
 
 ---
 

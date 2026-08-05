@@ -104,11 +104,13 @@ LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平
 | **Keenon DINERBOT T10**(擎朗) | **4 顆立體視覺相機(270° 3D 偵測)+ 2 顆 LiDAR(360° 2D)** | 感測冗餘與覆蓋角設計;雙 LiDAR 消盲區 |
 | **Bear Robotics Servi** | 深度相機 + LiDAR 融合(早期型號公開資訊採 Intel RealSense) | 與本文件建議的「LiDAR 定位 + 深度避障」同構(§3) |
 
-![BellaBot 官網頁面](../../img/bellabot.png)
-![Bear Robotics Servi 頁面](../../img/servi.png)
-![Keenon 官網首頁](../../img/keenon_t10.png)
+<p align="center">
+  <img src="../../img/bellabot.png" height="240" alt="Pudu BellaBot 官網頁面">
+  <img src="../../img/keenon_t10.png" height="240" alt="Keenon DINERBOT T10 官網頁面">
+  <img src="../../img/servi.png" height="240" alt="Bear Robotics Servi 官網頁面">
+</p>
 
-三家頭部產品**全部**是「2D LiDAR(定位主力)+ 多顆深度/立體相機(立體避障)」的組合——印證 §2.4/§3 的選型建議不是理論偏好,而是市場收斂後的共同答案。差異只在相機顆數與擺位(前向 vs 環繞),那是視野覆蓋率 vs 成本的取捨。
+三家頭部產品**全部**是「2D LiDAR(定位主力)+ 多顆深度/立體相機(立體避障)」的組合——印證 [§2.4](../00-overview/system-architecture.md)/§3 的選型建議不是理論偏好,而是市場收斂後的共同答案。差異只在相機顆數與擺位(前向 vs 環繞),那是視野覆蓋率 vs 成本的取捨。
 
 > 來源:[Pudu BellaBot 官網](https://www.pudurobotics.com/en/products/bellabot)、[Generation Robots BellaBot 規格](https://www.generationrobots.com/en/404257-pudu-bellabot-server-robot.html)、[Keenon DINERBOT T10](https://www.lotsofbots.com/en/keenon-robotics/dinerbot-t10/)、[Automated Warehouse 報導](https://www.automatedwarehouseonline.com/keenon-robotics-introduces-dinerbot-t10/)、[Bear Robotics Servi](https://www.bearrobotics.ai/servi)
 

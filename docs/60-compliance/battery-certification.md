@@ -62,7 +62,7 @@
 | 供應商 | 認證宣稱 | 查證註記 |
 |---|---|---|
 | **BSLBATT**(惠州,中國;LFP 專業廠) | **UL 2580 + IEC 62619**(B-LFP24/36/48/80 系列型號);另稱符合 UL/CEC/IEC/CE/UN38.3。有 AGV·AMR 產品線 | 官網對自動抓取回 HTTP 403,以多頁搜尋摘要 + 第三方貿易媒體(Material Handling Wholesaler)交叉佐證。**確切 UL 檔案號/有效型號,引用前建議到 UL Product iQ 線上資料庫逐型核對** |
-| **Flux Power**(美國 Nasdaq: FLUX) | **UL 2271**(24V LiFT Pack,UL 官方新聞稿證實為全球首例堆高機電池 UL 2271 Listing)+ **UL 2580**(X-Series)；皆 LiFePO4 | UL 官方新聞稿可佐證 UL 2271 首例;官網列 UL 2580/2271/583/1971/UN38.3 |
+| **Flux Power**(美國 Nasdaq: FLUX) | **UL 2271**(24V LiFT Pack,UL 官方新聞稿證實為全球首例堆高機電池 UL 2271 Listing)+ **UL 2580**(X-Series);皆 LiFePO4 | UL 官方新聞稿可佐證 UL 2271 首例;官網列 UL 2580/2271/583/1971/UN38.3 |
 
 > Flux Power 同時持兩張(UL 2271 輕型 + UL 2580 重型),正好示範第 2 節「依電壓/載重分流選標準」。
 

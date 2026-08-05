@@ -241,7 +241,7 @@ Open-RMF 沒有「排程當下把目的地鎖死」的單一全域設計,而是�
 ## 來源
 
 - Open-RMF:[rmf_traffic](https://github.com/open-rmf/rmf_traffic)・[RMF core 章](https://osrf.github.io/ros2multirobotbook/rmf-core.html)・[mutex 釋放討論](https://github.com/open-rmf/rmf/discussions/466)・[rmf_reservation_node](https://docs.ros.org/en/rolling/p/rmf_reservation_node/)・[rmf_reservation](https://github.com/open-rmf/rmf_reservation)
-- VDA5050:[spec(EN）](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)・[路口管理屬上位職責](https://github.com/VDA5050/VDA5050/discussions/110)
+- VDA5050:[spec(EN)](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)・[路口管理屬上位職責](https://github.com/VDA5050/VDA5050/discussions/110)
 - 倉儲分層:[WCS/WES/WMS](https://kpisolutions.com/resources/wcs-vs-wes-vs-wms-the-software-behind-warehouse-operations/)・[AGV 車隊架構](https://www.smartloadinghub.com/insights/agv-amr/designing-agv-fleet-architecture-reliable-warehouse/)
 - 經典 CS:[Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control)(列此供對照,策略二的「樂觀」指准入不上鎖,非此類 abort-retry)・[悲觀鎖/2PL](https://www.moderntreasury.com/learn/pessimistic-locking-vs-optimistic-locking)・[Banker's algorithm](https://en.wikipedia.org/wiki/Banker%27s_algorithm)・[Deadlock 四條件(UIC 課程)](https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/7_Deadlocks.html)
 - MAPF/資源預定:[CBS 原始論文](https://www.sciencedirect.com/science/article/pii/S0004370214001386)・[CBS + precedence](https://arxiv.org/abs/2402.08772)・[動態資源預定(IEEE)](https://ieeexplore.ieee.org/document/10419190/)

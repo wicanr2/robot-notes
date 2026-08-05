@@ -56,7 +56,7 @@
 
 <p align="center"><img src="../../img/forklift-urdf-structure.svg" width="660" alt="叉車 URDF:base_link 差速底盤 → mast_link → prismatic 升降 → fork_carriage_link"></p>
 
-關鍵是「升降 = `prismatic`(滑動)關節」:`base_link --fixed--> mast_link --prismatic(Z 軸)--> fork_carriage_link --fixed--> 貨叉`。底盤掛 DiffDrive plugin（出 `/odom`、tf）、gpu_lidar（`/scan`）、imu；升降關節用 ros2_control 的 `JointTrajectoryController` 控位置。**`fork_carriage_link` 是取放的關鍵 link**——當 DetachableJoint 的 `parent_link`。
+關鍵是「升降 = `prismatic`(滑動)關節」:`base_link --fixed--> mast_link --prismatic(Z 軸)--> fork_carriage_link --fixed--> 貨叉`。底盤掛 DiffDrive plugin(出 `/odom`、tf)、gpu_lidar(`/scan`)、imu;升降關節用 ros2_control 的 `JointTrajectoryController` 控位置。**`fork_carriage_link` 是取放的關鍵 link**——當 DetachableJoint 的 `parent_link`。
 
 `base_link` 是整台車的 tf 根:所有感測器、輪子、mast 的位姿都相對它定義,Nav2 的 footprint 也以它為原點。但 **`base_link` 原點通常不在車身幾何中心**——慣例放在「驅動軸附近、貼地投影處」,牙叉再往 +x 伸出去,於是車身範圍是**前長後短的非對稱長方形**。對照模型看一次最清楚:
 
@@ -82,10 +82,10 @@
 
 ```
 Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
-（Ixy = Iyz = Ixz = 0,對齊主軸時)
+(Ixy = Iyz = Ixz = 0,對齊主軸時)
 ```
 
-- **慣性要和質量、尺寸一致**:一個 20kg、1.2m 的棧板,inertia 數量級應在 ~1（kg·m²),不是 0.001 也不是 1000。不一致 → 接觸時抖動或彈飛。
+- **慣性要和質量、尺寸一致**:一個 20kg、1.2m 的棧板,inertia 數量級應在 ~1(kg·m²),不是 0.001 也不是 1000。不一致 → 接觸時抖動或彈飛。
 - **質量比不要太懸殊**:叉車幾百 kg、棧板幾十 kg 還行;但棧板設 0.01kg 配叉車 500kg,接觸求解器會不穩。MVP 階段**棧板設輕一點(5–20kg)** 較穩。
 
 ### 5.2 摩擦係數(決定會不會打滑)
