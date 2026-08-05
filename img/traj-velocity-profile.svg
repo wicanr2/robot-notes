@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="500" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">時間那一半:速度規劃,以及彎道為什麼要減速</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#6B7280">幾何定了形狀,速度規劃決定何時走到哪。梯形把「無限大」從空間搬到時間軸,S 曲線才真的解掉</text>
+
+  <rect x="24" y="68" width="420" height="286" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="234" y="92" text-anchor="middle" font-size="13.5" font-weight="700" fill="#991B1B">梯形速度曲線</text>
+  <line x1="60" y1="212" x2="410" y2="212" stroke="#94A3B8" stroke-width="1.2"/>
+  <text x="48" y="160" text-anchor="end" font-size="11" fill="#475569">v</text>
+  <polyline points="60,212 120,148 300,148 360,212" fill="none" stroke="#EF4444" stroke-width="3"/>
+  <line x1="60" y1="290" x2="410" y2="290" stroke="#94A3B8" stroke-width="1.2"/>
+  <text x="48" y="294" text-anchor="end" font-size="11" fill="#475569">a</text>
+  <polyline points="60,262 120,262 120,290 300,290 300,318 360,318 360,290" fill="none" stroke="#B91C1C" stroke-width="2.4"/>
+  <circle cx="120" cy="276" r="9" fill="none" stroke="#EF4444" stroke-width="2"/>
+  <circle cx="300" cy="304" r="9" fill="none" stroke="#EF4444" stroke-width="2"/>
+  <text x="234" y="344" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">加速度階躍 → jerk = ∞</text>
+
+  <rect x="456" y="68" width="420" height="286" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="666" y="92" text-anchor="middle" font-size="13.5" font-weight="700" fill="#065F46">S 曲線(jerk-limited),七段</text>
+  <line x1="492" y1="212" x2="842" y2="212" stroke="#94A3B8" stroke-width="1.2"/>
+  <text x="480" y="160" text-anchor="end" font-size="11" fill="#475569">v</text>
+  <path d="M492,212 C512,212 516,180 534,168 L560,156 C578,148 586,148 600,148 L722,148 C736,148 744,148 762,156 L788,168 C806,180 810,212 830,212" fill="none" stroke="#10B981" stroke-width="3"/>
+  <line x1="492" y1="290" x2="842" y2="290" stroke="#94A3B8" stroke-width="1.2"/>
+  <text x="480" y="294" text-anchor="end" font-size="11" fill="#475569">a</text>
+  <polyline points="492,290 534,262 600,262 626,290 722,290 762,318 788,318 830,290" fill="none" stroke="#047857" stroke-width="2.4"/>
+  <text x="513" y="256" text-anchor="middle" font-size="9.5" fill="#065F46">①</text>
+  <text x="567" y="256" text-anchor="middle" font-size="9.5" fill="#065F46">②</text>
+  <text x="613" y="256" text-anchor="middle" font-size="9.5" fill="#065F46">③</text>
+  <text x="674" y="283" text-anchor="middle" font-size="9.5" fill="#065F46">④</text>
+  <text x="742" y="334" text-anchor="middle" font-size="9.5" fill="#065F46">⑤</text>
+  <text x="775" y="334" text-anchor="middle" font-size="9.5" fill="#065F46">⑥</text>
+  <text x="809" y="334" text-anchor="middle" font-size="9.5" fill="#065F46">⑦</text>
+  <text x="666" y="344" text-anchor="middle" font-size="11.5" font-weight="700" fill="#047857">加速度也連續 → jerk 有界</text>
+
+  <text x="234" y="378" text-anchor="middle" font-size="11" fill="#7F1D1D">同一個「無限大」問題,只是搬到時間軸上</text>
+  <text x="666" y="378" text-anchor="middle" font-size="11" fill="#064E3B">代價:同樣距離花更久。換到的是湯不灑、輪子不打滑</text>
+
+  <rect x="24" y="398" width="852" height="82" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <text x="44" y="422" font-size="13" font-weight="700" fill="#9A3412">幾何反過來限制時間:彎道速度上限</text>
+  <text x="44" y="446" font-size="11.5" fill="#1F2937">側向加速度 a_lat = v²·κ,要求 a_lat ≤ a_lat,max ⟶　<tspan font-weight="700" fill="#9A3412">v(s) ≤ √( a_lat,max / κ(s) )</tspan></text>
+  <text x="44" y="468" font-size="11.5" fill="#7C2D12">曲率變四倍,容許速度只剩一半。這也回頭解釋了平滑的價值 —— 壓低 κ_max,直接換到更高的過彎速度。</text>
+</svg>

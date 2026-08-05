@@ -102,6 +102,8 @@ robot-notes/
 
   > SVG 補強優先給 ASCII 畫不好的數學概念(ICC 幾何、sinθ 曲線、bias 發散、多峰分布、scan 殘差),結構剖面圖維持 ASCII。
 
+| **R13** | 路徑平滑與軌跡生成 | `30-navigation/path-smoothing-and-trajectory.md`:從「折線轉角 κ→∞」推起,涵蓋幾何/時間的拆分、G0–G3 連續性階梯、Bézier 完整推導(Bernstein 基底→凸包性質→de Casteljau 碰撞檢查→曲率式)、B-spline(Cox–de Boor、局部支撐、內建 C²)、NURBS、clothoid、離散平滑器最佳化、速度規劃(梯形 vs S 曲線七段、彎道速度上限),以及 Open-RMF 兩 waypoint 間三次 Hermite 與 Bézier 互轉 + 6 張 SVG;順帶修掉 nav2-survey「IV 路徑平滑」指向沒有該節的檔案這個斷鏈 | ✅ 完成 |
+
 ## 待辦(R12 中斷,下次接續)
 
 R12 派了 5 個補圖/稽核 agent,全部因 session 額度用盡中斷。**已完成並驗過的**:

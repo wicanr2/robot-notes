@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="420" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">連續性的階梯:平滑到哪一級才夠,由車型決定</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#6B7280">Gⁿ 只要求方向一致(幾何連續),Cⁿ 要求導數相等(參數連續)。工程上在意的是 G —— 車不在乎你用什麼參數化</text>
+  <rect x="24" y="70" width="192" height="200" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="120" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">G0 位置連續</text>
+  <g transform="translate(44,110)"><path d="M20,86 L80,40 L152,84" fill="none" stroke="#EF4444" stroke-width="3"/></g>
+  <text x="120" y="228" text-anchor="middle" font-size="11" fill="#1F2937">接點處連續:車頭方向會跳</text>
+  <text x="120" y="250" text-anchor="middle" font-size="10.5" fill="#991B1B">折線就是 G0</text>
+  <rect x="244" y="70" width="192" height="200" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1.6"/>
+  <text x="340" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400E">G1 切線連續</text>
+  <g transform="translate(264,110)"><path d="M20,86 Q80,30 152,84" fill="none" stroke="#F59E0B" stroke-width="3"/></g>
+  <text x="340" y="228" text-anchor="middle" font-size="11" fill="#1F2937">接點處連續:曲率會跳</text>
+  <text x="340" y="250" text-anchor="middle" font-size="10.5" fill="#92400E">方向不跳,但轉彎急緩會突變</text>
+  <rect x="464" y="70" width="192" height="200" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="560" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">G2 曲率連續</text>
+  <g transform="translate(484,110)"><path d="M20,86 C56,48 116,48 152,84" fill="none" stroke="#10B981" stroke-width="3"/></g>
+  <text x="560" y="228" text-anchor="middle" font-size="11" fill="#1F2937">接點處連續:轉向角不跳</text>
+  <text x="560" y="250" text-anchor="middle" font-size="10.5" fill="#065F46">差速車做到這裡通常就夠</text>
+  <rect x="684" y="70" width="192" height="200" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="780" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">G3 曲率變化率連續</text>
+  <g transform="translate(704,110)"><path d="M20,86 C48,62 68,40 96,40 C124,40 144,62 152,84" fill="none" stroke="#3B82F6" stroke-width="3"/></g>
+  <text x="780" y="228" text-anchor="middle" font-size="11" fill="#1F2937">接點處連續:轉向角速度不跳</text>
+  <text x="780" y="250" text-anchor="middle" font-size="10.5" fill="#1E3A8A">clothoid 的地盤</text>
+  <rect x="24" y="288" width="852" height="112" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="44" y="312" font-size="13" font-weight="700" fill="#334155">誰需要做到哪一級</text>
+  <text x="44" y="336" font-size="11.5" fill="#1F2937"><tspan font-weight="700" fill="#1E3A8A">差速車</tspan>　G1 是底線;做到 G2 讓輪速指令連續,不打滑。三次 B-spline 天生 C²,通常直接夠用。</text>
+  <text x="44" y="358" font-size="11.5" fill="#1F2937"><tspan font-weight="700" fill="#991B1B">舵輪 / 叉車</tspan>　G2 是底線,否則轉向角要跳變。轉向馬達角速度上限吃緊時還要往 G3 走。</text>
+  <text x="44" y="382" font-size="11" fill="#B91C1C">折線只有 G0 —— 這就是為什麼規劃器的原始輸出一定要再處理過。</text>
+</svg>

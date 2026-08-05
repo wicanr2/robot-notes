@@ -101,6 +101,7 @@
 - [定位](docs/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
 - [座標轉換與 TF](docs/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
 - [路徑規劃與軌跡(Nav2)](docs/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
+- [路徑平滑與軌跡生成](docs/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
 
 ### 40 多機調度
 

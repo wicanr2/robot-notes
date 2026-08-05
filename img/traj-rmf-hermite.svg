@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="tr-a" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  <marker id="tr-g" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#10B981"/></marker></defs>
+  <rect width="900" height="460" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">Open-RMF:兩個 waypoint 之間為什麼是三次</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#6B7280">每個 waypoint 帶時間、位置、速度 → 相鄰兩點四個邊界條件 → 唯一決定一個三次多項式</text>
+
+  <rect x="24" y="70" width="852" height="196" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <path d="M140,210 C213,155 307,127 380,140 C453,153 507,196 580,196" fill="none" stroke="#F97316" stroke-width="3.4"/>
+  <circle cx="140" cy="210" r="7" fill="#1E3A8A"/><circle cx="580" cy="196" r="7" fill="#1E3A8A"/>
+  <line x1="140" y1="210" x2="212" y2="156" stroke="#10B981" stroke-width="2.4" marker-end="url(#tr-g)"/>
+  <line x1="580" y1="196" x2="508" y2="187" stroke="#10B981" stroke-width="2.4" marker-end="url(#tr-g)"/>
+  <circle cx="219" cy="151" r="5" fill="#3B82F6"/><circle cx="501" cy="186" r="5" fill="#3B82F6"/>
+  <line x1="140" y1="210" x2="219" y2="151" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <line x1="580" y1="196" x2="501" y2="186" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <text x="120" y="232" text-anchor="end" font-size="11.5" font-weight="700" fill="#1E3A8A">waypoint k</text>
+  <text x="120" y="248" text-anchor="end" font-size="10.5" fill="#475569">(t₀, p₀, m₀)</text>
+  <text x="566" y="230" text-anchor="end" font-size="11.5" font-weight="700" fill="#1E3A8A">waypoint k+1</text>
+  <text x="566" y="246" text-anchor="end" font-size="10.5" fill="#475569">(t₁, p₁, m₁)</text>
+  <text x="228" y="140" font-size="10.5" font-weight="700" fill="#1E3A8A">P₁ = p₀ + m₀/3</text>
+  <text x="440" y="176" font-size="10.5" font-weight="700" fill="#1E3A8A">P₂ = p₁ − m₁/3</text>
+  <text x="184" y="186" font-size="10.5" fill="#047857">m₀</text>
+  <text x="536" y="180" font-size="10.5" fill="#047857">m₁</text>
+
+  <rect x="620" y="92" width="240" height="150" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="636" y="114" font-size="12" font-weight="700" fill="#1E3A8A">Hermite ↔ Bézier 是同一條曲線</text>
+  <text x="636" y="136" font-size="10.5" fill="#1F2937">只是換個基底寫。控制點由端點</text>
+  <text x="636" y="152" font-size="10.5" fill="#1F2937">速度直接反解:m/3 這個係數,</text>
+  <text x="636" y="168" font-size="10.5" fill="#1F2937">就是 P′(0) = 3(P₁ − P₀) 倒過來。</text>
+  <text x="636" y="194" font-size="10.5" fill="#1E3A8A">h₀₀ = 2t³ − 3t² + 1</text>
+  <text x="636" y="210" font-size="10.5" fill="#1E3A8A">h₁₀ = t³ − 2t² + t</text>
+  <text x="636" y="226" font-size="10.5" fill="#1E3A8A">h₀₁ = −2t³ + 3t²　h₁₁ = t³ − t²</text>
+
+  <rect x="24" y="282" width="418" height="120" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="44" y="304" font-size="13" font-weight="700" fill="#065F46">RMF 為什麼選這個形式</text>
+  <text x="44" y="326" font-size="11" fill="#1F2937">① 速度連續免費 —— 相鄰段共用 waypoint 速度,C¹ 自動成立</text>
+  <text x="44" y="346" font-size="11" fill="#1F2937">② 衝突偵測要兩兩算最近距離,低次多項式才便宜</text>
+  <text x="44" y="366" font-size="11" fill="#1F2937">③ 時間本來就在參數裡,不必再做一次時間參數化</text>
+  <text x="44" y="388" font-size="10.5" fill="#047857">成本乘上車數平方 —— 形式選錯整個協商機制就跑不動</text>
+
+  <rect x="458" y="282" width="418" height="120" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="478" y="304" font-size="13" font-weight="700" fill="#991B1B">接到 VDA5050 的落差</text>
+  <path d="M486,330 C520,312 560,348 596,330" fill="none" stroke="#F97316" stroke-width="2.6"/>
+  <text x="486" y="356" font-size="10.5" fill="#7F1D1D">RMF:連續三次樣條</text>
+  <line x1="606" y1="330" x2="640" y2="330" stroke="#EF4444" stroke-width="2" marker-end="url(#tr-a)"/>
+  <text x="623" y="322" text-anchor="middle" font-size="9" fill="#991B1B">adapter</text>
+  <g fill="#ffffff" stroke="#991B1B" stroke-width="2">
+    <circle cx="660" cy="330" r="7"/><circle cx="710" cy="330" r="7"/><circle cx="760" cy="330" r="7"/><circle cx="810" cy="330" r="7"/>
+  </g>
+  <line x1="667" y1="330" x2="703" y2="330" stroke="#991B1B" stroke-width="2"/>
+  <line x1="717" y1="330" x2="753" y2="330" stroke="#991B1B" stroke-width="2"/>
+  <line x1="767" y1="330" x2="803" y2="330" stroke="#991B1B" stroke-width="2"/>
+  <text x="735" y="356" text-anchor="middle" font-size="10.5" fill="#7F1D1D">VDA5050:離散 node / edge</text>
+  <text x="478" y="384" font-size="10.5" fill="#991B1B">adapter 要切段、對映節點,再決定哪幾段 released、哪幾段留 horizon</text>
+
+  <text x="24" y="432" font-size="11" fill="#6B7280">數學(四個邊界條件 → 三次、Hermite ↔ Bézier 互轉)是確定的;rmf_traffic 內部的資料結構與 API 命名未在本輪查證,接 adapter 時以官方原始碼為準。</text>
+</svg>

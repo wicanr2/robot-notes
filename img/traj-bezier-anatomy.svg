@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="tb-a" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="900" height="500" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">三次 Bézier 的解剖:控制點就是進出方向,凸包就是碰撞檢查</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#6B7280">兩個 waypoint 之間有四個邊界條件(起點位置+方向、終點位置+方向)→ 四個控制點 → 必然是三次</text>
+
+  <polygon points="110,310 200,130 400,180 520,290" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <text x="330" y="120" font-size="11" font-weight="700" fill="#1E3A8A">控制點凸包</text>
+  <text x="330" y="136" font-size="10" fill="#1E3A8A">曲線一定在裡面 → 凸包不撞 ⇒ 曲線不撞</text>
+
+  <polyline points="110,310 200,130 400,180 520,290" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <path d="M110.0,310.0 L115.8,299.0 L121.8,288.7 L128.1,278.9 L134.7,269.7 L141.5,261.0 L148.5,252.9 L155.8,245.4 L163.3,238.4 L171.0,231.9 L178.9,225.9 L186.9,220.4 L195.2,215.5 L203.6,211.0 L212.1,207.0 L220.8,203.4 L229.6,200.4 L238.6,197.7 L247.6,195.6 L256.8,193.8 L266.0,192.5 L275.4,191.6 L284.8,191.1 L294.2,191.0 L303.8,191.2 L313.3,191.9 L322.9,192.9 L332.5,194.3 L342.1,196.0 L351.7,198.1 L361.3,200.5 L370.8,203.3 L380.4,206.3 L389.9,209.6 L399.3,213.3 L408.7,217.2 L418.0,221.4 L427.2,225.9 L436.3,230.6 L445.3,235.6 L454.2,240.8 L463.0,246.2 L471.6,251.9 L480.1,257.8 L488.4,263.8 L496.6,270.1 L504.6,276.6 L512.4,283.2 L520.0,290.0" fill="none" stroke="#F97316" stroke-width="3.4"/>
+
+  <line x1="110" y1="310" x2="192" y2="146" stroke="#10B981" stroke-width="2.4" marker-end="url(#tb-a)"/>
+  <line x1="520" y1="290" x2="412" y2="188" stroke="#10B981" stroke-width="2.4" marker-end="url(#tb-a)"/>
+
+  <circle cx="110" cy="310" r="6" fill="#1E3A8A"/><text x="94" y="330" font-size="11.5" font-weight="700" fill="#1E3A8A">P₀</text>
+  <circle cx="200" cy="130" r="6" fill="#3B82F6"/><text x="196" y="120" font-size="11.5" font-weight="700" fill="#1E3A8A">P₁</text>
+  <circle cx="400" cy="180" r="6" fill="#3B82F6"/><text x="402" y="170" font-size="11.5" font-weight="700" fill="#1E3A8A">P₂</text>
+  <circle cx="520" cy="290" r="6" fill="#1E3A8A"/><text x="528" y="308" font-size="11.5" font-weight="700" fill="#1E3A8A">P₃</text>
+
+  <rect x="560" y="140" width="316" height="128" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
+  <text x="576" y="162" font-size="12.5" font-weight="700" fill="#065F46">端點切線直接由控制點給</text>
+  <text x="576" y="186" font-size="11.5" fill="#1F2937">P′(0) = 3(P₁ − P₀)　　P′(1) = 3(P₃ − P₂)</text>
+  <text x="576" y="210" font-size="11" fill="#064E3B">把 P₁ 沿「起點該有的朝向」往外拉、</text>
+  <text x="576" y="228" font-size="11" fill="#064E3B">P₂ 沿「終點該有的朝向」往回拉,方向就定了。</text>
+  <text x="576" y="250" font-size="11" fill="#475569">拉越長 → 起點附近越平直、彎得越晚。</text>
+
+  <rect x="560" y="284" width="316" height="72" rx="8" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.3"/>
+  <text x="576" y="306" font-size="12" font-weight="700" fill="#334155">de Casteljau 細分</text>
+  <text x="576" y="326" font-size="10.5" fill="#1F2937">凸包不確定時,把曲線對半切、對每段遞迴。</text>
+  <text x="576" y="344" font-size="10.5" fill="#1F2937">凸包越切越貼近曲線,幾層就收斂。</text>
+
+  <line x1="110" y1="430" x2="546" y2="430" stroke="#1F2937" stroke-width="1.4"/>
+  <line x1="110" y1="430" x2="110" y2="374" stroke="#1F2937" stroke-width="1.4"/>
+  <path d="M110.0,400.2 L118.5,398.0 L127.1,395.8 L135.6,393.6 L144.2,391.4 L152.7,389.3 L161.2,387.4 L169.8,385.5 L178.3,383.9 L186.9,382.6 L195.4,381.5 L204.0,380.8 L212.5,380.4 L221.0,380.3 L229.6,380.5 L238.1,381.0 L246.7,381.8 L255.2,382.8 L263.8,383.9 L272.3,385.3 L280.8,386.7 L289.4,388.3 L297.9,389.8 L306.5,391.4 L315.0,392.9 L323.5,394.4 L332.1,395.9 L340.6,397.3 L349.2,398.6 L357.7,399.8 L366.2,401.0 L374.8,402.0 L383.3,403.0 L391.9,403.9 L400.4,404.7 L409.0,405.5 L417.5,406.1 L426.0,406.7 L434.6,407.1 L443.1,407.5 L451.7,407.9 L460.2,408.1 L468.8,408.3 L477.3,408.4 L485.8,408.4 L494.4,408.4 L502.9,408.2 L511.5,408.0 L520.0,407.7" fill="none" stroke="#EF4444" stroke-width="2.6"/>
+  <text x="96" y="380" text-anchor="end" font-size="10.5" fill="#1F2937">κ</text>
+  <text x="556" y="434" font-size="10.5" fill="#1F2937">t</text>
+  <text x="126" y="392" font-size="11" font-weight="700" fill="#B91C1C">沿曲線的曲率 κ(t)</text>
+  <text x="126" y="410" font-size="10.5" fill="#7F1D1D">κ = (x′y″ − y′x″) / (x′² + y′²) 的 3/2 次方</text>
+  <rect x="580" y="376" width="296" height="60" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.3"/>
+  <text x="594" y="398" font-size="11.5" font-weight="700" fill="#991B1B">這條式子是驗收工具</text>
+  <text x="594" y="418" font-size="10.5" fill="#1F2937">掃一遍 κ(t),max κ 超過 1/R_min 就是車走不了,</text>
+  <text x="594" y="432" font-size="10.5" fill="#1F2937">不管它看起來多順。</text>
+  <text x="24" y="472" font-size="11" fill="#6B7280">Bernstein 基底 Bᵢⁿ(t) = C(n,i) tⁱ (1−t)ⁿ⁻ⁱ 非負且和為 1 → P(t) 是控制點的凸組合 → 凸包性質。這是整套碰撞檢查便宜的根源。</text>
+</svg>
