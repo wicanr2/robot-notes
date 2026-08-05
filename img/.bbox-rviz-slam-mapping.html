@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><body><div id="c"></div>
+<script>
+fetch("file:///home/anr2/robot/img/rviz-slam-mapping.svg").then(r=>r.text()).then(t=>{
+  document.getElementById("c").innerHTML=t;
+  const s=document.querySelector("svg");
+  // 排除當背景的整張白底 rect
+  let minY=1e9,maxY=-1e9,minX=1e9,maxX=-1e9;
+  const vb=s.viewBox.baseVal;
+  s.querySelectorAll("*").forEach(el=>{
+    if(!el.getBBox) return;
+    if(el.tagName==="rect" && el.getAttribute("fill") && /^#(fff|ffffff)$/i.test(el.getAttribute("fill"))
+       && Math.abs(el.width.baseVal.value-vb.width)<2) return;
+    let b; try{b=el.getBBox();}catch(e){return;}
+    if(b.width===0&&b.height===0) return;
+    minY=Math.min(minY,b.y);maxY=Math.max(maxY,b.y+b.height);
+    minX=Math.min(minX,b.x);maxX=Math.max(maxX,b.x+b.width);
+  });
+  document.title="BBOX "+Math.round(minX)+" "+Math.round(minY)+" "+Math.round(maxX)+" "+Math.round(maxY)+" VB "+vb.width+" "+vb.height;
+});
+</script>

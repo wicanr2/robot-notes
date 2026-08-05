@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 343" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="og-b" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
   </defs>
-  <rect width="700" height="380" fill="#ffffff"/>
+  <rect width="700" height="343" fill="#ffffff"/>
   <text x="350" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">占據柵格地圖:把世界切成格子,每格存「是否有障礙」</text>
 
   <!-- unknown 底 -->

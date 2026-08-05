@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 305" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs><marker id="vci-d" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8B5CF6"/></marker></defs>
-  <rect width="720" height="330" fill="#ffffff"/>
+  <rect width="720" height="305" fill="#ffffff"/>
   <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">同一台搬運車的三種身份:看的 / 撞的 / 秤重的</text>
 
   <!-- ① visual -->

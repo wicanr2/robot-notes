@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 263" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="sm" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/></marker>
     <marker id="smr" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/></marker>
   </defs>
-  <rect width="640" height="290" fill="#ffffff"/>
+  <rect width="640" height="263" fill="#ffffff"/>
   <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">接收狀態機:把黏在一起的位元組串流切回一幀一幀</text>
 
   <!-- states -->

@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 397" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="ot-a" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
     <marker id="ot-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
     <marker id="ot-r" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
   </defs>
-  <rect width="740" height="430" fill="#ffffff"/>
+  <rect width="740" height="397" fill="#ffffff"/>
   <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">OTA 韌體簽章:確保「推來的更新是官方的、沒被竄改」</text>
 
   <!-- 發布方 -->

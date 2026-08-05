@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 397" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="od1" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
     <marker id="od2" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/></marker>
     <marker id="od3" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
   </defs>
-  <rect width="980" height="420" fill="#ffffff"/>
+  <rect width="980" height="397" fill="#ffffff"/>
   <text x="490" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">光學增量式編碼器的構造:側視光路 + 正視碼盤</text>
 
   <line x1="625" y1="50" x2="625" y2="345" stroke="#E5E7EB" stroke-width="1.4"/>

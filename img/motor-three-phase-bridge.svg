@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 432" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="tb-a" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="0" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#F97316"/></marker>
     <marker id="a-gray" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="0" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#9CA3AF"/></marker>
   </defs>
-  <rect width="900" height="460" fill="#ffffff"/>
+  <rect width="900" height="432" fill="#ffffff"/>
   <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">功率橋(三相橋):6 顆 MOSFET 怎麼把電流送進馬達</text>
   <text x="450" y="46" text-anchor="middle" font-size="12" fill="#6B7280">§12.3 —— 橘色 = 一個實際導通路徑範例(開 Q1 + Q4,其餘全關)</text>
 

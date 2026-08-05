@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 298" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="nc" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
   </defs>
-  <rect width="760" height="360" fill="#ffffff"/>
+  <rect width="760" height="298" fill="#ffffff"/>
   <text x="380" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">近裁切:相機用「平面」,但 LiDAR 的 range_min 是「球面」</text>
   <text x="380" y="46" text-anchor="middle" font-size="11" fill="#6B7280">直接套相機的平面近裁切,斜射方向會把「其實夠遠、該保留」的表面誤砍掉</text>
 

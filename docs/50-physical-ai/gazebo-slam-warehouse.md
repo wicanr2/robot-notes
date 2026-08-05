@@ -88,7 +88,7 @@ tf 部分:gz 的 `OdometryPublisher` 會發 `odom→base_link`;用 `ros_gz_bridg
 
 ## 6. tf 樹:三方各補一段(slam_toolbox 的關鍵)
 
-<p align="center"><img src="../../img/slam-tf-tree.svg" width="560" alt="SLAM tf 樹:slam_toolbox 補 map→odom、里程計補 odom→base_link、robot_state_publisher 補 base_link→lidar_link"></p>
+<p align="center"><img src="../../img/slam-tf-tree.svg" width="680" alt="SLAM tf 樹:slam_toolbox 補 map→odom、里程計補 odom→base_link、robot_state_publisher 補 base_link→lidar_link"></p>
 
 | 這段 tf | 誰提供 | 意義 |
 |---|---|---|

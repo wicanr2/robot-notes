@@ -45,7 +45,7 @@
 
 ## 4. 典型工作流(模擬 → 訓練 → sim-to-real)
 
-<p align="center"><img src="../../img/physical-ai-workflow.svg" width="700" alt="Physical AI 工作流:Omniverse建場景→Replicator合成資料→Cosmos擴增→Isaac Lab訓練→Isaac Sim驗證→Jetson Thor部署"></p>
+<p align="center"><img src="../../img/physical-ai-workflow.svg" width="860" alt="Physical AI 工作流:Omniverse建場景→Replicator合成資料→Cosmos擴增→Isaac Lab訓練→Isaac Sim驗證→Jetson Thor部署"></p>
 
 ## 5. 與送餐機器人 / AMR 的關聯
 

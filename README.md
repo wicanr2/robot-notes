@@ -41,7 +41,7 @@
 
 兩顆腦用一條線(UART/CAN)講話:上位機每幾十毫秒丟一個速度指令,下位機照做、再回報實際狀態。這個迴圈一直跑,車就動起來了。
 
-<p align="center"><img src="img/high-low-level-bus.svg" width="640" alt="上位機透過 UART 接下位機,下位機再用 CAN 匯流排接馬達驅動器與 BMS"></p>
+<p align="center"><img src="img/high-low-level-bus.svg" width="810" alt="上位機透過 UART 接下位機,下位機再用 CAN 匯流排接馬達驅動器與 BMS"></p>
 
 四個全文反覆出現的核心詞:
 
