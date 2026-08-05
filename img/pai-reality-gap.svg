@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="paiArrOrange" markerWidth="10" markerHeight="10" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="860" height="460" fill="#ffffff"/>
+
+  <text x="430" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Reality Gap 從哪來:模擬與真實之間的落差</text>
+  <text x="430" y="54" text-anchor="middle" font-size="12" fill="#6B7280">NVIDIA Isaac Lab:近似誤差 / 模型誤差 / 未建模動態 → 收斂為 5 個來源</text>
+
+  <!-- Sim world -->
+  <rect x="20" y="90" width="190" height="320" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="115" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#1E3A8A">模擬世界</text>
+  <text x="115" y="138" text-anchor="middle" font-size="11" fill="#3B82F6">(Simulation)</text>
+  <text x="34" y="172" font-size="11.5" fill="#1F2937">・理想物理參數</text>
+  <text x="34" y="202" font-size="11.5" fill="#1F2937">・簡化感測雜訊</text>
+  <text x="34" y="232" font-size="11.5" fill="#1F2937">・近乎零延遲</text>
+  <text x="34" y="262" font-size="11.5" fill="#1F2937">・點接觸摩擦模型</text>
+  <text x="34" y="292" font-size="11.5" fill="#1F2937">・乾淨貼圖 / 光照</text>
+
+  <!-- Real world -->
+  <rect x="650" y="90" width="190" height="320" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="745" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#065F46">真實世界</text>
+  <text x="745" y="138" text-anchor="middle" font-size="11" fill="#10B981">(Real Robot)</text>
+  <text x="666" y="172" font-size="11.5" fill="#1F2937">・磨損 / 公差 / 老化</text>
+  <text x="666" y="202" font-size="11.5" fill="#1F2937">・非高斯、隨狀態雜訊</text>
+  <text x="666" y="232" font-size="11.5" fill="#1F2937">・感測/通訊/致動延遲</text>
+  <text x="666" y="262" font-size="11.5" fill="#1F2937">・打滑 / 負載變化</text>
+  <text x="666" y="292" font-size="11.5" fill="#1F2937">・反光 / 髒污 / 捲簾快門</text>
+
+  <!-- Gap band -->
+  <rect x="230" y="90" width="400" height="320" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8" stroke-dasharray="6,4"/>
+  <text x="430" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">Reality Gap 現實落差</text>
+  <text x="430" y="134" text-anchor="middle" font-size="10.5" fill="#9A3412">五個主要來源</text>
+
+  <!-- rows -->
+  <g>
+    <rect x="246" y="148" width="368" height="40" rx="6" fill="#ffffff" stroke="#F97316" stroke-width="1.2"/>
+    <rect x="246" y="148" width="5" height="40" fill="#F97316"/>
+    <text x="262" y="173" font-size="12" fill="#9A3412"><tspan font-weight="700">物理參數</tspan><tspan fill="#6B7280" font-size="10.5">　— 質量/慣量/摩擦係數估不准</tspan></text>
+  </g>
+  <g>
+    <rect x="246" y="196" width="368" height="40" rx="6" fill="#ffffff" stroke="#F97316" stroke-width="1.2"/>
+    <rect x="246" y="196" width="5" height="40" fill="#F97316"/>
+    <text x="262" y="221" font-size="12" fill="#9A3412"><tspan font-weight="700">感測噪聲</tspan><tspan fill="#6B7280" font-size="10.5">　— 非高斯、隨狀態變化、時間相關</tspan></text>
+  </g>
+  <g>
+    <rect x="246" y="244" width="368" height="40" rx="6" fill="#ffffff" stroke="#F97316" stroke-width="1.2"/>
+    <rect x="246" y="244" width="5" height="40" fill="#F97316"/>
+    <text x="262" y="269" font-size="12" fill="#9A3412"><tspan font-weight="700">延遲</tspan><tspan fill="#6B7280" font-size="10.5">　— 感測 → 通訊 → 致動,每段都有</tspan></text>
+  </g>
+  <g>
+    <rect x="246" y="292" width="368" height="40" rx="6" fill="#ffffff" stroke="#F97316" stroke-width="1.2"/>
+    <rect x="246" y="292" width="5" height="40" fill="#F97316"/>
+    <text x="262" y="317" font-size="12" fill="#9A3412"><tspan font-weight="700">摩擦 / 打滑</tspan><tspan fill="#6B7280" font-size="10.5">　— 接觸模型被簡化成點接觸</tspan></text>
+  </g>
+  <g>
+    <rect x="246" y="340" width="368" height="40" rx="6" fill="#ffffff" stroke="#F97316" stroke-width="1.2"/>
+    <rect x="246" y="340" width="5" height="40" fill="#F97316"/>
+    <text x="262" y="365" font-size="12" fill="#9A3412"><tspan font-weight="700">外觀</tspan><tspan fill="#6B7280" font-size="10.5">　— 貼圖/光照/感測器光學特性對不上</tspan></text>
+  </g>
+
+  <!-- connectors -->
+  <line x1="212" y1="250" x2="227" y2="250" stroke="#F97316" stroke-width="2.2" marker-end="url(#paiArrOrange)"/>
+  <line x1="632" y1="250" x2="647" y2="250" stroke="#F97316" stroke-width="2.2" marker-end="url(#paiArrOrange)"/>
+</svg>

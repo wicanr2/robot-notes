@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="480" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">合規地圖:一台移動機器人要過哪些關</text>
+
+  <!-- legend -->
+  <g font-size="12.5" fill="#1F2937">
+    <rect x="188" y="44" width="14" height="14" rx="3" fill="#EF4444"/><text x="208" y="55">法定強制</text>
+    <rect x="368" y="44" width="14" height="14" rx="3" fill="#F97316"/><text x="388" y="55">客戶/場域強制要求</text>
+    <rect x="608" y="44" width="14" height="14" rx="3" fill="#3B82F6"/><text x="628" y="55">自願或依情境引用</text>
+  </g>
+  <line x1="20" y1="70" x2="880" y2="70" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Row 1 -->
+  <!-- C1 整機安全 -->
+  <g>
+    <rect x="20" y="90" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="122" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">整機安全</text>
+    <text x="122" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">ISO 13482 / 3691-4</text>
+    <text x="122" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">ANSI/RIA R15.08</text>
+    <rect x="30" y="158" width="184" height="22" rx="11" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="122" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#1E3A8A">多為自願/客戶要求</text>
+    <text x="122" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">室內服務走 13482</text>
+    <text x="122" y="210" text-anchor="middle" font-size="9.5" fill="#6B7280">進廠房走 3691-4</text>
+  </g>
+
+  <!-- C2 控制功能安全 -->
+  <g>
+    <rect x="238" y="90" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="340" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">控制功能安全</text>
+    <text x="340" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">ISO 13849-1</text>
+    <text x="340" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">IEC 62061</text>
+    <rect x="248" y="158" width="184" height="22" rx="11" fill="#EFF6FF" stroke="#3B82F6"/>
+    <text x="340" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#1E3A8A">隨安全功能引用</text>
+    <text x="340" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">急停、防撞控制鏈</text>
+    <text x="340" y="210" text-anchor="middle" font-size="9.5" fill="#6B7280">SIL / PL 等級</text>
+  </g>
+
+  <!-- C3 電池(包) -->
+  <g>
+    <rect x="456" y="90" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="558" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">電池(包)</text>
+    <text x="558" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">UL 2271 / UL 2580</text>
+    <text x="558" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">IEC 62619</text>
+    <rect x="466" y="158" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="558" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">UN 38.3 運輸強制</text>
+    <text x="558" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">其餘視供應鏈/市場而定</text>
+    <text x="558" y="210" text-anchor="middle" font-size="9.5" fill="#6B7280">→ 詳見電池認證篇</text>
+  </g>
+
+  <!-- C4 電磁相容 EMC -->
+  <g>
+    <rect x="674" y="90" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="776" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">電磁相容(EMC)</text>
+    <text x="776" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">CISPR / CNS 13438</text>
+    <text x="776" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">IEC 61000 系列</text>
+    <rect x="684" y="158" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="776" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">多數市場強制</text>
+    <text x="776" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">整機輻射 / 抗擾測試</text>
+  </g>
+
+  <!-- Row 2 -->
+  <!-- C5 無線模組 -->
+  <g>
+    <rect x="20" y="272" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="122" y="296" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">無線模組</text>
+    <text x="122" y="316" text-anchor="middle" font-size="10.5" fill="#1F2937">NCC(台)/ 技適(日)</text>
+    <text x="122" y="331" text-anchor="middle" font-size="10.5" fill="#1F2937">FCC(美)/ RED(歐)</text>
+    <rect x="30" y="340" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="122" y="355" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">強制</text>
+    <text x="122" y="378" text-anchor="middle" font-size="9.5" fill="#6B7280">WiFi/BT 模組認證</text>
+    <text x="122" y="392" text-anchor="middle" font-size="9.5" fill="#6B7280">可繼承</text>
+  </g>
+
+  <!-- C6 充電器/電源 -->
+  <g>
+    <rect x="238" y="272" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="340" y="296" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">充電器 / 電源</text>
+    <text x="340" y="316" text-anchor="middle" font-size="10.5" fill="#1F2937">BSMI(台)/ PSE(日)</text>
+    <text x="340" y="331" text-anchor="middle" font-size="10.5" fill="#1F2937">UL / IEC 62368-1</text>
+    <rect x="248" y="340" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="340" y="355" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">插市電者強制</text>
+    <text x="340" y="378" text-anchor="middle" font-size="9.5" fill="#6B7280">本體 24V SELV 免高壓</text>
+    <text x="340" y="392" text-anchor="middle" font-size="9.5" fill="#6B7280">充電器仍強制受管</text>
+  </g>
+
+  <!-- C7 半導體 fab 場域 -->
+  <g>
+    <rect x="456" y="272" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="558" y="296" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">半導體 fab 場域</text>
+    <text x="558" y="320" text-anchor="middle" font-size="10.5" fill="#1F2937">SEMI S2 / S8 / E84…</text>
+    <rect x="466" y="340" width="184" height="22" rx="11" fill="#FFF7ED" stroke="#F97316"/>
+    <text x="558" y="355" text-anchor="middle" font-size="10" font-weight="700" fill="#9A3412">客戶(fab)強制要求</text>
+    <text x="558" y="378" text-anchor="middle" font-size="9.5" fill="#6B7280">進晶圓廠的入場門檻</text>
+  </g>
+
+  <!-- C8 區域市場准入 -->
+  <g>
+    <rect x="674" y="272" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="776" y="296" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">區域市場准入</text>
+    <text x="776" y="316" text-anchor="middle" font-size="10.5" fill="#1F2937">CE / UKCA(歐英)</text>
+    <text x="776" y="331" text-anchor="middle" font-size="10.5" fill="#1F2937">BSMI(台)/ 各國清單</text>
+    <rect x="684" y="340" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
+    <text x="776" y="355" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">強制</text>
+    <text x="776" y="378" text-anchor="middle" font-size="9.5" fill="#6B7280">進該市場才需要</text>
+  </g>
+
+  <text x="450" y="463" text-anchor="middle" font-size="12" fill="#9CA3AF">合規是多條獨立的線,不是一張通行證——過一關不代表全部過關</text>
+</svg>

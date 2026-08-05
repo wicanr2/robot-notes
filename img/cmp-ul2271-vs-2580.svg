@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="820" height="460" fill="#ffffff"/>
+  <text x="410" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">UL 2271 vs UL 2580:電池包安全標準怎麼分</text>
+  <text x="410" y="48" text-anchor="middle" font-size="12" fill="#6B7280">都是電池包(EESA)層級安全標準,差別在車重、電壓、濫用測試嚴格度</text>
+
+  <!-- Panel 1: UL 2271 -->
+  <rect x="30" y="66" width="370" height="250" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="215" y="96" text-anchor="middle" font-size="18" font-weight="700" fill="#1E3A8A">UL 2271</text>
+  <text x="215" y="114" text-anchor="middle" font-size="10.5" fill="#1E3A8A">Batteries for Light Electric Vehicle (LEV)</text>
+  <line x1="45" y1="124" x2="385" y2="124" stroke="#3B82F6" stroke-opacity="0.35" stroke-width="1"/>
+
+  <text x="45" y="146" font-size="11.5"><tspan font-weight="700" fill="#1E3A8A">定位　</tspan><tspan fill="#1F2937">輕型電動載具電池</tspan></text>
+  <text x="45" y="172" font-size="11.5"><tspan font-weight="700" fill="#1E3A8A">典型用途　</tspan><tspan fill="#1F2937">電動自行車、滑板車、平衡車</tspan></text>
+  <text x="45" y="198" font-size="11.5"><tspan font-weight="700" fill="#1E3A8A">典型電壓　</tspan><tspan fill="#1F2937">≤~60V(業界口徑 &lt;100V)</tspan></text>
+  <text x="45" y="224" font-size="11.5"><tspan font-weight="700" fill="#1E3A8A">功率門檻　</tspan><tspan fill="#1F2937">約 ≤750W</tspan></text>
+  <text x="45" y="250" font-size="11.5"><tspan font-weight="700" fill="#1E3A8A">濫用測試　</tspan><tspan fill="#1F2937">包完整性 + 基本保護</tspan></text>
+
+  <rect x="45" y="268" width="340" height="26" rx="13" fill="#ffffff" stroke="#3B82F6" stroke-dasharray="3,2"/>
+  <text x="215" y="285" text-anchor="middle" font-size="10" fill="#1E3A8A">首例:Flux Power 24V LiFT Pack → UL 2271</text>
+
+  <!-- Panel 2: UL 2580 -->
+  <rect x="420" y="66" width="370" height="250" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="605" y="96" text-anchor="middle" font-size="18" font-weight="700" fill="#9A3412">UL 2580</text>
+  <text x="605" y="114" text-anchor="middle" font-size="10.5" fill="#9A3412">Batteries for Electric Vehicles</text>
+  <line x1="435" y1="124" x2="775" y2="124" stroke="#F97316" stroke-opacity="0.35" stroke-width="1"/>
+
+  <text x="435" y="146" font-size="11.5"><tspan font-weight="700" fill="#9A3412">定位　</tspan><tspan fill="#1F2937">電動車 / 工業車輛電池</tspan></text>
+  <text x="435" y="172" font-size="11.5"><tspan font-weight="700" fill="#9A3412">典型用途　</tspan><tspan fill="#1F2937">電動汽車、堆高機、AGV、AMR</tspan></text>
+  <text x="435" y="198" font-size="11.5"><tspan font-weight="700" fill="#9A3412">典型電壓　</tspan><tspan fill="#1F2937">較高,工業級(無明確上限標示)</tspan></text>
+  <text x="435" y="224" font-size="11.5"><tspan font-weight="700" fill="#9A3412">功率門檻　</tspan><tspan fill="#1F2937">無此上限</tspan></text>
+  <text x="435" y="250" font-size="11.5"><tspan font-weight="700" fill="#9A3412">濫用測試　</tspan><tspan fill="#1F2937">機械濫用 + 環境測試</tspan></text>
+  <text x="527" y="266" font-size="10.5" fill="#1F2937">+ 外部火燒、熱擴散(thermal propagation)</text>
+
+  <rect x="435" y="284" width="340" height="26" rx="13" fill="#ffffff" stroke="#F97316" stroke-dasharray="3,2"/>
+  <text x="605" y="301" text-anchor="middle" font-size="10" fill="#9A3412">案例:BSLBATT、Flux X-Series(較重機型)→ UL 2580</text>
+
+  <text x="410" y="338" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F2937">兩者不可互換——一個較輕較低壓,一個較重較高壓、工業級</text>
+
+  <!-- spectrum -->
+  <line x1="60" y1="382" x2="760" y2="382" stroke="#94A3B8" stroke-width="3"/>
+  <line x1="60" y1="374" x2="60" y2="390" stroke="#3B82F6" stroke-width="3"/>
+  <line x1="760" y1="374" x2="760" y2="390" stroke="#F97316" stroke-width="3"/>
+  <text x="60" y="366" text-anchor="start" font-size="11" font-weight="700" fill="#1E3A8A">輕型 / 低壓(LEV 區間)</text>
+  <text x="760" y="366" text-anchor="end" font-size="11" font-weight="700" fill="#9A3412">重型 / 高壓(工業級區間)</text>
+
+  <rect x="330" y="374" width="160" height="16" fill="#E5E7EB" opacity="0.7"/>
+  <text x="410" y="404" text-anchor="middle" font-size="10" fill="#6B7280">~60–100V / 750W(業界口徑,非硬性分界)</text>
+
+  <line x1="220" y1="382" x2="220" y2="416" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="120" y="416" width="200" height="34" rx="8" fill="#F8FAFC" stroke="#64748B"/>
+  <text x="220" y="430" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1F2937">送餐機器人:24V/48V·輕載·低速</text>
+  <text x="220" y="444" text-anchor="middle" font-size="9.5" fill="#6B7280">依規格也可能落在 UL 2580(無單一定論)</text>
+</svg>

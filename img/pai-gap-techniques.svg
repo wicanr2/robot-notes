@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="paiArrBlue" markerWidth="9" markerHeight="9" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3B82F6"/></marker>
+    <marker id="paiArrGreen" markerWidth="9" markerHeight="9" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#10B981"/></marker>
+  </defs>
+  <rect width="860" height="420" fill="#ffffff"/>
+
+  <text x="430" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">縮小 Reality Gap 的三種手段:施力方向不同</text>
+  <text x="430" y="54" text-anchor="middle" font-size="12" fill="#6B7280">都想拉近模擬與真實,但作用方式不同(§2.1 ~ 2.3)</text>
+
+  <!-- Panel 1: Domain Randomization -->
+  <rect x="20" y="80" width="260" height="310" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="150" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A8A">Domain Randomization</text>
+  <text x="150" y="128" text-anchor="middle" font-size="12" fill="#3B82F6">領域隨機化</text>
+
+  <circle cx="150" cy="225" r="60" fill="none" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <circle cx="150" cy="225" r="5" fill="#1E3A8A"/>
+  <text x="150" y="243" text-anchor="middle" font-size="8.5" fill="#1E3A8A">真實值</text>
+  <circle cx="115" cy="190" r="3" fill="#93C5FD"/>
+  <circle cx="190" cy="195" r="3" fill="#93C5FD"/>
+  <circle cx="175" cy="270" r="3" fill="#93C5FD"/>
+  <circle cx="105" cy="260" r="3" fill="#93C5FD"/>
+  <circle cx="150" cy="172" r="3" fill="#93C5FD"/>
+  <circle cx="190" cy="255" r="3" fill="#93C5FD"/>
+  <line x1="150" y1="225" x2="191" y2="184" stroke="#3B82F6" stroke-width="1.6" marker-end="url(#paiArrBlue)"/>
+  <line x1="150" y1="225" x2="91" y2="215" stroke="#3B82F6" stroke-width="1.6" marker-end="url(#paiArrBlue)"/>
+  <line x1="150" y1="225" x2="140" y2="284" stroke="#3B82F6" stroke-width="1.6" marker-end="url(#paiArrBlue)"/>
+
+  <text x="150" y="313" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">方向:往外撐</text>
+  <text x="150" y="332" text-anchor="middle" font-size="10.5" fill="#374151">訓練分佈撒寬,</text>
+  <text x="150" y="348" text-anchor="middle" font-size="10.5" fill="#374151">真實只是其中一種變化</text>
+  <text x="150" y="368" text-anchor="middle" font-size="9.5" fill="#6B7280">(§2.1)</text>
+
+  <!-- Panel 2: System Identification -->
+  <rect x="300" y="80" width="260" height="310" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="430" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">System Identification</text>
+  <text x="430" y="128" text-anchor="middle" font-size="12" fill="#10B981">系統辨識</text>
+
+  <circle cx="395" cy="185" r="6" fill="#ffffff" stroke="#10B981" stroke-width="2"/>
+  <text x="395" y="167" text-anchor="middle" font-size="8.5" fill="#065F46">模擬預設值</text>
+  <circle cx="450" cy="235" r="26" fill="none" stroke="#10B981" stroke-width="1.3" stroke-dasharray="3,3"/>
+  <circle cx="450" cy="235" r="6" fill="#065F46"/>
+  <text x="450" y="260" text-anchor="middle" font-size="8.5" fill="#065F46">真實量測值</text>
+  <path d="M397,190 Q422,205 440,226" fill="none" stroke="#10B981" stroke-width="1.8" marker-end="url(#paiArrGreen)"/>
+
+  <text x="430" y="313" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">方向:往回校</text>
+  <text x="430" y="332" text-anchor="middle" font-size="10.5" fill="#374151">量真實參數,</text>
+  <text x="430" y="348" text-anchor="middle" font-size="10.5" fill="#374151">把模擬中心拉準</text>
+  <text x="430" y="368" text-anchor="middle" font-size="9.5" fill="#6B7280">(§2.2)</text>
+
+  <!-- Panel 3: Domain Adaptation -->
+  <rect x="580" y="80" width="260" height="310" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="710" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#9A3412">Domain Adaptation</text>
+  <text x="710" y="128" text-anchor="middle" font-size="12" fill="#F97316">領域適應</text>
+
+  <ellipse cx="650" cy="225" rx="42" ry="28" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <ellipse cx="770" cy="225" rx="42" ry="28" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+  <circle cx="710" cy="225" r="16" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.3" stroke-dasharray="3,3"/>
+  <line x1="692" y1="225" x2="701" y2="225" stroke="#3B82F6" stroke-width="1.6" marker-end="url(#paiArrBlue)"/>
+  <line x1="728" y1="225" x2="719" y2="225" stroke="#10B981" stroke-width="1.6" marker-end="url(#paiArrGreen)"/>
+  <text x="650" y="270" text-anchor="middle" font-size="9" fill="#1E3A8A">模擬特徵</text>
+  <text x="770" y="270" text-anchor="middle" font-size="9" fill="#065F46">真實特徵</text>
+  <text x="710" y="288" text-anchor="middle" font-size="8.5" fill="#374151">對齊後特徵空間</text>
+
+  <text x="710" y="313" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">方向:對齊中間</text>
+  <text x="710" y="332" text-anchor="middle" font-size="10.5" fill="#374151">把模擬與真實特徵</text>
+  <text x="710" y="348" text-anchor="middle" font-size="10.5" fill="#374151">分佈往中間對齊</text>
+  <text x="710" y="368" text-anchor="middle" font-size="9.5" fill="#6B7280">(§2.3)</text>
+</svg>

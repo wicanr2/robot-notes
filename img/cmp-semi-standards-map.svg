@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="semiArrow" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#94A3B8"/></marker>
+  </defs>
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">SEMI 標準家族地圖:S 系列、E 系列與通用安全標準</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">AMR 進 fab 要疊過的幾層,不是擇一</text>
+
+  <!-- AMR node -->
+  <rect x="220" y="64" width="140" height="28" rx="14" fill="#F3F4F6" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="290" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">AMR 進 fab</text>
+  <line x1="290" y1="92" x2="290" y2="109" stroke="#94A3B8" stroke-width="2" marker-end="url(#semiArrow)"/>
+
+  <!-- Stack: L3 top -->
+  <rect x="140" y="112" width="300" height="64" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="290" y="136" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">SEMI S2(核心)+ S8 / S14 / S22</text>
+  <text x="290" y="154" text-anchor="middle" font-size="10" fill="#1F2937">fab 環安衛:人因 / 火災 / 電氣</text>
+  <text x="290" y="170" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A3412">客戶(fab)採購前常要求</text>
+
+  <!-- Stack: L2 mid -->
+  <rect x="100" y="190" width="380" height="64" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="290" y="214" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">ISO 3691-4 / ANSI·RIA R15.08</text>
+  <text x="290" y="232" text-anchor="middle" font-size="10" fill="#1F2937">移動車輛安全:防撞 / 人員偵測</text>
+  <text x="290" y="248" text-anchor="middle" font-size="9.5" fill="#1E3A8A">依目標市場選對應(或兩者)</text>
+
+  <!-- Stack: L1 base -->
+  <rect x="60" y="268" width="460" height="64" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.8"/>
+  <text x="290" y="292" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F2937">ISO 13849</text>
+  <text x="290" y="310" text-anchor="middle" font-size="10" fill="#1F2937">功能安全方法論:急停 / 安全掃描器的 PL 等級</text>
+  <text x="290" y="326" text-anchor="middle" font-size="9.5" fill="#6B7280">底層基石,其上都疊在這之上</text>
+
+  <!-- Side Box A: E 系列 -->
+  <rect x="580" y="112" width="280" height="140" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="720" y="134" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">SEMI E 系列(搬運交接)</text>
+  <line x1="590" y1="142" x2="850" y2="142" stroke="#10B981" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="720" y="160" text-anchor="middle" font-size="10.5" fill="#1F2937">E84 交接 I/O — 必備</text>
+  <text x="720" y="178" text-anchor="middle" font-size="10.5" fill="#1F2937">E87 載具管理 — 相關</text>
+  <text x="720" y="196" text-anchor="middle" font-size="10.5" fill="#1F2937">E88 stocker · E90 追蹤</text>
+  <text x="720" y="214" text-anchor="middle" font-size="10.5" fill="#1F2937">E10 稼動率 — 視需求</text>
+  <text x="720" y="236" text-anchor="middle" font-size="9.5" fill="#6B7280">不同層次:搬運物流,非安全</text>
+
+  <!-- Side Box B: 潔淨室三件事 -->
+  <rect x="580" y="270" width="280" height="132" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="720" y="292" text-anchor="middle" font-size="13" font-weight="700" fill="#991B1B">潔淨室三件事</text>
+  <text x="720" y="308" text-anchor="middle" font-size="9.5" fill="#991B1B">(潔淨室適用性)</text>
+  <line x1="590" y1="316" x2="850" y2="316" stroke="#EF4444" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="720" y="334" text-anchor="middle" font-size="10.5" fill="#1F2937">微粒:ISO 14644 Class</text>
+  <text x="720" y="352" text-anchor="middle" font-size="10.5" fill="#1F2937">ESD:表面電阻可量測</text>
+  <text x="720" y="370" text-anchor="middle" font-size="10.5" fill="#1F2937">Out-gassing:低逸氣材料</text>
+  <text x="720" y="390" text-anchor="middle" font-size="9.5" fill="#6B7280">三項皆可量測、可驗證</text>
+
+  <text x="440" y="430" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">SEMI 是客戶驅動的進廠門票,通用安全標準是底層基石——疊加,缺一進不了 fab</text>
+  <text x="440" y="449" text-anchor="middle" font-size="11" fill="#6B7280">E 系列(搬運交接)與潔淨室三件事是另外並行、同樣不可少的關卡</text>
+</svg>
