@@ -12,19 +12,38 @@
 
 <p align="center"><img src="../../../img/leg-gait-duty-factor.svg" width="860" alt="慢走的 duty factor 大於 0.5,任一時刻都有三腳著地;對角小跑小於 0.5,兩組對角腳交替並出現全騰空的飛行相"></p>
 
-這個數字有一條分界線:
+這個數字能不能算出「會不會出現飛行相」?能,但**門檻取決於腳怎麼配相位**,不是一個放諸四海的常數。這一點很容易寫錯,所以把兩種結構都算出來:
 
-| duty factor | 幾何後果 | 穩定性 |
+**結構一:四隻腳平均錯開**(相位 0 / 0.25 / 0.5 / 0.75,walk 就是這樣)
+
+| duty factor | 任一時刻著地腳數 | 後果 |
 |---|---|---|
-| **> 0.5** | 每隻腳觸地超過半個週期 → 任一時刻**必然有多隻腳同時著地**,支撐多邊形是個有面積的多邊形 | 可以做到靜態穩定——隨時停下來也不會倒 |
-| **< 0.5** | 觸地時間不到半週期 → 必然出現**沒有任何一隻腳著地**的瞬間,也就是飛行相 | 只能是動態穩定。停下來就倒 |
+| < 0.25 | 會出現 0 | **有飛行相** |
+| 0.25 ~ 0.5 | 1 ~ 2 | 沒有飛行相,但支撐面不足以靜態穩定 |
+| 0.5 ~ 0.75 | 2 ~ 3 | 同上 |
+| **≥ 0.75** | **恆為 3** | 支撐多邊形一直是個三角形 → **可以靜態穩定** |
 
-**0.5 不是經驗值,是幾何上的必然。** 一隻腳觸地比例低於一半,四隻腳輪流也填不滿整個週期——中間一定有空檔。這條線把[上一篇](legged-fundamentals.md#3-支撐多邊形不再固定而靜態穩定判準本身就不夠用)講的「支撐多邊形退化到消失」變成一個可以事先算出來的設計參數:**你選了 duty factor,就選了要不要面對飛行相。**
+**結構二:對角兩腳一組、兩組錯開半週期**(trot)
+
+| duty factor | 後果 |
+|---|---|
+| < 0.5 | **有飛行相**——兩組都不著地的空檔 |
+| ≥ 0.5 | 沒有飛行相,但恆為 2 腳,支撐面是一條線段 |
+
+一般化的規律:**n 組獨立錯開的支撐,不出現空檔的門檻是 `1/n`**。四腳各自錯開是 4 組 → 0.25;對角配對是 2 組 → 0.5;雙足是 2 組 → 也是 0.5。
+
+> **所以「duty factor 0.5 是走與跑的分界」這句常見說法,要看它在講誰。** 對**雙足**它是嚴格的幾何門檻(2 組,1/2);對**四足**它是 Hildebrand 那套動物步態分類裡的**統計性描述**——真實動物的四足步態多半落在配對結構上,所以 0.5 這條線在經驗上好用,但它不是「四隻腳輪流」這件事本身的幾何必然。真正的幾何必然是 `1/n`,而 n 由你怎麼排相位決定。
+>
+> 這不只是紙上的反例——動物身上就有。**amble(溜蹄)**是靈長類、大象與部分馬匹在中速時採用的步態,duty factor 低於 0.5,卻**始終至少有一隻腳著地**,沒有全身騰空相(Schmitt et al. 2006)。牠們用的正是「四腳各自錯開」而非「兩腳一組」的結構。
+
+回頭看上面那張圖,兩個數字各自有出處:walk 的 **0.75 恰好是四腳平均錯開時「恆三腳著地」的門檻**;trot 的 0.4 落在配對結構的 0.5 之下,所以必然有飛行相。**不是巧合——這兩個步態各自坐在自己結構的臨界點附近。**
+
+這把[上一篇](legged-fundamentals.md#3-支撐多邊形不再固定而靜態穩定判準本身就不夠用)講的「支撐多邊形退化到消失」變成一個**設計階段就算得出來**的參數:選了相位結構與 duty factor,就等於選了會不會有飛行相、以及支撐多邊形長什麼樣。
 
 常見四足步態依這條線分兩邊:
 
-- **walk(慢走)**:duty factor 約 0.75,四隻腳依序落地,任一時刻三腳著地。慢、耗能高,但可以靜態穩定。
-- **trot(對角小跑)**:對角兩腳一組交替,duty factor 落在 0.5 附近或以下。快、效率好,是多數四足機器人的巡航步態。
+- **walk(慢走)**:duty factor 約 0.75,四隻腳平均錯開依序落地,任一時刻恰好三腳著地。慢、耗能高,但可以靜態穩定。
+- **trot(對角小跑)**:對角兩腳一組交替,duty factor 落在 0.5 附近或以下——低於 0.5 就必有飛行相。快、效率好,是多數四足機器人的巡航步態。
 - **bound / gallop**:前腳一組、後腳一組,duty factor 更低,飛行相更長。速度最高,對控制與硬體的要求也最高。
 
 > 這套用 duty factor 與落地時序描述步態的框架,來自 Hildebrand 1965 年對馬匹步態的分析,不是機器人學發明的。畫成「每隻腳的觸地區間對步態週期的分布圖」也是那時就定下來的表示法。
@@ -51,7 +70,9 @@
 
 <p align="center"><img src="../../../img/leg-qdd-vs-geared.svg" width="860" alt="高減速比諧波減速機與低減速比 QDD 在反射慣量、可反向驅動、衝擊路徑、力控方式與頻寬上的對照"></p>
 
-工業手臂用**高減速比**傳動(諧波減速機常見 1:50 以上),理由很正當:馬達轉得快、扭矩小,靠減速比換成慢而有力的輸出,而且高減速比讓輸出端**很難反過來推動馬達**——手臂停在那裡不會被外力推動,省電又穩。
+工業手臂用**高減速比**傳動,常見的**諧波減速機**(harmonic drive,又稱諧波齒輪)在單一個扁平級數裡就能做到 1:50 以上、而且幾乎沒有齒隙——靠一個會彈性變形的柔輪與剛輪嚙合,不是靠一排齒輪堆出來的。
+
+這個選擇的理由很正當:馬達轉得快、扭矩小,靠減速比換成慢而有力的輸出;而且高減速比讓輸出端**很難反過來推動馬達**——手臂停在那裡不會被外力推動,省電又穩。
 
 把同一套裝到腿上,那些優點逐一變成缺點:
 
@@ -64,6 +85,10 @@
 | **控制頻寬** | 低 | 高 |
 
 **QDD(quasi-direct drive,準直驅)** 就是走中間路線:用高扭矩密度的馬達搭配**很低**的減速比(約 1:3 到 1:10),介於直驅(1:1)與工業減速機之間。
+
+> **為什麼反射慣量是「平方」而不是「倍數」?** 減速比 N 表示馬達轉子轉得比輸出端快 N 倍。轉子的動能是 `½ J_m ω_m² = ½ J_m (N ω_out)² = ½ (N² J_m) ω_out²`——從輸出端看回去,這顆轉子表現得就像一個 `N² J_m` 的慣量。一個 N 來自「速度被放大 N 倍」,另一個 N 來自「動能與速度的平方成正比」。1:100 的減速機會讓一顆很輕的轉子在輸出端變得像一萬倍重,腳撞地時要瞬間改變的就是這個等效慣量。
+
+上表這幾格看起來是五個獨立的缺點,其實**是同一件事的五個面向**:高減速比同時帶來高摩擦、高反射慣量與低傳動效率,而「不可反向驅動」正是這幾樣的必然結果。手臂要的「斷電也不會被推動」與腿怕的「衝擊推不動馬達、電流也推不準力矩」,是同一個傳動性質從兩個方向看過去。
 
 最關鍵的那一格是「可反向驅動」。它一次解決兩件事:
 
@@ -135,7 +160,7 @@ ROS 2 生態要注意一個常見誤解:**CHAMP(`chvmp/champ`)是 ROS 1 的**,�
 
 ## 7. 來源
 
-- **步態與 duty factor**:Hildebrand, M., "Symmetrical Gaits of Horses," *Science* 150(3697), 1965 <https://www.science.org/doi/10.1126/science.150.3697.701>。靜態 vs 動態穩定與 duty factor 的關係:<https://pmc.ncbi.nlm.nih.gov/articles/PMC7506578/>
+- **步態與 duty factor**:Hildebrand, M., "Symmetrical Gaits of Horses," *Science* 150(3697), 1965 <https://www.science.org/doi/10.1126/science.150.3697.701>。amble(duty factor < 0.5 但無騰空相)的反例:Schmitt, D., Cartmill, M., Griffin, T. M., Hanna, J. B., Lemelin, P., "Adaptive value of ambling gaits in primates and other mammals," *Journal of Experimental Biology* 209, 2042–2049, 2006 <https://journals.biologists.com/jeb/article/209/11/2042/16164/>。靜態 vs 動態穩定與 duty factor 的關係:<https://pmc.ncbi.nlm.nih.gov/articles/PMC7506578/>
 - **QDD 與 proprioceptive 力控**:Seok, S., Wang, A., Otten, D., Kim, S., "Actuator Design for High Force Proprioceptive Control in Fast Legged Locomotion," *IROS 2012*;Wensing, P. M. et al., "Proprioceptive Actuator Design in the MIT Cheetah," *IEEE Transactions on Robotics* 33(3), 2017 <https://dspace.mit.edu/server/api/core/bitstreams/53fde66c-bd98-4dd7-a95b-3c9a5d11cf69/content>。QDD 減速比範圍:<https://arxiv.org/pdf/2202.12365>
 - **SEA**:Pratt, G. A. & Williamson, M. M., "Series Elastic Actuators," *IROS 1995*
 - **RL locomotion 四篇**:Hwangbo et al. *Sci. Robot.* 2019 <https://www.science.org/doi/10.1126/scirobotics.aau5872>;Lee et al. *Sci. Robot.* 2020 <https://www.science.org/doi/10.1126/scirobotics.abc5986>;Rudin et al. *CoRL 2021* <https://proceedings.mlr.press/v164/rudin22a.html>;Miki et al. *Sci. Robot.* 2022 <https://www.science.org/doi/10.1126/scirobotics.abk2822>

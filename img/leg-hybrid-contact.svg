@@ -2,7 +2,7 @@
   <defs><marker id="hcA" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker></defs>
   <rect width="860" height="350" fill="#ffffff"/>
   <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">接觸集合一換,動力學方程式就換一組</text>
-  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">四隻腳 → 2⁴ = 16 種接觸集合,每一種對應不同的方程式</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">四隻腳 → 2⁴ = 16 種接觸集合,每一種對應不同的方程式。下面四格是四個<tspan font-weight="700">舉例</tspan>,不是時間先後</text>
 
   <g font-size="10">
     <!-- 四個快照 -->

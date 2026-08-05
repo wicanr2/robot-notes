@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <rect width="880" height="400" fill="#ffffff"/>
-  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Duty factor 0.5 是一條幾何上的分界線</text>
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Duty factor:門檻不是固定的 0.5,而是 1/(獨立錯開的組數)</text>
   <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">橫軸是一個步態週期,深色 = 這隻腳踩在地上</text>
 
   <!-- walk -->
   <rect x="20" y="66" width="840" height="128" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
   <text x="38" y="88" font-size="12.5" font-weight="700" fill="#065F46">walk(慢走)</text>
   <text x="150" y="88" font-size="11" fill="#065F46">duty factor ≈ 0.75</text>
-  <text x="330" y="88" font-size="11" font-weight="700" fill="#065F46">任一時刻都有 3 隻腳著地 → 可以靜態穩定</text>
+  <text x="330" y="88" font-size="11" font-weight="700" fill="#065F46">四腳平均錯開,恆 3 腳著地 → 可以靜態穩定(門檻 3/4)</text>
   <g font-size="10" fill="#374151">
     <text x="52" y="112" text-anchor="end">LH</text><text x="52" y="134" text-anchor="end">LF</text>
     <text x="52" y="156" text-anchor="end">RH</text><text x="52" y="178" text-anchor="end">RF</text>
@@ -33,7 +33,7 @@
   <rect x="20" y="206" width="840" height="128" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.7"/>
   <text x="38" y="228" font-size="12.5" font-weight="700" fill="#991B1B">trot(對角小跑)</text>
   <text x="170" y="228" font-size="11" fill="#991B1B">duty factor ≈ 0.4</text>
-  <text x="330" y="228" font-size="11" font-weight="700" fill="#991B1B">出現全騰空的飛行相 → 只能動態穩定</text>
+  <text x="330" y="228" font-size="11" font-weight="700" fill="#991B1B">對角配對成 2 組,0.4 &lt; 1/2 → 必有飛行相</text>
   <g font-size="10" fill="#374151">
     <text x="52" y="252" text-anchor="end">LF</text><text x="52" y="274" text-anchor="end">RH</text>
     <text x="52" y="296" text-anchor="end">RF</text><text x="52" y="318" text-anchor="end">LH</text>
@@ -56,7 +56,7 @@
   <text x="770" y="296" text-anchor="middle" font-size="9.5" fill="#374151">停下來就倒</text>
 
   <rect x="20" y="346" width="840" height="44" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
-  <text x="40" y="368" font-size="11.5" font-weight="700" fill="#374151">0.5 不是經驗值,是幾何上的必然</text>
-  <text x="290" y="368" font-size="10.5" fill="#374151">一隻腳觸地比例低於一半,四隻腳輪流也填不滿整個週期——中間一定有空檔。</text>
-  <text x="40" y="384" font-size="10.5" fill="#374151">所以選了 duty factor,就等於選了要不要面對飛行相。這是可以在設計階段算出來的,不必等上機才發現。</text>
+  <text x="40" y="367" font-size="11.5" font-weight="700" fill="#374151">不出現空檔的門檻是 1/n,n = 獨立錯開的支撐組數</text>
+  <text x="340" y="367" font-size="10.5" fill="#374151">四腳各自錯開 → n=4,門檻 0.25;對角配對 → n=2,門檻 0.5;雙足也是 n=2。</text>
+  <text x="40" y="384" font-size="10.5" fill="#374151">所以「0.5 是走與跑的分界」對<tspan font-weight="700">雙足</tspan>是嚴格的幾何門檻,對<tspan font-weight="700">四足</tspan>則是動物步態分類上的統計性說法——實際的門檻由相位排法決定。</text>
 </svg>
