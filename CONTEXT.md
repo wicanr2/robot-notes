@@ -107,10 +107,16 @@
 - Asset root — Isaac 官方資產的雲端根路徑;可只抓單一 USD 檔核對 prim 路徑,不必下載整包 asset pack。
 - prim — OpenUSD 場景樹上的節點。寫物理參數 override 前要先核對 prim 路徑,路徑錯了 override 會靜默失效而模擬照跑。
 - Gymnasium — RL 環境的介面契約(reset/step/reward);**給的是任務不是幾何**,場景仍來自底下的模擬器。Isaac Lab 的 env 相容此 API。
+- OmniGraph Action Graph — Isaac Sim 的視覺化節點式運算圖,ROS 2 的 publish/subscribe 與驅動鏈都在這裡串。`/cmd_vel` 的路徑是 Subscribe Twist → Differential Controller → Articulation Controller。
+- Articulation(關節體)— 由多個剛體與關節組成、被當成一整組解算的機構;差速底盤的兩個輪子即以此表示。
+- render 分水嶺 — 免費 CI runner 沒有 GPU,「需不需要 render」把驗證分成可靠與不可靠兩區。**視覺化 ≠ render**:把位姿軌跡畫成俯視路徑圖,能把視覺產出救回可靠區。
 
 ## 法規與認證
 - UL 2271 — 輕型電動載具(LEV)電池安全標準(低壓、輕載)。
-- UL 2580 — 電動車/工業車輛電池安全標準(較高壓、工業級;含熱擴散測試)。
+- UL 2580 — 電動車/工業車輛電池安全標準(較高壓、工業級;含熱擴散測試)。適用範圍**明文排除** LEV 並指向 UL 2271,所以兩者不可互換不是慣例而是標準寫死的。
+- EESA(electrical energy storage assembly,電能儲存組件)— **UL 2580 的正式名詞**,指電池包、「電池包 + 電化學電容」的組合,以及構成它們的模組。UL 2271 不用這個詞,別寫成「兩張都是 EESA 層級」。
+- 認證四角色 — 標準制定/推動者、顧問/輔導/評估者、檢測實驗室(能力依 ISO/IEC 17025)、驗證/發證機構(公正性依 ISO/IEC 17065)。**送測分界**把「自己準備」與「第三方判定」切開;顧問報告 ≠ 證書。
+- ISO/IEC 17025 / 17065 — 不是機器人標準,是「認驗證制度如何可信」的底層規則:前者管實驗室能力,後者管驗證機構的公正性與證書管理。
 - LFP (LiFePO4) — 磷酸鋰鐵電池;熱失控門檻高、不釋氧,本質安全優於三元鋰 NMC。
 - UN 38.3 — 鋰電池運輸強制測試。
 - SEMI — Semiconductor Equipment and Materials International,半導體設備標準組織。
