@@ -106,6 +106,8 @@ robot-notes/
 
 | **R14** | 模擬資產來源盤點 | `50-physical-ai/simulation-asset-sources.md`:先拆清「找 3D 模型」其實指五類東西(機器人本體/場景/物件/材質/訓練環境),再依生態盤點來源並**實查數字**(Fuel 3360 models/270 worlds、forklift 只有 1;AWS RoboMaker 服務 2025-09-10 終止、五個 world repo 全數封存;rmf_demos 七個場景;Isaac 雲端 asset root 可只抓單檔核對 prim 路徑),最後用 visual/collision/inertial/語意標註 四欄說明「拿到資產不等於能用」與 SimReady 的價值 + 1 張來源地圖 SVG;順帶修掉 `sdf-3d-models.md` 引用的 `app.gazebosim.org/fuel` 死連結(實測 404) | ✅ 完成 |
 
+| **R14.1** | 資產來源的網址與 repo 實測 | 補上 §5/§6 原本缺的入口連結,並新增 §9.1 網址狀態表(18 條全數 200)與 §9.2 GitHub repo 表(14 個,含 ★/最後 push/封存/授權)。實測三件會誤導人的事:Isaac 雲端 asset root **4.5/5.0/5.1/6.0 都在**(Nova_Carter_ROS.usd 各 85,526 / 135,278 / 151,435 / 153,649 bytes,可不裝 Isaac Sim 就核對 USD 結構);Asset Browser 文件的 `latest` 與 `6.0.0` 路徑**實測 404**(6.0 搬過位置,改認版本號);`allenai/procthor` 最後 push 停在 2023-04-07、`StanfordVL/OmniGibson` 無授權標示。另記下自己踩到的 jq 陷阱(`--jq '.archived and "已封存" or "活躍"'` 恆為 true,因 jq 的 and/or 回傳布林而非運算元)並寫進 §9.3 | ✅ 完成 |
+
 ## 待辦(R12 中斷,下次接續)
 
 R12 派了 5 個補圖/稽核 agent,全部因 session 額度用盡中斷。**已完成並驗過的**:
