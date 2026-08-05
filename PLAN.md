@@ -110,6 +110,14 @@ robot-notes/
 
 | **R15** | 補完 R12 中斷的圖 + R11 backlog | R12 那五張沒把關的 SVG 逐一渲染核對:法規編號全部對得上原文(S2/S8/S14/S22、E84/E87/E88/E90/E10、ISO 3691-4/13849/14644、UL 2271/2580、UN 38.3、CISPR/CNS 13438、IEC 62368-1),沒有臆造;修掉 `pai-reality-gap` 與 `pai-gap-techniques` 底部各數十 px 的空白 viewBox 與兩處標籤壓線後插進對應各篇。新畫五張:`cmp-certification-roles`(取代 pwc 篇那張 38 行的 ASCII 流程圖)、`pai-isaac-stack`、`pai-isaac-ros2-nav2`、`meta-ci-verification-ladder`、`roadnet-two-layer`。順帶修掉兩個內容問題:`pwc-semi-iso3691-certification.md` 標題寫「三種認證角色」但表格是四種(已改四種);同檔 §5 出現兩個內部專案代號(已改成中性描述) | ✅ 完成 |
 
+| **R15.1** | 視覺與體例一致性掃全 repo | 派便宜 agent 盤點 63 個 md + 174 張 SVG,主迴圈逐條核實後修:**八張圖底部空白 41–80 px** 裁到一致的 18 px 餘裕;**三張圖右側內容被 viewBox 裁掉**(`max-entropy` 圖例少 63 px、`indoor-amr-decision` 那段字超出自己的框 69 px、`amcl-multimodal` 少 21 px);字體字串統一(`rviz-slam-mapping` 多插了 DejaVu Sans);三張縮到 0.71–0.74 倍的圖放大回 0.9 倍附近;`sensors.md` 三張 1280×1600 截圖與 `localization.md` 的 AprilTag 圖從裸 `![]()` 改成置中 + 尺寸控制;`pwc-semi-iso3691` 整篇全形標點(153 個)轉半形。另把跨檔 `§N` 改成可點連結(51 處 / 10 個檔),同檔內部維持裸寫 | ✅ 完成 |
+
+## 量測方法備忘(下次要再掃時直接用)
+
+SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法——量不到 `<path>` 與**文字實際渲染出來的墨水範圍**,估出來的數字是錯的。正確作法是用 chrome 跑 `getBoundingClientRect()` 再換算回 viewBox 座標(腳本邏輯見 R15.1 的 commit 訊息)。
+
+`getBBox()` 也不行:它回傳**套用 transform 之前**的框,有 `rotate` 的標籤會被誤報成溢出(`pai-isaac-stack`、`meta-ci-verification-ladder` 都被這樣誤標過)。
+
 ## 判斷結論
 
 - **`section-map.md` 不需要配圖**:它是純查表用的對照索引(§N → 檔案),不是概念。圖只會把一張可以 Ctrl-F 的表變難查。真正該做的是把跨檔 `§N` 改成帶連結的引用,讓這張表逐步不必被查。
