@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="co" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="cr" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">兩種卡死要分開偵測,因為解法不同</text>
+
+  <!-- ================= LEFT: pairwise ================= -->
+  <rect x="20" y="48" width="410" height="290" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="225" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">對頂:兩車面對面</text>
+  <text x="225" y="92" text-anchor="middle" font-size="11.5" fill="#6B7280">判準不是「都在衝突區裡」,是「雙方都非進對方的空間不可」</text>
+
+  <!-- case 1: is deadlock -->
+  <text x="40" y="122" font-size="12" font-weight="700" fill="#B91C1C">判為死鎖</text>
+  <rect x="120" y="106" width="292" height="44" fill="#ffffff" stroke="#CBD5E1"/>
+  <rect x="212" y="106" width="108" height="44" fill="#FEF2F2"/>
+  <text x="266" y="102" text-anchor="middle" font-size="10" fill="#B91C1C">衝突區</text>
+  <rect x="126" y="114" width="32" height="28" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="142" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">A</text>
+  <rect x="374" y="114" width="32" height="28" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="390" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">B</text>
+  <!-- stamped silhouettes -->
+  <g fill="none" stroke="#3B82F6" stroke-width="1.2" stroke-dasharray="3 3">
+    <rect x="168" y="114" width="32" height="28" rx="4"/><rect x="210" y="114" width="32" height="28" rx="4"/>
+    <rect x="252" y="114" width="32" height="28" rx="4"/>
+  </g>
+  <line x1="160" y1="160" x2="290" y2="160" stroke="#3B82F6" stroke-width="1.8" marker-end="url(#co)"/>
+  <text x="222" y="176" text-anchor="middle" font-size="10.5" fill="#1E3A8A">A 的輪廓沿路徑蓋章 → 壓到衝突區</text>
+
+  <!-- case 2: not deadlock -->
+  <text x="40" y="206" font-size="12" font-weight="700" fill="#065F46">不是死鎖</text>
+  <rect x="120" y="190" width="292" height="56" fill="#ffffff" stroke="#CBD5E1"/>
+  <rect x="212" y="190" width="108" height="22" fill="#FEF2F2"/>
+  <rect x="126" y="216" width="32" height="24" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="142" y="233" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">A</text>
+  <g fill="none" stroke="#3B82F6" stroke-width="1.2" stroke-dasharray="3 3">
+    <rect x="168" y="216" width="32" height="24" rx="4"/><rect x="210" y="216" width="32" height="24" rx="4"/>
+    <rect x="252" y="216" width="32" height="24" rx="4"/><rect x="294" y="216" width="32" height="24" rx="4"/>
+  </g>
+  <rect x="374" y="192" width="32" height="20" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="390" y="207" text-anchor="middle" font-size="10" font-weight="700" fill="#065F46">B</text>
+  <text x="222" y="262" text-anchor="middle" font-size="10.5" fill="#065F46">碰到 B 前輪廓從未壓到衝突區 → 擦得過去</text>
+
+  <rect x="40" y="276" width="370" height="50" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.3"/>
+  <text x="56" y="296" font-size="12" fill="#991B1B">兩邊都成立才判死鎖。少了這一步,「窄但過得去」</text>
+  <text x="56" y="316" font-size="12" fill="#991B1B">會被誤判成死鎖,現場變成無謂的讓車。</text>
+
+  <!-- ================= RIGHT: chain lock ================= -->
+  <rect x="450" y="48" width="410" height="290" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="655" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">環形鎖:A 等 B、B 等 C、C 等 A</text>
+  <text x="655" y="92" text-anchor="middle" font-size="11.5" fill="#6B7280">記錄「我是因為誰停下來的」,在等待圖上做 DFS 找環</text>
+
+  <!-- wait-for graph -->
+  <circle cx="655" cy="136" r="26" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2.2"/>
+  <text x="655" y="143" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">A</text>
+  <circle cx="746" cy="234" r="26" fill="#ECFDF5" stroke="#10B981" stroke-width="2.2"/>
+  <text x="746" y="241" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">B</text>
+  <circle cx="564" cy="234" r="26" fill="#FFF7ED" stroke="#F97316" stroke-width="2.2"/>
+  <text x="564" y="241" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">C</text>
+
+  <path d="M676,152 L 726,210" fill="none" stroke="#EF4444" stroke-width="2.6" marker-end="url(#cr)"/>
+  <path d="M720,240 L 592,240" fill="none" stroke="#EF4444" stroke-width="2.6" marker-end="url(#cr)"/>
+  <path d="M582,212 L 634,154" fill="none" stroke="#EF4444" stroke-width="2.6" marker-end="url(#cr)"/>
+  <text x="722" y="184" font-size="11" fill="#B91C1C">因 B 停</text>
+  <text x="656" y="262" text-anchor="middle" font-size="11" fill="#B91C1C">因 C 停</text>
+  <text x="530" y="184" font-size="11" fill="#B91C1C">因 A 停</text>
+
+  <rect x="470" y="276" width="370" height="50" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.3"/>
+  <text x="486" y="296" font-size="12" fill="#1E3A8A">這就是作業系統資源分配圖上找環的同一題。</text>
+  <text x="486" y="316" font-size="12" fill="#1E3A8A">環偵測只做兩兩對頂會漏掉 —— 三台車的環在現場不罕見。</text>
+
+  <!-- bottom -->
+  <rect x="20" y="350" width="840" height="40" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
+  <text x="38" y="375" font-size="12.5" fill="#1F2937"><tspan font-weight="700" fill="#065F46">為什麼要分開:</tspan>對頂只要挑一台讓路;環形鎖要挑「斷環代價最小」的那一台。接著的難題是「讓到哪去」—— 選錯迴避點,讓車本身就變成下一個阻塞源。</text>
+</svg>

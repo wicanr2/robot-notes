@@ -60,6 +60,7 @@ robot-notes/
 | **R6** | 圖文並茂 | 把既有 ASCII 圖逐步升級成 SVG;數學概念一律配圖(已起步) | 🔄 進行中 |
 | **R7** | 第一性原理補強 | 核心公式(差速/odometry/FOC/AMCL…)從根本推導 + 7 張數學 SVG | ✅ 完成 |
 | **R8** | 法規與認證 | 電池認證(UL 2271/2580、LFP)、半導體 fab AMR(SEMI S2/E84) | ✅ 完成 |
+| **R11** | 路網規劃與交管 + 全 repo ASCII→SVG | `40-fleet/roadnet-and-traffic-control.md`(三條技術路線第一性原理比較:空間表示、衝突偵測、仲裁脫困;前導線公式推導、柵格化理由、環形鎖 DFS)、`40-fleet/indoor-amr-roadnet-selection.md`(叉車/搬運車/送貨機器人分場景選型)+ 6 張 SVG;既有硬體/導航文件的 ASCII 概念圖批次升級 SVG;README 重編(加全書地圖、補回漏索引的資安三篇) | 🔄 進行中 |
 | **R10** | VLM & LLM + 本地 AI 硬體 | `55-vlm-llm/llm-vlm-for-robots.md`(LLM/VLM/VLA 第一性原理)、`local-llm-on-nvidia-gb10.md`(FLOP 量級+記憶體頻寬 bound+量化+GB10/DGX Spark 官方規格查證+本地部署)+ 7 張第一性原理 SVG;經專家(技術正確性)+ 學生(可讀性)審查並修補(FP4→FP16 換算修正、prefill/batching/KV cache 限定、補 self-attention QKV 圖等) | ✅ 完成 |
 
 > 輪次可調整;新需求隨時插入。已寫好的檔不重做,只增修。

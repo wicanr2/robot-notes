@@ -75,8 +75,8 @@ Nav2 用**行為樹(Behavior Tree)**編排整個流程:規劃 → 跟隨 → 卡
 
 ### 實作與量測:接進 RMF 車隊之後
 
-季享 Open-RMF 先期研究把 Nav2 接成 RMF 的一個車隊(跨樓層換圖、進出電梯轎廂),
-組態怎麼調、為什麼那樣調、量到什麼,在該 repo 的 `docs/knowledge/nav2-operations.md`。
+一項 Open-RMF 先期研究把 Nav2 接成 RMF 的一個車隊(跨樓層換圖、進出電梯轎廂),
+組態怎麼調、為什麼那樣調、量到什麼,記錄在另一份未公開的操作筆記。
 幾件純概念層看不出來的事:
 
 - `bt_navigator.default_server_timeout` 預設 **20 ms**,在容器裡會讓行為樹在路徑還沒開始

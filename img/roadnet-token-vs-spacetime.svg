@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="bo" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="bk" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#1F2937"/></marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">衝突偵測的兩種座標:只看空間,還是連時間一起看</text>
+
+  <!-- ================= LEFT ================= -->
+  <rect x="20" y="48" width="410" height="300" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="225" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">純空間:滾動視窗佔用</text>
+  <text x="225" y="92" text-anchor="middle" font-size="11.5" fill="#6B7280">只問「這塊地現在誰佔著」,時間靠視窗往前滾動隱含進去</text>
+
+  <!-- snapshot 1 -->
+  <text x="40" y="122" font-size="12" font-weight="700" fill="#475569">t = 0</text>
+  <rect x="86" y="106" width="326" height="40" fill="#ffffff" stroke="#CBD5E1"/>
+  <rect x="120" y="108" width="96" height="36" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <rect x="92" y="114" width="30" height="24" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="107" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">A</text>
+  <text x="168" y="131" text-anchor="middle" font-size="10.5" fill="#9A3412">A 的預約窗</text>
+  <rect x="330" y="114" width="30" height="24" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="345" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">B</text>
+
+  <!-- snapshot 2 -->
+  <text x="40" y="182" font-size="12" font-weight="700" fill="#475569">t = 1</text>
+  <rect x="86" y="166" width="326" height="40" fill="#ffffff" stroke="#CBD5E1"/>
+  <rect x="188" y="168" width="96" height="36" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <rect x="160" y="174" width="30" height="24" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="175" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">A</text>
+  <rect x="272" y="168" width="52" height="36" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="294" y="174" width="30" height="24" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="309" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">B</text>
+  <text x="348" y="190" font-size="11" font-weight="700" fill="#B91C1C">B 停</text>
+  <text x="290" y="222" text-anchor="middle" font-size="11" fill="#B91C1C">B 想要的窗與 A 的窗重疊 → 停</text>
+
+  <rect x="40" y="240" width="370" height="94" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.3"/>
+  <text x="56" y="262" font-size="12.5" font-weight="700" fill="#9A3412">視窗長度 = 制動距離 + 延遲位移 + 車身 + 餘裕</text>
+  <text x="56" y="284" font-size="12" fill="#1F2937">車走到哪,窗就往前推到哪 —— 時間不進模型</text>
+  <text x="56" y="306" font-size="12" fill="#065F46">✓ 對 ETA 誤差完全不敏感(人擋路、打滑、載重都不影響判斷)</text>
+  <text x="56" y="326" font-size="12" fill="#B91C1C">✗ 局部貪心,拿不到全域最優;窗鎖住的路無法給別人用</text>
+
+  <!-- ================= RIGHT ================= -->
+  <rect x="450" y="48" width="410" height="300" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="655" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">時空:軌跡協商</text>
+  <text x="655" y="92" text-anchor="middle" font-size="11.5" fill="#6B7280">每台車發布帶時間戳的行程,衝突 = 兩條軌跡在時空中相交</text>
+
+  <!-- axes -->
+  <line x1="510" y1="112" x2="510" y2="300" stroke="#1F2937" stroke-width="1.6" marker-end="url(#bk)"/>
+  <line x1="510" y1="112" x2="826" y2="112" stroke="#1F2937" stroke-width="1.6" marker-end="url(#bk)"/>
+  <text x="836" y="116" font-size="11.5" fill="#1F2937">位置</text>
+  <text x="486" y="306" font-size="11.5" fill="#1F2937">時間</text>
+
+  <!-- junction band -->
+  <rect x="646" y="112" width="48" height="188" fill="#FEF3C7" opacity="0.75"/>
+  <text x="670" y="128" text-anchor="middle" font-size="10.5" fill="#92400E">路口</text>
+
+  <!-- A trajectory -->
+  <line x1="516" y1="136" x2="812" y2="196" stroke="#3B82F6" stroke-width="3"/>
+  <circle cx="670" cy="167" r="5" fill="#3B82F6"/>
+  <text x="822" y="200" font-size="11.5" font-weight="700" fill="#1E3A8A">A</text>
+  <text x="528" y="128" font-size="10.5" fill="#1E3A8A">A 於 t≈3 通過</text>
+
+  <!-- B trajectory (no conflict) -->
+  <line x1="516" y1="216" x2="812" y2="284" stroke="#10B981" stroke-width="3"/>
+  <circle cx="670" cy="251" r="5" fill="#10B981"/>
+  <text x="822" y="288" font-size="11.5" font-weight="700" fill="#065F46">B</text>
+  <text x="528" y="286" font-size="10.5" fill="#065F46">B 於 t≈9 通過 → 不衝突</text>
+
+  <!-- B' conflicting alternative -->
+  <line x1="516" y1="140" x2="760" y2="196" stroke="#EF4444" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <circle cx="670" cy="176" r="7" fill="none" stroke="#EF4444" stroke-width="2.4"/>
+  <line x1="700" y1="224" x2="678" y2="186" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="694" y="238" font-size="10.5" fill="#B91C1C">B′ 若改走這條 → 同時同地</text>
+
+  <rect x="470" y="316" width="370" height="0" fill="none"/>
+
+  <!-- bottom compare -->
+  <rect x="20" y="358" width="840" height="50" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="38" y="380" font-size="12.5" font-weight="700" fill="#1E3A8A">分水嶺就是 ETA 可不可信:</text>
+  <text x="228" y="380" font-size="12.5" fill="#1F2937">時空模型更精確、更能榨吞吐,但它假設「錯開 6 秒」這張支票兌得了現。</text>
+  <text x="38" y="400" font-size="12.5" fill="#1F2937">室內場域的 ETA 誤差來源(人擋路、地面打滑、載重改變加速度、電梯等待)全都在 → 誤差越大,滾動視窗越穩健;誤差越小,時空協商優勢越大。</text>
+</svg>

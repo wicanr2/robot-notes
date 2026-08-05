@@ -43,6 +43,21 @@
 
 > 命名約定:散文一律寫 **Open-RMF**(官方品牌);套件名 / repo / apt 套件保留 `open-rmf` 原文。
 
+## 路網與交管
+- 拓樸路網(Topological graph)— 人為在地圖上畫的節點 + 有向邊,車只准沿邊走;多車場域的主流空間表示。
+- 自由空間(Free space)— 以佔據柵格描述可走區域,車可走任何未被佔據的格子(Nav2 costmap 的模型)。
+- 道路級路網(road_cfg)— 疊在節點路網之上的粗圖(交叉口 junction + 道路多邊形 road),專供快速估距用。
+- 前導線(Leadline)— 車沿路徑往前預約的距離 = 制動距離 + 延遲位移 + 車身長度 + 餘裕;純空間交管的核心參數。
+- 滾動視窗佔用 — 只預約前方一小段、隨車前進往前推的空間預約法;不預測時間,故對 ETA 誤差不敏感。
+- 時空排程(Spacetime scheduling)— 以「帶時間戳的軌跡」定義佔用,衝突 = 兩條軌跡在時空中相交(rmf_traffic 的模型)。
+- Token(佔用權)— 一塊空間的通行權憑證。**動態 token** 由兩車路徑交疊自動產生;**固定 token** 是人工劃定的會車區,帶入場名額。
+- 掃掠面積(Swept area)— 車體輪廓沿整條路徑掃過的區域;交管的碰撞判斷對象。
+- 車體 mask — 柵格化的車體輪廓圖;空車與載貨(叉車)需分別建立。
+- 對頂死鎖(Pairwise deadlock)— 兩車面對面,雙方都必須進入對方要用的空間才能通過。
+- 環形鎖(Chain lock)— A 等 B、B 等 C、C 等 A 的等待環;在**等待圖(wait-for graph)** 上做 DFS 找環偵測。
+- 迴避點(Avoid spot)— 供讓路車暫停的預先佈設點位;容量不足時死鎖偵測會無出口。
+- MAPF — Multi-Agent Path Finding,一次為全體車輛規劃互不衝突路徑的集中式方法。
+
 ## 調度
 - Open-RMF — 開源多機隊調度框架(Open Robotics Middleware Framework)。
 - VDA5050 — AGV/AMR 與上位調度系統之間的標準通訊協定。

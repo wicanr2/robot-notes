@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ao" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="ak" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#1F2937"/></marker>
+    <marker id="ak2" markerWidth="9" markerHeight="9" refX="1" refY="3.5" orient="auto"><path d="M7,0 L0,3.5 L7,7 Z" fill="#1F2937"/></marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">前導線:往前預約多遠,可以推出來</text>
+  <text x="440" y="52" text-anchor="middle" font-size="12.5" fill="#6B7280">從「車在什麼時候真的停下來」逆推 —— 決定要停之後,車還會多走這四段</text>
+
+  <!-- road -->
+  <rect x="40" y="96" width="800" height="72" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <line x1="40" y1="132" x2="840" y2="132" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="10 8"/>
+
+  <!-- vehicle -->
+  <rect x="56" y="110" width="72" height="44" rx="6" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <circle cx="74" cy="158" r="6" fill="#475569"/><circle cx="112" cy="158" r="6" fill="#475569"/>
+  <circle cx="92" cy="132" r="4" fill="#3B82F6"/>
+  <text x="92" y="104" text-anchor="middle" font-size="10.5" fill="#1E3A8A">base_link</text>
+  <text x="150" y="120" font-size="11.5" fill="#1E3A8A">速度 v</text>
+  <line x1="132" y1="132" x2="176" y2="132" stroke="#3B82F6" stroke-width="2.4" marker-end="url(#ao)"/>
+
+  <!-- segments bar -->
+  <rect x="128" y="186" width="90"  height="34" rx="5" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <rect x="218" y="186" width="150" height="34" rx="5" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <rect x="368" y="186" width="230" height="34" rx="5" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <rect x="598" y="186" width="110" height="34" rx="5" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="173" y="208" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">① 車身</text>
+  <text x="293" y="208" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">② 延遲位移</text>
+  <text x="483" y="208" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">③ 制動距離</text>
+  <text x="653" y="208" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">④ 餘裕</text>
+
+  <!-- total bracket -->
+  <line x1="128" y1="238" x2="708" y2="238" stroke="#1F2937" stroke-width="1.6" marker-start="url(#ak2)" marker-end="url(#ak)"/>
+  <rect x="330" y="226" width="176" height="24" rx="5" fill="#ffffff"/>
+  <text x="418" y="244" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">前導線 D_lead</text>
+
+  <!-- explanation rows -->
+  <text x="40" y="284" font-size="12.5" font-weight="700" fill="#1E3A8A">①</text>
+  <text x="60" y="284" font-size="12.5" fill="#1F2937">車身長度 L_head　　路徑點描述的是參考點,撞到東西的是車頭(叉車還要加貨叉外伸)</text>
+  <text x="40" y="306" font-size="12.5" font-weight="700" fill="#991B1B">②</text>
+  <text x="60" y="306" font-size="12.5" fill="#1F2937">延遲位移 = v · (2τ + t_p)　　位置是上一次回報的,指令送到車上也要時間</text>
+  <text x="40" y="328" font-size="12.5" font-weight="700" fill="#9A3412">③</text>
+  <text x="60" y="328" font-size="12.5" fill="#1F2937">制動距離 = v² / (2a)　　動能 ½mv² 全部轉成制動功 m·a·d</text>
+  <text x="40" y="350" font-size="12.5" font-weight="700" fill="#065F46">④</text>
+  <text x="60" y="350" font-size="12.5" fill="#1F2937">安全餘裕 b　　定位誤差 + 路網與現場的偏差 + 模型誤差</text>
+
+  <!-- warning box -->
+  <rect x="40" y="362" width="800" height="30" rx="7" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.3"/>
+  <text x="54" y="382" font-size="12.5" fill="#991B1B"><tspan font-weight="700">常見地雷:</tspan>寫死成 0.5·v² 等於偷偷假設 a = 1 m/s²。換成減速度 0.5 m/s² 的重載叉車,制動距離差一倍,而公式看起來完全正常。</text>
+</svg>

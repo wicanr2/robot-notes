@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="do" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">路網不是先畫好再套車,是被車的運動學與作業型態逼出來的</text>
+
+  <!-- ============ col 1: forklift ============ -->
+  <rect x="20" y="50" width="272" height="336" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="156" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#991B1B">叉車 / 堆高機</text>
+
+  <!-- icon: forklift top view with turning arc -->
+  <g>
+    <rect x="114" y="96" width="10" height="14" fill="#991B1B"/>
+    <rect x="140" y="96" width="10" height="14" fill="#991B1B"/>
+    <rect x="106" y="110" width="52" height="58" rx="6" fill="#ffffff" stroke="#991B1B" stroke-width="2"/>
+    <circle cx="132" cy="162" r="6" fill="#991B1B"/>
+    <text x="104" y="107" text-anchor="end" font-size="10.5" fill="#991B1B">貨叉外伸</text>
+    <path d="M162,150 A 60 60 0 0 1 208 182" fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#do)"/>
+    <text x="214" y="138" text-anchor="middle" font-size="10.5" fill="#9A3412">最小轉彎半徑</text>
+  </g>
+
+  <text x="38" y="196" font-size="12.5" font-weight="700" fill="#991B1B">物理事實</text>
+  <text x="38" y="216" font-size="11.5" fill="#1F2937">· 舵輪轉向,不能原地旋轉</text>
+  <text x="38" y="234" font-size="11.5" fill="#1F2937">· 進出儲位常要倒車,姿態 ±2cm</text>
+  <text x="38" y="252" font-size="11.5" fill="#1F2937">· 載貨後外形與減速度都改變</text>
+  <text x="38" y="270" font-size="11.5" fill="#1F2937">· 貨架巷道多為死路</text>
+
+  <line x1="38" y1="284" x2="274" y2="284" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="38" y="304" font-size="12.5" font-weight="700" fill="#9A3412">對路網的後果</text>
+  <text x="38" y="324" font-size="11.5" fill="#1F2937">· 邊必須是車走得出來的曲線</text>
+  <text x="38" y="342" font-size="11.5" fill="#1F2937">· 儲位 = 進入點+觀察點+進出邊</text>
+  <text x="38" y="360" font-size="11.5" fill="#1F2937">· 空車/載貨要兩套 mask 與參數</text>
+  <text x="38" y="378" font-size="11.5" fill="#B91C1C">· 必須有「死路堵死」專門判斷</text>
+
+  <!-- ============ col 2: transport ============ -->
+  <rect x="304" y="50" width="272" height="336" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="440" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#065F46">搬運車 / 潛伏頂升</text>
+
+  <g>
+    <rect x="404" y="100" width="72" height="56" rx="8" fill="#ffffff" stroke="#065F46" stroke-width="2"/>
+    <rect x="398" y="112" width="10" height="32" rx="2" fill="#065F46"/>
+    <rect x="472" y="112" width="10" height="32" rx="2" fill="#065F46"/>
+    <circle cx="440" cy="128" r="4" fill="#10B981"/>
+    <path d="M468,80 A 56 56 0 1 1 387,109" fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#do)"/>
+    <text x="566" y="92" text-anchor="end" font-size="10.5" fill="#9A3412">可原地旋轉</text>
+  </g>
+
+  <text x="322" y="196" font-size="12.5" font-weight="700" fill="#065F46">物理事實</text>
+  <text x="322" y="216" font-size="11.5" fill="#1F2937">· 差速底盤,原地轉即可換向</text>
+  <text x="322" y="234" font-size="11.5" fill="#1F2937">· 外形固定,載具不超出車體投影</text>
+  <text x="322" y="252" font-size="11.5" fill="#1F2937">· 常以數十台在同一層作業</text>
+
+  <line x1="322" y1="284" x2="558" y2="284" stroke="#6EE7B7" stroke-width="1"/>
+  <text x="322" y="304" font-size="12.5" font-weight="700" fill="#065F46">對路網的後果</text>
+  <text x="322" y="324" font-size="11.5" fill="#1F2937">· 節點可佈得密、路口可以小</text>
+  <text x="322" y="342" font-size="11.5" fill="#1F2937">· 碰撞判斷只需一套 mask</text>
+  <text x="322" y="360" font-size="11.5" fill="#B91C1C">· 真正的設計變數是單位面積車數</text>
+  <text x="322" y="378" font-size="11.5" fill="#1F2937">· 密度上去 → 連鎖等待才是瓶頸</text>
+
+  <!-- ============ col 3: delivery ============ -->
+  <rect x="588" y="50" width="272" height="336" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="724" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#1E3A8A">送貨 / 送餐機器人</text>
+
+  <g>
+    <rect x="700" y="96" width="48" height="62" rx="10" fill="#ffffff" stroke="#1E3A8A" stroke-width="2"/>
+    <circle cx="724" cy="118" r="7" fill="#3B82F6"/>
+    <path d="M676,166 C 690,140 700,182 714,166" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <circle cx="668" cy="120" r="9" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+    <text x="668" y="146" text-anchor="middle" font-size="10" fill="#92400E">人</text>
+    <rect x="778" y="96" width="34" height="62" rx="4" fill="#F1F5F9" stroke="#64748B" stroke-width="1.6"/>
+    <line x1="795" y1="96" x2="795" y2="158" stroke="#64748B" stroke-width="1.2"/>
+    <text x="795" y="172" text-anchor="middle" font-size="10" fill="#475569">電梯</text>
+  </g>
+
+  <text x="606" y="196" font-size="12.5" font-weight="700" fill="#1E3A8A">物理事實</text>
+  <text x="606" y="216" font-size="11.5" fill="#1F2937">· 運動學約束低,外形不變</text>
+  <text x="606" y="234" font-size="11.5" fill="#B91C1C">· 人流混雜,環境最不受控</text>
+  <text x="606" y="252" font-size="11.5" fill="#1F2937">· 跨樓層常見,電梯是共享資源</text>
+
+  <line x1="606" y1="284" x2="842" y2="284" stroke="#93C5FD" stroke-width="1"/>
+  <text x="606" y="304" font-size="12.5" font-weight="700" fill="#1E3A8A">對路網的後果</text>
+  <text x="606" y="324" font-size="11.5" fill="#1F2937">· 路網本身可以很簡單</text>
+  <text x="606" y="342" font-size="11.5" fill="#B91C1C">· 必須保留局部自由空間繞人</text>
+  <text x="606" y="360" font-size="11.5" fill="#1F2937">· 交管管不到人 → 不能純路網跟隨</text>
+  <text x="606" y="378" font-size="11.5" fill="#1F2937">· 電梯要當獨佔資源另外預約</text>
+
+  <!-- bottom -->
+  <rect x="20" y="398" width="840" height="34" rx="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+  <text x="38" y="420" font-size="12.5" fill="#1F2937"><tspan font-weight="700">三者共用同一套原理,但參數與路網結構不能共用。</tspan>叉車的路網最貴,搬運車的挑戰在密度,送貨機器人的挑戰在不受控的人流與電梯。</text>
+</svg>

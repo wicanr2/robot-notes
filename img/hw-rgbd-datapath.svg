@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="rd-a" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="rd-g" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="820" height="440" fill="#ffffff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">深度相機模組內部資料流(以結構光 / 主動雙目為例)</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11.5" fill="#6B7280">IR 與 RGB 各走各的路:IR 兩眼比對視差後送進 ASIC 算深度,RGB 不經 ASIC 直接輸出</text>
+
+  <!-- module face -->
+  <text x="410" y="72" text-anchor="middle" font-size="10.5" fill="#6B7280">相機模組正面(實體元件)</text>
+  <rect x="60" y="80" width="700" height="66" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+
+  <rect x="80" y="90" width="150" height="46" rx="6" fill="#374151"/>
+  <text x="155" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">IR 投射器</text>
+
+  <rect x="250" y="90" width="150" height="46" rx="6" fill="#374151"/>
+  <text x="325" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">IR 相機 L</text>
+
+  <rect x="420" y="90" width="150" height="46" rx="6" fill="#374151"/>
+  <text x="495" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">IR 相機 R</text>
+
+  <rect x="590" y="90" width="150" height="46" rx="6" fill="#374151"/>
+  <text x="665" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">RGB 相機</text>
+
+  <!-- IR projector path -->
+  <path d="M155,146 L155,244 L380,244" fill="none" stroke="#6B7280" stroke-width="2"/>
+  <text x="163" y="179" font-size="10" fill="#6B7280">打出紅外</text>
+  <text x="163" y="194" font-size="10" fill="#6B7280">點陣圖案</text>
+
+  <!-- IR L/R converge into disparity box -->
+  <line x1="325" y1="136" x2="325" y2="174" stroke="#374151" stroke-width="2"/>
+  <line x1="495" y1="136" x2="495" y2="174" stroke="#374151" stroke-width="2"/>
+  <path d="M325,174 L495,174" fill="none" stroke="#374151" stroke-width="2"/>
+  <line x1="410" y1="174" x2="410" y2="178" stroke="#374151" stroke-width="2"/>
+
+  <rect x="330" y="178" width="160" height="34" rx="6" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="410" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">比對左右視差(或圖案變形)</text>
+
+  <path d="M410,212 L410,244 L380,244" fill="none" stroke="#374151" stroke-width="2"/>
+
+  <!-- both converge into ASIC -->
+  <line x1="380" y1="244" x2="380" y2="268" stroke="#F97316" stroke-width="2.6" marker-end="url(#rd-a)"/>
+
+  <rect x="280" y="272" width="200" height="60" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="2.2"/>
+  <text x="380" y="300" text-anchor="middle" font-size="14" font-weight="700" fill="#9A3412">深度運算 ASIC</text>
+  <text x="380" y="318" text-anchor="middle" font-size="10" fill="#6B7280">(視差 → 每像素距離值)</text>
+
+  <!-- ASIC -> depth output -->
+  <line x1="380" y1="332" x2="380" y2="374" stroke="#EF4444" stroke-width="2.6" marker-end="url(#rd-a)"/>
+  <rect x="285" y="378" width="190" height="50" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="380" y="400" text-anchor="middle" font-size="14" font-weight="700" fill="#991B1B">② 深度圖</text>
+  <text x="380" y="418" text-anchor="middle" font-size="10" fill="#6B7280">(給避障)</text>
+
+  <!-- ASIC -> raw IR (optional, dashed) -->
+  <path d="M480,290 L522,290 L522,382" fill="none" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#rd-g)"/>
+  <rect x="480" y="382" width="85" height="44" rx="6" fill="none" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="522" y="400" text-anchor="middle" font-size="9.5" fill="#6B7280">③ 原始IR圖</text>
+  <text x="522" y="415" text-anchor="middle" font-size="9" fill="#9CA3AF">(部分型號)</text>
+
+  <!-- RGB straight through -->
+  <line x1="665" y1="136" x2="665" y2="374" stroke="#3B82F6" stroke-width="2.6" marker-end="url(#rd-a)"/>
+  <rect x="570" y="378" width="190" height="50" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="665" y="400" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A8A">① RGB 影像</text>
+  <text x="665" y="418" text-anchor="middle" font-size="10" fill="#6B7280">(給人看 / AI 辨識)</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="pc-a" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="900" height="330" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">馬達驅動硬體鏈:從指令到轉動</text>
+  <text x="450" y="50" text-anchor="middle" font-size="12" fill="#6B7280">§9.1 硬體鏈 + §12.5「大腦 / 神經肌腱 / 肌肉」三層分工,合成一張</text>
+
+  <!-- Box 1: MCU -->
+  <rect x="22" y="92" width="195" height="130" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="119" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A8A">MCU / 控制晶片</text>
+  <text x="119" y="145" text-anchor="middle" font-size="11.5" fill="#1F2937">算 PWM</text>
+  <text x="119" y="163" text-anchor="middle" font-size="11.5" fill="#1F2937">決定何時開哪顆、</text>
+  <text x="119" y="179" text-anchor="middle" font-size="11.5" fill="#1F2937">開多久</text>
+
+  <!-- Box 2: gate driver -->
+  <rect x="242" y="92" width="195" height="130" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="339" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#9A3412">閘極驅動器</text>
+  <text x="339" y="145" text-anchor="middle" font-size="11.5" fill="#1F2937">電平轉換 + 放大</text>
+  <text x="339" y="163" text-anchor="middle" font-size="11.5" fill="#1F2937">+ 自舉(bootstrap)</text>
+  <text x="339" y="179" text-anchor="middle" font-size="11.5" fill="#1F2937">→ 推動 MOSFET Gate</text>
+
+  <!-- Box 3: power bridge -->
+  <rect x="462" y="92" width="195" height="130" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="559" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#991B1B">功率橋(6 顆 MOSFET)</text>
+  <text x="559" y="145" text-anchor="middle" font-size="11.5" fill="#1F2937">真正開關大電流</text>
+  <text x="559" y="163" text-anchor="middle" font-size="11.5" fill="#1F2937">把電池 24V 切成</text>
+  <text x="559" y="179" text-anchor="middle" font-size="11.5" fill="#1F2937">三相 PWM 波形</text>
+
+  <!-- Box 4: coils -> motor -->
+  <rect x="682" y="92" width="196" height="130" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="780" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">三相線圈 → 馬達轉</text>
+  <text x="780" y="145" text-anchor="middle" font-size="11.5" fill="#1F2937">線圈通電產生磁場</text>
+  <text x="780" y="163" text-anchor="middle" font-size="11.5" fill="#1F2937">推動轉子追著磁場</text>
+  <text x="780" y="179" text-anchor="middle" font-size="11.5" fill="#1F2937">轉動</text>
+
+  <!-- arrows -->
+  <line x1="217" y1="157" x2="240" y2="157" stroke="#F97316" stroke-width="2.4" marker-end="url(#pc-a)"/>
+  <line x1="437" y1="157" x2="460" y2="157" stroke="#F97316" stroke-width="2.4" marker-end="url(#pc-a)"/>
+  <line x1="657" y1="157" x2="680" y2="157" stroke="#F97316" stroke-width="2.4" marker-end="url(#pc-a)"/>
+
+  <!-- arrow captions -->
+  <text x="228.5" y="150" text-anchor="middle" font-size="9.5" fill="#9A3412">3.3V PWM</text>
+  <text x="448.5" y="150" text-anchor="middle" font-size="9.5" fill="#9A3412">Gate 訊號</text>
+  <text x="668.5" y="150" text-anchor="middle" font-size="9.5" fill="#9A3412">三相電流</text>
+
+  <!-- metaphor pills -->
+  <rect x="79" y="236" width="80" height="26" rx="13" fill="#DBEAFE" stroke="#3B82F6"/>
+  <text x="119" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">「大腦」</text>
+
+  <rect x="289" y="236" width="100" height="26" rx="13" fill="#FFEDD5" stroke="#F97316"/>
+  <text x="339" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">「神經+肌腱」</text>
+
+  <rect x="519" y="236" width="80" height="26" rx="13" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="559" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">「肌肉」</text>
+
+  <rect x="730" y="236" width="100" height="26" rx="13" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="780" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">運動輸出</text>
+
+  <text x="450" y="300" text-anchor="middle" font-size="11.5" fill="#374151">同一條鏈,兩種讀法:硬體上是「MCU→閘極驅動器→功率橋→線圈」,角色上是「大腦→神經肌腱→肌肉」</text>
+</svg>

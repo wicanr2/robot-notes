@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 450" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="dt-f" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+    <marker id="dt-b" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#475569"/></marker>
+    <marker id="dt-o" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="780" height="450" fill="#ffffff"/>
+  <text x="390" y="22" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2937">送餐任務資料流:一次「送到 5 號桌」的上下位機協作</text>
+  <text x="390" y="39" text-anchor="middle" font-size="11.5" fill="#6B7280">③~⑥ 每個控制週期反覆執行,直到抵達桌位</text>
+
+  <!-- lane headers -->
+  <rect x="20" y="50" width="180" height="34" rx="7" fill="#F5F3FF" stroke="#8B5CF6"/><text x="110" y="71" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5B21B6">點餐系統 / 應用層</text>
+  <rect x="310" y="50" width="180" height="34" rx="7" fill="#EFF6FF" stroke="#3B82F6"/><text x="400" y="71" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">上位機(想)</text>
+  <rect x="580" y="50" width="180" height="34" rx="7" fill="#FEF2F2" stroke="#EF4444"/><text x="670" y="71" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">下位機(動)</text>
+
+  <!-- lifelines -->
+  <g stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3 4">
+    <line x1="110" y1="84" x2="110" y2="430"/>
+    <line x1="400" y1="84" x2="400" y2="430"/>
+    <line x1="670" y1="84" x2="670" y2="430"/>
+  </g>
+
+  <!-- step 1: App -> 高 -->
+  <text x="255" y="104" text-anchor="middle" font-size="10.5" fill="#1F2937">① 任務:「送到 5 號桌」</text>
+  <line x1="110" y1="110" x2="398" y2="110" stroke="#374151" stroke-width="1.6" marker-end="url(#dt-f)"/>
+
+  <!-- step 2: 高 self -->
+  <rect x="290" y="122" width="220" height="40" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="400" y="138" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E40AF">② 查桌位座標</text>
+  <text x="400" y="154" text-anchor="middle" font-size="10.5" fill="#1E40AF">→ Nav2 規劃路徑</text>
+
+  <!-- step 3: 高 -> 低 -->
+  <text x="535" y="182" text-anchor="middle" font-size="10" fill="#1F2937">③ 下發速度指令 (v, ω)・每 20–50ms</text>
+  <line x1="400" y1="188" x2="668" y2="188" stroke="#374151" stroke-width="1.6" marker-end="url(#dt-f)"/>
+
+  <!-- step 4: 低 self -->
+  <rect x="558" y="200" width="212" height="44" rx="7" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="664" y="217" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">④ 速度指令 → 左右輪轉速</text>
+  <text x="664" y="233" text-anchor="middle" font-size="10.5" fill="#991B1B">→ 閉迴路控制馬達</text>
+
+  <!-- step 5: 低 -> 高 -->
+  <text x="535" y="262" text-anchor="middle" font-size="10" fill="#1F2937">⑤ 回報 encoder odometry + IMU・每 10–20ms</text>
+  <line x1="670" y1="268" x2="402" y2="268" stroke="#475569" stroke-width="1.6" marker-end="url(#dt-b)"/>
+
+  <!-- step 6: 高 self -->
+  <rect x="285" y="280" width="230" height="44" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="400" y="297" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E40AF">⑥ odometry + LiDAR → 定位修正</text>
+  <text x="400" y="313" text-anchor="middle" font-size="10.5" fill="#1E40AF">→ 持續修正路徑</text>
+
+  <!-- loop back ③~⑥ (routed left of 高 lifeline to avoid crossing step ⑤ label) -->
+  <path d="M285,302 L250,302 L250,178 L398,178" fill="none" stroke="#F97316" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#dt-o)"/>
+  <text x="258" y="222" font-size="9.5" fill="#9A3412">反覆③~⑥,</text>
+  <text x="258" y="236" font-size="9.5" fill="#9A3412">直到抵達桌位</text>
+
+  <!-- step 7: 高 -> App -->
+  <text x="255" y="348" text-anchor="middle" font-size="10.5" fill="#1F2937">⑦ 到點</text>
+  <line x1="400" y1="354" x2="112" y2="354" stroke="#475569" stroke-width="1.6" marker-end="url(#dt-b)"/>
+
+  <!-- step 8: App self -->
+  <rect x="10" y="366" width="200" height="46" rx="7" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <text x="110" y="384" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5B21B6">⑧ 語音提示取餐 →</text>
+  <text x="110" y="400" text-anchor="middle" font-size="10.5" fill="#5B21B6">托盤感測確認 → 返航</text>
+
+  <text x="390" y="432" text-anchor="middle" font-size="10" fill="#6B7280">上位機負責「想」(規劃/定位修正);下位機負責「動」(馬達閉迴路);應用層收頭尾</text>
+</svg>

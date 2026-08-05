@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 515" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="qf" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/></marker>
+    <marker id="qr" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="600" height="515" fill="#ffffff"/>
+  <text x="300" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">A/B 四態循環:每換一格 = 1 count(×4 解碼)</text>
+
+  <!-- forward (outer) arcs: trimmed 20 deg from each node so the arrowhead
+       lands in the open gap instead of being hidden under the node circle -->
+  <g fill="none" stroke="#3B82F6" stroke-width="2.6">
+    <path d="M351.3,109.1 A150,150 0 0 1 441.0,198.7" marker-end="url(#qf)"/>
+    <path d="M441.0,301.3 A150,150 0 0 1 351.3,391.0" marker-end="url(#qf)"/>
+    <path d="M248.7,391.0 A150,150 0 0 1 159.0,301.3" marker-end="url(#qf)"/>
+    <path d="M159.0,198.7 A150,150 0 0 1 248.7,109.1" marker-end="url(#qf)"/>
+  </g>
+
+  <!-- reverse (inner) arcs -->
+  <g fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="7 5">
+    <path d="M300,160 A90,90 0 0 0 210,250" marker-end="url(#qr)"/>
+    <path d="M210,250 A90,90 0 0 0 300,340" marker-end="url(#qr)"/>
+    <path d="M300,340 A90,90 0 0 0 390,250" marker-end="url(#qr)"/>
+    <path d="M390,250 A90,90 0 0 0 300,160" marker-end="url(#qr)"/>
+  </g>
+
+  <!-- center label -->
+  <text x="300" y="230" text-anchor="middle" font-size="11.5" fill="#374151">每換一格(edge)</text>
+  <text x="300" y="249" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F2937">= 1 count</text>
+  <line x1="268" y1="261" x2="332" y2="261" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="300" y="278" text-anchor="middle" font-size="11" fill="#374151">1024 縫/圈 × 4</text>
+  <text x="300" y="295" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">= 4096 counts/圈</text>
+
+  <!-- state nodes -->
+  <g>
+    <circle cx="300" cy="100" r="42" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+    <text x="300" y="97" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">00</text>
+    <text x="300" y="114" text-anchor="middle" font-size="9.5" fill="#1E3A8A">A=0,B=0</text>
+  </g>
+  <g>
+    <circle cx="450" cy="250" r="42" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+    <text x="450" y="247" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">10</text>
+    <text x="450" y="264" text-anchor="middle" font-size="9.5" fill="#1E3A8A">A=1,B=0</text>
+  </g>
+  <g>
+    <circle cx="300" cy="400" r="42" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+    <text x="300" y="397" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">11</text>
+    <text x="300" y="414" text-anchor="middle" font-size="9.5" fill="#1E3A8A">A=1,B=1</text>
+  </g>
+  <g>
+    <circle cx="150" cy="250" r="42" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+    <text x="150" y="247" text-anchor="middle" font-size="17" font-weight="700" fill="#1E3A8A">01</text>
+    <text x="150" y="264" text-anchor="middle" font-size="9.5" fill="#1E3A8A">A=0,B=1</text>
+  </g>
+
+  <!-- legend -->
+  <line x1="174" y1="460" x2="199" y2="460" stroke="#3B82F6" stroke-width="3"/>
+  <text x="207" y="464" font-size="12" fill="#1E3A8A">正轉:00→10→11→01→00(順時針,外圈)</text>
+  <line x1="174" y1="484" x2="199" y2="484" stroke="#F97316" stroke-width="3" stroke-dasharray="5 3"/>
+  <text x="207" y="488" font-size="12" fill="#9A3412">反轉:00→01→11→10→00(逆時針,內圈)</text>
+</svg>

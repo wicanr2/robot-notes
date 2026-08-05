@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="ec-r" markerWidth="12" markerHeight="12" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/></marker>
+    <marker id="ec-g" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="860" height="430" fill="#ffffff"/>
+  <text x="430" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">急停鏈:安全路徑不經過任何 CPU</text>
+  <text x="430" y="48" text-anchor="middle" font-size="11.5" fill="#6B7280">急停按鈕(常閉 NC)硬接線直達驅動器 STO,即使 STM32 當機也切得斷馬達動力</text>
+
+  <text x="480" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">① 硬體安全路徑(紅線,全程硬接線):不經過任何 CPU / 軟體</text>
+
+  <!-- E-stop button -->
+  <circle cx="110" cy="125" r="50" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
+  <circle cx="110" cy="125" r="35" fill="#EF4444"/>
+  <text x="110" y="131" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">急停</text>
+  <text x="110" y="196" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">常閉(NC)按鈕</text>
+  <text x="110" y="211" text-anchor="middle" font-size="9.5" fill="#6B7280">按下 / 斷線 → 迴路斷開</text>
+
+  <!-- wire to split -->
+  <line x1="160" y1="125" x2="200" y2="125" stroke="#DC2626" stroke-width="4"/>
+  <circle cx="200" cy="125" r="4" fill="#374151"/>
+
+  <!-- red hardwired chain -->
+  <line x1="200" y1="125" x2="248" y2="125" stroke="#DC2626" stroke-width="4" marker-end="url(#ec-r)"/>
+  <rect x="250" y="90" width="170" height="70" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="335" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">驅動器 STO</text>
+  <text x="335" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">/ Enable 腳</text>
+  <text x="335" y="152" text-anchor="middle" font-size="9.5" fill="#6B7280">拉斷 → 封鎖 PWM</text>
+
+  <line x1="420" y1="125" x2="448" y2="125" stroke="#DC2626" stroke-width="4" marker-end="url(#ec-r)"/>
+  <rect x="450" y="90" width="170" height="70" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="535" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">閘極驅動器</text>
+  <text x="535" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">停止輸出 PWM</text>
+  <text x="535" y="152" text-anchor="middle" font-size="9.5" fill="#6B7280">功率級無法導通</text>
+
+  <line x1="620" y1="125" x2="648" y2="125" stroke="#DC2626" stroke-width="4" marker-end="url(#ec-r)"/>
+  <rect x="650" y="90" width="160" height="70" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="730" y="122" text-anchor="middle" font-size="13.5" font-weight="700" fill="#991B1B">馬達</text>
+  <text x="730" y="142" text-anchor="middle" font-size="9.5" fill="#6B7280">瞬間失去動力</text>
+  <text x="730" y="156" text-anchor="middle" font-size="9.5" fill="#6B7280">(freewheel 滑行)</text>
+
+  <!-- gray informational branch down into software box -->
+  <path d="M200,125 L200,246 L285,246 L285,270" fill="none" stroke="#6B7280" stroke-width="1.8" marker-end="url(#ec-g)"/>
+  <text x="212" y="192" font-size="10" fill="#6B7280">② 知會用(僅供軟體記錄 / 上報,</text>
+  <text x="212" y="207" font-size="10" fill="#6B7280">非安全路徑,不影響斷電)</text>
+
+  <!-- dashed software boundary -->
+  <rect x="150" y="230" width="560" height="140" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="8 5"/>
+  <text x="172" y="254" font-size="12" font-weight="700" fill="#374151">軟體 / 韌體範圍(CPU 執行的一切)</text>
+
+  <rect x="190" y="270" width="190" height="60" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="285" y="296" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">STM32 GPIO</text>
+  <text x="285" y="314" text-anchor="middle" font-size="10" fill="#6B7280">僅「知會」用</text>
+
+  <line x1="380" y1="300" x2="428" y2="300" stroke="#94A3B8" stroke-width="2" marker-end="url(#ec-g)"/>
+
+  <rect x="430" y="270" width="190" height="60" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="525" y="296" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">上位機</text>
+  <text x="525" y="314" text-anchor="middle" font-size="10" fill="#6B7280">同步進入急停狀態、上報</text>
+
+  <!-- summary -->
+  <rect x="150" y="386" width="560" height="32" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.4"/>
+  <text x="430" y="407" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">即使 STM32 當機、上位機沒反應,紅色路徑仍能切斷馬達動力——STO 由硬體邏輯直接封鎖閘極</text>
+</svg>

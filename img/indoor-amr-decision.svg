@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="eo" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="eg" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#6B7280"/></marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">兩條決策路徑:關鍵不是車有幾台,是「這些車的介面改不改得動」</text>
+
+  <!-- root question -->
+  <rect x="300" y="50" width="280" height="46" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="440" y="79" text-anchor="middle" font-size="14.5" font-weight="700" fill="#9A3412">車全是自己的(或單一供應商)嗎?</text>
+
+  <line x1="380" y1="96" x2="240" y2="130" stroke="#F97316" stroke-width="2.2" marker-end="url(#eo)"/>
+  <line x1="500" y1="96" x2="640" y2="130" stroke="#F97316" stroke-width="2.2" marker-end="url(#eo)"/>
+  <text x="292" y="116" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">是</text>
+  <text x="592" y="116" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">否(改不動對方)</text>
+
+  <!-- LEFT branch -->
+  <rect x="24" y="140" width="400" height="230" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="224" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">路線 A:拓樸路網 + 滾動視窗集中交管</text>
+  <text x="224" y="188" text-anchor="middle" font-size="11.5" fill="#047857">時空協商的優勢在這裡兌現不了,成本卻要照付</text>
+
+  <rect x="44" y="200" width="360" height="60" rx="8" fill="#ffffff" stroke="#6EE7B7" stroke-width="1.3"/>
+  <text x="58" y="220" font-size="12" font-weight="700" fill="#065F46">為什麼</text>
+  <text x="58" y="238" font-size="11.5" fill="#1F2937">· 車全是自己的 → 時空抽象買到的東西你本來就有</text>
+  <text x="58" y="254" font-size="11.5" fill="#1F2937">· 滾動視窗不預測時間 → 對 ETA 誤差完全不敏感</text>
+
+  <text x="44" y="284" font-size="12.5" font-weight="700" fill="#065F46">按「不做會出事」排的落地順序</text>
+  <text x="44" y="304" font-size="11.5" fill="#1F2937">① 路網表達力(方向性邊、動作分別計價、儲位進出結構)</text>
+  <text x="44" y="322" font-size="11.5" fill="#1F2937">② 前導線參數依車型與載重分開設</text>
+  <text x="44" y="340" font-size="11.5" fill="#1F2937">③ 通訊延遲補償　④ 環形鎖偵測(不能只做兩車對頂)</text>
+  <text x="44" y="358" font-size="11.5" fill="#B91C1C">⑤ 迴避點佈點與容量 —— 最常被低估的一項</text>
+
+  <!-- RIGHT branch -->
+  <rect x="456" y="140" width="400" height="230" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="656" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">路線 B:標準介面 + 協調層</text>
+  <text x="656" y="188" text-anchor="middle" font-size="11.5" fill="#1D4ED8">各家保留自己的現場路網,只把共享的部分交出來</text>
+
+  <rect x="476" y="200" width="360" height="72" rx="8" fill="#ffffff" stroke="#93C5FD" stroke-width="1.3"/>
+  <text x="490" y="220" font-size="11.5" fill="#1F2937"><tspan font-weight="700" fill="#1E3A8A">單車層</tspan>　各廠牌自己:SLAM、定位、局部避障、安全控制器</text>
+  <text x="490" y="240" font-size="11.5" fill="#1F2937"><tspan font-weight="700" fill="#1E3A8A">介面層</tspan>　標準協定 + 圖資交換:訂單、狀態、能力宣告</text>
+  <text x="490" y="260" font-size="11.5" fill="#1F2937"><tspan font-weight="700" fill="#1E3A8A">協調層</tspan>　跨車隊任務分派、共享資源預約與衝突消解</text>
+
+  <text x="476" y="294" font-size="12.5" font-weight="700" fill="#1E3A8A">為什麼混場必須往時空靠</text>
+  <text x="476" y="312" font-size="11.5" fill="#1F2937">純空間佔用需要協調層掌握所有車的精確幾何與即時位姿,</text>
+  <text x="476" y="330" font-size="11.5" fill="#1F2937">而這正是跨廠牌拿不到的。時空只要求對方發布佔用區間 ——</text>
+  <text x="476" y="348" font-size="11.5" fill="#1D4ED8">一個廠牌能夠承諾、也能被驗證的抽象。</text>
+
+  <!-- pragmatic step -->
+  <rect x="456" y="378" width="400" height="46" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <text x="470" y="398" font-size="12" font-weight="700" fill="#9A3412">第一階段先做分區授權</text>
+  <text x="470" y="416" font-size="11.5" fill="#1F2937">專屬區各自管,只有共享空間交出來排隊。吞吐損失換掉一個量級的風險。</text>
+
+  <!-- switch thresholds -->
+  <rect x="24" y="378" width="400" height="46" rx="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+  <text x="38" y="398" font-size="12" font-weight="700" fill="#475569">什麼時候要重新考慮</text>
+  <text x="38" y="416" font-size="11.5" fill="#1F2937">同層超過數十台 → 分區;要接別家車 → 轉路線 B;布局常變 → 加自由空間</text>
+</svg>

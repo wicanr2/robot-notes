@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="lb-o" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+    <marker id="lb-b" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1E3A8A"/></marker>
+    <marker id="lb-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+    <marker id="lb-w" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="820" height="420" fill="#ffffff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2937">地標反推定位:量測 → 幾何反算 → 強制定位</text>
+  <text x="410" y="45" text-anchor="middle" font-size="12" fill="#6B7280">已知地標在地圖哪裡 + 相機量到地標在我的哪裡 → 反推機器人在世界座標的位置</text>
+
+  <!-- map panel -->
+  <rect x="50" y="58" width="720" height="252" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+
+  <!-- world axis indicator -->
+  <circle cx="84" cy="296" r="2.6" fill="#6B7280"/>
+  <line x1="84" y1="296" x2="140" y2="296" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#lb-w)"/>
+  <line x1="84" y1="296" x2="84" y2="244" stroke="#9CA3AF" stroke-width="1.4" marker-end="url(#lb-w)"/>
+  <text x="146" y="300" font-size="10.5" fill="#6B7280">世界 x</text>
+  <text x="66" y="240" font-size="10.5" fill="#6B7280">世界 y</text>
+
+  <!-- landmark M -->
+  <line x1="620" y1="112" x2="562.1" y2="109.0" stroke="#1E3A8A" stroke-width="2.2" marker-end="url(#lb-b)"/>
+  <text x="562" y="98" text-anchor="middle" font-size="10" fill="#1E3A8A">朝向已知</text>
+  <rect x="605" y="97" width="30" height="30" rx="4" fill="#3B82F6" stroke="#1E3A8A" stroke-width="1.5"/>
+  <text x="620" y="117" text-anchor="middle" font-size="14.5" font-weight="700" fill="#ffffff">M</text>
+  <text x="644" y="80" font-size="12" font-weight="700" fill="#1E3A8A">地圖已知:地標 M</text>
+  <text x="644" y="97" font-size="11" fill="#374151">世界座標 (10.0, 5.0)</text>
+
+  <!-- robot -->
+  <line x1="300" y1="275" x2="355.7" y2="224.8" stroke="#059669" stroke-width="2.4" marker-end="url(#lb-g)"/>
+  <circle cx="300" cy="275" r="15" fill="#ECFDF5" stroke="#059669" stroke-width="2.2"/>
+  <text x="276" y="255" text-anchor="end" font-size="12" font-weight="700" fill="#059669">反推得:機器人位姿</text>
+  <text x="276" y="271" text-anchor="end" font-size="11" fill="#374151">(8.0, 4.6)　朝向 27°</text>
+  <text x="276" y="287" text-anchor="end" font-size="9.5" font-style="italic" fill="#9CA3AF">示意圖,角度未按比例</text>
+
+  <!-- line of sight -->
+  <line x1="300" y1="275" x2="620" y2="112" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <rect x="426" y="170" width="52" height="18" fill="#F8FAFC" opacity="0.9"/>
+  <text x="452" y="183" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">2.0 m</text>
+
+  <!-- angle arc at robot: heading vs LOS -->
+  <path d="M 334.2,244.2 A 46 46 0 0 1 341.0,254.1" fill="none" stroke="#F97316" stroke-width="1.8"/>
+  <text x="378" y="221" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">偏右 15°</text>
+
+  <!-- angle arc at M: facing vs LOS-back -->
+  <path d="M 582.6,131.1 A 42 42 0 0 1 578.1,109.8" fill="none" stroke="#F97316" stroke-width="1.8"/>
+  <text x="534" y="134" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">我看它的角度 30°</text>
+
+  <!-- connector to action -->
+  <line x1="420" y1="312" x2="420" y2="338" stroke="#F97316" stroke-width="2.4" marker-end="url(#lb-o)"/>
+
+  <!-- action box -->
+  <rect x="110" y="344" width="600" height="58" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="410" y="367" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">強制定位(離散重設):把反推位姿發到 /initialpose</text>
+  <text x="410" y="387" text-anchor="middle" font-size="11.5" fill="#7C2D12">重設 AMCL 粒子雲;或作為絕對量測餵進 EKF(連續融合)</text>
+</svg>

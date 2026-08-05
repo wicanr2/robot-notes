@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="tb-a" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="0" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#F97316"/></marker>
+    <marker id="a-gray" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="0" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="900" height="460" fill="#ffffff"/>
+  <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">功率橋(三相橋):6 顆 MOSFET 怎麼把電流送進馬達</text>
+  <text x="450" y="46" text-anchor="middle" font-size="12" fill="#6B7280">§12.3 —— 橘色 = 一個實際導通路徑範例(開 Q1 + Q4,其餘全關)</text>
+
+  <!-- rails -->
+  <text x="104" y="94" text-anchor="end" font-size="12.5" font-weight="700" fill="#991B1B">電池 24V</text>
+  <line x1="110" y1="90" x2="200" y2="90" stroke="#F97316" stroke-width="3.4"/>
+  <line x1="200" y1="90" x2="670" y2="90" stroke="#9CA3AF" stroke-width="2"/>
+  <text x="104" y="384" text-anchor="end" font-size="12.5" font-weight="700" fill="#374151">電池 GND</text>
+  <line x1="110" y1="380" x2="390" y2="380" stroke="#F97316" stroke-width="3.4"/>
+  <line x1="390" y1="380" x2="670" y2="380" stroke="#9CA3AF" stroke-width="2"/>
+  <polygon points="150,90 144,84 144,96" fill="#F97316"/>
+
+  <!-- ===== Column U (x=200) ===== -->
+  <line x1="200" y1="90" x2="200" y2="115" stroke="#F97316" stroke-width="3"/>
+  <rect x="170" y="115" width="60" height="34" rx="7" fill="#FFEDD5" stroke="#F97316" stroke-width="2.2"/>
+  <text x="200" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">Q1</text>
+  <text x="200" y="144" text-anchor="middle" font-size="9.5" fill="#9A3412">上管 · ON</text>
+  <line x1="200" y1="149" x2="200" y2="195" stroke="#F97316" stroke-width="3"/>
+  <circle cx="200" cy="195" r="4.5" fill="#F97316"/>
+  <line x1="200" y1="195" x2="200" y2="241" stroke="#9CA3AF" stroke-width="2"/>
+  <rect x="170" y="241" width="60" height="34" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.8"/>
+  <text x="200" y="258" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Q2</text>
+  <text x="200" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">下管 · off</text>
+  <line x1="200" y1="275" x2="200" y2="380" stroke="#9CA3AF" stroke-width="2"/>
+  <text x="200" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">U 相</text>
+
+  <!-- U phase tap -->
+  <path d="M200,195 L220,195 L220,165 L700,165" fill="none" stroke="#F97316" stroke-width="3" marker-end="url(#tb-a)"/>
+
+  <!-- ===== Column V (x=390) ===== -->
+  <line x1="390" y1="90" x2="390" y2="115" stroke="#9CA3AF" stroke-width="2"/>
+  <rect x="360" y="115" width="60" height="34" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.8"/>
+  <text x="390" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Q3</text>
+  <text x="390" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">上管 · off</text>
+  <line x1="390" y1="149" x2="390" y2="195" stroke="#9CA3AF" stroke-width="2"/>
+  <circle cx="390" cy="195" r="4.5" fill="#F97316"/>
+  <line x1="390" y1="195" x2="390" y2="241" stroke="#F97316" stroke-width="3"/>
+  <rect x="360" y="241" width="60" height="34" rx="7" fill="#FFEDD5" stroke="#F97316" stroke-width="2.2"/>
+  <text x="390" y="258" text-anchor="middle" font-size="13" font-weight="700" fill="#9A3412">Q4</text>
+  <text x="390" y="270" text-anchor="middle" font-size="9.5" fill="#9A3412">下管 · ON</text>
+  <line x1="390" y1="275" x2="390" y2="380" stroke="#F97316" stroke-width="3"/>
+  <text x="390" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">V 相</text>
+
+  <!-- V phase tap (current returns from motor into junction) -->
+  <path d="M700,180 L410,180 L410,195 L390,195" fill="none" stroke="#F97316" stroke-width="3" marker-end="url(#tb-a)"/>
+
+  <!-- ===== Column W (x=580) ===== -->
+  <line x1="580" y1="90" x2="580" y2="115" stroke="#9CA3AF" stroke-width="2"/>
+  <rect x="550" y="115" width="60" height="34" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.8"/>
+  <text x="580" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Q5</text>
+  <text x="580" y="144" text-anchor="middle" font-size="9.5" fill="#6B7280">上管 · off</text>
+  <line x1="580" y1="149" x2="580" y2="195" stroke="#9CA3AF" stroke-width="2"/>
+  <circle cx="580" cy="195" r="4.5" fill="#9CA3AF"/>
+  <line x1="580" y1="195" x2="580" y2="241" stroke="#9CA3AF" stroke-width="2"/>
+  <rect x="550" y="241" width="60" height="34" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.8"/>
+  <text x="580" y="258" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Q6</text>
+  <text x="580" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">下管 · off</text>
+  <line x1="580" y1="275" x2="580" y2="380" stroke="#9CA3AF" stroke-width="2"/>
+  <text x="580" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">W 相</text>
+
+  <!-- W phase tap (inactive) -->
+  <path d="M580,195 L600,195 L600,225 L700,225" fill="none" stroke="#9CA3AF" stroke-width="2" marker-end="url(#a-gray)"/>
+
+  <!-- ===== Motor block ===== -->
+  <rect x="700" y="140" width="150" height="110" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="775" y="162" text-anchor="middle" font-size="13.5" font-weight="700" fill="#065F46">馬達</text>
+  <text x="775" y="177" text-anchor="middle" font-size="9.5" fill="#065F46">三相繞組(Y 接)</text>
+
+  <text x="692" y="169" text-anchor="end" font-size="10.5" font-weight="700" fill="#9A3412">U</text>
+  <text x="692" y="184" text-anchor="end" font-size="10.5" font-weight="700" fill="#9A3412">V</text>
+  <text x="692" y="229" text-anchor="end" font-size="10.5" font-weight="700" fill="#6B7280">W</text>
+
+  <!-- internal windings to neutral point -->
+  <circle cx="795" cy="200" r="3" fill="#374151"/>
+  <path d="M700,165 L730,165 L738,171 L746,159 L754,171 L762,165 L795,200" fill="none" stroke="#F97316" stroke-width="2.6"/>
+  <path d="M795,200 L762,180 L754,192 L746,180 L738,192 L730,180 L700,180" fill="none" stroke="#F97316" stroke-width="2.6"/>
+  <path d="M700,225 L730,225 L738,219 L746,231 L754,219 L762,225 L795,200" fill="none" stroke="#9CA3AF" stroke-width="2"/>
+
+  <!-- current path caption -->
+  <rect x="560" y="300" width="300" height="30" rx="8" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="710" y="320" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">電池+ → Q1 → U → 馬達內部 → V → Q4 → 電池−</text>
+
+  <!-- legend -->
+  <rect x="110" y="300" width="330" height="60" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <rect x="122" y="312" width="18" height="6" fill="#F97316"/>
+  <text x="146" y="319" font-size="10.5" fill="#374151">目前導通路徑(橘色,粗線)</text>
+  <rect x="122" y="330" width="18" height="6" fill="#9CA3AF"/>
+  <text x="146" y="337" font-size="10.5" fill="#374151">關閉、不導通的支路(灰色)</text>
+  <text x="122" y="352" font-size="10" fill="#6B7280">同一半橋上下管(如 Q1/Q2)絕不同時開,見 §12.3 死區時間</text>
+
+  <text x="450" y="410" text-anchor="middle" font-size="11.5" fill="#374151">電流從 U 進、V 出,定子產生一個方向的磁場;換開不同管子組合就換相(六步)或高速 PWM(FOC/SVPWM)</text>
+</svg>

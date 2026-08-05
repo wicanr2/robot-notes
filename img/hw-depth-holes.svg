@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <pattern id="dh-hole" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#FECACA"/>
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#EF4444" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect width="780" height="320" fill="#ffffff"/>
+  <text x="390" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">深度圖的破洞:0 不是「距離為零」,是「量不到」</text>
+  <text x="390" y="46" text-anchor="middle" font-size="11" fill="#6B7280">玻璃反光、黑色吸光物、超出量程、遮擋邊緣——共同點是感測器沒有讀值,不是讀到「零距離」</text>
+
+  <line x1="390" y1="64" x2="390" y2="270" stroke="#E5E7EB" stroke-width="1.2"/>
+
+  <!-- LEFT: depth map with holes -->
+  <text x="210" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">深度圖實際長相(有破洞)</text>
+
+  <rect x="60" y="90" width="75" height="50" fill="#1F2937"/><text x="97.5" y="120" text-anchor="middle" font-size="11" fill="#ffffff">1200</text>
+  <rect x="135" y="90" width="75" height="50" fill="#6B7280"/><text x="172.5" y="120" text-anchor="middle" font-size="11" fill="#ffffff">2400</text>
+  <rect x="210" y="90" width="75" height="50" fill="url(#dh-hole)"/><text x="247.5" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">0</text>
+  <rect x="285" y="90" width="75" height="50" fill="#D1D5DB"/><text x="322.5" y="120" text-anchor="middle" font-size="11" fill="#374151">3500</text>
+
+  <rect x="60" y="140" width="75" height="50" fill="#1F2937"/><text x="97.5" y="170" text-anchor="middle" font-size="11" fill="#ffffff">1250</text>
+  <rect x="135" y="140" width="75" height="50" fill="url(#dh-hole)"/><text x="172.5" y="172" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">0</text>
+  <rect x="210" y="140" width="75" height="50" fill="#6B7280"/><text x="247.5" y="170" text-anchor="middle" font-size="11" fill="#ffffff">2450</text>
+  <rect x="285" y="140" width="75" height="50" fill="#D1D5DB"/><text x="322.5" y="170" text-anchor="middle" font-size="11" fill="#374151">3480</text>
+
+  <line x1="135" y1="90" x2="135" y2="190" stroke="#ffffff" stroke-width="2"/>
+  <line x1="210" y1="90" x2="210" y2="190" stroke="#ffffff" stroke-width="2"/>
+  <line x1="285" y1="90" x2="285" y2="190" stroke="#ffffff" stroke-width="2"/>
+  <line x1="60" y1="140" x2="360" y2="140" stroke="#ffffff" stroke-width="2"/>
+  <rect x="60" y="90" width="300" height="100" fill="none" stroke="#1F2937" stroke-width="2"/>
+
+  <rect x="60" y="206" width="14" height="14" fill="#6B7280"/>
+  <text x="80" y="217" font-size="10" fill="#374151">有效深度值(數字 = mm)</text>
+  <rect x="220" y="206" width="14" height="14" fill="url(#dh-hole)" stroke="#EF4444" stroke-width="1"/>
+  <text x="240" y="217" font-size="10" fill="#991B1B">破洞(值 = 0,無讀值)</text>
+
+  <text x="210" y="242" text-anchor="middle" font-size="9.5" fill="#6B7280">常見成因:玻璃反光、黑色吸光物、超出量程、左右相機只有一邊看到的遮擋邊緣</text>
+
+  <!-- RIGHT: handling principle -->
+  <text x="580" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">避障處理原則</text>
+
+  <rect x="420" y="90" width="320" height="56" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="2.2"/>
+  <text x="580" y="126" text-anchor="middle" font-size="20" font-weight="700" fill="#991B1B">0 ≠「沒有障礙物」!</text>
+
+  <rect x="420" y="158" width="320" height="76" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="580" y="180" text-anchor="middle" font-size="13.5" font-weight="700" fill="#9A3412">0 = 「不知道」</text>
+  <text x="580" y="200" text-anchor="middle" font-size="12" fill="#374151">→ 寧可當未知處理</text>
+  <text x="580" y="220" text-anchor="middle" font-size="12" fill="#374151">也不可當 free 直接衝</text>
+
+  <rect x="420" y="246" width="320" height="52" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="580" y="268" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">⚠ 玻璃門是經典事故場景</text>
+  <text x="580" y="286" text-anchor="middle" font-size="10" fill="#6B7280">(§2.4 超音波補盲)</text>
+</svg>

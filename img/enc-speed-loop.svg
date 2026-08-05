@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="sl1" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+    <marker id="sl2" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+    <marker id="sl3" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#10B981"/></marker>
+  </defs>
+  <rect width="900" height="420" fill="#ffffff"/>
+  <text x="450" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">速度閉迴路全貌:內回授(PID,快迴路)與外回報(odometry,慢資料)</text>
+
+  <!-- main forward chain -->
+  <rect x="20" y="100" width="95" height="55" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="67" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">上位機</text>
+  <text x="67" y="142" text-anchor="middle" font-size="10.5" fill="#1E3A8A">(v, ω) 指令</text>
+
+  <rect x="155" y="100" width="100" height="55" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.6"/>
+  <text x="205" y="124" text-anchor="middle" font-size="12.5" fill="#374151">運動學逆解</text>
+  <text x="205" y="142" text-anchor="middle" font-size="10" fill="#6B7280">(§7)</text>
+
+  <rect x="295" y="92" width="120" height="70" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="355" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">PID</text>
+  <text x="355" y="142" text-anchor="middle" font-size="10.5" fill="#9A3412">100Hz 控制任務 ③</text>
+
+  <rect x="455" y="100" width="110" height="55" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.6"/>
+  <text x="510" y="132" text-anchor="middle" font-size="12" fill="#374151">CAN → 驅動器</text>
+
+  <rect x="600" y="100" width="80" height="55" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.6"/>
+  <text x="640" y="132" text-anchor="middle" font-size="13" fill="#374151">馬達</text>
+
+  <rect x="715" y="100" width="110" height="55" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.6"/>
+  <text x="770" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">編碼器</text>
+  <text x="770" y="142" text-anchor="middle" font-size="10" fill="#6B7280">A/B 方波</text>
+
+  <g stroke="#374151" stroke-width="2" marker-end="url(#sl1)">
+    <line x1="115" y1="127" x2="153" y2="127"/>
+    <line x1="255" y1="127" x2="293" y2="127"/>
+    <line x1="415" y1="127" x2="453" y2="127"/>
+    <line x1="565" y1="127" x2="598" y2="127"/>
+    <line x1="680" y1="127" x2="713" y2="127"/>
+  </g>
+  <g font-size="11" fill="#374151" text-anchor="middle">
+    <text x="135" y="178">UART</text>
+    <text x="275" y="178">目標輪速</text>
+    <text x="435" y="178">命令 ④</text>
+    <text x="582" y="178">轉矩</text>
+    <text x="697" y="178">轉動</text>
+  </g>
+
+  <!-- inner feedback: encoder counting -> PID -->
+  <path d="M780,155 L780,225 L355,225 L355,162" fill="none" stroke="#9CA3AF" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#sl2)"/>
+  <text x="560" y="217" text-anchor="middle" font-size="11" fill="#6B7280">①② TIM encoder mode 硬體計數 → 實測輪速</text>
+
+  <!-- outer path: encoder -> odometry -> UART -> 上位機 -->
+  <path d="M810,155 L810,322 L462,322" fill="none" stroke="#10B981" stroke-width="2.2" marker-end="url(#sl3)"/>
+  <rect x="290" y="298" width="170" height="48" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="375" y="318" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">odometry 積分</text>
+  <text x="375" y="336" text-anchor="middle" font-size="11" fill="#065F46">(x, y, θ) ⑤</text>
+  <path d="M290,322 L67,322 L67,157" fill="none" stroke="#10B981" stroke-width="2.2" marker-end="url(#sl3)"/>
+  <text x="180" y="314" text-anchor="middle" font-size="11" fill="#6B7280">UART:odometry / 狀態回報</text>
+
+  <!-- legend -->
+  <rect x="150" y="368" width="600" height="36" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+  <text x="450" y="390" text-anchor="middle" font-size="11.5" fill="#374151">灰色虛線 = 內回授(PID 用,快迴路,留在下位機)　綠色實線 = 外回報(odometry,慢資料,上報上位機)</text>
+</svg>

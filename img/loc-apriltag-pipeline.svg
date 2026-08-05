@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="pg-g" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
+    <marker id="pg-o" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="900" height="420" fill="#ffffff"/>
+  <text x="450" y="26" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2937">AprilTag 定位五步 pipeline(每幀執行)</text>
+  <text x="450" y="44" text-anchor="middle" font-size="12" fill="#6B7280">灰字 = 事前只做一次的標定/登錄;藍字 = 每幀即時計算</text>
+
+  <!-- step 1 -->
+  <rect x="50" y="64" width="250" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <circle cx="76" cy="90" r="14" fill="#3B82F6"/><text x="76" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">1</text>
+  <text x="100" y="95" font-size="13.5" font-weight="700" fill="#1E40AF">偵測角點</text>
+  <text x="68" y="116" font-size="10.5" fill="#1F2937">影像 → 二值化 →</text>
+  <text x="68" y="132" font-size="10.5" fill="#1F2937">找四邊形輪廓 →</text>
+  <text x="68" y="148" font-size="10.5" fill="#1F2937">角點亞像素精修</text>
+  <text x="68" y="166" font-size="9.5" fill="#6B7280">不需事前資料,純影像處理</text>
+
+  <!-- step 2 -->
+  <rect x="325" y="64" width="250" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <circle cx="351" cy="90" r="14" fill="#3B82F6"/><text x="351" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">2</text>
+  <text x="375" y="95" font-size="13.5" font-weight="700" fill="#1E40AF">解碼 ID</text>
+  <text x="343" y="116" font-size="10.5" fill="#1F2937">讀內部圖案 →</text>
+  <text x="343" y="132" font-size="10.5" fill="#1F2937">這是 23 號碼 →</text>
+  <text x="343" y="148" font-size="10.5" fill="#1F2937">查表得(10.0,5.0)朝南</text>
+  <text x="343" y="166" font-size="9.5" fill="#6B7280">需事前:地標登錄表(ID→位姿)</text>
+
+  <!-- step 3 -->
+  <rect x="600" y="64" width="250" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <circle cx="626" cy="90" r="14" fill="#3B82F6"/><text x="626" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">3</text>
+  <text x="650" y="95" font-size="13.5" font-weight="700" fill="#1E40AF">PnP 解算</text>
+  <text x="618" y="116" font-size="10.5" fill="#1F2937">4 組「3D↔2D」</text>
+  <text x="618" y="132" font-size="10.5" fill="#1F2937">角點對應</text>
+  <text x="618" y="148" font-size="10.5" fill="#1F2937">解出 R, t(相機看碼)</text>
+  <text x="618" y="166" font-size="9.5" fill="#6B7280">需事前:相機內參標定 K</text>
+
+  <!-- intra-row arrows -->
+  <line x1="300" y1="120" x2="323" y2="120" stroke="#9CA3AF" stroke-width="1.8" marker-end="url(#pg-g)"/>
+  <line x1="575" y1="120" x2="598" y2="120" stroke="#9CA3AF" stroke-width="1.8" marker-end="url(#pg-g)"/>
+
+  <!-- converge arrows into step 4 -->
+  <line x1="175" y1="178" x2="175" y2="198" stroke="#F97316" stroke-width="2" marker-end="url(#pg-o)"/>
+  <line x1="450" y1="178" x2="450" y2="198" stroke="#F97316" stroke-width="2" marker-end="url(#pg-o)"/>
+  <line x1="725" y1="178" x2="725" y2="198" stroke="#F97316" stroke-width="2" marker-end="url(#pg-o)"/>
+
+  <!-- step 4: coordinate chain -->
+  <rect x="50" y="200" width="800" height="90" rx="9" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.8"/>
+  <circle cx="76" cy="226" r="14" fill="#8B5CF6"/><text x="76" y="231" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">4</text>
+  <text x="100" y="231" font-size="13.5" font-weight="700" fill="#5B21B6">座標鏈串接</text>
+  <text x="450" y="255" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">T(map→robot) = T(map→marker) · T(marker→camera) · T(camera→base_link)</text>
+  <text x="450" y="278" text-anchor="middle" font-size="11">
+    <tspan fill="#6B7280" font-weight="700">查表(事前)</tspan><tspan fill="#9CA3AF">　·　</tspan><tspan fill="#1E40AF" font-weight="700">③的逆(即時)</tspan><tspan fill="#9CA3AF">　·　</tspan><tspan fill="#6B7280" font-weight="700">手眼標定(事前)</tspan>
+  </text>
+
+  <!-- arrow into step 5 -->
+  <line x1="450" y1="292" x2="450" y2="308" stroke="#F97316" stroke-width="2.2" marker-end="url(#pg-o)"/>
+
+  <!-- step 5: apply -->
+  <rect x="250" y="310" width="400" height="64" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <circle cx="276" cy="336" r="14" fill="#F97316"/><text x="276" y="341" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">5</text>
+  <text x="300" y="341" font-size="13.5" font-weight="700" fill="#9A3412">投用</text>
+  <text x="300" y="360" font-size="11" fill="#7C2D12">發 /initialpose 重設 AMCL,或進 EKF 融合</text>
+
+  <text x="450" y="398" text-anchor="middle" font-size="10.5" fill="#6B7280">①~③ 每幀執行;④ 是純幾何的矩陣連乘;⑤ 連續多幀取中位數/濾波後再投用較穩</text>
+</svg>

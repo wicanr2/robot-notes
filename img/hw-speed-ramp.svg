@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="sr-ax" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#374151"/></marker>
+    <marker id="sr-o" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="700" height="350" fill="#ffffff"/>
+  <text x="350" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">加減速 ramp:插一層「變化率限幅器」,把步階指令變成斜坡</text>
+  <text x="350" y="47" text-anchor="middle" font-size="11" fill="#6B7280">上位機指令是步階(瞬間到 0.8 m/s);ramp 把它壓成固定斜率(= a_max)爬升的斜坡,避免電流暴衝、輪子打滑</text>
+
+  <line x1="330" y1="80" x2="330" y2="308" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Panel 1: step command -->
+  <line x1="60" y1="270" x2="258" y2="270" stroke="#374151" stroke-width="1.4" marker-end="url(#sr-ax)"/>
+  <line x1="60" y1="270" x2="60" y2="93" stroke="#374151" stroke-width="1.4" marker-end="url(#sr-ax)"/>
+  <text x="52" y="274" text-anchor="end" font-size="10" fill="#374151">0</text>
+  <line x1="60" y1="140" x2="220" y2="140" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="52" y="144" text-anchor="end" font-size="10" fill="#374151">0.8</text>
+
+  <path d="M60,270 L130,270 L130,140 L235,140" fill="none" stroke="#DC2626" stroke-width="2.8"/>
+  <text x="175" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">0.8 m/s</text>
+  <text x="136" y="205" font-size="9.5" fill="#991B1B">瞬間衝擊</text>
+
+  <text x="155" y="292" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">指令(步階):電流 / 輪胎瞬間衝擊</text>
+
+  <!-- transformation arrow -->
+  <line x1="298" y1="180" x2="352" y2="180" stroke="#F97316" stroke-width="2.4" marker-end="url(#sr-o)"/>
+  <text x="325" y="166" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">ramp()</text>
+
+  <!-- Panel 2: ramped output -->
+  <line x1="380" y1="270" x2="578" y2="270" stroke="#374151" stroke-width="1.4" marker-end="url(#sr-ax)"/>
+  <line x1="380" y1="270" x2="380" y2="93" stroke="#374151" stroke-width="1.4" marker-end="url(#sr-ax)"/>
+  <text x="372" y="274" text-anchor="end" font-size="10" fill="#374151">0</text>
+  <line x1="380" y1="140" x2="540" y2="140" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="372" y="144" text-anchor="end" font-size="10" fill="#374151">0.8</text>
+
+  <path d="M440,270 L451.7,248.3 L463.3,226.7 L475.0,205.0 L486.7,183.3 L498.3,161.7 L510.0,140.0 L555,140" fill="none" stroke="#059669" stroke-width="2.8"/>
+  <text x="445" y="192" font-size="10" font-weight="700" fill="#065F46">斜率 = a_max</text>
+
+  <text x="485" y="292" text-anchor="middle" font-size="11.5" font-weight="700" fill="#374151">ramp 後(斜坡):電流 / 輪胎平順</text>
+
+  <!-- summary -->
+  <rect x="60" y="308" width="580" height="37" rx="8" fill="#F0FDF4" stroke="#10B981" stroke-width="1.4"/>
+  <text x="350" y="331" text-anchor="middle" font-size="10.5" fill="#065F46">同一段時間內,斜坡把「瞬間衝擊」換成「固定加速度爬升」——這就是 ramp() 函式在下位機做的事</text>
+</svg>

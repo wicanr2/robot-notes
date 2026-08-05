@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="760" height="500" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">有刷馬達剖面:機械換相怎麼發生</text>
+  <text x="380" y="45" text-anchor="middle" font-size="12" fill="#6B7280">§17.2 —— 外殼是定子(永久磁鐵),線圈+鐵芯是轉子,換向器讓電流方向自動反轉</text>
+
+  <!-- housing -->
+  <circle cx="300" cy="255" r="165" fill="#F9FAFB" stroke="#1F2937" stroke-width="2.2"/>
+  <path d="M190,140 Q300,60 410,140" fill="none" stroke="#EF4444" stroke-width="10" stroke-linecap="round"/>
+  <text x="300" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">N</text>
+  <path d="M190,370 Q300,455 410,370" fill="none" stroke="#3B82F6" stroke-width="10" stroke-linecap="round"/>
+  <text x="300" y="418" text-anchor="middle" font-size="15" font-weight="700" fill="#1E3A8A">S</text>
+  <text x="300" y="80" text-anchor="middle" font-size="10.5" fill="#991B1B">外殼 = 定子(永久磁鐵固定在殼上)</text>
+
+  <!-- rotor coil+core -->
+  <rect x="230" y="157" width="140" height="55" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="300" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">線圈 + 鐵芯</text>
+  <text x="300" y="198" text-anchor="middle" font-size="10" fill="#065F46">(轉子)</text>
+
+  <!-- shaft -->
+  <rect x="293" y="212" width="14" height="35" fill="#9CA3AF" stroke="#6B7280" stroke-width="1"/>
+  <line x1="285" y1="222" x2="315" y2="222" stroke="#6B7280" stroke-width="1.2"/>
+  <line x1="285" y1="237" x2="315" y2="237" stroke="#6B7280" stroke-width="1.2"/>
+  <text x="322" y="233" font-size="10" fill="#6B7280">軸</text>
+
+  <!-- commutator -->
+  <rect x="240" y="247" width="120" height="50" rx="4" fill="#FDE68A" stroke="#B45309" stroke-width="1.8"/>
+  <line x1="270" y1="247" x2="270" y2="297" stroke="#B45309" stroke-width="1.2"/>
+  <line x1="300" y1="247" x2="300" y2="297" stroke="#B45309" stroke-width="1.2"/>
+  <line x1="330" y1="247" x2="330" y2="297" stroke="#B45309" stroke-width="1.2"/>
+  <text x="300" y="276" text-anchor="middle" font-size="11.5" font-weight="700" fill="#92400E">換向器</text>
+
+  <!-- brushes -->
+  <rect x="180" y="257" width="35" height="30" rx="3" fill="#374151" stroke="#1F2937" stroke-width="1.4"/>
+  <text x="197" y="277" text-anchor="middle" font-size="10" fill="#F9FAFB">碳刷</text>
+  <path d="M180,272 L155,266 L155,278 L180,272" fill="none" stroke="#6B7280" stroke-width="1.4"/>
+
+  <rect x="385" y="257" width="35" height="30" rx="3" fill="#374151" stroke="#1F2937" stroke-width="1.4"/>
+  <text x="402" y="277" text-anchor="middle" font-size="10" fill="#F9FAFB">碳刷</text>
+  <path d="M420,272 L445,266 L445,278 L420,272" fill="none" stroke="#6B7280" stroke-width="1.4"/>
+
+  <!-- leads to battery -->
+  <line x1="197" y1="287" x2="197" y2="455" stroke="#991B1B" stroke-width="2.4"/>
+  <line x1="402" y1="287" x2="402" y2="455" stroke="#374151" stroke-width="2.4"/>
+  <text x="197" y="474" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">電池 +</text>
+  <text x="402" y="474" text-anchor="middle" font-size="12.5" font-weight="700" fill="#374151">電池 −</text>
+
+  <!-- callouts -->
+  <path d="M370,185 L450,185 L450,178 L520,178" fill="none" stroke="#9CA3AF" stroke-width="1.2"/>
+  <rect x="520" y="150" width="215" height="56" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
+  <text x="534" y="172" font-size="11.5" fill="#065F46">轉子:線圈繞在鐵芯上,</text>
+  <text x="534" y="192" font-size="11.5" fill="#065F46">跟著軸一起轉</text>
+
+  <path d="M360,272 L450,272 L450,262 L520,262" fill="none" stroke="#9CA3AF" stroke-width="1.2"/>
+  <rect x="520" y="235" width="215" height="56" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="1.4"/>
+  <text x="534" y="257" font-size="11.5" fill="#92400E">換向器:銅片做的圓筒,</text>
+  <text x="534" y="277" font-size="11.5" fill="#92400E">分成數瓣,跟著轉</text>
+
+  <path d="M420,272 L460,272 L460,347 L520,347" fill="none" stroke="#9CA3AF" stroke-width="1.2"/>
+  <rect x="520" y="320" width="215" height="56" rx="8" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.4"/>
+  <text x="534" y="342" font-size="11.5" fill="#1F2937">碳刷:固定不動,用彈簧</text>
+  <text x="534" y="362" font-size="11.5" fill="#1F2937">壓在換向器上滑動接觸</text>
+
+  <text x="380" y="488" text-anchor="middle" font-size="11" fill="#374151">接上直流電就會轉——換相時機由幾何結構保證,不需要任何電子電路</text>
+</svg>
