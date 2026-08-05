@@ -7,9 +7,8 @@
 - **規模** — 50+ 篇主題文件、150+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
 
 <p align="center">
-  <img src="img/bellabot.png" height="180" alt="BellaBot">
-  <img src="img/keenon_t10.png" height="180" alt="Keenon T10">
-  <img src="img/servi.png" height="180" alt="Servi">
+  <img src="img/bellabot.png" height="180" alt="Pudu BellaBot 送餐機器人">
+  <img src="img/servi.png" height="180" alt="Bear Robotics Servi 送餐機器人">
 </p>
 
 ---

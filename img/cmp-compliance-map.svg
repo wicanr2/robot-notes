@@ -19,7 +19,7 @@
     <text x="122" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">ANSI/RIA R15.08</text>
     <rect x="30" y="158" width="184" height="22" rx="11" fill="#EFF6FF" stroke="#3B82F6"/>
     <text x="122" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#1E3A8A">多為自願/客戶要求</text>
-    <text x="122" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">室內服務走 13482</text>
+    <text x="122" y="196" text-anchor="middle" font-size="9.5" fill="#6B7280">室內服務走 13482(個人照護)</text>
     <text x="122" y="210" text-anchor="middle" font-size="9.5" fill="#6B7280">進廠房走 3691-4</text>
   </g>
 
@@ -51,7 +51,7 @@
   <g>
     <rect x="674" y="90" width="204" height="166" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5"/>
     <text x="776" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">電磁相容(EMC)</text>
-    <text x="776" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">CISPR / CNS 13438</text>
+    <text x="776" y="134" text-anchor="middle" font-size="10.5" fill="#1F2937">CNS 13438(對應 CISPR 22)</text>
     <text x="776" y="149" text-anchor="middle" font-size="10.5" fill="#1F2937">IEC 61000 系列</text>
     <rect x="684" y="158" width="184" height="22" rx="11" fill="#FEF2F2" stroke="#EF4444"/>
     <text x="776" y="173" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">多數市場強制</text>

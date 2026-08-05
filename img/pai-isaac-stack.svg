@@ -52,8 +52,10 @@
 
   <path d="M650,140 L650,166" stroke="#6B7280" stroke-width="1.8" marker-end="url(#isArr)"/>
   <path d="M650,230 L650,256" stroke="#6B7280" stroke-width="1.8" marker-end="url(#isArr)"/>
-  <path d="M802,290 Q848,290 848,200 Q848,110 806,110" fill="none" stroke="#F97316" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#isArrO)"/>
-  <text x="866" y="196" text-anchor="middle" font-size="9.5" fill="#9A3412" transform="rotate(90 866 196)">評估不過就改設計 / 換 reward</text>
+  <path d="M802,296 Q862,296 862,203 Q862,110 806,110" fill="none" stroke="#F97316" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#isArrO)"/>
+  <text x="878" y="203" text-anchor="middle" font-size="9" fill="#9A3412" transform="rotate(90 878 203)">機器人本身要改 → 回 ①</text>
+  <path d="M802,284 Q828,284 828,247 Q828,210 806,210" fill="none" stroke="#F97316" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#isArrO)"/>
+  <text x="843" y="247" text-anchor="middle" font-size="9" fill="#9A3412" transform="rotate(90 843 247)">只換 reward → 回 ②</text>
 
   <text x="20" y="382" font-size="11" fill="#374151">Isaac Lab 不是另一個模擬器——它繼承 Isaac Sim 的能力,再加上 RL 專屬功能(致動器動態、程序化地形生成、示範資料收集)。</text>
 </svg>

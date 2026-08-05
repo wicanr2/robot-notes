@@ -4,11 +4,12 @@
   </defs>
   <rect width="880" height="470" fill="#ffffff"/>
   <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">SEMI 標準家族地圖:S 系列、E 系列與通用安全標準</text>
-  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">AMR 進 fab 要疊過的幾層,不是擇一</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">AMR 進 fab 要疊過的幾層,不是擇一;左邊那疊<tspan font-weight="700" fill="#374151">由下往上讀</tspan>——越下面越通用、越先成立</text>
 
   <!-- AMR node -->
   <rect x="220" y="64" width="140" height="28" rx="14" fill="#F3F4F6" stroke="#94A3B8" stroke-width="1.5"/>
   <text x="290" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">AMR 進 fab</text>
+  <text x="470" y="86" font-size="9.5" fill="#9CA3AF">箭頭是「這件事牽動整疊」,不是檢查順序</text>
   <line x1="290" y1="92" x2="290" y2="109" stroke="#94A3B8" stroke-width="2" marker-end="url(#semiArrow)"/>
 
   <!-- Stack: L3 top -->

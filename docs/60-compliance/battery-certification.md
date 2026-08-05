@@ -17,7 +17,7 @@
 | 正式名稱 | Batteries for Use in **Light Electric Vehicle (LEV)** Applications | Batteries for Use in **Electric Vehicles** |
 | 定位 | 輕型電動載具電池 | 電動車 / 工業車輛電池 |
 | 典型用途 | 電動自行車、滑板車、平衡車 | 電動汽車、堆高機、AGV、AMR |
-| 典型電壓 | ≤ ~60V(業界口徑 <100V) | 較高,工業級 |
+| 典型電壓 | 約 60–100V 以下(這是一段模糊帶,不是標準寫死的門檻) | 較高,工業級 |
 | 馬達功率門檻 | 約 ≤750W | 無此上限 |
 | 濫用測試 | 電池包完整性 + 基本保護 | 加機械濫用(振動/衝擊/跌落/擠壓)+ 環境(熱衝擊/鹽霧/浸水)+ 危害(外部火燒、**熱擴散** thermal propagation) |
 
