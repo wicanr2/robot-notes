@@ -108,24 +108,11 @@ robot-notes/
 
 | **R14.1** | 資產來源的網址與 repo 實測 | 補上 §5/§6 原本缺的入口連結,並新增 §9.1 網址狀態表(18 條全數 200)與 §9.2 GitHub repo 表(14 個,含 ★/最後 push/封存/授權)。實測三件會誤導人的事:Isaac 雲端 asset root **4.5/5.0/5.1/6.0 都在**(Nova_Carter_ROS.usd 各 85,526 / 135,278 / 151,435 / 153,649 bytes,可不裝 Isaac Sim 就核對 USD 結構);Asset Browser 文件的 `latest` 與 `6.0.0` 路徑**實測 404**(6.0 搬過位置,改認版本號);`allenai/procthor` 最後 push 停在 2023-04-07、`StanfordVL/OmniGibson` 無授權標示。另記下自己踩到的 jq 陷阱(`--jq '.archived and "已封存" or "活躍"'` 恆為 true,因 jq 的 and/or 回傳布林而非運算元)並寫進 §9.3 | ✅ 完成 |
 
-## 待辦(R12 中斷,下次接續)
+| **R15** | 補完 R12 中斷的圖 + R11 backlog | R12 那五張沒把關的 SVG 逐一渲染核對:法規編號全部對得上原文(S2/S8/S14/S22、E84/E87/E88/E90/E10、ISO 3691-4/13849/14644、UL 2271/2580、UN 38.3、CISPR/CNS 13438、IEC 62368-1),沒有臆造;修掉 `pai-reality-gap` 與 `pai-gap-techniques` 底部各數十 px 的空白 viewBox 與兩處標籤壓線後插進對應各篇。新畫五張:`cmp-certification-roles`(取代 pwc 篇那張 38 行的 ASCII 流程圖)、`pai-isaac-stack`、`pai-isaac-ros2-nav2`、`meta-ci-verification-ladder`、`roadnet-two-layer`。順帶修掉兩個內容問題:`pwc-semi-iso3691-certification.md` 標題寫「三種認證角色」但表格是四種(已改四種);同檔 §5 出現兩個內部專案代號(已改成中性描述) | ✅ 完成 |
 
-R12 派了 5 個補圖/稽核 agent,全部因 session 額度用盡中斷。**已完成並驗過的**:
-`img/stack-overview.svg`(分層堆疊全景)、`img/hero-robot-exploded.svg`(爆炸圖),README 已改寫。
+## 判斷結論
 
-**未完成,下次接續**(檔案已在 `img/` 但**尚未經過把關、也還沒插進任何文件**,先驗再用):
-
-- `cmp-compliance-map.svg`、`cmp-ul2271-vs-2580.svg`、`cmp-semi-standards-map.svg` — 要插進 `60-compliance/` 對應各篇;還缺 `pwc-semi-iso3691-certification.md` 的「三種認證角色」圖。
-- `pai-reality-gap.svg`、`pai-gap-techniques.svg` — 要插進 `50-physical-ai/sim-to-real.md`;`isaac-sim-isaac-lab-amr.md` 的兩張還沒畫。
-- `_meta/github-actions-gz-sim-playbook.md` 的 CI 階梯圖沒畫;`section-map.md` 要不要圖尚未判斷。
-- 全 repo 視覺一致性稽核(SVG 風格、圖文比例、`width` 慣例、過長段落、標題層級)沒跑完。
-
-> 這五個 SVG 是中斷的 agent 留下的,**沒有經過 chrome 自檢與內容核實**。接手時先渲染看過、確認法規類數字沒臆造,再決定用或重畫。
-
-## 待辦(R11 學生審查提出,尚未處理)
-
-- **`roadnet-and-traffic-control.md` §2.5 兩層路網配圖**:目前純文字描述「節點路網 + 道路級粗圖」的疊合關係,一張「細圖疊粗圖」示意會比文字快。(§4.3 迴避點評分的圖已於 R11.5 補上。)
-- 較深的跨檔 `§N` 引用逐步改為帶連結的引用 —— R11.5 已修掉 `localization.md` 一處指錯的 `§3.3`,其餘待掃。
+- **`section-map.md` 不需要配圖**:它是純查表用的對照索引(§N → 檔案),不是概念。圖只會把一張可以 Ctrl-F 的表變難查。真正該做的是把跨檔 `§N` 改成帶連結的引用,讓這張表逐步不必被查。
 
 ## 內容原則
 

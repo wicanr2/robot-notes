@@ -10,7 +10,7 @@
 
 ## 1. 一句話分界:UL 2271 vs UL 2580
 
-兩張都是**電池包(EESA,電能儲存組件)層級**的安全標準,差別在「車有多重、電壓多高、濫用測試多嚴」:
+兩張都是**電池包層級**的安全標準——不是電芯層級(那是 UL 1642 / IEC 62133),也不是整車層級。UL 2580 對這一層用的正式名詞是 **electrical energy storage assembly(EESA,電能儲存組件)**,涵蓋電池包與「電池包 + 電化學電容」的組合,以及構成它們的模組。兩張的差別在「車有多重、電壓多高、濫用測試多嚴」:
 
 | | **UL 2271** | **UL 2580** |
 |---|---|---|
@@ -21,7 +21,11 @@
 | 馬達功率門檻 | 約 ≤750W | 無此上限 |
 | 濫用測試 | 電池包完整性 + 基本保護 | 加機械濫用(振動/衝擊/跌落/擠壓)+ 環境(熱衝擊/鹽霧/浸水)+ 危害(外部火燒、**熱擴散** thermal propagation) |
 
-**兩者不可互換。** 一個是「較輕、較低壓」那端,一個是「較重、較高壓、工業級」那端。
+**兩者不可互換,而且這不只是業界慣例——是標準自己寫死的。** UL 2580 的適用範圍明文**排除**電動輔助自行車、輪椅、電動滑板車這類輕型電動載具,並指向 UL 2271;反之亦然。一個管「較輕、較低壓」那端,一個管「較重、較高壓、工業級」那端。下圖把兩張標準的欄位並排,底下那條軸則畫出「送餐機器人落在哪」——它坐在 LEV 那端,但離分界不遠,所以第 2 節才會說沒有單一定論:
+
+<p align="center"><img src="../../img/cmp-ul2271-vs-2580.svg" width="760" alt="UL 2271 與 UL 2580 逐欄對照(定位、用途、電壓、功率、濫用測試),下方軸線標出送餐機器人在輕型與工業級之間的位置"></p>
+
+> 軸上的 ~60–100V / 750W 是業界口徑的模糊帶,不是標準寫死的分界。
 
 ## 2. 送餐機器人該套哪一張?——依機型逐案判定
 
@@ -84,7 +88,7 @@
 
 ## 8. 來源
 
-UL 範圍:[UL 2271 (GlobalSpec)](https://standards.globalspec.com/std/14658607/ul-2271)、[UL 2271 (Battery Design)](https://www.batterydesign.net/legislation-rules-and-regulations/ul-2271/)、[UL 2580](https://www.shopulstandards.com/ProductDetail.aspx?productId=UL2580_3_S_20200311)、[CSA: EV battery standards](https://www.csagroup.org/article/navigating-safety-standards-for-ev-batteries-and-electric-vehicle-supply-equipment/)
+UL 範圍:[UL 2271 (GlobalSpec)](https://standards.globalspec.com/std/14658607/ul-2271)、[UL 2271 (Battery Design)](https://www.batterydesign.net/legislation-rules-and-regulations/ul-2271/)、[UL 2580](https://www.shopulstandards.com/ProductDetail.aspx?productId=UL2580_3_S_20200311)、[UL 2580 (GlobalSpec:EESA 定義與排除範圍)](https://standards.globalspec.com/std/14373671/ul-2580)、[UL 2580 (Battery Design)](https://www.batterydesign.net/legislation-rules-and-regulations/ul-2580/)、[CSA: EV battery standards](https://www.csagroup.org/article/navigating-safety-standards-for-ev-batteries-and-electric-vehicle-supply-equipment/)
 LFP vs NMC 安全:[Battery Design](https://www.batterydesign.net/objective-safety-analysis-of-nmc-vs-lfp/)、[EHV Technology](https://www.electrichybridvehicletechnology.com/technical-articles/lfp-vs-nmc-thermal-runaway.html)
 供應商:[UL 官方:Flux Power 首例 UL 2271](https://www.ul.com/news/ul-issues-first-ul-2271-listing-lithium-ion-forklift-battery-pack-flux-power-1)、[Flux Power 電池技術](https://www.fluxpower.com/battery-technology)、[MHW: BSLBATT UL 認證報導](https://www.mhwmag.com/nuts-bolts/bsl-battery-receives-certification-for-lifepo4-forklift-batteries/)
 配套:[UN 38.3 (TÜV SÜD)](https://www.tuvsud.com/en/services/testing/battery-testing/battery-transportation-safety-testing-iec-62133)、[UL 1973 (TÜV SÜD)](https://www.tuvsud.com/en-us/services/testing/energy-storage/ul-1973)

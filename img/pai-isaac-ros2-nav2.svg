@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 410" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="rnArrB" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#3B82F6"/>
+    </marker>
+    <marker id="rnArrO" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/>
+    </marker>
+    <marker id="rnArrG" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+  <rect width="900" height="410" fill="#ffffff"/>
+
+  <text x="450" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Isaac Sim ↔ Nav2 的資料流:模擬器扮演真車</text>
+  <text x="450" y="48" text-anchor="middle" font-size="12" fill="#6B7280">ROS 2 Bridge 兩個方向,發出去的是感測資料,收回來的是速度命令</text>
+
+  <!-- 左:Isaac Sim -->
+  <rect x="20" y="70" width="340" height="296" rx="10" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.8"/>
+  <text x="190" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Isaac Sim(模擬器)</text>
+
+  <rect x="36" y="106" width="308" height="74" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="190" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E3A8A">感測器模擬</text>
+  <text x="190" y="146" text-anchor="middle" font-size="10" fill="#374151">RTX LiDAR(點雲)・相機 RGB / 深度・IMU</text>
+  <text x="190" y="165" text-anchor="middle" font-size="9.5" fill="#6B7280">點雲經 pointcloud_to_laserscan 轉成 2D LaserScan</text>
+
+  <rect x="36" y="192" width="308" height="158" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.4"/>
+  <text x="190" y="212" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">OmniGraph Action Graph</text>
+
+  <rect x="52" y="222" width="276" height="26" rx="6" fill="#ffffff" stroke="#F97316"/>
+  <text x="190" y="239" text-anchor="middle" font-size="10" fill="#1F2937">ROS 2 Subscribe Twist 節點</text>
+  <path d="M190,250 L190,258" stroke="#6B7280" stroke-width="1.5" marker-end="url(#rnArrG)"/>
+
+  <rect x="52" y="262" width="276" height="30" rx="6" fill="#ffffff" stroke="#F97316"/>
+  <text x="190" y="277" text-anchor="middle" font-size="10" fill="#1F2937">Differential Controller</text>
+  <text x="190" y="289" text-anchor="middle" font-size="8.5" fill="#6B7280">車體 (v, ω) → 左右輪速</text>
+  <path d="M190,294 L190,302" stroke="#6B7280" stroke-width="1.5" marker-end="url(#rnArrG)"/>
+
+  <rect x="52" y="306" width="276" height="30" rx="6" fill="#ffffff" stroke="#F97316"/>
+  <text x="190" y="321" text-anchor="middle" font-size="10" fill="#1F2937">Articulation Controller</text>
+  <text x="190" y="333" text-anchor="middle" font-size="8.5" fill="#6B7280">輪速 → PhysX 關節驅動,輪子真的轉</text>
+
+  <!-- 中:兩個方向 -->
+  <text x="500" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">publish:模擬器當作真車在發資料</text>
+  <line x1="366" y1="112" x2="634" y2="112" stroke="#3B82F6" stroke-width="2" marker-end="url(#rnArrB)"/>
+
+  <g font-size="9.5">
+    <rect x="382" y="126" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="141" fill="#1E3A8A">/scan</text><text x="608" y="141" text-anchor="end" fill="#6B7280">sensor_msgs/LaserScan</text>
+    <rect x="382" y="151" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="166" fill="#1E3A8A">/point_cloud</text><text x="608" y="166" text-anchor="end" fill="#6B7280">sensor_msgs/PointCloud2</text>
+    <rect x="382" y="176" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="191" fill="#1E3A8A">/odom</text><text x="608" y="191" text-anchor="end" fill="#6B7280">nav_msgs/Odometry</text>
+    <rect x="382" y="201" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="216" fill="#1E3A8A">/tf</text><text x="608" y="216" text-anchor="end" fill="#6B7280">tf2_msgs/TFMessage</text>
+    <rect x="382" y="226" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="241" fill="#1E3A8A">/map</text><text x="608" y="241" text-anchor="end" fill="#6B7280">nav_msgs/OccupancyGrid</text>
+    <rect x="382" y="251" width="236" height="21" rx="5" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="392" y="266" fill="#1E3A8A">/clock</text><text x="608" y="266" text-anchor="end" fill="#6B7280">模擬時鐘,讓 ROS 2 用模擬時間</text>
+  </g>
+
+  <text x="500" y="300" text-anchor="middle" font-size="11" font-weight="700" fill="#9A3412">subscribe:收 Nav2 算出來的速度命令</text>
+  <path d="M634,314 L374,314 L374,235 L368,235" fill="none" stroke="#F97316" stroke-width="2" marker-end="url(#rnArrO)"/>
+  <rect x="382" y="326" width="236" height="24" rx="5" fill="#FFF7ED" stroke="#FDBA74"/>
+  <text x="392" y="342" font-size="9.5" fill="#9A3412">/cmd_vel</text>
+  <text x="608" y="342" text-anchor="end" font-size="9.5" fill="#6B7280">geometry_msgs/Twist</text>
+
+  <!-- 右:Nav2 -->
+  <rect x="640" y="70" width="240" height="296" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="760" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Nav2(ROS 2 導航棧)</text>
+  <line x1="656" y1="106" x2="864" y2="106" stroke="#A7F3D0"/>
+  <text x="760" y="132" text-anchor="middle" font-size="11" fill="#374151">全域規劃(Planner)</text>
+  <text x="760" y="160" text-anchor="middle" font-size="11" fill="#374151">區域控制(Controller)</text>
+  <text x="760" y="188" text-anchor="middle" font-size="11" fill="#374151">分層 costmap</text>
+  <text x="760" y="216" text-anchor="middle" font-size="11" fill="#374151">行為樹 + 恢復行為</text>
+  <rect x="656" y="240" width="208" height="52" rx="8" fill="#ffffff" stroke="#10B981" stroke-dasharray="4,3"/>
+  <text x="760" y="260" text-anchor="middle" font-size="9.5" fill="#065F46">這一整塊完全不知道自己接的</text>
+  <text x="760" y="276" text-anchor="middle" font-size="9.5" font-weight="700" fill="#065F46">是模擬器還是真車</text>
+
+  <text x="450" y="392" text-anchor="middle" font-size="11.5" fill="#374151">正因為 Nav2 分不出差別,同一份設定才能直接搬上實車——這就少掉「軟體棧不一致」那一整類 sim-to-real 落差</text>
+</svg>

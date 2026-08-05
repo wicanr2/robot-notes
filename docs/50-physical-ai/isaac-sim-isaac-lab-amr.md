@@ -20,6 +20,10 @@
 
 層次關係(由下而上):**OpenUSD(資料格式)→ Omniverse(模擬平台)→ Isaac Sim(機器人模擬器)→ Isaac Lab(機器人學習框架)**。
 
+<p align="center"><img src="../../img/pai-isaac-stack.svg" width="820" alt="左側四層堆疊:OpenUSD 資料格式在最底,往上是 Omniverse 模擬平台、Isaac Sim 機器人模擬器、Isaac Lab 學習框架;右側官方工作流三步循環:Isaac Sim 組機器人→Isaac Lab 訓練→回 Isaac Sim 評估"></p>
+
+這張圖的右半邊值得多看一眼:兩個工具不是「二選一」,而是**輪流上場**。模型與場景的組裝在 Isaac Sim 做,訓練搬到 Isaac Lab,訓完的 policy 再回 Isaac Sim 評估——評估不過就回頭改設計或換 reward,再繞一圈。
+
 - **Isaac Sim** = 模擬器。負責把世界「跑起來」:算繪畫面、跑 PhysX 物理、模擬相機 / LiDAR / IMU、跟 ROS2 對接。
 - **Isaac Lab** = 學習框架。在 Isaac Sim 之上,提供定義 RL 環境(reward / observation / action)、大規模平行訓練、輸出 policy 的工具。它繼承 Isaac Sim 的能力,並加上 RL 研究專屬功能,如致動器動態(actuator dynamics)、程序化地形生成、人類示範資料收集。
 
@@ -88,6 +92,10 @@ ROS2 環境須在啟動 Isaac Sim 前先 source,讓 bridge 載入系統的 ROS2 
 - `/cmd_vel`(`geometry_msgs/Twist`) — 速度命令。Nav2 算出來的 `cmd_vel` 進到 Isaac Sim,經 **ROS2 Subscribe Twist 節點 → Differential Controller → Articulation Controller**,驅動模擬車輪。
 
 這些 publish/subscribe 都在 OmniGraph Action Graph 裡用對應節點(transform tree publisher、odometry publisher、joint state publisher 等)搭出來。
+
+<p align="center"><img src="../../img/pai-isaac-ros2-nav2.svg" width="820" alt="Isaac Sim 與 Nav2 的雙向資料流:模擬器 publish /scan、/point_cloud、/odom、/tf、/map、/clock 給 Nav2;Nav2 回傳 /cmd_vel 進到 Twist Subscribe 節點,經 Differential Controller、Articulation Controller 驅動輪子"></p>
+
+兩個方向合起來就是一個閉環:感測資料出去、速度命令回來、車動了、感測資料再出去。值得注意的是右邊那塊——**Nav2 完全不知道自己接的是模擬器還是真車**。這個「分不出來」不是巧合,而是刻意的:因為分不出來,同一份 Nav2 設定才能原封不動搬上實車,於是 [sim-to-real](sim-to-real.md) 那邊列的「模擬與實車軟體棧不一致」整類落差就不會發生。
 
 ### 樣板機器人與套件
 

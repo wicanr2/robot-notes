@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <rect width="820" height="460" fill="#ffffff"/>
   <text x="410" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">UL 2271 vs UL 2580:電池包安全標準怎麼分</text>
-  <text x="410" y="48" text-anchor="middle" font-size="12" fill="#6B7280">都是電池包(EESA)層級安全標準,差別在車重、電壓、濫用測試嚴格度</text>
+  <text x="410" y="48" text-anchor="middle" font-size="12" fill="#6B7280">都是電池包層級(UL 2580 稱 EESA);UL 2580 明文排除 LEV 並指向 UL 2271</text>
 
   <!-- Panel 1: UL 2271 -->
   <rect x="30" y="66" width="370" height="250" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>

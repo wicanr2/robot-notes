@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="isArr" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#6B7280"/>
+    </marker>
+    <marker id="isArrO" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#ffffff"/>
+
+  <text x="450" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Isaac Sim 與 Isaac Lab:四層堆疊與官方工作流</text>
+  <text x="450" y="48" text-anchor="middle" font-size="12" fill="#6B7280">由下而上:資料格式 → 模擬平台 → 機器人模擬器 → 學習框架</text>
+
+  <!-- 左:四層堆疊 -->
+  <text x="30" y="74" font-size="11.5" font-weight="700" fill="#6B7280">每一層建構在下一層之上</text>
+
+  <rect x="20" y="82" width="440" height="60" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="40" y="107" font-size="14" font-weight="700" fill="#9A3412">Isaac Lab</text>
+  <text x="40" y="127" font-size="10.5" fill="#374151">學習框架:定義 RL 環境、數千環境平行訓練、輸出 policy</text>
+
+  <rect x="20" y="154" width="440" height="60" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="40" y="179" font-size="14" font-weight="700" fill="#1E3A8A">Isaac Sim</text>
+  <text x="40" y="199" font-size="10.5" fill="#374151">機器人模擬器:感測器模擬、URDF 匯入、ROS 2 橋接、合成資料</text>
+
+  <rect x="20" y="226" width="440" height="60" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="40" y="251" font-size="14" font-weight="700" fill="#065F46">NVIDIA Omniverse</text>
+  <text x="40" y="271" font-size="10.5" fill="#374151">模擬平台:RTX 算繪、物理、Kit 基礎工具</text>
+
+  <rect x="20" y="298" width="440" height="60" rx="9" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.8"/>
+  <text x="40" y="323" font-size="14" font-weight="700" fill="#374151">OpenUSD</text>
+  <text x="40" y="343" font-size="10.5" fill="#374151">資料格式:場景、機器人、資產怎麼定義與互通</text>
+
+  <path d="M240,152 L240,146" stroke="#6B7280" stroke-width="1.6" marker-end="url(#isArr)"/>
+  <path d="M240,224 L240,218" stroke="#6B7280" stroke-width="1.6" marker-end="url(#isArr)"/>
+  <path d="M240,296 L240,290" stroke="#6B7280" stroke-width="1.6" marker-end="url(#isArr)"/>
+
+  <!-- 右:官方建議工作流 -->
+  <text x="500" y="74" font-size="11.5" font-weight="700" fill="#6B7280">官方建議工作流(繞著兩個工具轉)</text>
+
+  <rect x="500" y="82" width="300" height="56" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="650" y="106" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">① 在 Isaac Sim 組好機器人</text>
+  <text x="650" y="125" text-anchor="middle" font-size="10" fill="#6B7280">URDF → USD、掛感測器、接驅動鏈</text>
+
+  <rect x="500" y="172" width="300" height="56" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="650" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">② 在 Isaac Lab 訓練 policy</text>
+  <text x="650" y="215" text-anchor="middle" font-size="10" fill="#6B7280">向量化環境、PPO 等演算法、輸出 .pt</text>
+
+  <rect x="500" y="262" width="300" height="56" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="650" y="286" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">③ 回 Isaac Sim 評估與測試</text>
+  <text x="650" y="305" text-anchor="middle" font-size="10" fill="#6B7280">跑完再談 sim-to-real 遷移</text>
+
+  <path d="M650,140 L650,166" stroke="#6B7280" stroke-width="1.8" marker-end="url(#isArr)"/>
+  <path d="M650,230 L650,256" stroke="#6B7280" stroke-width="1.8" marker-end="url(#isArr)"/>
+  <path d="M802,290 Q848,290 848,200 Q848,110 806,110" fill="none" stroke="#F97316" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#isArrO)"/>
+  <text x="866" y="196" text-anchor="middle" font-size="9.5" fill="#9A3412" transform="rotate(90 866 196)">評估不過就改設計 / 換 reward</text>
+
+  <text x="20" y="382" font-size="11" fill="#374151">Isaac Lab 不是另一個模擬器——它繼承 Isaac Sim 的能力,再加上 RL 專屬功能(致動器動態、程序化地形生成、示範資料收集)。</text>
+</svg>

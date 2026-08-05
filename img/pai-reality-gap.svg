@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 425" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="paiArrOrange" markerWidth="10" markerHeight="10" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker>
   </defs>
-  <rect width="860" height="460" fill="#ffffff"/>
+  <rect width="860" height="425" fill="#ffffff"/>
 
   <text x="430" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Reality Gap 從哪來:模擬與真實之間的落差</text>
   <text x="430" y="54" text-anchor="middle" font-size="12" fill="#6B7280">NVIDIA Isaac Lab:近似誤差 / 模型誤差 / 未建模動態 → 收斂為 5 個來源</text>
