@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 350" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="hcA" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker></defs>
+  <rect width="860" height="350" fill="#ffffff"/>
+  <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">接觸集合一換,動力學方程式就換一組</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">四隻腳 → 2⁴ = 16 種接觸集合,每一種對應不同的方程式</text>
+
+  <g font-size="10">
+    <!-- 四個快照 -->
+    <rect x="24" y="70" width="176" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="112" y="90" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E3A8A">LF + RH 踩地</text>
+    <circle cx="76" cy="112" r="8" fill="#1E3A8A"/><circle cx="148" cy="112" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="76" cy="146" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/><circle cx="148" cy="146" r="8" fill="#1E3A8A"/>
+    <text x="112" y="174" text-anchor="middle" fill="#374151">動力學 A</text>
+
+    <rect x="228" y="70" width="176" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="316" y="90" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E3A8A">四腳全踩</text>
+    <circle cx="280" cy="112" r="8" fill="#1E3A8A"/><circle cx="352" cy="112" r="8" fill="#1E3A8A"/>
+    <circle cx="280" cy="146" r="8" fill="#1E3A8A"/><circle cx="352" cy="146" r="8" fill="#1E3A8A"/>
+    <text x="316" y="174" text-anchor="middle" fill="#374151">動力學 B</text>
+
+    <rect x="432" y="70" width="176" height="112" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="520" y="90" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E3A8A">RF + LH 踩地</text>
+    <circle cx="484" cy="112" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/><circle cx="556" cy="112" r="8" fill="#1E3A8A"/>
+    <circle cx="484" cy="146" r="8" fill="#1E3A8A"/><circle cx="556" cy="146" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/>
+    <text x="520" y="174" text-anchor="middle" fill="#374151">動力學 C</text>
+
+    <rect x="636" y="70" width="176" height="112" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="724" y="90" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">飛行相:全空中</text>
+    <circle cx="688" cy="112" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/><circle cx="760" cy="112" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="688" cy="146" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/><circle cx="760" cy="146" r="8" fill="#ffffff" stroke="#9CA3AF" stroke-width="2"/>
+    <text x="724" y="174" text-anchor="middle" fill="#374151">動力學 D(自由飛行)</text>
+  </g>
+
+  <line x1="204" y1="126" x2="222" y2="126" stroke="#F97316" stroke-width="2" marker-end="url(#hcA)"/>
+  <line x1="408" y1="126" x2="426" y2="126" stroke="#F97316" stroke-width="2" marker-end="url(#hcA)"/>
+  <line x1="612" y1="126" x2="630" y2="126" stroke="#F97316" stroke-width="2" marker-end="url(#hcA)"/>
+  <text x="430" y="206" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">箭頭是離散事件:著地 / 離地</text>
+  <text x="430" y="224" text-anchor="middle" font-size="9.5" fill="#6B7280">而且切換時刻不是外部給的,是狀態自己觸發的(腳的高度降到 0)——切換條件內生於系統</text>
+
+  <rect x="20" y="244" width="820" height="90" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="40" y="268" font-size="12" font-weight="700" fill="#991B1B">混合系統(hybrid system)= 連續動力學 + 離散切換</text>
+  <text x="40" y="292" font-size="10.5" fill="#374151">古典控制理論的整套工具(頻域分析、線性化、LQR、增益調校)都建在「系統連續可微」上。接觸切換不可微,</text>
+  <text x="40" y="312" font-size="10.5" fill="#374151">而且著地那一瞬間速度會突變(碰撞)。<tspan font-weight="700">沒有一組固定增益能同時對 16 種動力學都好。</tspan></text>
+  <text x="40" y="330" font-size="10" fill="#6B7280">這就是為什麼足式的控制不是「輪式那套調參數」,而是換一類方法——也是強化學習在足式上主導的根本原因。</text>
+</svg>

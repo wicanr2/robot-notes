@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 375" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="seA" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#6B7280"/></marker></defs>
+  <rect width="880" height="375" fill="#ffffff"/>
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">沒有輪子可以數,而且要估的還更多</text>
+  <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">輪式貼在地上,z / roll / pitch 幾乎是常數;足式軀幹上下起伏、前後俯仰,6 個自由度全要估</text>
+
+  <!-- 三個來源 -->
+  <rect x="20" y="70" width="250" height="94" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="36" y="92" font-size="12" font-weight="700" fill="#991B1B">接觸偵測</text>
+  <text x="36" y="112" font-size="9.5" fill="#374151">提供:現在哪幾隻腳踩在地上</text>
+  <text x="36" y="132" font-size="9.5" fill="#374151">做法:足底力感測,或用關節力矩</text>
+  <text x="36" y="148" font-size="9.5" fill="#374151">反推(τ = JᵀF,不必加感測器)</text>
+
+  <rect x="20" y="176" width="250" height="94" rx="9" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="36" y="198" font-size="12" font-weight="700" fill="#1E3A8A">腿部運動學</text>
+  <text x="36" y="218" font-size="9.5" fill="#374151">提供:把踩地的腳當暫時固定的支點,</text>
+  <text x="36" y="234" font-size="9.5" fill="#374151">用關節角反推軀幹移動了多少</text>
+  <text x="36" y="256" font-size="9.5" fill="#991B1B">洞:腳一離地,參考就消失,要換一隻</text>
+
+  <rect x="20" y="282" width="250" height="76" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
+  <text x="36" y="304" font-size="12" font-weight="700" fill="#065F46">IMU</text>
+  <text x="36" y="324" font-size="9.5" fill="#374151">提供:高頻的加速度與角速度</text>
+  <text x="36" y="344" font-size="9.5" fill="#991B1B">洞:積分會漂,位置是二次積分,漂更快</text>
+
+  <line x1="278" y1="117" x2="330" y2="180" stroke="#6B7280" stroke-width="1.8" marker-end="url(#seA)"/>
+  <line x1="278" y1="223" x2="330" y2="212" stroke="#6B7280" stroke-width="1.8" marker-end="url(#seA)"/>
+  <line x1="278" y1="320" x2="330" y2="245" stroke="#6B7280" stroke-width="1.8" marker-end="url(#seA)"/>
+
+  <!-- 融合 -->
+  <rect x="340" y="164" width="180" height="96" rx="10" fill="#F9FAFB" stroke="#374151" stroke-width="2"/>
+  <text x="430" y="190" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">融合</text>
+  <text x="430" y="212" text-anchor="middle" font-size="10" fill="#374151">高頻但會漂的(IMU)</text>
+  <text x="430" y="230" text-anchor="middle" font-size="10" fill="#374151">由低頻但不漂的拉回來</text>
+  <text x="430" y="250" text-anchor="middle" font-size="9" fill="#6B7280">跟輪式的 wheel + IMU EKF 同源</text>
+
+  <line x1="528" y1="212" x2="570" y2="212" stroke="#6B7280" stroke-width="2" marker-end="url(#seA)"/>
+  <rect x="580" y="176" width="180" height="72" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="670" y="202" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">軀幹 6 DOF 位姿</text>
+  <text x="670" y="224" text-anchor="middle" font-size="10" fill="#374151">x, y, z, roll, pitch, yaw</text>
+  <text x="670" y="240" text-anchor="middle" font-size="9" fill="#6B7280">沒有一個是直接量得到的</text>
+
+  <!-- 差別 + 單點失效 -->
+  <rect x="340" y="70" width="420" height="80" rx="9" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+  <text x="356" y="92" font-size="11.5" font-weight="700" fill="#9A3412">跟輪式最大的差別</text>
+  <text x="356" y="114" font-size="10.5" fill="#374151">輪式的低頻來源<tspan font-weight="700">一直都在</tspan>——輪子一直在轉。</text>
+  <text x="356" y="136" font-size="10.5" fill="#374151">足式的低頻來源<tspan font-weight="700">每一步都要換一次</tspan>,換的時機由接觸偵測決定。</text>
+
+  <rect x="340" y="276" width="520" height="82" rx="9" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="356" y="298" font-size="11.5" font-weight="700" fill="#991B1B">接觸偵測是這條鏈的單點失效</text>
+  <text x="356" y="320" font-size="10.5" fill="#374151">判錯的後果<tspan font-weight="700">不對稱</tspan>:把「還在空中」誤判成「踩到了」,估計器會拿一個</text>
+  <text x="356" y="340" font-size="10.5" fill="#374151"><tspan font-weight="700">正在移動的點</tspan>當固定支點——位移會瞬間錯掉,而且錯得沒有跡象可循。</text>
+</svg>

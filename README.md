@@ -5,8 +5,8 @@
 - **在講什麼** — 一台機器人從馬達、感測器、韌體,一路到導航、多車交管與模擬驗證,每一層各自要解什麼問題、為什麼是這個設計。
 - **怎麼組織** — 拆成[共通核心](docs/10-core/)與[形態分支](docs/20-forms/)兩塊。判準是一句話:**把形態換掉,這篇還成不成立?** FOC 換相、編碼器解碼、SLAM、costmap 這些換成四足照樣成立,放核心;差速運動學、手臂 IK、雙足平衡只對特定形態成立,放分支。
 - **寫給誰** — 想把機器人從頭搞懂的人,尤其是寫軟體、但對硬體不熟的那種。名詞第一次出現就當場翻譯。
-- **規模** — 60+ 篇主題文件、180+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
-- **完整度不均** — 輪式 AMR(送餐機器人、物流搬運車)是最早展開、覆蓋最完整的一條線;移動操作剛起頭;四足與人形還沒寫。進度見 [PLAN.md](PLAN.md)。
+- **規模** — 60+ 篇主題文件、190+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
+- **完整度不均** — 輪式 AMR(送餐機器人、物流搬運車)是最早展開、覆蓋最完整的一條線;移動操作與四足剛起頭;人形還沒寫。進度見 [PLAN.md](PLAN.md)。
 
 <p align="center">
   <img src="img/bellabot.png" height="180" alt="Pudu BellaBot 送餐機器人">
@@ -71,6 +71,7 @@
 | 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
 | **想比較不同形態** | [形態分支總覽](docs/20-forms/) — 一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪 |
 | 要在搬運車上裝手臂 | [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) |
+| 想搞懂四足為什麼難 | [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md) |
 
 > 進階小節(如數位電路 §15 半導體物理、定位 §28 地標 PnP)初讀可跳過,需要時再回來。
 > 看到 `§11.3` 之類的編號不知在哪個檔 → 查 [章節對照表](docs/section-map.md)。看不懂的名詞 → 查 [術語表](CONTEXT.md)。
@@ -89,6 +90,9 @@
 - [移動操作:搬運車 + 機械手臂](docs/20-forms/mobile-manipulator/) — 兩者相加才長出來的三件事
   - [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) — FK/IK 為什麼難度不對稱、DH 為什麼 4 個參數、球型手腕是機構遷就求解、Jacobian 的三重身分
   - [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) — 冗餘與零空間投影、誤差預算、傾覆判準、安全標準之間的空隙
+- [四足](docs/20-forms/legged/) — 讓輪式問題乾淨的三個前提被同時打掉
+  - [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) — 浮動基座與欠致動、接觸讓系統變成混合系統、ZMP 與 capture point 各保證什麼、沒有輪子怎麼估狀態
+  - [步態與致動](docs/20-forms/legged/gait-and-actuation.md) — duty factor 0.5 的幾何必然、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
 
 ### 10 硬體
 - [底盤與驅動系統](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="860" height="380" fill="#ffffff"/>
+  <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">支撐多邊形一路退化,最後判準本身失去意義</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">俯視圖:實心=踩地、空心=擺動;紅點是重心投影</text>
+
+  <!-- Panel 1:三腳支撐 -->
+  <rect x="20" y="68" width="260" height="216" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
+  <text x="150" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">慢走:3 腳支撐</text>
+  <polygon points="90,130 210,130 90,220" fill="#10B981" opacity="0.18" stroke="#10B981" stroke-width="1.6"/>
+  <circle cx="90" cy="130" r="9" fill="#065F46"/><circle cx="210" cy="130" r="9" fill="#065F46"/>
+  <circle cx="90" cy="220" r="9" fill="#065F46"/>
+  <circle cx="210" cy="220" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="128" cy="162" r="6" fill="#EF4444"/>
+  <text x="150" y="252" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">三角形。重心留在裡面就不會倒</text>
+  <text x="150" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">靜態穩定判準成立,而且是設計目標</text>
+
+  <!-- Panel 2:對角兩腳 -->
+  <rect x="300" y="68" width="260" height="216" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.7"/>
+  <text x="430" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412">對角小跑:2 腳支撐</text>
+  <line x1="370" y1="130" x2="490" y2="220" stroke="#F97316" stroke-width="4"/>
+  <circle cx="370" cy="130" r="9" fill="#9A3412"/><circle cx="490" cy="220" r="9" fill="#9A3412"/>
+  <circle cx="490" cy="130" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="370" cy="220" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="424" cy="168" r="6" fill="#EF4444"/>
+  <text x="430" y="252" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">退化成一條線段</text>
+  <text x="430" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">重心要精確落在線上,幾乎不可能滿足</text>
+
+  <!-- Panel 3:飛行相 -->
+  <rect x="580" y="68" width="260" height="216" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.7"/>
+  <text x="710" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#991B1B">跑步的飛行相:0 腳支撐</text>
+  <circle cx="650" cy="130" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="770" cy="130" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="650" cy="220" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="770" cy="220" r="9" fill="#ffffff" stroke="#9CA3AF" stroke-width="2.5"/>
+  <circle cx="710" cy="175" r="6" fill="#EF4444"/>
+  <text x="710" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#991B1B">沒有支撐面</text>
+  <text x="710" y="252" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">判準無法定義</text>
+  <text x="710" y="270" text-anchor="middle" font-size="9.5" fill="#6B7280">不是難以滿足,是根本無從談起</text>
+
+  <rect x="20" y="298" width="820" height="66" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
+  <text x="40" y="322" font-size="11.5" font-weight="700" fill="#374151">所以足式的穩定不能定義成「不會倒」的靜態條件,只能定義成動態的</text>
+  <text x="40" y="346" font-size="10.5" fill="#374151">一隻在跑的四足<tspan font-weight="700">每一個瞬間都是不穩定的</tspan>——靠的是下一步踩對位置把它救回來。平衡不是要維持的狀態,是要持續執行的過程。</text>
+</svg>

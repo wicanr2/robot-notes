@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 370" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="fbG" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#10B981"/></marker>
+    <marker id="fbO" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker>
+  </defs>
+  <rect width="860" height="370" fill="#ffffff"/>
+  <text x="430" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">找不到任何一顆馬達連到軀幹</text>
+  <text x="430" y="48" text-anchor="middle" font-size="12" fill="#6B7280">想控制的那 6 個自由度,恰好是不能直接控制的那 6 個</text>
+
+  <!-- 輪式 -->
+  <rect x="20" y="68" width="400" height="196" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.7"/>
+  <text x="220" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">輪式:馬達與基座剛性相連</text>
+  <line x1="50" y1="212" x2="390" y2="212" stroke="#9CA3AF" stroke-width="2.5"/>
+  <rect x="150" y="150" width="140" height="42" rx="6" fill="#9CA3AF"/>
+  <text x="220" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">base_link</text>
+  <circle cx="170" cy="212" r="19" fill="#ffffff" stroke="#374151" stroke-width="3"/>
+  <circle cx="270" cy="212" r="19" fill="#ffffff" stroke="#374151" stroke-width="3"/>
+  <circle cx="170" cy="212" r="8" fill="#10B981"/><circle cx="270" cy="212" r="8" fill="#10B981"/>
+  <text x="170" y="243" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">馬達</text>
+  <text x="270" y="243" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">馬達</text>
+  <line x1="170" y1="204" x2="170" y2="194" stroke="#10B981" stroke-width="4"/>
+  <line x1="270" y1="204" x2="270" y2="194" stroke="#10B981" stroke-width="4"/>
+  <line x1="316" y1="171" x2="360" y2="171" stroke="#10B981" stroke-width="2.4" marker-end="url(#fbG)"/>
+  <text x="352" y="160" text-anchor="middle" font-size="9.5" font-weight="700" fill="#065F46">下輪速</text>
+  <text x="352" y="188" text-anchor="middle" font-size="9.5" fill="#065F46">基座照著動</text>
+
+  <!-- 足式 -->
+  <rect x="440" y="68" width="400" height="196" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.7"/>
+  <text x="640" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#991B1B">足式:軀幹是浮的</text>
+  <line x1="470" y1="234" x2="810" y2="234" stroke="#9CA3AF" stroke-width="2.5"/>
+  <rect x="570" y="126" width="140" height="34" rx="6" fill="#9CA3AF"/>
+  <text x="640" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">base_link</text>
+  <g stroke="#6B7280" stroke-width="6" stroke-linecap="round" fill="none">
+    <line x1="588" y1="160" x2="562" y2="196"/><line x1="562" y1="196" x2="580" y2="234"/>
+    <line x1="692" y1="160" x2="718" y2="196"/><line x1="718" y1="196" x2="700" y2="234"/>
+  </g>
+  <circle cx="588" cy="160" r="6.5" fill="#F97316"/><circle cx="562" cy="196" r="6.5" fill="#F97316"/>
+  <circle cx="692" cy="160" r="6.5" fill="#F97316"/><circle cx="718" cy="196" r="6.5" fill="#F97316"/>
+  <text x="530" y="176" text-anchor="end" font-size="9" font-weight="700" fill="#9A3412">馬達全在關節上</text>
+  <line x1="534" y1="172" x2="556" y2="180" stroke="#F97316" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="580" y1="234" x2="580" y2="212" stroke="#F97316" stroke-width="2.2" marker-end="url(#fbO)"/>
+  <line x1="700" y1="234" x2="700" y2="212" stroke="#F97316" stroke-width="2.2" marker-end="url(#fbO)"/>
+  <text x="640" y="256" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A3412">只能靠腳推地、地反推腳,力再沿腿傳上來</text>
+  <rect x="740" y="118" width="90" height="50" rx="8" fill="#ffffff" stroke="#EF4444" stroke-dasharray="4,3"/>
+  <text x="785" y="138" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">軀幹 6 DOF</text>
+  <text x="785" y="156" text-anchor="middle" font-size="9.5" fill="#991B1B">沒有輸入</text>
+
+  <!-- 自由度帳 -->
+  <rect x="20" y="278" width="820" height="76" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
+  <text x="40" y="300" font-size="11.5" font-weight="700" fill="#374151">自由度帳</text>
+  <text x="140" y="300" font-size="10.5" fill="#374151">輪式:平面 3 個自由度,差速直接控 2 個(不能橫移)——差額來自機構約束,是已知的、固定的。</text>
+  <text x="140" y="322" font-size="10.5" fill="#374151">足式:系統自由度 <tspan font-weight="700">6 + n</tspan>(浮動基座 6 + 關節 n),可控輸入只有 <tspan font-weight="700">n</tspan> 個關節。</text>
+  <text x="140" y="344" font-size="11" font-weight="700" fill="#991B1B">永遠差 6 個 —— 這叫欠致動(underactuated),是所有足式控制方法都在繞的那件事。</text>
+</svg>
