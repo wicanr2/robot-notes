@@ -4,7 +4,7 @@
 
 > NVIDIA 的原話:資料生成從「建立一個空間(例如工廠)的數位分身」開始;而真實世界的感測器資料,也可以透過 **3D Gaussian-based reconstruction** 直接帶進互動式模擬裡。
 
-> 延伸閱讀:[Physical AI 總覽](physical-ai-overview.md)、[定位](../30-navigation/localization.md)(AMCL/EKF 也建立在高斯假設上)。
+> 延伸閱讀:[Physical AI 總覽](physical-ai-overview.md)、[定位](../10-core/30-navigation/localization.md)(AMCL/EKF 也建立在高斯假設上)。
 
 ---
 
@@ -88,7 +88,7 @@
 | 高斯混合模型(GMM) | 用多個高斯疊出複雜分布 | 2 |
 | **3D Gaussian Splatting** | 用高斯橢球當 3D 積木 | 2(投影後仍是高斯 → 即時 render) |
 
-**和這份筆記的連結**:[定位](../30-navigation/localization.md) 裡的 AMCL(粒子濾波)與 `robot_localization` 的 EKF,融合 odometry + IMU 時就是假設誤差服從高斯——和這裡的 3D Gaussian 重建,本質上是同一個高斯在不同問題裡各自發揮。
+**和這份筆記的連結**:[定位](../10-core/30-navigation/localization.md) 裡的 AMCL(粒子濾波)與 `robot_localization` 的 EKF,融合 odometry + IMU 時就是假設誤差服從高斯——和這裡的 3D Gaussian 重建,本質上是同一個高斯在不同問題裡各自發揮。
 
 一句話:**高斯不是流行語,是「最像真實雜訊 + 數學最好算 + 假設最少」三合一的工具**,所以兩百年來在一個又一個新問題裡,反覆被發現是最佳解。
 

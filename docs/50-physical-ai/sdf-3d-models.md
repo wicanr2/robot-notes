@@ -152,7 +152,7 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 </plugin>
 ```
 
-有了 `/scan`(LiDAR)和 `/odom`(差速里程)這兩個輸出,就能餵給 [slam_toolbox](../30-navigation/slam-mapping.md) 建圖。完整 `.sdf`(每個 link 的 inertia、joint、輪子摩擦)會在實際跑 Gazebo 那輪一起補齊並驗證——這台搬運車就是接下來 AWS Small Warehouse SLAM 場景要用的機器人。
+有了 `/scan`(LiDAR)和 `/odom`(差速里程)這兩個輸出,就能餵給 [slam_toolbox](../10-core/30-navigation/slam-mapping.md) 建圖。完整 `.sdf`(每個 link 的 inertia、joint、輪子摩擦)會在實際跑 Gazebo 那輪一起補齊並驗證——這台搬運車就是接下來 AWS Small Warehouse SLAM 場景要用的機器人。
 
 > 版本提醒:上面是 **Gazebo Classic(`libgazebo_ros_*`)** 的 plugin 名;新版 **Gazebo(gz sim)** 改用 `gz-sim-diff-drive-system` 等,標籤略不同。實際用哪個,看你機器的 Gazebo 版本(見 simulation 篇)。
 

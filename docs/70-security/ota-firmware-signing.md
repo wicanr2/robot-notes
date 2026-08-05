@@ -4,7 +4,7 @@ OTA(Over-The-Air)推更新很方便,但要怎麼確保「**推來的是官方的
 
 先釐清:機器人的 OTA 其實分兩種——**上位機軟體**(Linux 上的容器 / 套件 / 應用)與**下位機 MCU 韌體**(`.bin`)。**ROS2 本身沒有官方 OTA 框架**(它是中介軟體);更新靠底層 OS / 容器 / bootloader 的機制。但不論哪種,核心都是同一件事:用簽章證明韌體來源與完整性。
 
-> 前置:[資安總覽](README.md)、[STM32 REST+TLS](../20-firmware/stm32-rest-tls.md)(MCU 端 TLS)。
+> 前置:[資安總覽](README.md)、[STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md)(MCU 端 TLS)。
 
 ---
 

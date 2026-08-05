@@ -2,7 +2,7 @@
 
 四個常被問到的細節:**OpenRMF 有哪些 API、VDA5050 的基本結構、VDA5050 車輛怎麼拿到圖資、OpenRMF 怎麼讀不同車的地圖並做座標轉換、避塞車**。前兩篇([OpenRMF](open-rmf.md)、[VDA5050](vda5050.md))講「為什麼」,這篇補「機制細節」。
 
-> 前置:[OpenRMF](open-rmf.md)、[VDA5050](vda5050.md)、[座標轉換與 TF](../30-navigation/kinematics-and-coordinate-transforms.md)。
+> 前置:[OpenRMF](open-rmf.md)、[VDA5050](vda5050.md)、[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)。
 > API/格式名稱經官方來源查證;不確定處標待查證。
 
 ---
@@ -65,7 +65,7 @@ reference_coordinates:
 ```
 
 - fleet adapter 用 Python `nudged` 套件從兩串點最小平方擬合出雙向變換。相似變換只有 4 個自由度(平移 x/y、旋轉、縮放),**理論上 2 組點就解得出**;實務取 **≥4 組**做最小平方,是為了吸收人工取點誤差。
-- 為什麼是「相似變換」不是任意變換?剛體場域只差平移+旋轉,加一個均勻縮放吸收單位差(像素↔公尺);**不允許拉伸/剪切**(那會扭曲距離與角度)。這正是 [座標轉換篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的齊次變換用在「跨座標系對齊」的實例。
+- 為什麼是「相似變換」不是任意變換?剛體場域只差平移+旋轉,加一個均勻縮放吸收單位差(像素↔公尺);**不允許拉伸/剪切**(那會扭曲距離與角度)。這正是 [座標轉換篇](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) 的齊次變換用在「跨座標系對齊」的實例。
 
 ### 4.3 避塞車:共用時空排程 + 協商 + 路權原語
 

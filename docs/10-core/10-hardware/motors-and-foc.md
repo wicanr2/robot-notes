@@ -3,7 +3,7 @@
 機器人會動,核心是馬達。本篇從「馬達怎麼把電變成轉動」一路講到 FOC(磁場導向控制)為什麼是現代無刷馬達的標準作法,並拆解定子/轉子、有刷/無刷、功率橋與閘極驅動器這些常被行銷術語包裝的硬體。
 
 > 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照(故本檔編號不連續,如 §1→§5→§10,非缺漏)。
-> 延伸閱讀:[底盤與驅動系統](chassis-and-drivetrain.md)、[編碼器](encoders.md)、[數位電路與 open-drain](digital-circuits.md)
+> 延伸閱讀:[底盤與驅動系統](../../20-forms/wheeled-amr/chassis-and-drivetrain.md)、[編碼器](encoders.md)、[數位電路與 open-drain](digital-circuits.md)
 
 ---
 
@@ -27,7 +27,7 @@ FOC = **Field-Oriented Control,磁場導向控制**,是 BLDC/PMSM 馬達目前�
 
 > 邊界:`id = 0` 對表面貼磁式馬達(SPMSM,送餐機常見)是最佳;內藏式磁石馬達(IPMSM)有磁阻轉矩、或高速「弱磁」運轉時,會刻意給 `id ≠ 0`,屬進階情形。
 
-<p align="center"><img src="../../img/foc-torque-sin.svg" width="600" alt="扭矩 τ ∝ sin(夾角),90° 時最大;FOC 把電流壓在 90°、id 控成 0"></p>
+<p align="center"><img src="../../../img/foc-torque-sin.svg" width="600" alt="扭矩 τ ∝ sin(夾角),90° 時最大;FOC 把電流壓在 90°、id 控成 0"></p>
 
 FOC 做的事就是:**即時知道轉子角度,然後把三相電流精確控制成永遠垂直(90°)推轉子的方向**。
 
@@ -49,7 +49,7 @@ FOC 做的事就是:**即時知道轉子角度,然後把三相電流精確控制
 
 FOC 電流環是最內環,外面再包速度環:
 
-<p align="center"><img src="../../img/cascade-control.svg" width="660" alt="串級控制:運動學逆解→速度環PI(1kHz)→FOC電流環(10-20kHz)→馬達,兩層回授"></p>
+<p align="center"><img src="../../../img/cascade-control.svg" width="660" alt="串級控制:運動學逆解→速度環PI(1kHz)→FOC電流環(10-20kHz)→馬達,兩層回授"></p>
 
 ### 2.4 為什麼建議初期買現成驅動器
 
@@ -86,7 +86,7 @@ FOC 電流環是最內環,外面再包速度環:
 
 晶片廠的產品線就是沿著「幫你整合多少」排開的:
 
-<p align="center"><img src="../../img/motor-integration-spectrum.svg" width="720" alt="整合程度光譜:只有 gate driver(功率彈性最大)→ 整合 FET(適合小功率)→ 整合馬達控制(一顆晶片馬達就會轉)"></p>
+<p align="center"><img src="../../../img/motor-integration-spectrum.svg" width="720" alt="整合程度光譜:只有 gate driver(功率彈性最大)→ 整合 FET(適合小功率)→ 整合馬達控制(一顆晶片馬達就會轉)"></p>
 
 對送餐機器人的對應:輪轂馬達 100–200W 的電流等級,現成 FOC 驅動器整機內部通常就是「MCU + smart gate driver + 外置 MOSFET」的組合。這張光譜圖是**做驅動器的人**要面對的選型;你買整機走 CAN,這層複雜度已被封裝掉——這正是第 2.4 節「初期不自研 FOC」的理由。
 
@@ -103,7 +103,7 @@ FOC 電流環是最內環,外面再包速度環:
 
 先理解單顆元件。MOSFET 有三支腳:
 
-<p align="center"><img src="../../img/motor-mosfet-symbol.svg" width="600" alt="MOSFET 三支腳:D 汲極、G 閘極(加電壓→D-S 導通,像繼電器但每秒可開關 2 萬次)、S 源極"></p>
+<p align="center"><img src="../../../img/motor-mosfet-symbol.svg" width="600" alt="MOSFET 三支腳:D 汲極、G 閘極(加電壓→D-S 導通,像繼電器但每秒可開關 2 萬次)、S 源極"></p>
 
 把它想成「電壓控制的繼電器」:Gate 對 Source 加約 +10V → D-S 導通(電阻僅數 mΩ,可流數十安培);Gate 歸零 → 斷開。它只工作在「全開/全關」兩態——半開會同時承受高電壓與大電流,瞬間燒毀,這也是後面所有設計約束的來源。
 
@@ -111,7 +111,7 @@ FOC 電流環是最內環,外面再包速度環:
 
 每相一對(上管 + 下管),共三組「半橋」,中點接出馬達三相線:
 
-<p align="center"><img src="../../img/motor-three-phase-bridge.svg" width="820" alt="三相橋 Q1-Q6:橘色高亮一個導通路徑範例(開 Q1+Q4,其餘全關),電流電池+→Q1→U相→馬達內部→V相→Q4→電池-"></p>
+<p align="center"><img src="../../../img/motor-three-phase-bridge.svg" width="820" alt="三相橋 Q1-Q6:橘色高亮一個導通路徑範例(開 Q1+Q4,其餘全關),電流電池+→Q1→U相→馬達內部→V相→Q4→電池-"></p>
 
 **電流怎麼流**(舉一例):開 Q1(U 上管)+ 開 Q4(V 下管),其餘全關,電流路徑是「電池+ → Q1 → U 相線圈 → 馬達內部 → V 相線圈 → Q4 → 電池−」(即上圖橘色路徑)。電流從 U 進、V 出,定子產生一個方向的磁場。換開不同的管子組合,電流就走不同相、不同方向——**六步換相**就是依霍爾狀態([§11.1](encoders.md) 的 6 個狀態)輪流切 6 種組合;**FOC** 則更進一步:6 顆管子都以 10–20kHz 的 PWM 高速開關,用「占空比」精細調出三相各自的等效電壓(SVPWM),配合線圈電感的天然濾波,流出近似弦波的平滑電流。
 
@@ -135,7 +135,7 @@ N-MOSFET 導通條件是「Gate 比 **Source** 高 10V」。下管的 Source 接
 
 ### 12.5 整條鏈合起來看
 
-<p align="center"><img src="../../img/motor-power-chain.svg" width="760" alt="馬達驅動硬體鏈:MCU(大腦)→閘極驅動器(神經+肌腱)→功率橋(肌肉)→三相線圈→馬達轉"></p>
+<p align="center"><img src="../../../img/motor-power-chain.svg" width="760" alt="馬達驅動硬體鏈:MCU(大腦)→閘極驅動器(神經+肌腱)→功率橋(肌肉)→三相線圈→馬達轉"></p>
 
 回扣 §9 的整合光譜:這條鏈的每一段都可以「買整合的」——smart gate driver = 中段整合保護;integrated FET = 中段+右段做進同一顆晶片;FOC 驅動器整機 = 整條鏈裝盒、對外只剩 CAN 介面。本專案買整機,但看懂這條鏈,規格書上的「MOSFET 內阻」「死區時間」「最大相電流」「過流保護閾值」就都有了著落。
 
@@ -159,9 +159,9 @@ N-MOSFET 導通條件是「Gate 比 **Source** 高 10V」。下管的 Source 接
 | **BLDC / PMSM** | **三相線圈 (U/V/W)** | **永久磁鐵** |
 | 感應馬達(工業 AC) | 三相線圈 | 鼠籠導體(無磁鐵) |
 
-BLDC 的設計邏輯:把需要供電的線圈放在不動的定子上(導線直接拉出來,不需要碳刷),讓不用接線的磁鐵去轉——這正是「無刷」的由來(對照 [§1.4](chassis-and-drivetrain.md))。
+BLDC 的設計邏輯:把需要供電的線圈放在不動的定子上(導線直接拉出來,不需要碳刷),讓不用接線的磁鐵去轉——這正是「無刷」的由來(對照 [§1.4](../../20-forms/wheeled-amr/chassis-and-drivetrain.md))。
 
-**輪轂馬達是「外轉子」結構**,跟直覺相反:定子(線圈)固定在**輪軸中心**,轉子(磁鐵)做在**外殼上、連著輪框**——轉的是外面那圈,[§1.3](chassis-and-drivetrain.md) 說「輪子本身就是馬達」就是這個意思。內轉子(轉軸在中心轉)反而是一般馬達的長相。
+**輪轂馬達是「外轉子」結構**,跟直覺相反:定子(線圈)固定在**輪軸中心**,轉子(磁鐵)做在**外殼上、連著輪框**——轉的是外面那圈,[§1.3](../../20-forms/wheeled-amr/chassis-and-drivetrain.md) 說「輪子本身就是馬達」就是這個意思。內轉子(轉軸在中心轉)反而是一般馬達的長相。
 
 ### 16.2 定子的具體構造(BLDC)
 
@@ -173,13 +173,13 @@ BLDC 的設計邏輯:把需要供電的線圈放在不動的定子上(導線直�
 
 §2.2 的 FOC 流程裡,「定子」「轉子」指的是兩個**參考座標系**:
 
-<p align="center"><img src="../../img/motor-clarke-park-frames.svg" width="760" alt="座標系接力:a-b-c(定子三軸)→ Clarke 變換 → α-β(定子兩軸)→ Park 變換(用角度 θ)→ d-q(轉子兩軸,d=磁鐵N極方向)"></p>
+<p align="center"><img src="../../../img/motor-clarke-park-frames.svg" width="760" alt="座標系接力:a-b-c(定子三軸)→ Clarke 變換 → α-β(定子兩軸)→ Park 變換(用角度 θ)→ d-q(轉子兩軸,d=磁鐵N極方向)"></p>
 
 為什麼要轉過去:站在**定子**(不動的觀察者)看,線圈電流是交流弦波——因為磁場在你面前轉,你量到的東西永遠在振盪,PI 控制器很難追交流目標。Park 變換等於**跳上轉子一起轉**:磁場相對你靜止了,原本的交流量變成兩個直流量(iq = 扭矩分量、id = 無用分量),控制問題瞬間變簡單。
 
 直觀類比:站在月台看旋轉木馬,每匹馬的位置都在週期變化(交流);**跳上轉盤**,馬就停在你旁邊不動了(直流)。Park 變換就是「跳上轉盤」這個動作,需要的唯一資訊是轉盤當下轉到哪(轉子角度 θ)——這就是 §2.2 說 FOC 必須即時知道轉子角度的原因,也是霍爾/編碼器([§11](encoders.md))在 FOC 裡的另一重身分。
 
-<p align="center"><img src="../../img/park-transform-carousel.svg" width="640" alt="Park 變換:月台視角看到交流弦波(難控),跳上轉盤後變 iq/id 兩個直流(好控)"></p>
+<p align="center"><img src="../../../img/park-transform-carousel.svg" width="640" alt="Park 變換:月台視角看到交流弦波(難控),跳上轉盤後變 iq/id 兩個直流(好控)"></p>
 
 ### 16.4 串起來:一張對照表
 
@@ -204,7 +204,7 @@ BLDC 的設計邏輯:把需要供電的線圈放在不動的定子上(導線直�
 
 ### 17.2 有刷馬達:機械換相(結構剖面)
 
-<p align="center"><img src="../../img/motor-brushed-cutaway.svg" width="680" alt="有刷馬達剖面:外殼=定子(永久磁鐵,N上S下),轉子=線圈+鐵芯,換向器銅片隨轉子轉,碳刷固定用彈簧壓接"></p>
+<p align="center"><img src="../../../img/motor-brushed-cutaway.svg" width="680" alt="有刷馬達剖面:外殼=定子(永久磁鐵,N上S下),轉子=線圈+鐵芯,換向器銅片隨轉子轉,碳刷固定用彈簧壓接"></p>
 
 **電流路徑**:電池+ → 碳刷 → 換向器銅片 → 轉子線圈 → 另一瓣銅片 → 另一支碳刷 → 電池−。
 
@@ -214,7 +214,7 @@ BLDC 的設計邏輯:把需要供電的線圈放在不動的定子上(導線直�
 
 ### 17.3 無刷馬達 (BLDC):電子換相(結構剖面)
 
-<p align="center"><img src="../../img/motor-bldc-cutaway.svg" width="700" alt="BLDC 剖面(內轉子型):定子=三相線圈U/V/W+3顆霍爾,轉子=永久磁鐵無接線,U/V/W接到功率橋+控制晶片"></p>
+<p align="center"><img src="../../../img/motor-bldc-cutaway.svg" width="700" alt="BLDC 剖面(內轉子型):定子=三相線圈U/V/W+3顆霍爾,轉子=永久磁鐵無接線,U/V/W接到功率橋+控制晶片"></p>
 
 線圈和磁鐵的位置**對調**了(§16.1):要供電的線圈放到不動的定子上(導線直接拉出,不再需要滑動接觸),磁鐵去轉。但這樣一來換向器也沒了——換相改由**控制電路**做:霍爾感測器回報「磁鐵現在轉到哪」,MCU/驅動器據此切換功率橋,給對的相通電。
 

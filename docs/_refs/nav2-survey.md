@@ -26,13 +26,13 @@ robot-notes 的導航與多機調度章節,底層演算法大多來自 ROS2 的 
 
 | 論文章節 | 主題 | 對應 robot-notes |
 |---|---|---|
-| II 全域路徑規劃 | NavFn / Theta* / 2D-A*(holonomic)、Smac Hybrid-A* / State Lattice(運動學可行) | [路徑規劃與軌跡](../30-navigation/path-planning.md)、[私有系統大迴轉案例](../40-fleet/proprietary-vs-ros2-arbitrary-start.md) |
-| III 區域軌跡規劃 | DWB(reactive)、TEB / MPPI(predictive)、RPP / Rotation Shim(geometric/control-law) | [路徑規劃與軌跡](../30-navigation/path-planning.md)、[CONTEXT 術語表](../../CONTEXT.md)(MPPI/DWB/RPP) |
-| IV 路徑平滑 | 把規劃出的折線磨平、去抖動 | [路徑平滑與軌跡生成](../30-navigation/path-smoothing-and-trajectory.md) |
-| V 感知 / Costmap 層 | static / obstacle / inflation 等 costmap 層 | [路徑規劃與軌跡](../30-navigation/path-planning.md)、[CONTEXT](../../CONTEXT.md)(costmap/inflation) |
+| II 全域路徑規劃 | NavFn / Theta* / 2D-A*(holonomic)、Smac Hybrid-A* / State Lattice(運動學可行) | [路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)、[私有系統大迴轉案例](../40-fleet/proprietary-vs-ros2-arbitrary-start.md) |
+| III 區域軌跡規劃 | DWB(reactive)、TEB / MPPI(predictive)、RPP / Rotation Shim(geometric/control-law) | [路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)、[CONTEXT 術語表](../../CONTEXT.md)(MPPI/DWB/RPP) |
+| IV 路徑平滑 | 把規劃出的折線磨平、去抖動 | [路徑平滑與軌跡生成](../10-core/30-navigation/path-smoothing-and-trajectory.md) |
+| V 感知 / Costmap 層 | static / obstacle / inflation 等 costmap 層 | [路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)、[CONTEXT](../../CONTEXT.md)(costmap/inflation) |
 | VI 行為樹 | Nav2 用 BT 編排 規劃→跟隨→恢復 | [CONTEXT](../../CONTEXT.md)(行為樹) |
-| VII 狀態估計 | `robot_localization` 的 EKF / UKF 融合 odom/IMU | [定位](../30-navigation/localization.md)、[座標轉換與 TF](../30-navigation/kinematics-and-coordinate-transforms.md) |
-| VIII 定位與建圖 | AMCL 定位、SLAM 建圖 | [SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md) |
+| VII 狀態估計 | `robot_localization` 的 EKF / UKF 融合 odom/IMU | [定位](../10-core/30-navigation/localization.md)、[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) |
+| VIII 定位與建圖 | AMCL 定位、SLAM 建圖 | [SLAM 建圖](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md) |
 | Appendix A 依機器人型選演算法 | 差速/全向/Ackermann/legged 各該選哪個 planner/controller | 各篇 |
 | Appendix B Smac Planner 框架 | Smac 的 2D-A* / Hybrid-A* / State Lattice 共用框架 | [私有系統大迴轉案例](../40-fleet/proprietary-vs-ros2-arbitrary-start.md) |
 

@@ -3,7 +3,7 @@
 這套筆記的一個目標,是用 Claude 協助完成機器人的 **Physical AI 模擬**。本篇先建立全貌:Physical AI 是什麼、跟一般生成式 AI 差在哪、NVIDIA 的技術堆疊各自扮演什麼角色,以及這一切怎麼接回室內送餐機器人(AMR)的開發。
 
 > 整理自 NVIDIA 官方 glossary 與 Isaac Sim / Cosmos 官方頁(來源見文末)。
-> 延伸閱讀:[系統架構](../00-overview/system-architecture.md)、[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)。後續 [Isaac Sim/Lab](isaac-sim-isaac-lab-amr.md)、[Gazebo+ROS2](simulation-gazebo-ros2.md)、[sim-to-real](sim-to-real.md)、[用 Claude 完成模擬](claude-physical-ai-workflow.md)、[叉車 capstone](project-forklift-rmf-gazebo.md) 展開模擬與訓練流程。
+> 延伸閱讀:[系統架構](../00-overview/system-architecture.md)、[SLAM 建圖](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md)。後續 [Isaac Sim/Lab](isaac-sim-isaac-lab-amr.md)、[Gazebo+ROS2](simulation-gazebo-ros2.md)、[sim-to-real](sim-to-real.md)、[用 Claude 完成模擬](claude-physical-ai-workflow.md)、[叉車 capstone](project-forklift-rmf-gazebo.md) 展開模擬與訓練流程。
 
 ---
 

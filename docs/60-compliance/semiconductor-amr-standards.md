@@ -6,7 +6,7 @@
 
 > 名詞會在首次出現時當場用一句話解釋(括號或破折號)。
 > **標準編號容易記錯**,本篇逐一查證;仍有把握不足之處明確標「待查證」,不臆造標準內容。版本與強制範圍會更新,**實際導入以客戶(fab)規範、SEMI 官方文件、檢測機構當下要求為準**。
-> 延伸閱讀:[電池認證法規](battery-certification.md)、[電源與安全](../10-hardware/power-and-safety.md)、[VDA5050 與多機調度](../40-fleet/vda5050.md)(待 R2)。
+> 延伸閱讀:[電池認證法規](battery-certification.md)、[電源與安全](../10-core/10-hardware/power-and-safety.md)、[VDA5050 與多機調度](../40-fleet/vda5050.md)(待 R2)。
 
 ---
 

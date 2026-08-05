@@ -2,10 +2,10 @@
 
 上位機(ROS2)和下位機(STM32)要對話,中間隔著一條 UART 線或 CAN 匯流排。問題是:這條線只會傳「一個一個位元組」,它不知道哪裡是一句話的開頭、哪裡是結尾,線上有雜訊會把位元翻掉,而且上位機隨時可能當機。這篇從這三個根本痛點出發,一步一步逼出一個完整的二進位協議(framing + CRC + 心跳 + 序號),並給出可以照著實作的幀格式、接收狀態機與一筆真實的位元組範例。
 
-這份文件是**韌體團隊和軟體團隊的契約**:[下位機運動控制](low-level-control.md) §4.2 列了「協議設計」與「通訊逾時停車」當作必懂技能、[系統架構](../00-overview/system-architecture.md) §3.2 給了協議的選型表(UART vs CAN、自定義 vs micro-ROS),這篇把那兩處引用的「協議」本體寫清楚。
+這份文件是**韌體團隊和軟體團隊的契約**:[下位機運動控制](low-level-control.md) §4.2 列了「協議設計」與「通訊逾時停車」當作必懂技能、[系統架構](../../00-overview/system-architecture.md) §3.2 給了協議的選型表(UART vs CAN、自定義 vs micro-ROS),這篇把那兩處引用的「協議」本體寫清楚。
 
 > 前置:看得懂十六進位、知道 UART 大致是「一條線一個一個位元組傳」即可。
-> 延伸閱讀:[下位機運動控制](low-level-control.md)(逾時停車、odometry 上報的來源)、[通訊匯流排](../10-hardware/communication-buses.md)(UART / CAN 的物理層特性)、[系統架構](../00-overview/system-architecture.md) §3.2(micro-ROS vs 自定義協議的選型)。
+> 延伸閱讀:[下位機運動控制](low-level-control.md)(逾時停車、odometry 上報的來源)、[通訊匯流排](../10-hardware/communication-buses.md)(UART / CAN 的物理層特性)、[系統架構](../../00-overview/system-architecture.md) §3.2(micro-ROS vs 自定義協議的選型)。
 
 ---
 
@@ -51,7 +51,7 @@ UART(Universal Asynchronous Receiver/Transmitter,通用非同步收發器)和 CA
 
 一個經典、夠用的二進位幀長這樣(這也是 [low-level-control](low-level-control.md) §4.2 表格裡寫的「幀頭 + 長度 + 命令 + payload + CRC16」):
 
-<p align="center"><img src="../../img/frame-format.svg" width="640" alt="幀格式:SYNC(找邊界)/VER/LEN/CMD/PAYLOAD/CRC16,CRC 涵蓋 VER→PAYLOAD"></p>
+<p align="center"><img src="../../../img/frame-format.svg" width="640" alt="幀格式:SYNC(找邊界)/VER/LEN/CMD/PAYLOAD/CRC16,CRC 涵蓋 VER→PAYLOAD"></p>
 
 逐欄解釋它為什麼非存在不可:
 
@@ -146,7 +146,7 @@ CRC 有很多「版本」,差在生成多項式、初始值、是否反射(refle
 
 所以**不能假設「一次讀到剛好一幀」**。接收端必須把收到的位元組先丟進一個緩衝區,然後用一個**狀態機(state machine)**慢慢「啃」:啃到一個幀頭就開始,湊齊長度就驗 CRC,過了就交出一幀,沒過就丟掉、重新找幀頭。這就是為什麼幀頭、長度、CRC 三者缺一不可——它們正是狀態機賴以切幀的三個錨點。
 
-<p align="center"><img src="../../img/rx-state-machine.svg" width="640" alt="接收狀態機:WAIT_SYNC1→WAIT_SYNC2→READ_HEADER→READ_PAYLOAD,失敗退回起點重新同步"></p>
+<p align="center"><img src="../../../img/rx-state-machine.svg" width="640" alt="接收狀態機:WAIT_SYNC1→WAIT_SYNC2→READ_HEADER→READ_PAYLOAD,失敗退回起點重新同步"></p>
 
 ### 4.2 接收狀態機(概念碼,非可編譯)
 
@@ -221,7 +221,7 @@ CMD 命令碼把一條線分成許多「邏輯通道」。一個常見約定:**�
 
 | CMD | 名稱 | payload(概念) | 頻率 | 說明 |
 |---|---|---|---|---|
-| `0x01` | 速度指令 | `int16 v`(mm/s)+ `int16 ω`(mrad/s) | 20–50Hz | 核心指令,對應系統架構 [§1.2](../00-overview/system-architecture.md) 的 `(v, ω)` |
+| `0x01` | 速度指令 | `int16 v`(mm/s)+ `int16 ω`(mrad/s) | 20–50Hz | 核心指令,對應系統架構 [§1.2](../../00-overview/system-architecture.md) 的 `(v, ω)` |
 | `0x02` | 心跳 | `uint32 seq` 或空 | 10–20Hz | 「我還活著」,餵下位機的逾時計時器(第六部) |
 | `0x03` | 模式/致能 | `uint8 mode` | 事件觸發 | 切換手動/自動、上電致能、清除錯誤 |
 | `0x04` | 軟體急停 | 空 | 事件觸發 | 立即停車(硬體急停另走實體線,不靠協議) |
@@ -244,7 +244,7 @@ CMD 表會隨產品演進(M1→M5 一路加功能)。靠第二部的 **VER 欄�
 
 - 接收端收到一幀,先看 VER。**同一大版本內只准「新增 CMD」「在 payload 尾巴加欄位」**(舊端忽略尾巴多的位元組仍可運作,即向後相容)。
 - **改既有欄位語意/單位/順序 → 必須升大版本號**,並讓兩端在版本不符時明確拒絕 + 上報,而不是默默解析錯。
-- 這份命令表本身就是契約文件,**每次改動要進版本記錄**,韌體 CI 出 binary 時把協議版本與上位機 driver 對齊(呼應 [系統架構](../00-overview/system-architecture.md) §3.5「協議版本與上位機 driver 對齊管理」)。
+- 這份命令表本身就是契約文件,**每次改動要進版本記錄**,韌體 CI 出 binary 時把協議版本與上位機 driver 對齊(呼應 [系統架構](../../00-overview/system-architecture.md) §3.5「協議版本與上位機 driver 對齊管理」)。
 
 ---
 
@@ -254,7 +254,7 @@ CMD 表會隨產品演進(M1→M5 一路加功能)。靠第二部的 **VER 欄�
 
 ### 6.1 為什麼下位機必須「自己會停」
 
-回到 1.3 的場景:上位機當了,但車在動。**安全責任在物理上更靠近危險的那一層**——下位機直接控制馬達,它必須是那個「最後能踩煞車的人」,不能把命交給可能已經死掉的上位機。系統架構 [§1.1](../00-overview/system-architecture.md) 的核心原則就是這條:安全相關功能一律放下位機。
+回到 1.3 的場景:上位機當了,但車在動。**安全責任在物理上更靠近危險的那一層**——下位機直接控制馬達,它必須是那個「最後能踩煞車的人」,不能把命交給可能已經死掉的上位機。系統架構 [§1.1](../../00-overview/system-architecture.md) 的核心原則就是這條:安全相關功能一律放下位機。
 
 實作是一個**通訊看門狗(communication watchdog)**:
 
@@ -276,10 +276,10 @@ void safety_task_100hz(void) {       /* 安全監控任務,最高優先級 */
 
 關鍵點:
 
-- **逾時要平滑減速(ramp down),不是急停硬煞**——送餐機硬煞會打翻熱湯,加速度壓在 0.3–0.5 m/s²(系統架構 [§3.1](../00-overview/system-architecture.md))。真正的危險(撞到人)由硬體急停與防撞條負責立即斷電。
+- **逾時要平滑減速(ramp down),不是急停硬煞**——送餐機硬煞會打翻熱湯,加速度壓在 0.3–0.5 m/s²(系統架構 [§3.1](../../00-overview/system-architecture.md))。真正的危險(撞到人)由硬體急停與防撞條負責立即斷電。
 - **逾時門檻怎麼定?** 要大於「正常指令週期 + 合理抖動」。上位機 20–50Hz 下發速度指令(週期 20–50ms),設 300ms 約等於「連續漏掉 6~15 個週期」才觸發,避免偶發掉一兩幀就誤停;但又遠小於「車能衝出危險距離」的時間。
 
-<p align="center"><img src="../../img/comm-timeout-heartbeat.svg" width="640" alt="通訊看門狗:每收到指令計時器歸零;上位機當機後計時器越過門檻→觸發 ramp-down 停車"></p>
+<p align="center"><img src="../../../img/comm-timeout-heartbeat.svg" width="640" alt="通訊看門狗:每收到指令計時器歸零;上位機當機後計時器越過門檻→觸發 ramp-down 停車"></p>
 
 ### 6.2 心跳:讓「沒話要說」也能證明「我還活著」
 
@@ -325,7 +325,7 @@ void safety_task_100hz(void) {       /* 安全監控任務,最高優先級 */
 - **RS485(半雙工 UART)**:收發共用一對線,要靠收發器的 **DE/RE 方向腳**切換。經典坑:**發送完最後一個 bit 才能切回接收**——要等 UART 移位暫存器真正排空(`TC` flag,**不是** DMA 完成中斷,DMA 完成時最後一個 byte 還在線上跑),太早切會砍掉幀尾 CRC、太晚切會收到自己的回音。這段 turnaround(換向)時間會吃掉一部分逾時預算,設 `COMM_TIMEOUT` 時要算進去。STM32 USART 有硬體 DE 模式可代勞(見 [通訊匯流排](../10-hardware/communication-buses.md) §6.3)。
 - **CAN**:控制器硬體層已內建幀邊界、CRC、自動重送與優先級仲裁。所以走 CAN 時,第二部的幀頭/CRC、第七部的重送很多可以**交給 CAN 控制器**,應用層協議能大幅簡化——你主要還要自己定義的是 CAN ID 分配(等同 CMD + 方向)與 payload 格式(CAN 一幀資料上限 8 bytes,大訊息要自己分段)。
 
-> 一句話:**這篇的「自己造輪子」清單,大半是因為 UART 太原始;換到 CAN,輪子有一部分是現成的。** 選 UART 還是 CAN 見系統架構 [§3.2](../00-overview/system-architecture.md)。
+> 一句話:**這篇的「自己造輪子」清單,大半是因為 UART 太原始;換到 CAN,輪子有一部分是現成的。** 選 UART 還是 CAN 見系統架構 [§3.2](../../00-overview/system-architecture.md)。
 
 ---
 
@@ -333,7 +333,7 @@ void safety_task_100hz(void) {       /* 安全監控任務,最高優先級 */
 
 到這裡你已經看到「自定義二進位協議」要自己扛多少事(framing、CRC、狀態機、心跳、序號、版本)。另一條路是 **micro-ROS**——把 ROS2 的通訊中介(DDS/XRCE)塞進 MCU,讓下位機直接吐 ROS2 topic,上面這些雜事大多由它代勞,省掉自己寫 bridge。
 
-代價是記憶體占用大、版本綁定、除錯偏黑盒。兩者完整比較表(優缺點、何時選哪個)在 [系統架構](../00-overview/system-architecture.md) §3.2,這裡不重複。一句話總結該篇結論:**初期建議自定義協議**(簡單、可控、除錯直觀、資源占用小),並把這份協議文件當正式交付物管理;團隊 ROS2 經驗深、想省 bridge 工才上 micro-ROS。
+代價是記憶體占用大、版本綁定、除錯偏黑盒。兩者完整比較表(優缺點、何時選哪個)在 [系統架構](../../00-overview/system-architecture.md) §3.2,這裡不重複。一句話總結該篇結論:**初期建議自定義協議**(簡單、可控、除錯直觀、資源占用小),並把這份協議文件當正式交付物管理;團隊 ROS2 經驗深、想省 bridge 工才上 micro-ROS。
 
 ---
 
@@ -379,7 +379,7 @@ VER  LEN  CMD   v(big-endian)  ω(big-endian)
 
 整幀共 11 bytes:`AA 55 01 04 01 01 F4 FF 38 HH LL`(`HH LL` 待 CRC 參數定案後填入)。
 
-<p align="center"><img src="../../img/frame-encoding-example.svg" width="640" alt="v=500/ω=−200 經定點化、補數、大端打包成 11-byte 幀,CRC 涵蓋 VER→PAYLOAD"></p>
+<p align="center"><img src="../../../img/frame-encoding-example.svg" width="640" alt="v=500/ω=−200 經定點化、補數、大端打包成 11-byte 幀,CRC 涵蓋 VER→PAYLOAD"></p>
 
 接收端收到這 11 bytes(可能還黏著別幀),由第四部狀態機:認出 `AA 55` → 收 `01 04 01` 知道 payload 4 bytes → 再收 `01 F4 FF 38 HH LL` → 對 `01 04 01 01 F4 FF 38` 算 CRC 比對 `HH LL` → 通過則解出 `v=500mm/s, ω=−200mrad/s` 交給運動控制任務(進 [low-level-control](low-level-control.md) §7.1 的運動學逆解 → PID)。
 
@@ -406,4 +406,4 @@ VER  LEN  CMD   v(big-endian)  ω(big-endian)
 
 - framing、CRC、黏包/拆包、心跳逾時為嵌入式通訊通識,屬工程實務共識。
 - CRC 演算法與常見多項式(CRC-16/CCITT `0x1021`、CRC-16/MODBUS `0x8005`)為標準定義;**本協議最終採用的 CRC 參數組與位元組序需在落地時釘死並做黃金向量對拍**(見第三部、第九部待查證標註)。
-- 上下游接續:[下位機運動控制](low-level-control.md)(逾時停車、odometry、運動學)、[通訊匯流排](../10-hardware/communication-buses.md)(UART/CAN 物理層)、[系統架構](../00-overview/system-architecture.md) §3.2(選型:UART vs CAN、自定義 vs micro-ROS)。
+- 上下游接續:[下位機運動控制](low-level-control.md)(逾時停車、odometry、運動學)、[通訊匯流排](../10-hardware/communication-buses.md)(UART/CAN 物理層)、[系統架構](../../00-overview/system-architecture.md) §3.2(選型:UART vs CAN、自定義 vs micro-ROS)。

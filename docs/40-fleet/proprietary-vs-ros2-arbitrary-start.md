@@ -2,7 +2,7 @@
 
 一個真實現場狀況:叉車從任意位置出發,系統要它先回到預定路線的起點,結果車子畫了一個大圈才接上路線(以下稱「大迴轉」)。乍看像「舵輪叉車轉不了急彎」的運動學限制,拆開來看,真因是**速度方向的決定權被放錯了層**。把同樣情境放進 ROS2 / Open-RMF,結構上不會出現這種大迴轉,原因正在於分層放對了位置。
 
-> 前置:[OpenRMF](open-rmf.md)、[Fleet 深入:API/圖資/座標/避塞車](rmf-maps-and-traffic.md)、[路徑規劃與軌跡](../30-navigation/path-planning.md)。
+> 前置:[OpenRMF](open-rmf.md)、[Fleet 深入:API/圖資/座標/避塞車](rmf-maps-and-traffic.md)、[路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)。
 
 ---
 
@@ -131,7 +131,7 @@ nonholonomic 指「不能側移、只能沿車頭方向前後走」。任何舵�
 - 拓樸 vs 運動規劃分層:[Open-RMF](open-rmf.md)、[rmf_traffic](https://github.com/open-rmf/rmf_traffic)。
 - pose 吸附門檻與 `Lost`:[RobotUpdateHandle.hpp](https://github.com/open-rmf/rmf_ros2/blob/main/rmf_fleet_adapter/include/rmf_fleet_adapter/agv/RobotUpdateHandle.hpp)(`max_merge_waypoint_distance`=0.1 / `max_merge_lane_distance`=1.0)、[RobotContext.hpp](https://github.com/open-rmf/rmf_ros2/blob/main/rmf_fleet_adapter/src/rmf_fleet_adapter/agv/RobotContext.hpp)(`struct Lost` / `set_lost`)。
 - nonholonomic 規劃:[Nav2 Smac Hybrid-A*](https://docs.nav2.org/configuration/packages/smac/configuring-smac-hybrid.html)、[smac_planner README](https://github.com/ros-navigation/navigation2/blob/main/nav2_smac_planner/README.md)(`motion_model_for_search` Dubins/Reeds-Shepp、`minimum_turning_radius`=0.40、`reverse_penalty`=2.1)。
-- 叉車運動學:[路徑規劃與軌跡](../30-navigation/path-planning.md)、[座標轉換與 TF](../30-navigation/kinematics-and-coordinate-transforms.md)。
+- 叉車運動學:[路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)、[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)。
 - Dubins / Reeds-Shepp 科普:[Reeds-Shepp 與 Dubins 曲線(機器人家園)](https://www.robotattractor.com/reeds-shepp-dubins/)。
 
 ## 名詞解釋:Smac Hybrid-A* / Dubins / Reeds-Shepp

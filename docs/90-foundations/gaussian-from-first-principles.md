@@ -3,7 +3,7 @@
 機器人定位用卡爾曼濾波、影像處理用高斯模糊、3D 重建用 Gaussian Splatting……同一個「高斯」在完全不同的領域反覆出現。這篇從第一性原理把高斯講清楚:**它是什麼、它的式子為什麼長那樣、它有哪幾條「超能力」性質**,然後用這幾條性質,從頭重新理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS——你會發現它們其實是同一個東西在不同問題裡的化身。
 
 > 前置:會基本的平均、變異數即可,其餘從零講。
-> 延伸閱讀:[定位](../30-navigation/localization.md)(EKF/AMCL 的高斯假設)、[感測器資料與 3D Gaussian 重建](../50-physical-ai/sensor-data-and-3d-reconstruction.md)(3DGS)。
+> 延伸閱讀:[定位](../10-core/30-navigation/localization.md)(EKF/AMCL 的高斯假設)、[感測器資料與 3D Gaussian 重建](../50-physical-ai/sensor-data-and-3d-reconstruction.md)(3DGS)。
 
 ---
 
@@ -155,7 +155,7 @@ P3 和 P4 容易混:
 
 <p align="center"><img src="../../img/kalman-cycle.svg" width="540" alt="卡爾曼濾波:預測讓信念變胖、更新讓信念變瘦,循環往復"></p>
 
-> 接回筆記:[定位](../30-navigation/localization.md) 裡 `robot_localization` 的 EKF 融合 odometry + IMU,跑的就是這套;AMCL 的粒子濾波則是「當分布太怪、高斯裝不下時」改用一堆粒子來表示信念的替代方案。
+> 接回筆記:[定位](../10-core/30-navigation/localization.md) 裡 `robot_localization` 的 EKF 融合 odometry + IMU,跑的就是這套;AMCL 的粒子濾波則是「當分布太怪、高斯裝不下時」改用一堆粒子來表示信念的替代方案。
 
 ### 3.3 高斯過程(Gaussian Process, GP)— 用 P2 的極致 + 條件高斯
 

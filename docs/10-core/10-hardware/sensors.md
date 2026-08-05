@@ -3,7 +3,7 @@
 機器人要在餐廳裡不撞人、知道自己在哪,靠的是一組互補的感測器。本篇講 2D LiDAR(建圖定位主力)、深度相機(立體避障)、IMU(姿態融合)各自看到什麼、輸出什麼,以及深度圖為什麼會有「破洞」。
 
 > 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照(故本檔編號不連續,如 §1→§5→§10,非缺漏)。
-> 延伸閱讀:[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)、[系統架構](../00-overview/system-architecture.md)
+> 延伸閱讀:[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)、[系統架構](../../00-overview/system-architecture.md)
 
 ---
 
@@ -23,7 +23,7 @@
 
 **關鍵限制:它只看得到「安裝高度那一個平面」**。
 
-<p align="center"><img src="../../img/hw-lidar-blind-table.svg" width="720" alt="LiDAR 側視圖:掃描平面在 20cm 高水平掃出,桌腳落在平面上被偵測到,突出的桌面在平面之上是完全看不到的盲區"></p>
+<p align="center"><img src="../../../img/hw-lidar-blind-table.svg" width="720" alt="LiDAR 側視圖:掃描平面在 20cm 高水平掃出,桌腳落在平面上被偵測到,突出的桌面在平面之上是完全看不到的盲區"></p>
 
 LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平面高的桌面突沿、椅背、托盤架**。機器人會以為桌腳之間是空的,直接撞上桌沿。這就是深度相機存在的理由。
 
@@ -47,7 +47,7 @@ LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平
 
 **為什麼「直線距離不可用、旋轉角度可用」?** 根本原因在「要積幾次」。任何感測器都有一個固定的小偏置(bias)。陀螺儀測角度只需把角速度**積一次**:bias 積一次 → 角度誤差隨時間**線性**漂移(慢、短期可用)。但加速度計要得到位置,得把加速度**積兩次**:同一個 bias 積兩次 → 位置誤差按 **t² 爆炸**,幾秒就沒意義。(而且 t² 還只是「固定 bias」的最樂觀情形;真實 IMU 另有 bias 漂移與隨機游走,發散更快。)
 
-<p align="center"><img src="../../img/imu-bias-divergence.svg" width="580" alt="固定 bias 積一次=線性漂移(角度可用)、積兩次=t² 爆炸(位置不可用)"></p>
+<p align="center"><img src="../../../img/imu-bias-divergence.svg" width="580" alt="固定 bias 積一次=線性漂移(角度可用)、積兩次=t² 爆炸(位置不可用)"></p>
 
 這就從第一性原理決定了融合策略——**距離信 encoder、角度信陀螺儀**:
 
@@ -62,13 +62,13 @@ LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平
 
 「輸出兩張圖,一張 RGB、一張灰階」——**結構對,本質要修正**:RGB-D 相機確實輸出兩路影像,但第二路不是灰階「照片」,而是**深度圖 (depth image)**:每個像素存的不是亮度,是**該點到相機的距離**(通常 16-bit 整數,單位 mm)。看起來像灰階圖,是因為檢視工具把距離「畫成」深淺而已。
 
-<p align="center"><img src="../../img/depth-camera-rgbd.svg" width="620" alt="RGB 圖(像素=顏色,量反射的光)vs 深度圖(像素=距離 mm,量幾何)"></p>
+<p align="center"><img src="../../../img/depth-camera-rgbd.svg" width="620" alt="RGB 圖(像素=顏色,量反射的光)vs 深度圖(像素=距離 mm,量幾何)"></p>
 
 關鍵差異一句話:**灰階照片量的是「反射多少光」,深度圖量的是「離我多遠」**——前者是外觀,後者是幾何。
 
 ### 23.2 內部其實不只兩路:以結構光/主動雙目為例
 
-<p align="center"><img src="../../img/hw-rgbd-datapath.svg" width="720" alt="深度相機模組內部資料流:IR 投射器與左右 IR 相機比對視差送進深度運算 ASIC 得到深度圖,RGB 相機另成一路直接輸出"></p>
+<p align="center"><img src="../../../img/hw-rgbd-datapath.svg" width="720" alt="深度相機模組內部資料流:IR 投射器與左右 IR 相機比對視差送進深度運算 ASIC 得到深度圖,RGB 相機另成一路直接輸出"></p>
 
 所以 ROS2 driver 起來後通常看到多個 topic:
 
@@ -89,7 +89,7 @@ LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平
 
 深度圖上會有量不到的像素(值 = 0),成因:玻璃/鏡面(IR 穿透或鏡射)、黑色吸光物、超出量程、左右相機只有一邊看到的遮擋邊緣:
 
-<p align="center"><img src="../../img/hw-depth-holes.svg" width="720" alt="深度圖破洞示意:部分像素值為 0 代表量不到,不是沒有障礙物,避障要當未知處理"></p>
+<p align="center"><img src="../../../img/hw-depth-holes.svg" width="720" alt="深度圖破洞示意:部分像素值為 0 代表量不到,不是沒有障礙物,避障要當未知處理"></p>
 
 ---
 
@@ -104,7 +104,7 @@ LiDAR 裝在底盤(約 15–30cm 高)→ 只掃到桌腳,**看不到比掃描平
 | **Keenon DINERBOT T10**(擎朗) | **4 顆立體視覺相機(270° 3D 偵測)+ 2 顆 LiDAR(360° 2D)** | 感測冗餘與覆蓋角設計;雙 LiDAR 消盲區 |
 | **Bear Robotics Servi** | 深度相機 + LiDAR 融合(早期型號公開資訊採 Intel RealSense) | 與本文件建議的「LiDAR 定位 + 深度避障」同構(§3) |
 
-三家頭部產品**全部**是「2D LiDAR(定位主力)+ 多顆深度/立體相機(立體避障)」的組合——印證 [§2.4](../00-overview/system-architecture.md)/§3 的選型建議不是理論偏好,而是市場收斂後的共同答案。差異只在相機顆數與擺位(前向 vs 環繞),那是視野覆蓋率 vs 成本的取捨。
+三家頭部產品**全部**是「2D LiDAR(定位主力)+ 多顆深度/立體相機(立體避障)」的組合——印證 [§2.4](../../00-overview/system-architecture.md)/§3 的選型建議不是理論偏好,而是市場收斂後的共同答案。差異只在相機顆數與擺位(前向 vs 環繞),那是視野覆蓋率 vs 成本的取捨。
 
 > 來源:[Pudu BellaBot 官網](https://www.pudurobotics.com/en/products/bellabot)、[Generation Robots BellaBot 規格](https://www.generationrobots.com/en/404257-pudu-bellabot-server-robot.html)、[Keenon DINERBOT T10](https://www.lotsofbots.com/en/keenon-robotics/dinerbot-t10/)、[Automated Warehouse 報導](https://www.automatedwarehouseonline.com/keenon-robotics-introduces-dinerbot-t10/)、[Bear Robotics Servi](https://www.bearrobotics.ai/servi)
 

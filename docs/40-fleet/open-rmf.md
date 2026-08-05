@@ -2,7 +2,7 @@
 
 [VDA5050](vda5050.md) 解決了「一套主控怎麼跟不同廠的車講話」。但還有一層更上面的問題沒解決:**很多家車隊同時在一個場域跑,彼此共用門、電梯、窄道,誰來協調?** 這就是 OpenRMF 要補的那塊。
 
-> 延伸閱讀:[VDA5050](vda5050.md)、[SLAM](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)。
+> 延伸閱讀:[VDA5050](vda5050.md)、[SLAM](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md)。
 
 ---
 
@@ -63,7 +63,7 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - **邊界**:**VDA5050 管「車隊內」(一個 master 對自己的車),RMF 管「車隊間」(多車隊的交通與派工)**,兩者不重疊。VDA5050 本身沒有跨車隊協調的概念——那正是 RMF 補的層。
 - **連續 → 離散的落差(VDA5050 adapter 的核心難點)**:RMF 協商出來的是**連續時空樣條軌跡**,VDA5050 的 order 卻是**離散的 node/edge 圖**。adapter 要把前者切成後者、並逐段對映到 released/horizon——這個「連續轉離散」是寫 VDA5050 fleet adapter 最麻煩的一塊。
 - **factsheet 是跨廠派工的能力來源**:RMF 要「哪台車有空就派誰」,前提是知道每台車的尺寸/載重/支援 action——這正是 VDA5050 `factsheet` 提供的;rmf_task 競標時據此判斷車能不能做、成本多少。
-- **座標與時間要先對齊**:多廠車隊共用一張時空排程,前提是各家 map frame 與時間基準對齊;adapter 通常要做 frame transform([座標轉換](../30-navigation/kinematics-and-coordinate-transforms.md))。
+- **座標與時間要先對齊**:多廠車隊共用一張時空排程,前提是各家 map frame 與時間基準對齊;adapter 通常要做 frame transform([座標轉換](../10-core/30-navigation/kinematics-and-coordinate-transforms.md))。
 
 ## 5. 系統需求、語言與安裝
 

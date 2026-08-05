@@ -4,7 +4,7 @@
 
 > 起點是一則現場資訊:同事提到「電池採 LFP(磷酸鋰鐵)、外殼金屬材質、符合 UL 2580 或 UL 2271,供應商 BSLBATT / Flux Power」。本篇把這條線索查證並展開。
 > 標準版本與強制範圍會更新,**實際出貨認證以 UL / 檢測機構 / 主管機關當下公告為準**。
-> 延伸閱讀:[電源與安全](../10-hardware/power-and-safety.md)(電壓法規 SELV、急停、保護)、[半導體 AMR 規範](semiconductor-amr-standards.md)。
+> 延伸閱讀:[電源與安全](../10-core/10-hardware/power-and-safety.md)(電壓法規 SELV、急停、保護)、[半導體 AMR 規範](semiconductor-amr-standards.md)。
 
 ---
 
@@ -76,7 +76,7 @@
 | 電池包 | UL 2271 或 UL 2580(+ UL 1973 視應用) | 包層級安全 |
 | BMS 功能安全 | UL 991(硬體)+ UL 1998(軟體) | 保護電路的功能安全 |
 | 運輸 | **UN 38.3** | 空海運**強制**(8 項測試);幾乎必備 |
-| 區域准入 | CE/UKCA(歐英)、BSMI(台)、PSE(日) | 進入市場強制;**充電器/電源**尤其受 BSMI/PSE 管(呼應 [電源與安全 §18](../10-hardware/power-and-safety.md)) |
+| 區域准入 | CE/UKCA(歐英)、BSMI(台)、PSE(日) | 進入市場強制;**充電器/電源**尤其受 BSMI/PSE 管(呼應 [電源與安全 §18](../10-core/10-hardware/power-and-safety.md)) |
 
 常見完整組合 ≈ **UN 38.3 + IEC 62619 +(UL 2271 或 UL 2580)+ 目標市場區域認證**。
 

@@ -2,7 +2,7 @@
 
 把這份筆記學到的東西全部串起來,做一個能跑的小專案:**在 Gazebo 裡一台叉車,聽 OpenRMF 的調度,把棧板從 A 貨架搬到 B 貨架**,並讓「叉起/放下」對映到 VDA5050 的動作。與其直接貼一份 launch 檔,這篇從頭拆解:要達成「叉車 Physical AI 模擬」,**worklist 有哪些、模型怎麼準備、物理參數怎麼設**。
 
-> 本篇是整合性探討,前置散在各章:[Physical AI 總覽](physical-ai-overview.md)、[Gazebo+ROS2 模擬](simulation-gazebo-ros2.md)、[OpenRMF](../40-fleet/open-rmf.md)、[VDA5050](../40-fleet/vda5050.md)、[座標轉換/TF](../30-navigation/kinematics-and-coordinate-transforms.md)、[路徑規劃](../30-navigation/path-planning.md)。
+> 本篇是整合性探討,前置散在各章:[Physical AI 總覽](physical-ai-overview.md)、[Gazebo+ROS2 模擬](simulation-gazebo-ros2.md)、[OpenRMF](../40-fleet/open-rmf.md)、[VDA5050](../40-fleet/vda5050.md)、[座標轉換/TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)、[路徑規劃](../10-core/30-navigation/path-planning.md)。
 > 版本基準:**gz sim Harmonic + ROS 2 Jazzy + gz_ros2_control(Jazzy)**;以官方當前為準。
 
 ---
@@ -90,7 +90,7 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 ### 5.2 摩擦係數(決定會不會打滑)
 
-- **輪子與地面的摩擦 μ 要夠高**(乾地 0.8–1.0)。太低 → 差速車原地打滑、odom 狂漂、Nav2 定位跟著爛(呼應 [感測器 §3.3](../10-hardware/sensors.md) 的打滑問題)。
+- **輪子與地面的摩擦 μ 要夠高**(乾地 0.8–1.0)。太低 → 差速車原地打滑、odom 狂漂、Nav2 定位跟著爛(呼應 [感測器 §3.3](../10-core/10-hardware/sensors.md) 的打滑問題)。
 - 棧板與貨叉之間:用 DetachableJoint 剛性連接時不靠摩擦;若想靠摩擦夾持(較難穩)才需要調高接觸摩擦。
 - 貨叉/地面接觸的 `<surface>` 可設 `mu`、`mu2`(兩個方向的摩擦)。
 
@@ -138,12 +138,12 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 - **odom 一定要用「輪式」不能用真值**:gz 有兩個 plugin——`DiffDrive`(讀**輪關節轉動量**積分,**會反映打滑/坡度** → 會漂)vs `OdometryPublisher`(直接讀車的**真實世界位姿** → 不漂)。**要看到異常造成 odom 漂移,就必須用 `DiffDrive` 的輪式 odom**;`OdometryPublisher` 的真值只拿來當**驗收基準**(算漂移量 = 輪式 odom − 真值)。
 - **IMU / LiDAR 讀物理**:`gz-sim-imu-system` 讀模擬的角速度/加速度(過坎、傾斜出尖峰);`gpu_lidar` 的光線打在 world 的碰撞/視覺幾何上(斜坡會量到不同高度)。兩者都該掛 **noise model**(`<noise type="gaussian">` 設 `stddev`、`bias_*`)讓它更像真感測器,而不是完美量測。
-- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**本設計讓 EKF 只融 odom+IMU、不吃 LiDAR**(EKF 技術上可吃 LiDAR 衍生 pose,這裡是分工選擇),AMCL 獨立發 map→odom——正好對應 [座標篇](../30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../30-navigation/localization.md)。
+- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**本設計讓 EKF 只融 odom+IMU、不吃 LiDAR**(EKF 技術上可吃 LiDAR 衍生 pose,這裡是分工選擇),AMCL 獨立發 map→odom——正好對應 [座標篇](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-core/10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../10-core/30-navigation/localization.md)。
 - **時間要對齊**:所有 ROS 2 節點 `use_sim_time:=true` 吃 gz 的 `/clock`(單向橋 `rosgraph_msgs/Clock`),否則 tf/感測時間源混用會報錯。
 
 ## 8. Worklist:按相依順序排的里程碑
 
-排序原則:**每一步都建立在前一步「已驗證可動」之上,且每步都有可量化、可自動判定的 pass/fail**(呼應 [Renode 篇](../20-firmware/board-simulation-renode.md) 的回饋迴路精神)。先讓「車會動」,再「會感知」,再「會搬」,最後「RMF 指揮」。**這份表就是給其他 agent 的執行規格**:一列一個可獨立交付、可驗收的里程碑。
+排序原則:**每一步都建立在前一步「已驗證可動」之上,且每步都有可量化、可自動判定的 pass/fail**(呼應 [Renode 篇](../10-core/20-firmware/board-simulation-renode.md) 的回饋迴路精神)。先讓「車會動」,再「會感知」,再「會搬」,最後「RMF 指揮」。**這份表就是給其他 agent 的執行規格**:一列一個可獨立交付、可驗收的里程碑。
 
 | 里程碑 | 產出 artifact | 可量化驗收(pass/fail) |
 |---|---|---|

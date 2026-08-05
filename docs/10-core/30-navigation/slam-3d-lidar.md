@@ -2,7 +2,7 @@
 
 [2D SLAM](slam-mapping.md) 講透了「雞生蛋(要定位需地圖、要建圖需定位)」、占據柵格、scan matching 的加權最小二乘、loop closure、pose graph 全圖優化。這篇接續講 **3D**:把 2D 換成多線 / 固態 LiDAR 的點雲後,**多了什麼、難在哪、代表方法怎麼一步步演進**。2D 已講的基礎不重述。
 
-> 前置:[2D SLAM 建圖](slam-mapping.md)、[LiDAR 完整解析](../10-hardware/lidar-landscape.md)(點雲從哪來)、[高斯第一性原理](../90-foundations/gaussian-from-first-principles.md)(配準與卡爾曼的數學底)。
+> 前置:[2D SLAM 建圖](slam-mapping.md)、[LiDAR 完整解析](../10-hardware/lidar-landscape.md)(點雲從哪來)、[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md)(配準與卡爾曼的數學底)。
 > 關鍵演算法、論文均附可查證來源(arXiv / DOI / GitHub),見文末來源清單;不確定的標「待查證」。
 
 ---
@@ -23,7 +23,7 @@ SLAM 的本質不變:**同時估計機器人軌跡與環境地圖**。3D 真正�
 
 2D 的 scan matching 其實就是 2D 配準。3D 配準是同一件事——**找一個剛體變換 `T`,把當前點雲對齊到參考(前一幀 / 地圖)**(`T ∈ SE(3)`,就是 SO(3) 旋轉再加一個平移,合起來描述一次完整的剛體移動)——但點多、無天然柵格、對初值更敏感。三條主流路線:
 
-<p align="center"><img src="../../img/lidar-registration.svg" width="740" alt="點雲配準三路線:ICP 逐點最近鄰對應(point-to-point vs point-to-plane 殘差)、NDT 用體素高斯分布、LOAM 抽邊緣點與平面點特徵"></p>
+<p align="center"><img src="../../../img/lidar-registration.svg" width="740" alt="點雲配準三路線:ICP 逐點最近鄰對應(point-to-point vs point-to-plane 殘差)、NDT 用體素高斯分布、LOAM 抽邊緣點與平面點特徵"></p>
 
 ### 2.1 ICP(Iterative Closest Point)— 最樸素也最脆弱
 
@@ -54,7 +54,7 @@ LOAM(Zhang & Singh, 2014)的洞見:**不必用全部點,只挑幾何上資訊量
 
 和 2D graph-SLAM 同構,但 3D 把前端進一步拆出里程計層。
 
-<p align="center"><img src="../../img/lidar-slam-pipeline.svg" width="780" alt="3D LiDAR SLAM 管線:前端 LiDAR 里程計(scan-to-scan 高頻 + scan-to-map 精修)融合 IMU 去畸變,後端 pose graph 加 loop closure 全圖優化消除漂移"></p>
+<p align="center"><img src="../../../img/lidar-slam-pipeline.svg" width="780" alt="3D LiDAR SLAM 管線:前端 LiDAR 里程計(scan-to-scan 高頻 + scan-to-map 精修)融合 IMU 去畸變,後端 pose graph 加 loop closure 全圖優化消除漂移"></p>
 
 ### 3.1 LiDAR Odometry:scan-to-scan vs scan-to-map
 
@@ -77,12 +77,12 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 ## 4. 代表方法演進(每代只記「比上一代多解了什麼」)
 
-<p align="center"><img src="../../img/slam-3d-evolution.svg" width="780" alt="3D LiDAR SLAM 演進時間軸:LOAM 2014 奠基 → LeGO-LOAM 2018 輕量地面車 → LIO-SAM 2020 緊耦合 factor graph → FAST-LIO 2021 iEKF → FAST-LIO2 2022 ikd-tree 直接點 → Faster-LIO 2022 iVox"></p>
+<p align="center"><img src="../../../img/slam-3d-evolution.svg" width="780" alt="3D LiDAR SLAM 演進時間軸:LOAM 2014 奠基 → LeGO-LOAM 2018 輕量地面車 → LIO-SAM 2020 緊耦合 factor graph → FAST-LIO 2021 iEKF → FAST-LIO2 2022 ikd-tree 直接點 → Faster-LIO 2022 iVox"></p>
 
 - **LOAM(2014)**:奠基。邊緣+平面特徵、point-to-line/plane 配準、odometry+mapping 雙執行緒。低漂移、嵌入式可跑,長期居 KITTI 里程計榜首,後續幾乎都從它分支。
 - **LeGO-LOAM(2018)**:針對水平裝設的地面車最佳化。加**地面分割**、點雲分群去噪、兩步優化(先用地面點解 `z/roll/pitch`、再用邊緣點解 `x/y/yaw`)、內建 loop closure(GTSAM)。更輕量。
 - **LIO-SAM(2020)**:升級成**緊耦合 LiDAR-慣性**,建在 factor graph(GTSAM/iSAM2)上。用 **IMU 預積分**(預先把兩個關鍵幀之間的幾百筆 IMU 量測壓成「一個等效約束」,優化時不必每筆重算、省很多時間)去畸變並提供初值;LiDAR 里程計、IMU、GPS、loop closure 因子統一進一張圖,用關鍵幀滑動視窗而非全域配準,即時性大增。
-- **FAST-LIO(2021)**:緊耦合 **iterated EKF(iEKF)**。EKF(擴展卡爾曼濾波)是「預測 + 量測修正」反覆估狀態的標準濾波器(數學底見[高斯篇](../90-foundations/gaussian-from-first-principles.md));`iterated` 指每次更新內部再多迭代幾輪、對非線性更準。最大貢獻是**新的卡爾曼增益公式,把運算量從「隨量測點數」降成「隨狀態維度」**——LiDAR 一幀上千個量測點,原本卡爾曼增益要對「上千」那麼大的矩陣求逆,改寫後只需對狀態維度(十幾維)求逆,機載電腦上一次更新 <25ms。
+- **FAST-LIO(2021)**:緊耦合 **iterated EKF(iEKF)**。EKF(擴展卡爾曼濾波)是「預測 + 量測修正」反覆估狀態的標準濾波器(數學底見[高斯篇](../../90-foundations/gaussian-from-first-principles.md));`iterated` 指每次更新內部再多迭代幾輪、對非線性更準。最大貢獻是**新的卡爾曼增益公式,把運算量從「隨量測點數」降成「隨狀態維度」**——LiDAR 一幀上千個量測點,原本卡爾曼增益要對「上千」那麼大的矩陣求逆,改寫後只需對狀態維度(十幾維)求逆,機載電腦上一次更新 <25ms。
 - **FAST-LIO2(2022)**:① **直接用原始點**配 scan-to-map(不抽特徵、不丟資訊,對各種 LiDAR 更通用);② **ikd-tree**(增量式 k-d tree,支援動態插入/刪除/再平衡),邊建圖邊維護最近鄰結構,達 100Hz+。
 - **Faster-LIO(2022)**:把 ikd-tree 換成 **iVox(增量稀疏體素)**,用雜湊體素 + 近似 k-NN 換速度,固態 LiDAR 可達 1000–2000Hz。
 
@@ -141,7 +141,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 前面講的是**方法家族**(ICP / NDT / LOAM / LIO);實務上你要的是「ROS2 裝得起來、跑得動」的套件。先點一個最常踩的坑:**很多知名 LIO 的官方 repo 主分支其實是 ROS1,ROS2 放在獨立 branch**(FAST-LIO 的 `ROS2`、DLIO 的 `feature/ros2`、LIO-SAM 的 `ros2`)——不是 `apt install` 一行就有的正式 release,得自己 clone 那條 branch 來 build。反而真正「原生 first-class、ROS Index / apt 直接裝」的是另一批:KISS-ICP、MOLA、RTAB-Map、GLIM。
 
-<p align="center"><img src="../../img/ros2-3d-slam-map.svg" width="780" alt="ROS2 3D SLAM 套件地圖:依方法分純LiDAR里程計/LIO/完整SLAM框架三類,並用顏色標 ROS2 成熟度(原生apt可裝/官方branch需自build/需社群移植)"></p>
+<p align="center"><img src="../../../img/ros2-3d-slam-map.svg" width="780" alt="ROS2 3D SLAM 套件地圖:依方法分純LiDAR里程計/LIO/完整SLAM框架三類,並用顏色標 ROS2 成熟度(原生apt可裝/官方branch需自build/需社群移植)"></p>
 
 <sub>ROS2 支援狀態與 distro 會變動,以下以 2026-06 查證的各 repo / ROS Index 為準;凡來源未明確處標「待查證」,實際採用前請點開該 repo 的 ROS2 branch / ROS Index 頁確認。</sub>
 

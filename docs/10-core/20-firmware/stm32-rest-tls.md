@@ -8,7 +8,7 @@
 
 ## 1. 堆疊長怎樣
 
-<p align="center"><img src="../../img/stm32-tls-stack.svg" width="740" alt="STM32F4 REST+TLS 堆疊:REST/應用層 → TLS 1.2(mbedTLS,資源熱點)→ altcp_tls(lwIP TLS 抽象)→ TCP/IP(lwIP)→ 硬體(F4 + ETH + RNG +(部分型號)CRYP);右側標 RAM/CPU 瓶頸與硬體加速"></p>
+<p align="center"><img src="../../../img/stm32-tls-stack.svg" width="740" alt="STM32F4 REST+TLS 堆疊:REST/應用層 → TLS 1.2(mbedTLS,資源熱點)→ altcp_tls(lwIP TLS 抽象)→ TCP/IP(lwIP)→ 硬體(F4 + ETH + RNG +(部分型號)CRYP);右側標 RAM/CPU 瓶頸與硬體加速"></p>
 
 由下而上,每層用什麼、出處:
 
@@ -67,7 +67,7 @@ void on_https_request(Request r) {        // r 已過 TLS 解密
 
 一筆 HTTPS 請求從進來到回應的流程是這樣——handshake 是一次性大開銷,之後每筆只走「解密 → route → handler → 加密」:
 
-<p align="center"><img src="../../img/stm32-https-flow.svg" width="720" alt="STM32 處理 HTTPS 請求流程:① TLS 1.2 handshake(mbedTLS,硬體 RNG/ECDHE/CRYP,最吃 RAM/CPU)→ ② 加密 request 進來、mbedTLS 解密成明文 HTTP → ③ parse+route+handler 產生 JSON → ④ mbedTLS 加密回應"></p>
+<p align="center"><img src="../../../img/stm32-https-flow.svg" width="720" alt="STM32 處理 HTTPS 請求流程:① TLS 1.2 handshake(mbedTLS,硬體 RNG/ECDHE/CRYP,最吃 RAM/CPU)→ ② 加密 request 進來、mbedTLS 解密成明文 HTTP → ③ parse+route+handler 產生 JSON → ④ mbedTLS 加密回應"></p>
 
 ## 結論
 

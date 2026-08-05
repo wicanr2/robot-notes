@@ -26,7 +26,7 @@ LiDAR(Light Detection and Ranging)是**主動式測距**:自己發一束光出�
 
 ## 2. 測距三方案:dToF / 相位式 / FMCW
 
-<p align="center"><img src="../../img/lidar-ranging-methods.svg" width="720" alt="LiDAR 三種測距原理:dToF 直接量脈衝來回時間、AMCW 量連續波相位差、FMCW 量收發拍頻並同時測速"></p>
+<p align="center"><img src="../../../img/lidar-ranging-methods.svg" width="720" alt="LiDAR 三種測距原理:dToF 直接量脈衝來回時間、AMCW 量連續波相位差、FMCW 量收發拍頻並同時測速"></p>
 
 | 方案 | 量的是什麼 | 距離 | 能否同時測速 |
 |---|---|---|---|
@@ -67,7 +67,7 @@ LiDAR(Light Detection and Ranging)是**主動式測距**:自己發一束光出�
 
 ## 4. 掃描機制:怎麼把一束光鋪成面
 
-<p align="center"><img src="../../img/lidar-scanning-mechanisms.svg" width="740" alt="LiDAR 四種掃描機制:機械旋轉 360 度、MEMS 微鏡偏轉、Flash 泛光一次成像、稜鏡 Risley 非重複掃描花瓣軌跡"></p>
+<p align="center"><img src="../../../img/lidar-scanning-mechanisms.svg" width="740" alt="LiDAR 四種掃描機制:機械旋轉 360 度、MEMS 微鏡偏轉、Flash 泛光一次成像、稜鏡 Risley 非重複掃描花瓣軌跡"></p>
 
 <p align="center"><sub>圖示四種有具體掃描軌跡的機制;OPA 純靠電子控向、沒有可畫的機械軌跡,故未繪,原理見下表。</sub></p>
 
@@ -97,7 +97,7 @@ LiDAR(Light Detection and Ranging)是**主動式測距**:自己發一束光出�
 
 ## 5. 2D vs 3D LiDAR:本質差別
 
-<p align="center"><img src="../../img/lidar-2d-vs-3d.svg" width="700" alt="2D LiDAR 掃單一水平面、輸出一圈距離;3D LiDAR 多線或掃描成面、輸出立體點雲;2D 適合室內平地 AMR,3D 適合戶外自駕"></p>
+<p align="center"><img src="../../../img/lidar-2d-vs-3d.svg" width="700" alt="2D LiDAR 掃單一水平面、輸出一圈距離;3D LiDAR 多線或掃描成面、輸出立體點雲;2D 適合室內平地 AMR,3D 適合戶外自駕"></p>
 
 | | 2D LiDAR | 3D LiDAR |
 |---|---|---|

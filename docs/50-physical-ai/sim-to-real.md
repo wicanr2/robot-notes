@@ -3,7 +3,7 @@
 在模擬裡訓練的導航策略,搬到真實機器人上常常「在模擬好好的、上車就壞」。這篇整理為什麼會這樣(reality gap,現實落差)、有哪些技術可以把落差縮小,以及對室內送餐機器人(AMR)來說,務實的上車步驟、常見地雷與驗收方式。
 
 > 整理自 2025 年回顧論文《The Reality Gap in Robotics》、NVIDIA Isaac Lab/Sim 官方文件,與多篇 sim-to-real 研究(來源見文末)。
-> 延伸閱讀:[Physical AI 總覽](physical-ai-overview.md)、[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)。
+> 延伸閱讀:[Physical AI 總覽](physical-ai-overview.md)、[SLAM 建圖](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md)。
 
 ---
 

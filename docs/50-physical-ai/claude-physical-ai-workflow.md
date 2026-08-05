@@ -83,6 +83,6 @@ Claude 之所以能迭代,前提是**每改一次,都有一個快速、確定性
 - **模擬器選擇**:只驗導航邏輯 → [Gazebo+ROS2](simulation-gazebo-ros2.md);要 RL/合成資料/高擬真感測 → [Isaac Sim/Lab](isaac-sim-isaac-lab-amr.md)。
 - **遷移到真車**:[sim-to-real](sim-to-real.md) 的 reality gap、域隨機化、檢查清單。
 - **高擬真場景**:用 [3D Gaussian 重建](sensor-data-and-3d-reconstruction.md) 把真實餐廳掃進模擬。
-- **導航本體**:模擬裡跑的 [SLAM](../30-navigation/slam-mapping.md) 與 [定位](../30-navigation/localization.md) 跟真車同一套 ROS2 堆疊。
+- **導航本體**:模擬裡跑的 [SLAM](../10-core/30-navigation/slam-mapping.md) 與 [定位](../10-core/30-navigation/localization.md) 跟真車同一套 ROS2 堆疊。
 
 **一句話**:Claude 不是來算物理或頂替 GPU 的;它把 Physical AI 模擬裡那層「永遠在改的膠水與迭代」成本壓到接近零,讓你把時間花在「定義目標、驗證正確性、決定要不要上車」這些真正需要人的判斷上。

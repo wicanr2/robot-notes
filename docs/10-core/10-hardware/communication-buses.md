@@ -3,7 +3,7 @@
 下位機要跟馬達驅動器、BMS、多個感測節點對話,靠的是匯流排。本篇講 CAN 與 RS485 的原理、為什麼 MCU 腳位不能直接上匯流排(要收發器),以及在 STM32F4 上怎麼串接、怎麼選。
 
 > 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照(故本檔編號不連續,如 §1→§5→§10,非缺漏)。
-> 延伸閱讀:[下位機運動控制](../20-firmware/low-level-control.md)、[數位電路與 open-drain](digital-circuits.md)、[系統架構](../00-overview/system-architecture.md)
+> 延伸閱讀:[下位機運動控制](../20-firmware/low-level-control.md)、[數位電路與 open-drain](digital-circuits.md)、[系統架構](../../00-overview/system-architecture.md)
 
 ---
 
@@ -13,7 +13,7 @@
 
 為什麼「用兩條線的電壓差」就能抗干擾?第一性原理:兩條線緊鄰(常絞在一起),外界電磁干擾**同時等量**加在兩條線上(共模);接收端只看「兩線之差」,這個共同的干擾一相減就消掉,而真正的訊號(差模)反而加倍。
 
-<p align="center"><img src="../../img/differential-signaling.svg" width="640" alt="差分訊號:兩線拿到一樣的噪聲 N,A−B 取差讓 N 抵消、訊號加倍"></p>
+<p align="center"><img src="../../../img/differential-signaling.svg" width="640" alt="差分訊號:兩線拿到一樣的噪聲 N,A−B 取差讓 N 抵消、訊號加倍"></p>
 
 ### 6.1 共同的前提:MCU 腳位不能直接上匯流排
 
@@ -21,7 +21,7 @@ STM32 腳位輸出的是 0/3.3V 單端數位訊號,匯流排上跑的是差分�
 
 ### 6.2 CAN 串接(STM32F4 內建 bxCAN 控制器 ×2)
 
-<p align="center"><img src="../../img/bus-can-wiring.svg" width="820" alt="CAN 接線:STM32 經收發器上 CANH/CANL 雙絞線,兩端 120Ω 終端電阻,STM32、左輪驅動器、右輪驅動器、BMS 掛同一匯流排"></p>
+<p align="center"><img src="../../../img/bus-can-wiring.svg" width="820" alt="CAN 接線:STM32 經收發器上 CANH/CANL 雙絞線,兩端 120Ω 終端電阻,STM32、左輪驅動器、右輪驅動器、BMS 掛同一匯流排"></p>
 
 要點:
 
@@ -36,7 +36,7 @@ STM32 腳位輸出的是 0/3.3V 單端數位訊號,匯流排上跑的是差分�
 
 RS485 **沒有自己的協議**——它只是把 UART 訊號變成差分電平的電氣標準。STM32 端用的外設就是普通 USART:
 
-<p align="center"><img src="../../img/bus-rs485-wiring.svg" width="720" alt="RS485 接線:USART 經收發器轉 A/B 差分線,兩端 120Ω;DE 控制腳切換半雙工收發方向"></p>
+<p align="center"><img src="../../../img/bus-rs485-wiring.svg" width="720" alt="RS485 接線:USART 經收發器轉 A/B 差分線,兩端 120Ω;DE 控制腳切換半雙工收發方向"></p>
 
 關鍵差異:**半雙工**——同一對線收發共用,任一時刻只能一個節點講話,所以收發器有 **DE/RE 方向腳**:發送前拉高(進入驅動模式)、發完拉低(回到接收模式)。STM32 USART 有硬體 Driver Enable 功能(`UART_Init` 開 DE mode 指定腳位),不必手動 GPIO 切換、不會有時序競態。
 

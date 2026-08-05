@@ -2,7 +2,7 @@
 
 [VDA5050](vda5050.md) 車隊、IoT 設備大多走 MQTT,但明文 MQTT(port 1883)**誰都能連、誰都能訂閱 / 發布任何 topic**。要安全,不是只「加個密」就好——安全是**三層**:傳輸加密、身份認證、權限授權。[EMQX](https://docs.emqx.com/) 這個常見的 MQTT broker 三層都內建,這篇講怎麼把它們設對。
 
-> 相關:[VDA5050](vda5050.md)(車隊走 MQTT)、[實作小抄](rmf-adapter-cookbook.md)(adapter↔broker)、[STM32 REST+TLS](../20-firmware/stm32-rest-tls.md)(MCU 端連 mqtts 的資源考量)。
+> 相關:[VDA5050](vda5050.md)(車隊走 MQTT)、[實作小抄](rmf-adapter-cookbook.md)(adapter↔broker)、[STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md)(MCU 端連 mqtts 的資源考量)。
 
 ---
 
@@ -68,7 +68,7 @@ deny   all
 - **per-device 憑證的生命週期**:每台一張、規劃**輪換**與**撤銷**(CRL / OCSP);一台設備被偷,要能單獨吊銷它的憑證而不影響其他。
 - **handshake 的效能成本**:大量設備同時上線,TLS handshake 會壓 broker;用 session resumption、評估 broker 資源,設備端有硬體加速更好。
 - **憑證過期監控**:server 與 client 憑證都會過期,要有到期告警,別等斷線才發現。
-- **MCU 端的資源**:如果連進來的是 STM32 這類 MCU,`mqtts` 的 TLS 一樣吃 RAM/CPU(見 [STM32 REST+TLS](../20-firmware/stm32-rest-tls.md)),cipher suite 要兩端都撐得住。
+- **MCU 端的資源**:如果連進來的是 STM32 這類 MCU,`mqtts` 的 TLS 一樣吃 RAM/CPU(見 [STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md)),cipher suite 要兩端都撐得住。
 - **VDA5050 落地**:每台 AMR 一張 client 憑證 + ACL 限定只能 pub/sub `vda5050/v2/廠/自己serial/*`,一台被攻破也碰不到別車。
 
 ## 結論

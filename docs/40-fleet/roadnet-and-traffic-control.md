@@ -2,7 +2,7 @@
 
 多台有體積的車共用一個場域,要同時保證「不相撞」和「不卡死」。這件事沒有唯一解,業界實際跑在線上的做法分成幾條差異很大的路線。這篇把問題拆到不能再拆,再看每條路線各自在哪一層做了什麼取捨。
 
-> 延伸閱讀:[OpenRMF:跨車隊調度](open-rmf.md)、[VDA5050 協定](vda5050.md)、[Fleet 深入:API/圖資/座標/避塞車](rmf-maps-and-traffic.md)、[目的點重複預定](slot-reservation-dispatch-strategies.md)、[路徑規劃與軌跡(Nav2)](../30-navigation/path-planning.md)。
+> 延伸閱讀:[OpenRMF:跨車隊調度](open-rmf.md)、[VDA5050 協定](vda5050.md)、[Fleet 深入:API/圖資/座標/避塞車](rmf-maps-and-traffic.md)、[目的點重複預定](slot-reservation-dispatch-strategies.md)、[路徑規劃與軌跡(Nav2)](../10-core/30-navigation/path-planning.md)。
 > 選型結論(叉車/搬運車/送貨機器人分場景)在 [室內 AMR 路網規劃選型](indoor-amr-roadnet-selection.md)。
 
 ---
@@ -29,7 +29,7 @@
 
 <p align="center"><img src="../../img/roadnet-space-representation.svg" width="760" alt="自由空間、拓樸路網、混合三種空間表示法的對照"></p>
 
-**自由空間(free space)**:地圖是一張佔據柵格(occupancy grid)——把空間切成固定大小的方格,每格記「這裡有沒有障礙物」,車可以走任何沒被佔據的格子。ROS 2 的導航堆疊 [Nav2](../30-navigation/path-planning.md) 用的 costmap(在佔據柵格之上再給每格一個「走這裡有多不划算」的代價值)就是這個模型。
+**自由空間(free space)**:地圖是一張佔據柵格(occupancy grid)——把空間切成固定大小的方格,每格記「這裡有沒有障礙物」,車可以走任何沒被佔據的格子。ROS 2 的導航堆疊 [Nav2](../10-core/30-navigation/path-planning.md) 用的 costmap(在佔據柵格之上再給每格一個「走這裡有多不划算」的代價值)就是這個模型。
 
 **拓樸路網(topological graph)**:人為在地圖上畫出節點(node)與有向邊(edge),車只准沿著邊走。節點帶座標與朝向,邊帶方向性與成本。
 
@@ -111,7 +111,7 @@
 
 從「車在什麼時候真的停下來」逆推,一台車從決定停到完全靜止,會多走這幾段:
 
-**① 車身長度 `L_head`。** 路徑上的點描述的是車的**參考點**——ROS 慣例裡叫 `base_link`,一個剛性固定在車身上、跟著車一起走的座標系,差速車通常設在兩驅動輪的軸心中點(詳見[座標轉換與 TF](../30-navigation/kinematics-and-coordinate-transforms.md))。但真正會撞到東西的是車頭,所以要補上參考點到車頭的這一段。載貨的叉車還要再加上貨叉與貨物的外伸。
+**① 車身長度 `L_head`。** 路徑上的點描述的是車的**參考點**——ROS 慣例裡叫 `base_link`,一個剛性固定在車身上、跟著車一起走的座標系,差速車通常設在兩驅動輪的軸心中點(詳見[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md))。但真正會撞到東西的是車頭,所以要補上參考點到車頭的這一段。載貨的叉車還要再加上貨叉與貨物的外伸。
 
 **② 通訊與處理延遲造成的位移。** 交管拿到的位置是上一次回報的,決策送到車上還要一段時間。設**單程**延遲為 `τ`——車回報位置一趟、指令下發一趟,一來一回是兩個 `τ`;再加上交管自己算一輪的時間 `t_p`。這整段期間車都還在以 `v` 前進:
 
@@ -267,4 +267,4 @@ p_est = p_odom + v · (t_est − t_odom)
 - [OpenRMF:跨車隊調度](open-rmf.md) — 路線 B 的開源實作
 - [VDA5050 協定](vda5050.md) — 異質車隊的標準介面
 - [目的點重複預定](slot-reservation-dispatch-strategies.md) — 死鎖的預防面
-- [路徑規劃與軌跡(Nav2)](../30-navigation/path-planning.md) — 單車層的規劃與控制
+- [路徑規劃與軌跡(Nav2)](../10-core/30-navigation/path-planning.md) — 單車層的規劃與控制

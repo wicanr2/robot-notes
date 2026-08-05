@@ -2,7 +2,7 @@
 
 下位機(Low-level,跑 STM32 韌體的那塊板子)的開發有一個結構性麻煩:**韌體跑在硬體上,而硬體又貴、又慢、又不夠分。** 這篇從「為什麼需要在電腦上模擬主板」這個根本問題出發,介紹 Renode 這個全系統模擬器(full-system emulator,連 CPU 帶周邊一起模擬的工具),以及怎麼拿它驗證機器人下位機的運動控制、odometry、上下位機協議與急停邏輯,而不必每次都接實體車。
 
-> 本篇接續 [下位機運動控制](low-level-control.md)。下位機在系統中的位置見 [系統架構](../00-overview/system-architecture.md) §3.1;上下位機協議見 [通訊匯流排](../10-hardware/communication-buses.md)。
+> 本篇接續 [下位機運動控制](low-level-control.md)。下位機在系統中的位置見 [系統架構](../../00-overview/system-architecture.md) §3.1;上下位機協議見 [通訊匯流排](../10-hardware/communication-buses.md)。
 > 工具名稱、STM32 型號、Renode 指令都經官方來源查證,文末列來源 URL;不確定處標「待查證」。
 
 ---
@@ -21,7 +21,7 @@
 
 「在電腦上模擬主板」要解的就是這個。如果能在 PC 上跑**和燒進真板一模一樣的韌體 binary**,而且電腦不會累、可以開一百份、執行還是確定性的(同樣輸入永遠同樣結果),上面五條痛點同時鬆動。Renode 正是為此而生的工具。
 
-<p align="center"><img src="../../img/renode-feedback-loop.svg" width="660" alt="真板測試迴路又慢又時好時壞、板子還不夠分;Renode 迴路幾秒一輪、每次結果都一樣、可開很多份丟進 CI"></p>
+<p align="center"><img src="../../../img/renode-feedback-loop.svg" width="660" alt="真板測試迴路又慢又時好時壞、板子還不夠分;Renode 迴路幾秒一輪、每次結果都一樣、可開很多份丟進 CI"></p>
 
 > 對應全域工作原則「Feedback Loop Priority」:面對棘手 bug,第一優先是先建立一個快速、決定性、可自動執行的 pass/fail 訊號。在真板上,改一行要等好幾分鐘才知道結果,而且同一個測試這次過、下次掛,你根本不敢信它;模擬器讓同一個測試幾秒就跑完,而且每次跑結果都一樣。
 
@@ -46,7 +46,7 @@
 
 換句話說,Renode 模擬的是「**一整顆 SoC(系統單晶片)+ 周邊 + 感測器 + 板間通訊**」,而不是孤零零一顆 CPU。對下位機這種「邏輯不複雜、但和周邊與時序糾纏很深」的韌體,這正是模擬要有價值的關鍵——bug 多半藏在周邊和時序裡,只模擬 CPU 等於沒模擬到痛點。
 
-<p align="center"><img src="../../img/renode-architecture.svg" width="660" alt="同一份 .elf 餵進 Renode:模擬 Cortex-M + UART/CAN/Timer/GPIO/DMA 周邊 + 虛擬感測器 + 多板互連"></p>
+<p align="center"><img src="../../../img/renode-architecture.svg" width="660" alt="同一份 .elf 餵進 Renode:模擬 Cortex-M + UART/CAN/Timer/GPIO/DMA 周邊 + 虛擬感測器 + 多板互連"></p>
 
 Renode 另一個設計重點是**多節點(multi-node)**:它本來就是為了「多塊板組成的網路(有線 + 無線)」設計的,能讓多個模擬裝置共存於一個模擬中,並模擬它們之間的通訊媒介。這對機器人有直接意義——上位機板 ↔ 下位機板、或主控板 ↔ 多個馬達驅動板,都可以一起拉進同一個模擬。
 
@@ -195,7 +195,7 @@ arm-none-eabi-gdb firmware.elf
 
 這些全部寫成 Robot Framework 測試掛進 CI,每次改韌體自動跑一遍。**急停與協議這類「錯了會出安全事故」的邏輯,從靠人工接板抽測,變成每次 push 都被自動把關**——這是模擬對機器人專案最實在的回報。
 
-> 邊界:Renode 不替代真機驗證。它擅長的是**確定性的功能與時序邏輯**;類比電氣特性(實際電流、馬達真實扭力、感測器真實噪聲、EMC)還是得上實體台架量。把 Renode 定位成「**把九成的邏輯 bug 在上真車前擋掉**」,而不是「不用真車了」。對應 [系統架構](../00-overview/system-architecture.md) §4 研發路線:模擬補在 M1 韌體開發迴圈裡,真機驗證仍是驗收門檻。
+> 邊界:Renode 不替代真機驗證。它擅長的是**確定性的功能與時序邏輯**;類比電氣特性(實際電流、馬達真實扭力、感測器真實噪聲、EMC)還是得上實體台架量。把 Renode 定位成「**把九成的邏輯 bug 在上真車前擋掉**」,而不是「不用真車了」。對應 [系統架構](../../00-overview/system-architecture.md) §4 研發路線:模擬補在 M1 韌體開發迴圈裡,真機驗證仍是驗收門檻。
 
 ---
 

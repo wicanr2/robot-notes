@@ -2,7 +2,7 @@
 
 機器人身上每個感測器裝在不同位置、朝不同方向;地圖、里程、車體又各有原點。一筆「LiDAR 看到前方 2m 有牆」要變成「這牆在地圖的哪裡」,中間隔著好幾次座標換算。這篇從這個根本問題出發,講 ROS 的座標慣例、2D 剛體變換的數學(為什麼用齊次矩陣),以及 tf2 怎麼用一棵樹管理所有座標系。
 
-> 差速車本身的運動學(輪速 ↔ v/ω)見 [底盤 §1.1](../10-hardware/chassis-and-drivetrain.md)、[下位機運動控制](../20-firmware/low-level-control.md);本篇專講「座標系之間怎麼換算」。
+> 差速車本身的運動學(輪速 ↔ v/ω)見 [底盤 §1.1](../../20-forms/wheeled-amr/chassis-and-drivetrain.md)、[下位機運動控制](../20-firmware/low-level-control.md);本篇專講「座標系之間怎麼換算」。
 > 延伸閱讀:[定位](localization.md)、[SLAM](slam-mapping.md)、[路徑規劃](path-planning.md)。
 
 ---
@@ -37,7 +37,7 @@ REP-105 規範移動平台的座標鏈:**`map → odom → base_link`**(再往�
 
 把兩種需求拆成兩層,就能各取所需:近程平滑用 odom、全域準確用 map。
 
-<p align="center"><img src="../../img/tf-tree.svg" width="600" alt="TF tree:map→odom→base_link→感測器;map 跳變但準、odom 連續但漂"></p>
+<p align="center"><img src="../../../img/tf-tree.svg" width="600" alt="TF tree:map→odom→base_link→感測器;map 跳變但準、odom 連續但漂"></p>
 
 **一個關鍵權責**:定位元件**不直接發 map→base_link**,而是先收 odom→base_link(里程發的),再反推、廣播 **map→odom**。這樣才能維持「每個 frame 只有一個 parent」(base_link 的 parent 只能是 odom)。
 
@@ -52,7 +52,7 @@ p_A = R(θ) · p_B + t          R(θ) = | cos θ  −sin θ |   (逆時針為正
 
 這裡 **θ = B 系 x 軸相對 A 系 x 軸的夾角**(B 在 A 中的朝向),`t` 是 B 原點在 A 中的位置——θ 與 t 合起來就是「B 在 A 中的位姿」。**齊次變換(homogeneous transformation)** 把「先轉再移」合併成單一矩陣乘法:點補一維成 `(x, y, 1)`,變換寫成 3×3 矩陣 `T`。
 
-<p align="center"><img src="../../img/coordinate-transform-2d.svg" width="640" alt="2D 座標轉換:p_A = R(θ)p_B + t,齊次矩陣 T 合成旋轉與平移"></p>
+<p align="center"><img src="../../../img/coordinate-transform-2d.svg" width="640" alt="2D 座標轉換:p_A = R(θ)p_B + t,齊次矩陣 T 合成旋轉與平移"></p>
 
 **為什麼用齊次座標?**(第一性原理,三個都很實用)
 

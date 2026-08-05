@@ -13,7 +13,7 @@
 
 數位晶片要輸出 0 或 1,腳位內部其實是兩顆電晶體,一顆負責「推高」、一顆負責「拉低」:
 
-<p align="center"><img src="../../img/bus-pushpull-vs-opendrain.svg" width="720" alt="推挽 vs open-drain 對照:推挽兩態都有力氣;open-drain 拿掉上管,輸出 1 時腳位浮空"></p>
+<p align="center"><img src="../../../img/bus-pushpull-vs-opendrain.svg" width="720" alt="推挽 vs open-drain 對照:推挽兩態都有力氣;open-drain 拿掉上管,輸出 1 時腳位浮空"></p>
 
 兩種狀態都「有力氣」——高就是實實在在的 VCC,低就是實實在在的 GND。STM32 GPIO 預設就是這種。
 
@@ -30,7 +30,7 @@ Open-drain(開漏;BJT 版本叫 open-collector 開集)= **只有下管,沒有上
 
 解法就是外接一顆電阻到電源(**上拉電阻 pull-up**):
 
-<p align="center"><img src="../../img/bus-pullup-resistor.svg" width="680" alt="上拉電阻接線:3.3V 經 10kΩ 接到輸出腳與接收端,下管導通讀到 0、下管關閉靠電阻讀到 1"></p>
+<p align="center"><img src="../../../img/bus-pullup-resistor.svg" width="680" alt="上拉電阻接線:3.3V 經 10kΩ 接到輸出腳與接收端,下管導通讀到 0、下管關閉靠電阻讀到 1"></p>
 
 這就是 [§11.3](encoders.md)「霍爾線必須上拉,否則永遠讀到不定值」的完整原因:霍爾開關內部只有那顆下管。
 
@@ -44,7 +44,7 @@ Open-drain(開漏;BJT 版本叫 open-collector 開集)= **只有下管,沒有上
 
 理由 2 的 wired-AND 是一個跨章節的根本機制,值得一張圖記住——**I²C、CAN 仲裁、共享中斷/故障線都站在它上面**:(嚴格說,「全放手才高」要在「高=邏輯 1、低=邏輯 0」的約定下才等於邏輯 AND,故名 wired-AND;若反過來採低有效約定,同一條線物理不變、邏輯上就是 §15.2 講的 wired-OR。)
 
-<p align="center"><img src="../../img/wired-and.svg" width="600" alt="wired-AND:全部放手→上拉到高;任一裝置拉低→整條線低"></p>
+<p align="center"><img src="../../../img/wired-and.svg" width="600" alt="wired-AND:全部放手→上拉到高;任一裝置拉低→整條線低"></p>
 
 ### 13.5 STM32 端的對應設定
 

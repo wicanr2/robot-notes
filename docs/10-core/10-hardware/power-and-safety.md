@@ -3,7 +3,7 @@
 這一篇把「電」與「安全」放在一起,因為它們在工程上是一體的:選 24V 不只是夠力,也是為了避開高壓法規;急停不是寫一段程式,而是一條會切斷動力的電路。本篇講電壓法規(日台標準)、急停的電路本質、以及加減速 ramp 與過流/堵轉保護。
 
 > 章節編號沿用原始《送餐機器人基礎原理補充》,方便與舊文件對照(故本檔編號不連續,如 §1→§5→§10,非缺漏)。
-> 延伸閱讀:[下位機運動控制](../20-firmware/low-level-control.md)、[馬達與 FOC](motors-and-foc.md)、[系統架構](../00-overview/system-architecture.md)
+> 延伸閱讀:[下位機運動控制](../20-firmware/low-level-control.md)、[馬達與 FOC](motors-and-foc.md)、[系統架構](../../00-overview/system-architecture.md)
 
 ---
 
@@ -13,7 +13,7 @@
 
 ### 18.1 「24V 免高壓法規」的精確說法
 
-之前 [§1.4](chassis-and-drivetrain.md) 說 24V 是「安全特低電壓」,精確的層次是:
+之前 [§1.4](../../20-forms/wheeled-amr/chassis-and-drivetrain.md) 說 24V 是「安全特低電壓」,精確的層次是:
 
 | 層次 | 分界 | 24V 機器人的位置 |
 |---|---|---|
@@ -62,9 +62,9 @@
 
 ### 25.1 核心原則:急停是「電路」,不是「程式」
 
-[§3.1](../00-overview/system-architecture.md) 說過:安全功能即使上位機當機也要有效。急停再進一步——**即使下位機(STM32)當機也要有效**。所以真正的急停不經過任何 CPU:
+[§3.1](../../00-overview/system-architecture.md) 說過:安全功能即使上位機當機也要有效。急停再進一步——**即使下位機(STM32)當機也要有效**。所以真正的急停不經過任何 CPU:
 
-<p align="center"><img src="../../img/hw-estop-chain.svg" width="760" alt="急停鏈:常閉按鈕硬接線直達驅動器 STO 封鎖 PWM 使馬達瞬間失去動力,只有一條細線分支進 STM32 GPIO 做知會用,安全路徑完全不經過 CPU"></p>
+<p align="center"><img src="../../../img/hw-estop-chain.svg" width="760" alt="急停鏈:常閉按鈕硬接線直達驅動器 STO 封鎖 PWM 使馬達瞬間失去動力,只有一條細線分支進 STM32 GPIO 做知會用,安全路徑完全不經過 CPU"></p>
 
 兩個設計細節都呼應 [§13.4](digital-circuits.md) 的故障安全 (fail-safe) 思想:
 
@@ -81,7 +81,7 @@ STO(**Safe Torque Off**,安全轉矩關斷)是 FOC 驅動器普遍內建的安�
 
 > 馬達轉起來時,自己也會像發電機一樣產生一個**反向電壓**,**轉越快這電壓越大、轉速歸零它就歸零**(`E = kₑ·ω`,與轉速成正比)。這條簡單的正比關係,同時是「短路煞車能煞車」與「堵轉會燒」的共同原因。
 
-<p align="center"><img src="../../img/back-emf-speed.svg" width="740" alt="反電動勢與轉速成正比 E=kₑ·ω:高轉速端反電動勢大,三相短路時可驅動電流經繞組電阻耗散成煞車力矩(§25.3);零轉速(堵轉)端反電動勢=0,沒有反電壓擋電流,電流飆到 V/R 最大、能量全變熱(§26.3)"></p>
+<p align="center"><img src="../../../img/back-emf-speed.svg" width="740" alt="反電動勢與轉速成正比 E=kₑ·ω:高轉速端反電動勢大,三相短路時可驅動電流經繞組電阻耗散成煞車力矩(§25.3);零轉速(堵轉)端反電動勢=0,沒有反電壓擋電流,電流飆到 V/R 最大、能量全變熱(§26.3)"></p>
 
 知道反電動勢後,煞車對策分層:
 
@@ -100,7 +100,7 @@ IEC 60204-1 把停止分成三個類別(差別在「斷不斷動力」與「斷�
 - **Cat 1**:**先受控減速到停、再切斷動力**——既快又少滑行,但減速這段仍依賴驅動器運作。
 - **Cat 2**:**受控減速到停,但動力不切斷**(停著仍保持位置)——一般運轉的「停下來」用這類,不算急停。
 
-<p align="center"><img src="../../img/stop-categories.svg" width="640" alt="停止層級:硬體急停 Cat0(不經CPU)→ 韌體層 → 受控減速 Cat1/2,每層失效有更硬一層兜底"></p>
+<p align="center"><img src="../../../img/stop-categories.svg" width="640" alt="停止層級:硬體急停 Cat0(不經CPU)→ 韌體層 → 受控減速 Cat1/2,每層失效有更硬一層兜底"></p>
 
 設計準則:**每一層失效,都有更硬的一層兜底**;M1 驗收([§4.4](../20-firmware/low-level-control.md))要分層測試——按鈕測 Cat 0、拔通訊線測韌體層、UI 取消任務測軟體層。(急停只能用 Cat 0 或 Cat 1,不能用 Cat 2——見 ISO 13850。)
 
@@ -121,7 +121,7 @@ IEC 60204-1 把停止分成三個類別(差別在「斷不斷動力」與「斷�
 
 **問題**:上位機指令是步階的——「現在 0.8 m/s」。直接照做,加速度衝擊會讓湯灑出、輪子打滑(odometry 毀)、電流暴衝。**Ramp = 在目標與輸出之間插一層「變化率限幅器」**:
 
-<p align="center"><img src="../../img/hw-speed-ramp.svg" width="700" alt="速度 ramp 前後對照:步階指令瞬間跳到 0.8 m/s 造成衝擊,ramp 後以固定斜率 a_max 爬升"></p>
+<p align="center"><img src="../../../img/hw-speed-ramp.svg" width="700" alt="速度 ramp 前後對照:步階指令瞬間跳到 0.8 m/s 造成衝擊,ramp 後以固定斜率 a_max 爬升"></p>
 
 實作就是控制週期裡的幾行(接在 [§20.3](encoders.md) 的 ① 之前):
 
@@ -144,7 +144,7 @@ float ramp(float target, float current, float dt)
 
 1. **加減速分開設**:減速限值放寬(煞車比平順優先),急停(§25)則完全繞過 ramp。
 2. **ω 也要 ramp**:角加速度不限,原地起轉的甩動一樣灑湯;v 與 ω 的 ramp 要同步縮放,否則轉彎半徑會在加速過程中漂移。
-3. **放在下位機**,不能只信上位機:Nav2 controller 雖有 acc limits 參數,但通訊抖動、手動遙控、異常指令都可能繞過——下位機 ramp 是最後一道平滑保證([§3.1](../00-overview/system-architecture.md))。進階版是 S-curve(梯形加速度,連 jerk 加加速度也限制),湯類配送值得做。
+3. **放在下位機**,不能只信上位機:Nav2 controller 雖有 acc limits 參數,但通訊抖動、手動遙控、異常指令都可能繞過——下位機 ramp 是最後一道平滑保證([§3.1](../../00-overview/system-architecture.md))。進階版是 S-curve(梯形加速度,連 jerk 加加速度也限制),湯類配送值得做。
 
 ### 26.2 過流保護(overcurrent protection)
 
@@ -158,7 +158,7 @@ float ramp(float target, float current, float dt)
 | 軟體限流 | software current limiting | FOC 電流環的 ADC 採樣值,韌體比較 | ms 級 | 把 iq 命令夾在上限內(= 扭矩限制 torque limit) |
 | 熱保護 | thermal / I²t protection | **I²t 積分**:電流平方×時間累積(模擬繞組溫升),或 NTC 溫度感測器實測 | 秒級 | 持續過載 → 降額 (derating) 或停機 |
 
-<p align="center"><img src="../../img/hw-i2t-curve.svg" width="680" alt="熱保護跳脫曲線:通過 2×額定容許 5s、3×額定容許 0.5s 兩個示例點;另以虛線疊上純 I²t(t ∝ I⁻²)做對照,顯示實際跳脫曲線比純 I²t 更陡"></p>
+<p align="center"><img src="../../../img/hw-i2t-curve.svg" width="680" alt="熱保護跳脫曲線:通過 2×額定容許 5s、3×額定容許 0.5s 兩個示例點;另以虛線疊上純 I²t(t ∝ I⁻²)做對照,顯示實際跳脫曲線比純 I²t 更陡"></p>
 
 留意兩件事。第一,**純 I²t 是絕熱繞組模型**(`I²·t` 為常數,即 `t ∝ I⁻²`),而上圖那兩個示例點連出來的曲線比它陡得多——因為實際驅動器在熱模型之外還疊了一道**峰值電流上限**,不讓大電流靠縮短時間換取通行。第二,因此**不要拿 I²t 自己外推**別的電流倍數,要看廠商給的那張實際跳脫曲線。
 

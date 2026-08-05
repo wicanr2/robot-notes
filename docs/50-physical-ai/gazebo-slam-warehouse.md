@@ -2,7 +2,7 @@
 
 把前面那台舵輪叉車開進 AWS Small Warehouse,用 **slam_toolbox** 邊走邊建出 2D 地圖。這篇是可重跑的步驟教學:從「幫機器人裝雷射」到「RViz 看著地圖長出來」。
 
-> 前置:[用 Gazebo + ROS2 模擬 AMR](simulation-gazebo-ros2.md)(gz/ROS2 版本對應、ros_gz 橋接)、[2D SLAM 建圖原理](../30-navigation/slam-mapping.md)(occupancy grid、scan matching、loop closure)。實作素材(叉車模型、倉庫世界)在 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
+> 前置:[用 Gazebo + ROS2 模擬 AMR](simulation-gazebo-ros2.md)(gz/ROS2 版本對應、ros_gz 橋接)、[2D SLAM 建圖原理](../10-core/30-navigation/slam-mapping.md)(occupancy grid、scan matching、loop closure)。實作素材(叉車模型、倉庫世界)在 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
 >
 > **誠實前提**:`slam_toolbox` 是 ROS 2 套件,雷射 `gpu_lidar` 要 **render**(GPU/EGL)。所以**實際建圖要在有 GPU 的機器或 GPU runner + ROS 2 環境**跑;免費 GitHub runner 的軟體渲染不穩(見 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md))。CI 能驗的是「模型/世界 SDF 結構、`/scan` 有沒有宣告」,**不能**穩定跑出整張地圖。
 

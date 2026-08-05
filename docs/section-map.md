@@ -14,34 +14,34 @@
 
 | § | 主題 | 檔案 |
 |---|---|---|
-| §1 | 底盤裝置(差速、萬向輪、輪轂馬達、BLDC、encoder 概觀) | [10-hardware/chassis-and-drivetrain.md](10-hardware/chassis-and-drivetrain.md) |
-| §2 | FOC 磁場導向控制 | [10-hardware/motors-and-foc.md](10-hardware/motors-and-foc.md) |
-| §3 | 感測器:2D LiDAR、深度相機、IMU | [10-hardware/sensors.md](10-hardware/sensors.md) |
-| §4 | M1 底盤控制知識清單與驗收 | [20-firmware/low-level-control.md](20-firmware/low-level-control.md) |
-| §5 | BLDC + 行星減速機 | [10-hardware/chassis-and-drivetrain.md](10-hardware/chassis-and-drivetrain.md) |
-| §6 | CAN 與 RS485 串接 | [10-hardware/communication-buses.md](10-hardware/communication-buses.md) |
-| §7 | 運動學解算 vs PID | [20-firmware/low-level-control.md](20-firmware/low-level-control.md) |
+| §1 | 底盤裝置(差速、萬向輪、輪轂馬達、BLDC、encoder 概觀) | [10-hardware/chassis-and-drivetrain.md](20-forms/wheeled-amr/chassis-and-drivetrain.md) |
+| §2 | FOC 磁場導向控制 | [10-hardware/motors-and-foc.md](10-core/10-hardware/motors-and-foc.md) |
+| §3 | 感測器:2D LiDAR、深度相機、IMU | [10-hardware/sensors.md](10-core/10-hardware/sensors.md) |
+| §4 | M1 底盤控制知識清單與驗收 | [20-firmware/low-level-control.md](10-core/20-firmware/low-level-control.md) |
+| §5 | BLDC + 行星減速機 | [10-hardware/chassis-and-drivetrain.md](20-forms/wheeled-amr/chassis-and-drivetrain.md) |
+| §6 | CAN 與 RS485 串接 | [10-hardware/communication-buses.md](10-core/10-hardware/communication-buses.md) |
+| §7 | 運動學解算 vs PID | [20-firmware/low-level-control.md](10-core/20-firmware/low-level-control.md) |
 | §8 | x86 NUC 是什麼 | [00-overview/system-architecture.md](00-overview/system-architecture.md)(附錄) |
-| §9 | 馬達驅動晶片行銷術語拆解 | [10-hardware/motors-and-foc.md](10-hardware/motors-and-foc.md) |
-| §10 | 伺服馬達 vs 底盤輪馬達 | [10-hardware/chassis-and-drivetrain.md](10-hardware/chassis-and-drivetrain.md) |
-| §11 | 霍爾編碼器原理與接線 | [10-hardware/encoders.md](10-hardware/encoders.md) |
-| §12 | 功率橋與閘極驅動器 | [10-hardware/motors-and-foc.md](10-hardware/motors-and-foc.md) |
-| §13 | Open-drain 是什麼 | [10-hardware/digital-circuits.md](10-hardware/digital-circuits.md) |
-| §14 | STM32 的 open-drain 程式控制 | [10-hardware/digital-circuits.md](10-hardware/digital-circuits.md) |
-| §15 | 為什麼開漏「留下管」 | [10-hardware/digital-circuits.md](10-hardware/digital-circuits.md) |
-| §16 | 定子與轉子、Park 變換 | [10-hardware/motors-and-foc.md](10-hardware/motors-and-foc.md) |
-| §17 | 有刷 vs 無刷直流馬達 | [10-hardware/motors-and-foc.md](10-hardware/motors-and-foc.md) |
-| §18 | 電壓法規與日台標準 | [10-hardware/power-and-safety.md](10-hardware/power-and-safety.md) |
-| §19 | 增量式 A/B 相 encoder 圖解 | [10-hardware/encoders.md](10-hardware/encoders.md) |
-| §20 | Encoder 回授與 STM32 程式 | [10-hardware/encoders.md](10-hardware/encoders.md) |
-| §21 | 2D SLAM 建圖流程 | [30-navigation/slam-mapping.md](30-navigation/slam-mapping.md) |
-| §22 | AMCL 定位演算法 | [30-navigation/localization.md](30-navigation/localization.md) |
-| §23 | 深度相機輸出(RGB + 深度圖) | [10-hardware/sensors.md](10-hardware/sensors.md) |
-| §24 | 深度相機送餐機產品案例 | [10-hardware/sensors.md](10-hardware/sensors.md) |
-| §25 | 急停控制 | [10-hardware/power-and-safety.md](10-hardware/power-and-safety.md) |
-| §26 | 加減速 ramp 與過流/堵轉保護 | [10-hardware/power-and-safety.md](10-hardware/power-and-safety.md) |
-| §27 | Odometry 定義與本質限制 | [30-navigation/localization.md](30-navigation/localization.md) |
-| §28 | 地標定位(AprilTag / PnP) | [30-navigation/localization.md](30-navigation/localization.md) |
+| §9 | 馬達驅動晶片行銷術語拆解 | [10-hardware/motors-and-foc.md](10-core/10-hardware/motors-and-foc.md) |
+| §10 | 伺服馬達 vs 底盤輪馬達 | [10-hardware/chassis-and-drivetrain.md](20-forms/wheeled-amr/chassis-and-drivetrain.md) |
+| §11 | 霍爾編碼器原理與接線 | [10-hardware/encoders.md](10-core/10-hardware/encoders.md) |
+| §12 | 功率橋與閘極驅動器 | [10-hardware/motors-and-foc.md](10-core/10-hardware/motors-and-foc.md) |
+| §13 | Open-drain 是什麼 | [10-hardware/digital-circuits.md](10-core/10-hardware/digital-circuits.md) |
+| §14 | STM32 的 open-drain 程式控制 | [10-hardware/digital-circuits.md](10-core/10-hardware/digital-circuits.md) |
+| §15 | 為什麼開漏「留下管」 | [10-hardware/digital-circuits.md](10-core/10-hardware/digital-circuits.md) |
+| §16 | 定子與轉子、Park 變換 | [10-hardware/motors-and-foc.md](10-core/10-hardware/motors-and-foc.md) |
+| §17 | 有刷 vs 無刷直流馬達 | [10-hardware/motors-and-foc.md](10-core/10-hardware/motors-and-foc.md) |
+| §18 | 電壓法規與日台標準 | [10-hardware/power-and-safety.md](10-core/10-hardware/power-and-safety.md) |
+| §19 | 增量式 A/B 相 encoder 圖解 | [10-hardware/encoders.md](10-core/10-hardware/encoders.md) |
+| §20 | Encoder 回授與 STM32 程式 | [10-hardware/encoders.md](10-core/10-hardware/encoders.md) |
+| §21 | 2D SLAM 建圖流程 | [30-navigation/slam-mapping.md](10-core/30-navigation/slam-mapping.md) |
+| §22 | AMCL 定位演算法 | [30-navigation/localization.md](10-core/30-navigation/localization.md) |
+| §23 | 深度相機輸出(RGB + 深度圖) | [10-hardware/sensors.md](10-core/10-hardware/sensors.md) |
+| §24 | 深度相機送餐機產品案例 | [10-hardware/sensors.md](10-core/10-hardware/sensors.md) |
+| §25 | 急停控制 | [10-hardware/power-and-safety.md](10-core/10-hardware/power-and-safety.md) |
+| §26 | 加減速 ramp 與過流/堵轉保護 | [10-hardware/power-and-safety.md](10-core/10-hardware/power-and-safety.md) |
+| §27 | Odometry 定義與本質限制 | [30-navigation/localization.md](10-core/30-navigation/localization.md) |
+| §28 | 地標定位(AprilTag / PnP) | [30-navigation/localization.md](10-core/30-navigation/localization.md) |
 
 ## 系統架構文件內部章節
 
@@ -57,4 +57,4 @@
 
 > 註:基礎原理與系統架構各有一套 §1–§5,語意衝突時依上面的「規則速記」判斷。
 >
-> **跨檔的 `§N` 大多已經是可點的連結了**(如「見 [§11.3](10-hardware/encoders.md)」),不必回頭查本表;同一檔內部的 `§N` 維持裸寫,因為讀者已經在那一頁上。本表留給仍是裸寫的少數情況,以及想一次看清楚舊編號怎麼散落的人。
+> **跨檔的 `§N` 大多已經是可點的連結了**(如「見 [§11.3](10-core/10-hardware/encoders.md)」),不必回頭查本表;同一檔內部的 `§N` 維持裸寫,因為讀者已經在那一頁上。本表留給仍是裸寫的少數情況,以及想一次看清楚舊編號怎麼散落的人。

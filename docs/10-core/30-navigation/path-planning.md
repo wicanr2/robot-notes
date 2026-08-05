@@ -16,7 +16,7 @@
 
 **為什麼要分這三層?**(第一性原理)因為它們的**時間尺度與資訊範圍不同**:全域規劃計算量大、頻率低(看整張地圖找長路徑);區域控制計算量小、頻率高(每 20–50ms 就要更新速度,只看附近)。硬綁在一起會兩邊都做不好——拆層讓每層用最適合的演算法、各自能獨立替換(plugin)。
 
-<p align="center"><img src="../../img/nav2-three-layers.svg" width="640" alt="Nav2 三層:全域規劃(低頻看全圖)、區域控制(高頻看附近)、行為樹+恢復"></p>
+<p align="center"><img src="../../../img/nav2-three-layers.svg" width="640" alt="Nav2 三層:全域規劃(低頻看全圖)、區域控制(高頻看附近)、行為樹+恢復"></p>
 
 ## 2. costmap:為什麼不能把車當一個點
 
@@ -30,7 +30,7 @@
 
 **為什麼要 inflation?**(第一性原理)因為**機器人有體積,不是一個點**。若規劃時把車當點,算出的路會緊貼牆面,實際開過去就撞上。膨脹層把障礙「長胖」:障礙格本身是 **lethal(致命,254)**;距離小於**內切半徑**(footprint 內切圓)的格給「接近致命」的 inscribed cost(253,視同不可走);再往外用**指數衰減**鋪漸層(離障礙越遠代價越低),鼓勵車走中間、保持安全距離。
 
-<p align="center"><img src="../../img/costmap-inflation.svg" width="640" alt="分層 costmap(static/obstacle/inflation)與膨脹漸層:lethal→內切→指數衰減,車有體積要保持距離"></p>
+<p align="center"><img src="../../../img/costmap-inflation.svg" width="640" alt="分層 costmap(static/obstacle/inflation)與膨脹漸層:lethal→內切→指數衰減,車有體積要保持距離"></p>
 
 關鍵參數:`inflation_radius`(膨脹鋪多遠)、`cost_scaling_factor`(代價隨距離衰減多快——值越大代價掉越快、車越敢貼障礙,新手常調反)。判準:車的 footprint(輪廓)永遠不可碰到致命格。
 
@@ -73,7 +73,7 @@ Nav2 用**行為樹(Behavior Tree)**編排整個流程:規劃 → 跟隨 → 卡
 
 - 規劃都在 **map frame** 裡做,座標關係見 [座標轉換與 TF](kinematics-and-coordinate-transforms.md);定位提供的 map→base_link 決定「車在地圖哪裡」。
 - costmap 的 obstacle layer 吃 [感測器](../10-hardware/sensors.md) 的 LiDAR/深度;controller 輸出的 `(v, ω)` 經 [上下位機協議](../20-firmware/host-mcu-protocol.md) 下到 [下位機](../20-firmware/low-level-control.md) 做運動學逆解。
-- Nav2 之上還有跨車隊調度那一層,見 [OpenRMF](../40-fleet/open-rmf.md):RMF 規劃到 waypoint 為止,實際開過去的是 Nav2。
+- Nav2 之上還有跨車隊調度那一層,見 [OpenRMF](../../40-fleet/open-rmf.md):RMF 規劃到 waypoint 為止,實際開過去的是 Nav2。
 
 ### 實作與量測:接進 RMF 車隊之後
 

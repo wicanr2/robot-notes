@@ -18,13 +18,13 @@ AMCL = **A**daptive **M**onte **C**arlo **L**ocalization。Monte Carlo = 用大�
 AMCL 同時養 500~2000 個粒子,合起來表示「位置的機率分布」
 ```
 
-**為什麼用一堆粒子,而不像 EKF 用一個高斯就好?**(第一性原理)因為定位的機率分布可能是**多峰的**:對稱的長走廊兩端、四個一模一樣的路口,從感測器看完全一樣 → 「我可能在 A、也可能在 B」是兩個分開的峰。單一高斯只有一個峰,被迫把信念押在兩峰中間(那裡其實不可能),兩邊都錯;粒子可以同時撒在 A 和 B,等車走到不對稱的地方,錯的那群自然被淘汰、塌縮成一團。**全域定位、綁架恢復需要多峰表達能力,所以用粒子濾波而非 EKF**——這也呼應 [高斯第一性原理](../90-foundations/gaussian-from-first-principles.md):高斯的長處是單峰下好算,代價就是裝不下多峰。
+**為什麼用一堆粒子,而不像 EKF 用一個高斯就好?**(第一性原理)因為定位的機率分布可能是**多峰的**:對稱的長走廊兩端、四個一模一樣的路口,從感測器看完全一樣 → 「我可能在 A、也可能在 B」是兩個分開的峰。單一高斯只有一個峰,被迫把信念押在兩峰中間(那裡其實不可能),兩邊都錯;粒子可以同時撒在 A 和 B,等車走到不對稱的地方,錯的那群自然被淘汰、塌縮成一團。**全域定位、綁架恢復需要多峰表達能力,所以用粒子濾波而非 EKF**——這也呼應 [高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md):高斯的長處是單峰下好算,代價就是裝不下多峰。
 
-<p align="center"><img src="../../img/amcl-multimodal.svg" width="640" alt="對稱走廊→雙峰信念:粒子能同時押兩邊,單一高斯只能押一峰"></p>
+<p align="center"><img src="../../../img/amcl-multimodal.svg" width="640" alt="對稱走廊→雙峰信念:粒子能同時押兩邊,單一高斯只能押一峰"></p>
 
 ### 22.2 核心循環:三步驟不斷重複
 
-<p align="center"><img src="../../img/amcl-cycle.svg" width="640" alt="AMCL 三步循環:預測(motion)→量測更新(似然加權)→重採樣(收斂),不斷重複"></p>
+<p align="center"><img src="../../../img/amcl-cycle.svg" width="640" alt="AMCL 三步循環:預測(motion)→量測更新(似然加權)→重採樣(收斂),不斷重複"></p>
 
 ②的圖像——兩個粒子的比對:
 
@@ -110,14 +110,14 @@ encoder 說:這 10ms 左輪滾 3.1mm、右輪滾 3.3mm     (§19/§20 量測)
 
 | 類型 | 量測來源 | 特性 |
 |---|---|---|
-| **Wheel odometry**(本文件的主角) | 輪式 encoder | 便宜、高頻、直線準;**打滑就錯**([§10.3](../10-hardware/chassis-and-drivetrain.md)) |
+| **Wheel odometry**(本文件的主角) | 輪式 encoder | 便宜、高頻、直線準;**打滑就錯**([§10.3](../../20-forms/wheeled-amr/chassis-and-drivetrain.md)) |
 | IMU(慣性推算) | 陀螺儀/加速度計積分 | 角度好;位置二次積分發散,不能單用([§3.3](../10-hardware/sensors.md)) |
 | Visual odometry | 相機連續影格特徵追蹤 | 不怕打滑;怕快速移動、無紋理牆面 |
 | LiDAR odometry | 連續 scan 之間的 matching | 即 [§21.2](slam-mapping.md) 的 scan matching 用在「相鄰兩幀」 |
 
 實務上 `/odom` 常是 wheel + IMU 的 EKF 融合結果([§3.3](../10-hardware/sensors.md) 的「距離信 encoder、角度信陀螺儀」)。
 
-> EKF 為什麼能把兩個都不準的來源融成更準的?第一性原理(信念是高斯、預測=線性推進、更新=兩高斯相乘)見 [高斯分布:第一性原理 §3.2](../90-foundations/gaussian-from-first-principles.md#32-卡爾曼濾波--ekf--用-p1--p2--p3機器人定位的核心)。
+> EKF 為什麼能把兩個都不準的來源融成更準的?第一性原理(信念是高斯、預測=線性推進、更新=兩高斯相乘)見 [高斯分布:第一性原理 §3.2](../../90-foundations/gaussian-from-first-principles.md#32-卡爾曼濾波--ekf--用-p1--p2--p3機器人定位的核心)。
 
 ### 27.3 本質限制:相對定位,誤差只增不減
 
@@ -146,7 +146,7 @@ odometry 是**相對定位**——一切從開機點累積,每一步的小誤差
 
 ### 28.1 原理:已知地標在地圖哪裡 + 量到地標在我的哪裡 → 反推我在哪
 
-<p align="center"><img src="../../img/loc-landmark-backsolve.svg" width="720" alt="地標反推定位:已知地標的世界座標與相機量到的距離、角度,反推機器人位姿,再用結果強制重設 AMCL 粒子雲或餵給 EKF"></p>
+<p align="center"><img src="../../../img/loc-landmark-backsolve.svg" width="720" alt="地標反推定位:已知地標的世界座標與相機量到的距離、角度,反推機器人位姿,再用結果強制重設 AMCL 粒子雲或餵給 EKF"></p>
 
 算一次給個具體感覺。部署時登錄地標 M 固定在世界座標 `(10.0, 5.0)`、朝向已知;相機當下量到三件事:M 在正前方**偏右 15°**、距離 **2.0 m**、而且我是**斜看它 30°**。
 
@@ -186,7 +186,7 @@ odometry 是**相對定位**——一切從開機點累積,每一步的小誤差
 
 | 場景 | 為什麼用地標而不是 AMCL |
 |---|---|
-| **回充對接**([§2.5](../00-overview/system-architecture.md) 的二期項目) | 對接要 ±1cm/±1°,AMCL 給不了;充電樁上的標記/IR 信標做最後 50cm 的精確伺服 |
+| **回充對接**([§2.5](../../00-overview/system-architecture.md) 的二期項目) | 對接要 ±1cm/±1°,AMCL 給不了;充電樁上的標記/IR 信標做最後 50cm 的精確伺服 |
 | 開機初始位姿 | 停機位貼一張碼,開機看一眼即完成初始化,免人工在 UI 點位置 |
 | 電梯內/跨樓層 | 電梯轎廂無地圖特徵且樓層切換,出電梯看碼歸位 |
 | 長走廊/玻璃帷幕區 | LiDAR 特徵貧乏(§22 的多義性、[§23.4](../10-hardware/sensors.md) 玻璃問題),走廊中段補一張碼 |
@@ -199,7 +199,7 @@ odometry 是**相對定位**——一切從開機點累積,每一步的小誤差
 
 **(1) 透視變形編碼了相對姿態。** 標記的實體尺寸與正方形形狀已知;相機看到的四個角點若不是正正方方,變形量就唯一對應「相機從什麼角度看它」:
 
-<p align="center"><img src="../../img/loc-apriltag-perspective.svg" width="680" alt="AprilTag 透視變形:正對看是正方形、斜看變梯形;角點變形量配合已知邊長與相機內參,PnP 解出相機相對標記的完整 6-DOF 位姿"></p>
+<p align="center"><img src="../../../img/loc-apriltag-perspective.svg" width="680" alt="AprilTag 透視變形:正對看是正方形、斜看變梯形;角點變形量配合已知邊長與相機內參,PnP 解出相機相對標記的完整 6-DOF 位姿"></p>
 
 **(2) 圖案不對稱消除了 90° 模糊。** 純正方形轉 90° 看起來一樣;所以 QR code 有三個角的回字定位點(finder patterns)、AprilTag 的 ID 圖案本身不對稱——「碼的上下左右」唯一可辨,於是「車相對碼轉了幾度」也唯一。倉儲 AGV(Kiva/Geek+ 型)地面貼 QR 正是同時讀「位置 + 自身航向」,每經過一張碼就把 odometry 的角度漂移歸零。
 
@@ -219,7 +219,7 @@ odometry 是**相對定位**——一切從開機點累積,每一步的小誤差
 
 **線上五步(每幀影像)**
 
-<p align="center"><img src="../../img/loc-apriltag-pipeline.svg" width="760" alt="AprilTag 定位五步 pipeline:偵測角點→解碼ID→PnP解算→座標鏈串接→投用;灰字標示事前只做一次的標定/登錄,藍字標示每幀即時計算"></p>
+<p align="center"><img src="../../../img/loc-apriltag-pipeline.svg" width="760" alt="AprilTag 定位五步 pipeline:偵測角點→解碼ID→PnP解算→座標鏈串接→投用;灰字標示事前只做一次的標定/登錄,藍字標示每幀即時計算"></p>
 
 **③ PnP 的原理(不需要解,需要懂它在解什麼)**
 
@@ -251,7 +251,7 @@ PnP = Perspective-n-Point:已知 n 個點的 3D 座標與它們的 2D 像素投�
 
 兩者同屬「黑白方塊視覺標記 (fiducial marker)」家族,但一個為**存資料**設計、一個為**量位姿**設計:
 
-<p align="center"><img src="../../img/loc-qr-vs-apriltag.svg" width="720" alt="QR code 模組極小極密、三個回字定位點,容量數百~3KB;AprilTag 格子極大極粗、一圈粗黑邊框,只存一個 ID——設計目的相反"></p>
+<p align="center"><img src="../../../img/loc-qr-vs-apriltag.svg" width="720" alt="QR code 模組極小極密、三個回字定位點,容量數百~3KB;AprilTag 格子極大極粗、一圈粗黑邊框,只存一個 ID——設計目的相反"></p>
 
 | | QR code | AprilTag |
 |---|---|---|
@@ -264,7 +264,7 @@ PnP = Perspective-n-Point:已知 n 個點的 3D 座標與它們的 2D 像素投�
 
 真實的 AprilTag 長這樣(官方 tag36h11 族,左 ID=0、右 ID=1;圖檔取自 [AprilRobotics/apriltag-imgs](https://github.com/AprilRobotics/apriltag-imgs)):
 
-<p align="center"><img src="../../img/apriltag_36h11.png" width="480" alt="AprilTag tag36h11 族的兩張圖樣,左 ID=0、右 ID=1"></p>
+<p align="center"><img src="../../../img/apriltag_36h11.png" width="480" alt="AprilTag tag36h11 族的兩張圖樣,左 ID=0、右 ID=1"></p>
 
 讀圖重點:(1) 外圈完整一圈粗黑邊框——PnP 用的四個角點就來自它;(2) 內部 6×6 格只編一個 ID,圖案不對稱——這就是 §28.5「消除 90° 模糊」的具體長相;(3) 兩個 ID 的圖案差異很大(漢明距離設計)——拍糊了也不會把 0 認成 1。實際部署列印時注意:**邊長要量「黑框外緣」**填進設定檔(PnP 的 s,§28.6),且紙面要平整——皺褶直接破壞透視幾何。
 

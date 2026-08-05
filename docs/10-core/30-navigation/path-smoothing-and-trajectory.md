@@ -3,7 +3,7 @@
 全域規劃器吐出來的是一串 waypoint 連成的折線。折線在數學上沒問題,在物理上走不了——轉角處的曲率是無限大。這篇從這個事實推起,走完幾何(曲線長什麼形狀)與時間(何時走到哪)兩條線,再看 Open-RMF 在兩個 waypoint 之間實際上是怎麼算的。
 
 > 前置:[路徑規劃與軌跡(Nav2)](path-planning.md)(三層架構與 costmap)、[座標轉換與 TF](kinematics-and-coordinate-transforms.md)。
-> 相關:[電源與安全](../10-hardware/power-and-safety.md)(ramp 與 S 曲線在下位機那一端)、[OpenRMF](../40-fleet/open-rmf.md)(時空排程)、[室內 AMR 路網選型](../40-fleet/indoor-amr-roadnet-selection.md)(叉車的轉向約束)。
+> 相關:[電源與安全](../10-hardware/power-and-safety.md)(ramp 與 S 曲線在下位機那一端)、[OpenRMF](../../40-fleet/open-rmf.md)(時空排程)、[室內 AMR 路網選型](../../40-fleet/indoor-amr-roadnet-selection.md)(叉車的轉向約束)。
 
 ---
 
@@ -26,7 +26,7 @@ $$\kappa = \frac{d\theta}{ds}$$
 
 所以平滑不是為了好看,是為了**讓路徑落在車的可行集合裡**。
 
-<p align="center"><img src="../../img/traj-corner-curvature.svg" width="820" alt="折線轉角處曲率無限大,平滑後曲率變成有界的連續函數;下方對照差速車與舵輪車產生曲率的機制差異"></p>
+<p align="center"><img src="../../../img/traj-corner-curvature.svg" width="820" alt="折線轉角處曲率無限大,平滑後曲率變成有界的連續函數;下方對照差速車與舵輪車產生曲率的機制差異"></p>
 
 ---
 
@@ -72,7 +72,7 @@ Nav2 的 planner → smoother → controller 就是這個拆法;Open-RMF 的「�
 
 **折線只有 G0。** 這就是為什麼它走不了。
 
-<p align="center"><img src="../../img/traj-continuity-ladder.svg" width="860" alt="G0 到 G3 四個連續性等級的對照:各自在接點處連續的量、對應的物理意義,以及差速車與舵輪車分別需要做到哪一級"></p>
+<p align="center"><img src="../../../img/traj-continuity-ladder.svg" width="860" alt="G0 到 G3 四個連續性等級的對照:各自在接點處連續的量、對應的物理意義,以及差速車與舵輪車分別需要做到哪一級"></p>
 
 **該做到哪一級,由車型決定**:
 
@@ -137,7 +137,7 @@ $$\kappa(t) = \frac{x'(t)\,y''(t) - y'(t)\,x''(t)}{\big(x'(t)^2 + y'(t)^2\big)^{
 
 **這條式子是驗收平滑結果的工具**:沿 `t` 掃一遍 `κ(t)`,看最大值有沒有超過車的 `1/R_min`。超過就是這條曲線車走不了,不管它看起來多順。
 
-<p align="center"><img src="../../img/traj-bezier-anatomy.svg" width="860" alt="三次 Bézier 的解剖:四個控制點、端點切線由 P1−P0 與 P3−P2 決定、控制點凸包包住整條曲線,以及沿曲線的曲率變化"></p>
+<p align="center"><img src="../../../img/traj-bezier-anatomy.svg" width="860" alt="三次 Bézier 的解剖:四個控制點、端點切線由 P1−P0 與 P3−P2 決定、控制點凸包包住整條曲線,以及沿曲線的曲率變化"></p>
 
 ### 4.4 de Casteljau:求值、細分,與便宜的碰撞檢查
 
@@ -194,7 +194,7 @@ $$N_{i,p}(u) = \frac{u - u_i}{u_{i+p} - u_i} N_{i,p-1}(u) + \frac{u_{i+p+1} - u}
 
 Bézier 沒有這個性質——動任何一個控制點,整條曲線都變。對路徑平滑來說這是決定性的差異:現場多了一個臨時障礙物,只要調動附近幾個控制點就好,不會把整條路徑重算、也不會把遠處已經驗證過的部分弄壞。
 
-<p align="center"><img src="../../img/traj-bspline-local.svg" width="860" alt="B-spline 的局部支撐:移動一個控制點只影響鄰近幾個區段,對照 Bézier 動一點整條曲線都變;並標出三次 B-spline 在單重節點自動 C2 連續"></p>
+<p align="center"><img src="../../../img/traj-bspline-local.svg" width="860" alt="B-spline 的局部支撐:移動一個控制點只影響鄰近幾個區段,對照 Bézier 動一點整條曲線都變;並標出三次 B-spline 在單重節點自動 C2 連續"></p>
 
 ### 5.3 Bézier 是 B-spline 的特例
 
@@ -284,13 +284,13 @@ $$v(s) \le \sqrt{\frac{a_{\text{lat,max}}}{\kappa(s)}}$$
 
 代價是同樣的距離要花更久。**限 jerk 換到的是**:湯不灑、輪子不打滑(odometry 不毀)、機構壽命、以及載人時的舒適度。
 
-<p align="center"><img src="../../img/traj-velocity-profile.svg" width="860" alt="梯形速度曲線與 S 曲線七段的對照:位置、速度、加速度、jerk 四條曲線,以及曲率決定的沿路徑速度上限"></p>
+<p align="center"><img src="../../../img/traj-velocity-profile.svg" width="860" alt="梯形速度曲線與 S 曲線七段的對照:位置、速度、加速度、jerk 四條曲線,以及曲率決定的沿路徑速度上限"></p>
 
 ---
 
 ## 9. Open-RMF:兩個 waypoint 之間實際上算什麼
 
-[OpenRMF](../40-fleet/open-rmf.md) 那篇提到「車的軌跡以**分段三次樣條**表示」。這一節把「為什麼是三次」補上。
+[OpenRMF](../../40-fleet/open-rmf.md) 那篇提到「車的軌跡以**分段三次樣條**表示」。這一節把「為什麼是三次」補上。
 
 RMF 的行程(trajectory)是一串 waypoint,每個帶三樣東西:**時間、位置、速度**。於是相鄰兩個 waypoint 之間,邊界條件有四個——起點位置 `p₀`、起點速度 `m₀`、終點位置 `p₁`、終點速度 `m₁`。
 
@@ -314,9 +314,9 @@ $$P_0 = p_0, \quad P_1 = p_0 + \tfrac{m_0}{3}, \quad P_2 = p_1 - \tfrac{m_1}{3},
 
 **接到 VDA5050 的落差**也就清楚了:RMF 手上是連續的三次樣條,VDA5050 的 order 是離散的 node/edge。adapter 必須把樣條切段、對映到路網節點,並決定哪幾段 `released`、哪幾段留在 `horizon`。這是既有筆記標出的核心難點,根源就在兩邊的表示法一個連續、一個離散。
 
-<p align="center"><img src="../../img/traj-rmf-hermite.svg" width="860" alt="Open-RMF 的 waypoint 帶時間位置速度,相鄰兩點四個邊界條件決定一段三次 Hermite;與 Bézier 控制點的互轉關係;以及連續樣條被 adapter 切成 VDA5050 離散 node/edge"></p>
+<p align="center"><img src="../../../img/traj-rmf-hermite.svg" width="860" alt="Open-RMF 的 waypoint 帶時間位置速度,相鄰兩點四個邊界條件決定一段三次 Hermite;與 Bézier 控制點的互轉關係;以及連續樣條被 adapter 切成 VDA5050 離散 node/edge"></p>
 
-> **待查證**:本節的數學(四個邊界條件 → 三次、Hermite ↔ Bézier 互轉)是確定的;但 `rmf_traffic` 內部的實際資料結構與 API 命名沒有在本輪查證,只依 [open-rmf.md](../40-fleet/open-rmf.md) 已記錄的「分段三次樣條」描述推。要接 adapter 時請以官方原始碼為準。
+> **待查證**:本節的數學(四個邊界條件 → 三次、Hermite ↔ Bézier 互轉)是確定的;但 `rmf_traffic` 內部的實際資料結構與 API 命名沒有在本輪查證,只依 [open-rmf.md](../../40-fleet/open-rmf.md) 已記錄的「分段三次樣條」描述推。要接 adapter 時請以官方原始碼為準。
 
 ---
 
@@ -348,6 +348,6 @@ $$P_0 = p_0, \quad P_1 = p_0 + \tfrac{m_0}{3}, \quad P_2 = p_1 - \tfrac{m_1}{3},
 - [路徑規劃與軌跡(Nav2)](path-planning.md) — 平滑的上游(全域規劃)與下游(區域控制器)
 - [電源與安全](../10-hardware/power-and-safety.md) — ramp 與 S 曲線在下位機的實作
 - [座標轉換與 TF](kinematics-and-coordinate-transforms.md) — 曲線算出來之後放在哪個座標系
-- [OpenRMF:跨車隊調度](../40-fleet/open-rmf.md) — 時空排程與協商
-- [室內 AMR 路網規劃選型](../40-fleet/indoor-amr-roadnet-selection.md) — 叉車轉向約束怎麼反過來決定路網
-- [高斯分布:第一性原理](../90-foundations/gaussian-from-first-principles.md) — 本 repo 另一篇「把式子逼出來」的範本
+- [OpenRMF:跨車隊調度](../../40-fleet/open-rmf.md) — 時空排程與協商
+- [室內 AMR 路網規劃選型](../../40-fleet/indoor-amr-roadnet-selection.md) — 叉車轉向約束怎麼反過來決定路網
+- [高斯分布:第一性原理](../../90-foundations/gaussian-from-first-principles.md) — 本 repo 另一篇「把式子逼出來」的範本

@@ -2,7 +2,7 @@
 
 模擬裡的 LiDAR(Gazebo 的 `gpu_lidar`)為什麼叫「**GPU** lidar」、為什麼要 GPU?直覺會說「LiDAR 打很多 ray,所以是 ray tracing」——但讀完 gz 的原始碼會發現:**它其實是叫 GPU 把場景的「深度」render 出來,再讀那張深度圖當距離**,跟典型的 ray tracing 不一樣。這篇從第一性原理講起,並對照真正的實作程式碼。
 
-> 前置:[LiDAR 完整解析](../10-hardware/lidar-landscape.md)(真實 LiDAR 怎麼測距)、[在 Gazebo 倉庫用 slam_toolbox 建圖](gazebo-slam-warehouse.md)(gpu_lidar 在 SLAM 的角色)。
+> 前置:[LiDAR 完整解析](../10-core/10-hardware/lidar-landscape.md)(真實 LiDAR 怎麼測距)、[在 Gazebo 倉庫用 slam_toolbox 建圖](gazebo-slam-warehouse.md)(gpu_lidar 在 SLAM 的角色)。
 > 讀的原始碼(Gazebo Harmonic 對應分支):[`gz-sensors/src/GpuLidarSensor.cc`](https://github.com/gazebosim/gz-sensors/blob/gz-sensors8/src/GpuLidarSensor.cc)、[`gz-rendering/ogre2/src/Ogre2GpuRays.cc`](https://github.com/gazebosim/gz-rendering/blob/gz-rendering8/ogre2/src/Ogre2GpuRays.cc)。
 
 ---

@@ -59,11 +59,11 @@
 
 | 你的情況 | 建議路線 |
 |---|---|
-| **完全沒碰過硬體** | 上面「機器人怎麼運作」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [感測器](docs/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
+| **完全沒碰過硬體** | 上面「機器人怎麼運作」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [感測器](docs/10-core/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
 | 想先看全貌 | [系統架構](docs/00-overview/system-architecture.md) |
-| 軟體背景、想補硬體 | [底盤](docs/10-hardware/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-hardware/motors-and-foc.md) → [感測器](docs/10-hardware/sensors.md) |
-| 做下位機韌體 | [下位機運動控制](docs/20-firmware/low-level-control.md) → [編碼器](docs/10-hardware/encoders.md) → [通訊匯流排](docs/10-hardware/communication-buses.md) |
-| 做導航 | [SLAM](docs/30-navigation/slam-mapping.md) → [定位](docs/30-navigation/localization.md) → [路徑規劃](docs/30-navigation/path-planning.md) |
+| 軟體背景、想補硬體 | [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-core/10-hardware/motors-and-foc.md) → [感測器](docs/10-core/10-hardware/sensors.md) |
+| 做下位機韌體 | [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) → [編碼器](docs/10-core/10-hardware/encoders.md) → [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) |
+| 做導航 | [SLAM](docs/10-core/30-navigation/slam-mapping.md) → [定位](docs/10-core/30-navigation/localization.md) → [路徑規劃](docs/10-core/30-navigation/path-planning.md) |
 | **做多車調度 / 路網交管** | [路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) → [室內 AMR 路網選型](docs/40-fleet/indoor-amr-roadnet-selection.md) → [OpenRMF](docs/40-fleet/open-rmf.md) → [VDA5050](docs/40-fleet/vda5050.md) |
 | 想做 AI 模擬(進階) | 先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
 | 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
@@ -79,28 +79,28 @@
 - [系統架構](docs/00-overview/system-architecture.md) — 上位機/下位機分層、資料流、硬體選型、軟體架構、研發路線
 
 ### 10 硬體
-- [底盤與驅動系統](docs/10-hardware/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機
-- [馬達與 FOC 控制](docs/10-hardware/motors-and-foc.md) — FOC、定子/轉子、有刷/無刷、功率橋、閘極驅動
-- [編碼器](docs/10-hardware/encoders.md) — 霍爾、增量式 A/B 相、四倍頻、STM32 硬體讀取
-- [感測器](docs/10-hardware/sensors.md) — 2D LiDAR、深度相機、IMU,以及各自的盲區
-- [LiDAR 完整解析](docs/10-hardware/lidar-landscape.md) — 測距原理(dToF/相位/FMCW)、905 vs 1550nm、掃描機構、2D vs 3D;附 2025–2026 產品盤點與選型
-- [通訊匯流排](docs/10-hardware/communication-buses.md) — CAN 與 RS485 的分工,STM32F4 串接
-- [數位電路](docs/10-hardware/digital-circuits.md) — 推挽 vs open-drain、上拉電阻、wired-AND
-- [電源與安全](docs/10-hardware/power-and-safety.md) — 電壓法規、急停鏈、ramp/過流/堵轉保護
+- [底盤與驅動系統](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機
+- [馬達與 FOC 控制](docs/10-core/10-hardware/motors-and-foc.md) — FOC、定子/轉子、有刷/無刷、功率橋、閘極驅動
+- [編碼器](docs/10-core/10-hardware/encoders.md) — 霍爾、增量式 A/B 相、四倍頻、STM32 硬體讀取
+- [感測器](docs/10-core/10-hardware/sensors.md) — 2D LiDAR、深度相機、IMU,以及各自的盲區
+- [LiDAR 完整解析](docs/10-core/10-hardware/lidar-landscape.md) — 測距原理(dToF/相位/FMCW)、905 vs 1550nm、掃描機構、2D vs 3D;附 2025–2026 產品盤點與選型
+- [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) — CAN 與 RS485 的分工,STM32F4 串接
+- [數位電路](docs/10-core/10-hardware/digital-circuits.md) — 推挽 vs open-drain、上拉電阻、wired-AND
+- [電源與安全](docs/10-core/10-hardware/power-and-safety.md) — 電壓法規、急停鏈、ramp/過流/堵轉保護
 
 ### 20 韌體
-- [下位機運動控制](docs/20-firmware/low-level-control.md) — 運動學解算 vs PID、odometry 積分、控制週期
-- [上下位機通訊協議](docs/20-firmware/host-mcu-protocol.md) — 從三個根本痛點推出 framing/CRC16/心跳逾時/序號
-- [主板模擬:Renode](docs/20-firmware/board-simulation-renode.md) — 為何要模擬主板、STM32 全系統模擬、確定性測試進 CI
-- [STM32F4 上的 REST API + TLS 1.2](docs/20-firmware/stm32-rest-tls.md) — lwIP + mbedTLS 堆疊、RAM/CPU 瓶頸、硬體 crypto
+- [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) — 運動學解算 vs PID、odometry 積分、控制週期
+- [上下位機通訊協議](docs/10-core/20-firmware/host-mcu-protocol.md) — 從三個根本痛點推出 framing/CRC16/心跳逾時/序號
+- [主板模擬:Renode](docs/10-core/20-firmware/board-simulation-renode.md) — 為何要模擬主板、STM32 全系統模擬、確定性測試進 CI
+- [STM32F4 上的 REST API + TLS 1.2](docs/10-core/20-firmware/stm32-rest-tls.md) — lwIP + mbedTLS 堆疊、RAM/CPU 瓶頸、硬體 crypto
 
 ### 30 導航
-- [SLAM 建圖](docs/30-navigation/slam-mapping.md) — 2D SLAM 流程、scan matching、loop closure、pose graph
-- [3D LiDAR SLAM 建圖](docs/30-navigation/slam-3d-lidar.md) — 點雲配準(ICP/NDT/LOAM)、LIO 融 IMU、FAST-LIO 系譜;附 ROS2 可用套件盤點
-- [定位](docs/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
-- [座標轉換與 TF](docs/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
-- [路徑規劃與軌跡(Nav2)](docs/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
-- [路徑平滑與軌跡生成](docs/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
+- [SLAM 建圖](docs/10-core/30-navigation/slam-mapping.md) — 2D SLAM 流程、scan matching、loop closure、pose graph
+- [3D LiDAR SLAM 建圖](docs/10-core/30-navigation/slam-3d-lidar.md) — 點雲配準(ICP/NDT/LOAM)、LIO 融 IMU、FAST-LIO 系譜;附 ROS2 可用套件盤點
+- [定位](docs/10-core/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
+- [座標轉換與 TF](docs/10-core/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
+- [路徑規劃與軌跡(Nav2)](docs/10-core/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
+- [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
 
 ### 40 多機調度
 

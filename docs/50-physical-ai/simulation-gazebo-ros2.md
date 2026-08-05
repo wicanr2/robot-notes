@@ -2,7 +2,7 @@
 
 一句話定位:在電腦裡用 **Gazebo**(開源機器人物理模擬器)蓋一個虛擬餐廳,放進一台差速送餐機器人,讓它產生跟真車一樣的感測器訊號(雷射、里程、姿態),再接上 **Nav2**(ROS 2 的導航軟體堆疊)跑 SLAM 與自主導航——整套不碰真硬體就能驗證導航邏輯。
 
-> 延伸閱讀:[Physical AI 總覽](./physical-ai-overview.md)、[導航運動學與座標轉換](../30-navigation/kinematics-and-coordinate-transforms.md)、[SLAM 建圖](../30-navigation/slam-mapping.md)、[定位](../30-navigation/localization.md)
+> 延伸閱讀:[Physical AI 總覽](./physical-ai-overview.md)、[導航運動學與座標轉換](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)、[SLAM 建圖](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md)
 
 本檔聚焦 **Gazebo** 這條輕量、CPU 可跑、ROS 原生的路線;與 **Isaac Sim** 的分工放在最後一節。
 

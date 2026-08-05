@@ -32,7 +32,7 @@ BLDC 定子上嵌三顆**霍爾開關**(HA、HB、HC),彼此相隔 120° 電氣�
 輪徑 15cm → 一格 ≈ 5.2mm 地面距離
 ```
 
-對比 [§1.5](chassis-and-drivetrain.md):這就是「霍爾 = 低解析度編碼器」的由來——做速度閉迴路夠用(中高速時),做精細 odometry 偏粗,所以講究的方案會在輪轂馬達內**加裝磁編碼器**。
+對比 [§1.5](../../20-forms/wheeled-amr/chassis-and-drivetrain.md):這就是「霍爾 = 低解析度編碼器」的由來——做速度閉迴路夠用(中高速時),做精細 odometry 偏粗,所以講究的方案會在輪轂馬達內**加裝磁編碼器**。
 
 它的雙重身分:同一組訊號,既給驅動器做**換相**(知道該給哪兩相通電),又可當**編碼器**(數狀態變化次數 = 角度;量狀態間隔時間 = 速度)。
 
@@ -56,7 +56,7 @@ BLDC 定子上嵌三顆**霍爾開關**(HA、HB、HC),彼此相隔 120° 電氣�
 
 ### 11.3 STM32F4 硬體連接
 
-<p align="center"><img src="../../img/enc-hall-wiring.svg" width="720" alt="輪轂馬達霍爾線 HA/HB/HC 經 10kΩ 上拉電阻接到 STM32F407 PB6/PB7/PB8(TIM4)"></p>
+<p align="center"><img src="../../../img/enc-hall-wiring.svg" width="720" alt="輪轂馬達霍爾線 HA/HB/HC 經 10kΩ 上拉電阻接到 STM32F407 PB6/PB7/PB8(TIM4)"></p>
 
 接線要點:
 
@@ -70,14 +70,14 @@ BLDC 定子上嵌三顆**霍爾開關**(HA、HB、HC),彼此相隔 120° 電氣�
 
 STM32 Timer 有專門的 Hall sensor interface:把 CH1/CH2/CH3 三路訊號**硬體 XOR 成一路**接到內部 TI1,任何一顆霍爾翻轉 → 產生一次 capture 事件 + 計數器自動歸零:
 
-<p align="center"><img src="../../img/enc-hall-xor-capture.svg" width="680" alt="三顆霍爾訊號硬體 XOR 進 TIM4 TI1,用 input capture 量出翻轉間隔時間"></p>
+<p align="center"><img src="../../../img/enc-hall-xor-capture.svg" width="680" alt="三顆霍爾訊號硬體 XOR 進 TIM4 TI1,用 input capture 量出翻轉間隔時間"></p>
 
 - HAL 初始化:`HAL_TIMEx_HallSensor_Init()`(內部就是設 `TIM_TI1SELECTION_XORCOMBINATION` + reset 觸發模式)。
 - 速度 = 60° 電氣角 ÷ capture 到的時間間隔(再除以極對數換成機械角速度)。量「狀態間隔時間」這種 **T 法測速**在低速時特別準(狀態少但每段時間長,正合適霍爾這種低解析度訊號)。
 
   為什麼低速用 T 法、高速用 M 法?第一性原理是「哪邊量到的數多就用哪邊」:低速時固定時間窗內脈衝太少(M 法數 1~2 格,少一格就差很多),但**每段間隔時間很長**,改量時間(T 法)反而準;高速則相反,脈衝多、時間段短,改數脈衝(M 法)。
 
-  <p align="center"><img src="../../img/encoder-m-vs-t-method.svg" width="640" alt="M 法(固定時間數脈衝,低速數不準)vs T 法(量脈衝間隔時間,低速準)"></p>
+  <p align="center"><img src="../../../img/encoder-m-vs-t-method.svg" width="640" alt="M 法(固定時間數脈衝,低速數不準)vs T 法(量脈衝間隔時間,低速準)"></p>
 - 方向:capture 中斷裡讀三支腳的當下狀態,跟上一個狀態比對序列順序。
 - 雜訊處理:設定輸入濾波器 `IC1Filter`(數位去抖),對馬達旁的環境很重要。
 
@@ -109,7 +109,7 @@ void EXTI_IRQHandler(void) {
 
 ### 19.1 光學增量式編碼器的構造
 
-<p align="center"><img src="../../img/enc-optical-disc.svg" width="820" alt="光學增量式編碼器側視光路與正視碼盤構造,含 Z 相歸零縫"></p>
+<p align="center"><img src="../../../img/enc-optical-disc.svg" width="820" alt="光學增量式編碼器側視光路與正視碼盤構造,含 Z 相歸零縫"></p>
 
 磁編碼器原理相同,只是把「光+碼盤」換成「磁鐵+磁感應晶片」,抗油污粉塵(輪轂馬達內建的就是這種);霍爾(§11)則可視為極粗的磁編碼器。
 
@@ -117,7 +117,7 @@ void EXTI_IRQHandler(void) {
 
 A、B 兩個接收器在空間上錯開 1/4 個縫距,所以輸出方波**相位差 90°**:
 
-<p align="center"><img src="../../img/enc-quadrature-waveform.svg" width="760" alt="A/B 正交方波正轉與反轉對照,在 A 上升緣讀 B 值判斷方向"></p>
+<p align="center"><img src="../../../img/enc-quadrature-waveform.svg" width="760" alt="A/B 正交方波正轉與反轉對照,在 A 上升緣讀 B 值判斷方向"></p>
 
 只有一相只能數「轉了多少」,不知道往哪轉;**90° 相位差就是方向資訊**。
 
@@ -125,13 +125,13 @@ A、B 兩個接收器在空間上錯開 1/4 個縫距,所以輸出方波**相位
 
 一個縫距內,A/B 共有 4 個邊緣(A↑、B↑、A↓、B↓),每個邊緣都計一次數:
 
-<p align="center"><img src="../../img/enc-quadrature-x4.svg" width="480" alt="A/B 四態循環狀態環:正轉 00→10→11→01,×4 解碼達 4096 counts/圈"></p>
+<p align="center"><img src="../../../img/enc-quadrature-x4.svg" width="480" alt="A/B 四態循環狀態環:正轉 00→10→11→01,×4 解碼達 4096 counts/圈"></p>
 
-規格書寫「1024 PPR (pulses per revolution)」,經 ×4 解碼後實際可用 4096 CPR (counts per revolution)——[§10.3](chassis-and-drivetrain.md) 粗算用的 4096 就是這麼來的。
+規格書寫「1024 PPR (pulses per revolution)」,經 ×4 解碼後實際可用 4096 CPR (counts per revolution)——[§10.3](../../20-forms/wheeled-amr/chassis-and-drivetrain.md) 粗算用的 4096 就是這麼來的。
 
 ### 19.4 增量式 vs 絕對式(知道差別即可)
 
-| | 增量式(A/B/Z) | 絕對式([§10](chassis-and-drivetrain.md) 伺服那種 17-bit) |
+| | 增量式(A/B/Z) | 絕對式([§10](../../20-forms/wheeled-amr/chassis-and-drivetrain.md) 伺服那種 17-bit) |
 |---|---|---|
 | 開機時知道角度嗎 | ✗ 只知道「之後轉了多少」 | ✓ 每個角度有唯一編碼 |
 | 訊號 | 兩路方波 | 數位介面(SSI/BiSS) |
@@ -147,7 +147,7 @@ A、B 兩個接收器在空間上錯開 1/4 個縫距,所以輸出方波**相位
 
 ### 20.1 回授迴路全貌(資料在下位機裡怎麼流)
 
-<p align="center"><img src="../../img/enc-speed-loop.svg" width="820" alt="速度閉迴路方塊圖:上位機指令經 PID 到馬達,編碼器內回授 PID、外回報 odometry"></p>
+<p align="center"><img src="../../../img/enc-speed-loop.svg" width="820" alt="速度閉迴路方塊圖:上位機指令經 PID 到馬達,編碼器內回授 PID、外回報 odometry"></p>
 
 encoder 在這個迴路裡身兼兩職:**對內**當 PID 的回授(快迴路,留在下位機),**對外**供 odometry(慢資料,上報上位機)。這就是「encoder 回授跟 STM32 的關聯」的全貌。
 
