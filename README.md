@@ -92,7 +92,7 @@
   - [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) — 冗餘與零空間投影、誤差預算、傾覆判準、安全標準之間的空隙
 - [四足](docs/20-forms/legged/) — 讓輪式問題乾淨的三個前提被同時打掉
   - [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) — 浮動基座與欠致動、接觸讓系統變成混合系統、ZMP 與 capture point 各保證什麼、沒有輪子怎麼估狀態
-  - [步態與致動](docs/20-forms/legged/gait-and-actuation.md) — duty factor 0.5 的幾何必然、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
+  - [步態與致動](docs/20-forms/legged/gait-and-actuation.md) — duty factor 的門檻為什麼是 1/n 而不是固定的 0.5、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
 
 ### 10 硬體
 - [底盤與驅動系統](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機

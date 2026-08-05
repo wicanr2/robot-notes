@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <rect width="880" height="400" fill="#ffffff"/>
-  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Duty factor:門檻不是固定的 0.5,而是 1/(獨立錯開的組數)</text>
+  <text x="440" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">Duty factor:門檻不是固定的 0.5,而是 k/n</text>
   <text x="440" y="48" text-anchor="middle" font-size="12" fill="#6B7280">橫軸是一個步態週期,深色 = 這隻腳踩在地上</text>
 
   <!-- walk -->
@@ -56,7 +56,7 @@
   <text x="770" y="296" text-anchor="middle" font-size="9.5" fill="#374151">停下來就倒</text>
 
   <rect x="20" y="346" width="840" height="44" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
-  <text x="40" y="367" font-size="11.5" font-weight="700" fill="#374151">不出現空檔的門檻是 1/n,n = 獨立錯開的支撐組數</text>
-  <text x="340" y="367" font-size="10.5" fill="#374151">四腳各自錯開 → n=4,門檻 0.25;對角配對 → n=2,門檻 0.5;雙足也是 n=2。</text>
-  <text x="40" y="384" font-size="10.5" fill="#374151">所以「0.5 是走與跑的分界」對<tspan font-weight="700">雙足</tspan>是嚴格的幾何門檻,對<tspan font-weight="700">四足</tspan>則是動物步態分類上的統計性說法——實際的門檻由相位排法決定。</text>
+  <text x="40" y="367" font-size="11.5" font-weight="700" fill="#374151">n 組等間隔錯開時,要恆有至少 k 組著地 ⟺ d ≥ k/n</text>
+  <text x="330" y="367" font-size="10.5" fill="#374151">walk 是 n=4、k=3 → 0.75;trot 是 n=2、k=1 → 0.5;雙足同 0.5。飛行相是 k=1 的特例。</text>
+  <text x="40" y="384" font-size="10.5" fill="#374151">所以「0.5 是走與跑的分界」對<tspan font-weight="700">雙足</tspan>是嚴格的幾何門檻,對<tspan font-weight="700">四足</tspan>則是動物步態分類上的統計性說法——實際門檻由相位怎麼排決定。</text>
 </svg>
