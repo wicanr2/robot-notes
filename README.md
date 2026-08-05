@@ -134,6 +134,7 @@
 - [在 Gazebo 倉庫用 slam_toolbox 建圖](docs/50-physical-ai/gazebo-slam-warehouse.md) — 可重跑教學:加 gpu_lidar 與里程計、Docker、ros_gz_bridge、tf 樹三段、繞倉庫建圖
 - [gpu_lidar 怎麼運作(讀原始碼)](docs/50-physical-ai/gpu-lidar-how-it-works.md) — 為何用 GPU render 深度而非逐 ray 求交、cubemap 兩趟、為何「不算真 ray tracing」
 - [SDF 3D 模型檔:從零開始](docs/50-physical-ai/sdf-3d-models.md) — mesh / visual / collision / inertial、SDF 資料夾結構、差速搬運車範例
+- [建 AMR 模擬世界:模型與場景哪裡來](docs/50-physical-ai/simulation-asset-sources.md) — 資產來源盤點(2026-08-05 實查):Gazebo Fuel 的實際數量與缺口、AWS RoboMaker 服務終止後那批 world 的現況、Isaac SimReady 與雲端 asset root、rmf_demos 場景、研究用室內資料集、通用素材;以及「拿到資產不等於能用」要補多少工
 - [Sim-to-real](docs/50-physical-ai/sim-to-real.md) — reality gap、domain randomization、上車檢查清單
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
 - [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md) — capstone:URDF 設計、物理參數、第一性原理 worklist(M0–M7)

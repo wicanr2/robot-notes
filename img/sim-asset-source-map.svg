@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="sa-a" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker></defs>
+  <rect width="900" height="560" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">建 AMR 模擬世界:要哪一類「模型」,決定去哪裡找</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#6B7280">2026-08-05 實查。資產不是通用貨幣 —— 格式跟著模擬器走,先選生態再找資產</text>
+
+  <rect x="24" y="68" width="852" height="86" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="44" y="90" font-size="12.5" font-weight="700" fill="#334155">「找 3D 模型」在模擬情境裡至少指五種東西</text>
+  <rect x="44" y="100" width="150" height="42" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.3"/>
+  <text x="119" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E3A8A">① 機器人本體</text>
+  <text x="119" y="134" text-anchor="middle" font-size="10" fill="#475569">URDF / SDF / USD</text>
+  <rect x="204" y="100" width="150" height="42" rx="7" fill="#ECFDF5" stroke="#10B981" stroke-width="1.3"/>
+  <text x="279" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#065F46">② 場景 / 世界</text>
+  <text x="279" y="134" text-anchor="middle" font-size="10" fill="#475569">.sdf world / .usd stage</text>
+  <rect x="364" y="100" width="150" height="42" rx="7" fill="#FFF7ED" stroke="#F97316" stroke-width="1.3"/>
+  <text x="439" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">③ 物件資產</text>
+  <text x="439" y="134" text-anchor="middle" font-size="10" fill="#475569">棧板 / 貨架 / 輸送帶</text>
+  <rect x="524" y="100" width="150" height="42" rx="7" fill="#FEF3C7" stroke="#D97706" stroke-width="1.3"/>
+  <text x="599" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#92400E">④ 材質 / 環境光</text>
+  <text x="599" y="134" text-anchor="middle" font-size="10" fill="#475569">HDRI / texture</text>
+  <rect x="684" y="100" width="172" height="42" rx="7" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.6"/>
+  <text x="770" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991B1B">⑤ 訓練環境</text>
+  <text x="770" y="134" text-anchor="middle" font-size="10" fill="#B91C1C">給的是任務,不是幾何</text>
+
+  <rect x="24" y="168" width="278" height="220" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="163" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Gazebo / SDF 生態</text>
+  <text x="44" y="216" font-size="11.5" font-weight="700" fill="#065F46">Gazebo Fuel</text>
+  <text x="44" y="234" font-size="10.5" fill="#1F2937">3,360 models · 270 worlds</text>
+  <text x="44" y="250" font-size="10.5" fill="#475569">warehouse 45 · pallet 15 · shelf 13</text>
+  <text x="44" y="266" font-size="10.5" fill="#B91C1C">forklift 只有 1 → 車幾乎要自己做</text>
+  <line x1="44" y1="276" x2="282" y2="276" stroke="#6EE7B7" stroke-width="1"/>
+  <text x="44" y="296" font-size="11.5" font-weight="700" fill="#065F46">AWS RoboMaker 留下的 world</text>
+  <text x="44" y="314" font-size="10.5" fill="#B91C1C">服務 2025-09-10 已終止</text>
+  <text x="44" y="330" font-size="10.5" fill="#1F2937">五個 repo 全部已封存,檔案還在</text>
+  <line x1="44" y1="340" x2="282" y2="340" stroke="#6EE7B7" stroke-width="1"/>
+  <text x="44" y="360" font-size="11.5" font-weight="700" fill="#065F46">rmf_demos(7 個場景)</text>
+  <text x="44" y="378" font-size="10.5" fill="#1F2937">帶交通圖資 · 電梯 · 樓層設定</text>
+
+  <rect x="312" y="168" width="278" height="220" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="451" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A8A">NVIDIA Isaac / OpenUSD</text>
+  <text x="332" y="216" font-size="11.5" font-weight="700" fill="#1E3A8A">內建 Asset Browser</text>
+  <text x="332" y="234" font-size="10.5" fill="#1F2937">Window &gt; Browsers &gt; NVIDIA Assets</text>
+  <line x1="332" y1="246" x2="570" y2="246" stroke="#93C5FD" stroke-width="1"/>
+  <text x="332" y="266" font-size="11.5" font-weight="700" fill="#1E3A8A">SimReady 資產</text>
+  <text x="332" y="284" font-size="10.5" fill="#1F2937">內嵌物理 + 語意標註</text>
+  <text x="332" y="300" font-size="10.5" fill="#047857">= 三種身份都補好了</text>
+  <line x1="332" y1="310" x2="570" y2="310" stroke="#93C5FD" stroke-width="1"/>
+  <text x="332" y="330" font-size="11.5" font-weight="700" fill="#1E3A8A">雲端 asset root</text>
+  <text x="332" y="348" font-size="10.5" fill="#1F2937">可只抓單檔核對 prim 路徑</text>
+  <text x="332" y="366" font-size="10.5" fill="#B91C1C">路徑跟直覺常不一樣 → 先核對</text>
+  <text x="332" y="382" font-size="10.5" fill="#B91C1C">否則 override 會靜默失效</text>
+
+  <rect x="600" y="168" width="276" height="220" rx="10" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.6"/>
+  <text x="738" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">研究資料集 / 通用素材</text>
+  <text x="620" y="216" font-size="11.5" font-weight="700" fill="#334155">HM3D · Matterport3D · Gibson</text>
+  <text x="620" y="234" font-size="10.5" fill="#1F2937">真實建築重建 + 語意標註</text>
+  <text x="620" y="250" font-size="10.5" fill="#B91C1C">題材偏居家辦公,不是倉儲</text>
+  <text x="620" y="266" font-size="10.5" fill="#475569">強項是場景多樣性,不是物理</text>
+  <line x1="620" y1="278" x2="856" y2="278" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="620" y="298" font-size="11.5" font-weight="700" fill="#334155">Poly Haven · Sketchfab</text>
+  <text x="620" y="316" font-size="10.5" fill="#1F2937">找不到特定物件時的退路</text>
+  <text x="620" y="334" font-size="10.5" fill="#B91C1C">只有 visual —— collision 與</text>
+  <text x="620" y="350" font-size="10.5" fill="#B91C1C">inertial 要自己補</text>
+  <text x="620" y="378" font-size="10.5" fill="#475569">授權逐個不同,商用前逐個確認</text>
+
+  <rect x="24" y="404" width="852" height="136" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="44" y="428" font-size="13.5" font-weight="700" fill="#9A3412">拿到資產 ≠ 能用:一個物件要有三種身份</text>
+  <text x="44" y="450" font-size="11" fill="#1F2937"><tspan font-weight="700">visual</tspan> 長什麼樣(可以細)　　<tspan font-weight="700">collision</tspan> 碰撞怎麼算(要粗,否則物理引擎慢到不能用)　　<tspan font-weight="700">inertial</tspan> 質量與慣量(缺了物理行為就是錯的)</text>
+  <line x1="44" y1="462" x2="856" y2="462" stroke="#FDBA74" stroke-width="1"/>
+  <text x="60" y="482" font-size="11" font-weight="700" fill="#475569">來源</text>
+  <text x="300" y="482" font-size="11" font-weight="700" fill="#475569">visual</text>
+  <text x="400" y="482" font-size="11" font-weight="700" fill="#475569">collision</text>
+  <text x="510" y="482" font-size="11" font-weight="700" fill="#475569">inertial</text>
+  <text x="620" y="482" font-size="11" font-weight="700" fill="#475569">語意標註</text>
+  <text x="60" y="502" font-size="11" fill="#1F2937">SimReady 資產</text>
+  <text x="300" y="502" font-size="12" fill="#059669">✓</text><text x="400" y="502" font-size="12" fill="#059669">✓</text><text x="510" y="502" font-size="12" fill="#059669">✓</text><text x="620" y="502" font-size="12" fill="#059669">✓</text>
+  <text x="740" y="502" font-size="10.5" fill="#047857">SimReady 的價值就在這一列</text>
+  <text x="60" y="520" font-size="11" fill="#1F2937">Fuel 打包好的模型 / AWS world</text>
+  <text x="300" y="520" font-size="12" fill="#059669">✓</text><text x="400" y="520" font-size="12" fill="#059669">✓</text><text x="510" y="520" font-size="12" fill="#059669">✓</text><text x="620" y="520" font-size="12" fill="#B91C1C">✗</text>
+  <text x="60" y="536" font-size="11" fill="#1F2937">Poly Haven / Sketchfab</text>
+  <text x="300" y="536" font-size="12" fill="#059669">✓</text><text x="400" y="536" font-size="12" fill="#B91C1C">✗</text><text x="510" y="536" font-size="12" fill="#B91C1C">✗</text><text x="620" y="536" font-size="12" fill="#B91C1C">✗</text>
+  <text x="740" y="536" font-size="10.5" fill="#B91C1C">離「能被叉車叉起來」還有一段工</text>
+</svg>

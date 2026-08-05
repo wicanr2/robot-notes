@@ -102,6 +102,11 @@
 - NuRec — NVIDIA Omniverse 的神經重建(從真實感測資料重建 3D 場景)。
 - DiffDrive / TricycleSteering — gz 的差速 / 三輪(單驅動轉向輪)驅動 plugin。
 - DetachableJoint — gz 動態建立/分離兩 model 間固定關節(叉車取放用)。
+- Gazebo Fuel — Gazebo 生態的公開模型與世界資料庫;`gz sim` 可用 Fuel URI 直接 `<include>`,不必先下載。
+- SimReady 資產 — Omniverse 的資產品質標準:**內嵌物理屬性與語意標註**,不只是好看的 mesh。價值在於 collision / inertial / 語意都已補好。
+- Asset root — Isaac 官方資產的雲端根路徑;可只抓單一 USD 檔核對 prim 路徑,不必下載整包 asset pack。
+- prim — OpenUSD 場景樹上的節點。寫物理參數 override 前要先核對 prim 路徑,路徑錯了 override 會靜默失效而模擬照跑。
+- Gymnasium — RL 環境的介面契約(reset/step/reward);**給的是任務不是幾何**,場景仍來自底下的模擬器。Isaac Lab 的 env 相容此 API。
 
 ## 法規與認證
 - UL 2271 — 輕型電動載具(LEV)電池安全標準(低壓、輕載)。

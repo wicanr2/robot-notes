@@ -94,7 +94,7 @@ my_table/
 所以「從網路抓一個模型放進 Gazebo」的流程是:**下載 mesh → 放進 `meshes/` → 寫 model.sdf 包成 visual + 一個簡化 collision + 估一個 inertial → 寫 model.config**。
 
 常用來源:
-- **Gazebo Fuel**([app.gazebosim.org](https://app.gazebosim.org/fuel))——別人**已經包好整包 SDF**,Gazebo 裡直接搜尋 insert,最省事。
+- **Gazebo Fuel**([app.gazebosim.org](https://app.gazebosim.org/))——別人**已經包好整包 SDF**,Gazebo 裡直接搜尋 insert,最省事。
 - **Poly Haven**([polyhaven.com](https://polyhaven.com))——CC0 免費素材(見下節),要自己打包。
 
 ## 8. Poly Haven 上三種東西別搞混:HDRIs / Textures / Models
@@ -170,5 +170,5 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 ## 來源
 
 - SDF 規格:<http://sdformat.org/>
-- Gazebo Fuel 模型庫:<https://app.gazebosim.org/fuel>
+- Gazebo Fuel 模型庫:<https://app.gazebosim.org/>(API 端點 <https://fuel.gazebosim.org/1.0/models>;`/fuel` 深層路徑 2026-08-05 實測 404,見[模擬資產來源](simulation-asset-sources.md))
 - Poly Haven(CC0 HDRIs / Textures / Models):<https://polyhaven.com/>
