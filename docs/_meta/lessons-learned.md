@@ -15,7 +15,16 @@
 
 ## 一路踩過的雷(lessons)
 
-- **GitHub 的行內 `$...$` 數學常常不渲染**——夾在中文段落裡會漏成純文字(讀者真的看到 `$F_t \le \mu N$` 這串)。改用**反引號 + Unicode 符號**(`μ`、`≤`、`×`、`Σ`、`∫`);獨立成行的 block `$$` 才較穩。
+- **GitHub 的行內 `$...$` 數學常常不渲染**——夾在中文段落裡會漏成純文字(讀者真的看到 `$F_t \le \mu N$` 這串)。改用**反引號 + Unicode 符號**(`μ`、`≤`、`×`、`Σ`、`∫`);獨立成行的 block `$$` 才較穩。多行公式用 ``` code block + Unicode,最穩且與行內反引號的寫法一致。
+
+  另外兩個同類的雷:**`\text{}` 裡不要放中文**(MathJax 的數學字型沒有 CJK 字符,會變豆腐);**組合字元與冷門符號少用**(`p̂`、`⟹` 在等寬字型下可能缺字或對不齊,改寫成 `p_est`、`→`)。
+
+- **不要只靠肉眼判斷 markdown 會不會跑版,用 GitHub 自己的 renderer 當 oracle**:
+  ```bash
+  jq -Rs '{text: ., mode: "gfm"}' FILE.md > req.json
+  gh api --method POST /markdown --input req.json > out.html
+  ```
+  然後比對來源與產出的元素數量(表格 `<table>`、圖 `<img`、標題 `<h1-6>`、code `<pre>`),並 grep `out.html` 看有沒有漏出未渲染的 `$`。block `$$` 渲染正常時會被包成 `class="js-display-math"`(交給前端 MathJax);沒被包住就是不會渲染。這比事後在網頁上一頁頁看快得多。
 
 - **查證常抓出自己的記憶錯**。這 repo 修正過的例子:WireGuard 其實**沒有** IETF 標準軌 RFC(誤記成 RFC 9203,那是別的東西);STM32F405/F407 **沒有** CRYP 硬體加速;SROS2 的 CLI 是 `create_enclave` 不是舊的 `create_key`;對 `rmf_deployment_template` 的佐證一度講過頭(範本其實沒那樣設)。**結論:涉及具體事實一律查證,別靠記憶。**
 

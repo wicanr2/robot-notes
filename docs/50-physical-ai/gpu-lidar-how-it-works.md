@@ -117,7 +117,10 @@ $$ t^2 + 2\,D\cdot(O-C)\,t + \big(|O-C|^2 - r^2\big) = 0 $$
 
 把場景所有幾何體的 `t` 算出來、取最小正根,就得到「這條 ray 的最近表面」。複雜度就從這裡長出來:設畫面 `P` 個像素、每像素發 `S` 條取樣 ray、每條 ray 遞迴 `B` 層、場景有 `N` 個幾何體——
 
-$$ \text{樸素法} \approx O(P \cdot S \cdot B \cdot N) \qquad\Longrightarrow\qquad \text{加速結構(BVH/kd-tree)} \approx O(P \cdot S \cdot B \cdot \log N) $$
+```
+樸素法                 ≈ O(P · S · B · N)
+加速結構(BVH/kd-tree)  ≈ O(P · S · B · log N)
+```
 
 BVH(bounding volume hierarchy,包圍盒階層)把「跟全部 `N` 個幾何體比對」變成「在樹上走約 `log N` 層」(這是分布均勻時的平均情形,退化情況仍可能接近 `O(N)`),這是讓 ray tracing 能加速的關鍵資料結構,也是 RTX 在硬體裡專門做的事。代個數字感受一下:1080p(`P ≈ 2×10⁶`)、每像素 64 取樣、反彈 8 層、就算有 BVH(`log N ≈ 20`),一幀也要約 `2×10⁶ × 64 × 8 × 20 ≈ 2×10¹⁰` 次求交——**兩百億**。這就是「為什麼即時做不到、得上專用硬體」的具體數字。
 
