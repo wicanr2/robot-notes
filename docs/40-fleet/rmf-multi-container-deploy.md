@@ -39,7 +39,7 @@ RMF 整套是**一堆 ROS 2 節點**(`rmf_traffic`、`rmf_task`、各 `fleet_ada
 # pseudo;映像名/launch 以官方當前版本為準
 services:
   rmf-core:                              # rmf_traffic + rmf_task + 地圖
-    image: ghcr.io/open-rmf/rmf:humble    # 官方 image,與 open-rmf §5 一致
+    image: ghcr.io/open-rmf/rmf:humble    # 官方 image,與 open-rmf 附錄的安裝說明一致
     network_mode: host
     ipc: host
     environment: [ ROS_DOMAIN_ID=42, RMW_IMPLEMENTATION=rmw_cyclonedds_cpp ]

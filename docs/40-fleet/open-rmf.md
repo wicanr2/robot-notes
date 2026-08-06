@@ -46,19 +46,13 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 
 對比很清楚:沒有共用排程時,衝突只能在現場「卡住了」才被動處理;有了排程庫,衝突在「還沒走進去之前」就被預測並協商掉。這也接回 VDA5050 的 [released/horizon](vda5050.md#releasedhorizon逐段放行的安全設計最關鍵):RMF 協商定案後,才讓主控釋放下一段路。
 
-## 4. OpenRMF 與 VDA5050 怎麼搭(含誠實的現況)
+## 4. OpenRMF 與 VDA5050 怎麼搭
 
 層次很清楚:**OpenRMF(跨車隊協調)→ fleet adapter →(對 VDA5050 車隊)VDA5050 over MQTT → 各廠 AMR**
 
-換句話說,**adapter 跨在兩條不同的匯流排上**:RMF 這側走 DDS(ROS 2 內部),車隊那側走 MQTT。兩邊都是 pub/sub,但不是同一張網——adapter 是唯一的接點,這也是為什麼「寫 adapter」聽起來像翻譯工作,實際上還要處理兩套傳輸語意的差異。。理想上,對「支援 VDA5050」的車隊用一個 VDA5050 fleet adapter,讓 RMF 扮演 VDA5050 的 master control。
+換句話說,**adapter 跨在兩條不同的匯流排上**:RMF 這側走 DDS(ROS 2 內部),車隊那側走 MQTT。兩邊都是 pub/sub,但不是同一張網——adapter 是唯一的接點,這也是為什麼「寫 adapter」聽起來像翻譯工作,實際上還要處理兩套傳輸語意的差異。
 
-**但要誠實說明現況(查證結果,別被誤導)**:
-
-- **「RMF 當 VDA5050 master、直接指揮 VDA5050 車隊」目前仍在官方 roadmap 階段**,沒有掛在 RMF `awesome_adapters` 的正式、生產級釋出(見 `rmf_demos` Issue #189「Roadmap for integrating VDA5050 with the OpenRMF」)。
-- InOrbit 的 `ros_amr_interop`(含 `vda5050_connector`)方向**相反**:它是「讓一台 ROS2 機器人去連某個 VDA5050 主控」(車端接入),**不是**「讓 RMF 當主控去指揮 VDA5050 車隊」。引用時不要反向當成現成直連方案。
-- 目前多數實際導入仍是「**RMF + 各廠私有 fleet adapter**」(已有 MiR、Gaussian Ecobot、Clearpath/OTTO 等現成 adapter;私有協議可用官方 `fleet_adapter_template` 當骨架自寫)。
-
-> 一句話:VDA5050 與 OpenRMF 在架構上是天作之合(一個管車隊內共同語言、一個管跨車隊協調),但「RMF 直連 VDA5050 車隊」的成熟 adapter 還在路上,規劃導入時要把這點算進去。
+理想上,對「支援 VDA5050」的車隊用一個 VDA5050 fleet adapter,讓 RMF 扮演 VDA5050 的 master control。
 
 ### 兩者的職責邊界,與 adapter 真正要做的事
 
@@ -67,23 +61,23 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - **factsheet 是跨廠派工的能力來源**:RMF 要「哪台車有空就派誰」,前提是知道每台車的尺寸/載重/支援 action——這正是 VDA5050 `factsheet` 提供的;rmf_task 競標時據此判斷車能不能做、成本多少。
 - **座標與時間要先對齊**:多廠車隊共用一張時空排程,前提是各家 map frame 與時間基準對齊;adapter 通常要做 frame transform([座標轉換](../10-core/30-navigation/kinematics-and-coordinate-transforms.md))。
 
-## 5. 系統需求、語言與安裝
+## 5. 串接流程:從下任務到車執行
 
-**跑在 ROS 2 上**,跟著 ROS 2 的 Tier-1 平台走:
+把前面組起來,一筆任務從下達到車執行、再回報協商的完整資料流:
 
-| ROS 2 distro | Ubuntu | 備註 |
-|---|---|---|
-| Humble | 22.04 | LTS,最常用 |
-| Jazzy | 24.04 | LTS,較新 |
-| Kilted / Rolling | 24.04 / 滾動 | 較新 / 開發用 |
+<p align="center"><img src="../../img/openrmf-vda5050-flow.svg" width="680" alt="OpenRMF↔VDA5050 串接 sequence:下任務→競標派工→fleet adapter→VDA5050 order→車→state 回報→交通協商"></p>
 
-- **架構**:amd64 與 **aarch64(ARM64)** 都支援;另有 RHEL/Fedora 的 RPM。
-- **安裝三選一**:① apt 二進位 `sudo apt install ros-<distro>-rmf-dev`(只用不改核心時最快);② source build(`vcs import` 抓 `rmf.repos` 共 17 個套件 + `colcon build`,**官方建議用 clang + lld**,因為 C++ template 重、編譯吃記憶體);③ 官方 docker image `ghcr.io/open-rmf/rmf`(各 distro nightly)。
-- **硬體**:**不需要 GPU**(核心是交通協商與任務規劃,純 CPU)。source build 因 template heavy 建議 **RAM ≥ 8GB(16GB 較穩)**;runtime 本身吃資源不大。
-- **使用語言**:**核心(rmf_traffic、rmf_task)是 C++**;**fleet adapter 可用 C++ 或 Python**(Python 經 pybind11 綁定,套件 `rmf_fleet_adapter_python`,import 名 `rmf_adapter`)。**官方範本 `fleet_adapter_template` 是純 Python**。設定用 **YAML**;場域地圖用 **traffic-editor** 畫、輸出 `.building.yaml`(含 waypoint/lane/交通圖)
+逐步看:
 
-> 三個接下來一直會用到的詞先釘住:**waypoint** 是路網上的一個停靠點(帶座標與朝向);**lane** 是連接兩個 waypoint 的有向路段;兩者合起來就是 **nav graph**。**RMF 規劃時只在這張圖上走,不碰自由空間**——怎麼從一個 waypoint 開到下一個,是車自己的事。。
-- **核心 repo**:`rmf_traffic`(協商引擎)、`rmf_task`(競標派工)、`rmf_ros2`(ROS2 節點層,含 `rmf_fleet_adapter`)、`rmf_battery`(電量/回充模型)、`rmf_traffic_editor`、`rmf_demos`。
+1. **下任務**:上層系統發 `SubmitTask` 給 RMF Dispatcher(`rmf_task_ros2` 的 `rmf_dispatcher_node`)。
+2. **競標派工**(RMF 內部,ROS 2):Dispatcher 發 **BidNotice** 廣播 → 各 fleet adapter 用 `rmf_task::TaskPlanner` 算成本回 **BidProposal** → Dispatcher 比價(fastest-to-finish / lowest-cost)發 **DispatchRequest** 指定得標車隊。
+3. **規劃**:得標車隊的 adapter,RMF 用 nav graph 規劃整段路線,逐 waypoint 下 `NavigationRequest`。
+4. **翻成 VDA5050**(走 MQTT):adapter 把目的地翻成 VDA5050 **order**(node/edge 的 JSON)發給車。
+5. **車回報**:車週期發 VDA5050 **state**(位置、電量、模式)。
+6. **更新回 RMF**:adapter 把 state 轉成 `RobotUpdateHandle.update(...)` 餵回 rmf_traffic 的時空排程。
+7. **協商**:排程偵測到衝突 → 重規劃 → 追加 order 更新;這裡 RMF「已協商釋出的路段」對映到 VDA5050 order 的 **`released`** 旗標(逐段放行),未協商完的後續段標 `released:false`(horizon)。
+
+> ⚠️ **誠實標註**:第 7 步「RMF released ↔ VDA5050 released horizon」的對映是依兩邊協定語意推得的**整合設計建議**,官方沒有逐欄定義的權威文件(因為官方 RMF-as-VDA5050-master adapter 尚未成熟,見 §7)。實務多走 adapter 內自行轉換,或經 InOrbit `vda5050_connector`(MQTT_bridge + Controller + Adapter 三件)這類中介。
 
 ## 6. 怎麼寫一個 fleet adapter
 
@@ -116,23 +110,17 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 > **最小寫法的 pseudo-code**(VDA5050 fleet adapter 骨架 + 用 REST API 叫 RMF 派任務)整理在 [實作小抄:adapter + 派任務](rmf-adapter-cookbook.md)。
 > **怎麼把它部署起來**(adapter 一容器、core 一容器、DDS 跨容器)見 [RMF 多容器部署](rmf-multi-container-deploy.md)。
 
-## 7. 串接流程:從下任務到車執行
+## 7. 現況:哪些是現成的、哪些還在路上
 
-把前面組起來,一筆任務從下達到車執行、再回報協商的完整資料流:
+前面講的是**架構上該怎麼搭**。實際要導入時,得知道這條路上哪一段已經鋪好、哪一段還沒。
 
-<p align="center"><img src="../../img/openrmf-vda5050-flow.svg" width="680" alt="OpenRMF↔VDA5050 串接 sequence:下任務→競標派工→fleet adapter→VDA5050 order→車→state 回報→交通協商"></p>
 
-逐步看:
 
-1. **下任務**:上層系統發 `SubmitTask` 給 RMF Dispatcher(`rmf_task_ros2` 的 `rmf_dispatcher_node`)。
-2. **競標派工**(RMF 內部,ROS 2):Dispatcher 發 **BidNotice** 廣播 → 各 fleet adapter 用 `rmf_task::TaskPlanner` 算成本回 **BidProposal** → Dispatcher 比價(fastest-to-finish / lowest-cost)發 **DispatchRequest** 指定得標車隊。
-3. **規劃**:得標車隊的 adapter,RMF 用 nav graph 規劃整段路線,逐 waypoint 下 `NavigationRequest`。
-4. **翻成 VDA5050**(走 MQTT):adapter 把目的地翻成 VDA5050 **order**(node/edge 的 JSON)發給車。
-5. **車回報**:車週期發 VDA5050 **state**(位置、電量、模式)。
-6. **更新回 RMF**:adapter 把 state 轉成 `RobotUpdateHandle.update(...)` 餵回 rmf_traffic 的時空排程。
-7. **協商**:排程偵測到衝突 → 重規劃 → 追加 order 更新;這裡 RMF「已協商釋出的路段」對映到 VDA5050 order 的 **`released`** 旗標(逐段放行),未協商完的後續段標 `released:false`(horizon)。
+- **「RMF 當 VDA5050 master、直接指揮 VDA5050 車隊」目前仍在官方 roadmap 階段**,沒有掛在 RMF `awesome_adapters` 的正式、生產級釋出(見 `rmf_demos` Issue #189「Roadmap for integrating VDA5050 with the OpenRMF」)。
+- InOrbit 的 `ros_amr_interop`(含 `vda5050_connector`)方向**相反**:它是「讓一台 ROS2 機器人去連某個 VDA5050 主控」(車端接入),**不是**「讓 RMF 當主控去指揮 VDA5050 車隊」。引用時不要反向當成現成直連方案。
+- 目前多數實際導入仍是「**RMF + 各廠私有 fleet adapter**」(已有 MiR、Gaussian Ecobot、Clearpath/OTTO 等現成 adapter;私有協議可用官方 `fleet_adapter_template` 當骨架自寫)。
 
-> ⚠️ **誠實標註**:第 7 步「RMF released ↔ VDA5050 released horizon」的對映是依兩邊協定語意推得的**整合設計建議**,官方沒有逐欄定義的權威文件(因為官方 RMF-as-VDA5050-master adapter 尚未成熟,見 §4)。實務多走 adapter 內自行轉換,或經 InOrbit `vda5050_connector`(MQTT_bridge + Controller + Adapter 三件)這類中介。
+> 一句話:VDA5050 與 OpenRMF 在架構上是天作之合(一個管車隊內共同語言、一個管跨車隊協調),但「RMF 直連 VDA5050 車隊」的成熟 adapter 還在路上,規劃導入時要把這點算進去。
 
 ## 8. 落地場景與開源位置
 
@@ -156,3 +144,24 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - [EasyFullControl.hpp(add_robot/callbacks/RobotState API)](https://github.com/open-rmf/rmf_ros2/blob/main/rmf_fleet_adapter/include/rmf_fleet_adapter/agv/EasyFullControl.hpp)
 - [rmf_demos Issue #189(VDA5050 整合詢問,仍 open)](https://github.com/open-rmf/rmf_demos/issues/189)、[InOrbit ros_amr_interop / vda5050_connector](https://github.com/inorbit-ai/ros_amr_interop)
 - [VDA5050 官方規格](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)
+
+## 附錄:系統需求、語言與安裝
+
+> 這節是要動手裝的時候才需要,概念部分讀完前面就夠了。
+
+
+**跑在 ROS 2 上**,跟著 ROS 2 的 Tier-1 平台走:
+
+| ROS 2 distro | Ubuntu | 備註 |
+|---|---|---|
+| Humble | 22.04 | LTS,最常用 |
+| Jazzy | 24.04 | LTS,較新 |
+| Kilted / Rolling | 24.04 / 滾動 | 較新 / 開發用 |
+
+- **架構**:amd64 與 **aarch64(ARM64)** 都支援;另有 RHEL/Fedora 的 RPM。
+- **安裝三選一**:① apt 二進位 `sudo apt install ros-<distro>-rmf-dev`(只用不改核心時最快);② source build(`vcs import` 抓 `rmf.repos` 共 17 個套件 + `colcon build`,**官方建議用 clang + lld**,因為 C++ template 重、編譯吃記憶體);③ 官方 docker image `ghcr.io/open-rmf/rmf`(各 distro nightly)。
+- **硬體**:**不需要 GPU**(核心是交通協商與任務規劃,純 CPU)。source build 因 template heavy 建議 **RAM ≥ 8GB(16GB 較穩)**;runtime 本身吃資源不大。
+- **使用語言**:**核心(rmf_traffic、rmf_task)是 C++**;**fleet adapter 可用 C++ 或 Python**(Python 經 pybind11 綁定,套件 `rmf_fleet_adapter_python`,import 名 `rmf_adapter`)。**官方範本 `fleet_adapter_template` 是純 Python**。設定用 **YAML**;場域地圖用 **traffic-editor** 畫、輸出 `.building.yaml`(含 waypoint/lane/交通圖)
+
+> 三個接下來一直會用到的詞先釘住:**waypoint** 是路網上的一個停靠點(帶座標與朝向);**lane** 是連接兩個 waypoint 的有向路段;兩者合起來就是 **nav graph**。**RMF 規劃時只在這張圖上走,不碰自由空間**——怎麼從一個 waypoint 開到下一個,是車自己的事。。
+- **核心 repo**:`rmf_traffic`(協商引擎)、`rmf_task`(競標派工)、`rmf_ros2`(ROS2 節點層,含 `rmf_fleet_adapter`)、`rmf_battery`(電量/回充模型)、`rmf_traffic_editor`、`rmf_demos`。

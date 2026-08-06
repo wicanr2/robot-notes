@@ -1,59 +1,24 @@
-# Fleet 深入:RMF API、圖資匯入、座標對齊與避塞車
+# 多車隊怎麼共用一個場域:地圖、座標與交通
 
-四個常被問到的細節:**OpenRMF 有哪些 API、VDA5050 的基本結構、VDA5050 車輛怎麼拿到圖資、OpenRMF 怎麼讀不同車的地圖並做座標轉換、避塞車**。前兩篇([OpenRMF](open-rmf.md)、[VDA5050](vda5050.md))講「為什麼」,這篇補「機制細節」。
+[Open-RMF](open-rmf.md) 那篇講清楚了「為什麼要在車隊之上加一層」,[VDA5050](vda5050.md) 講清楚了「主控怎麼跟車講話」。這篇補的是**多家車隊真的要放進同一個場域時,那幾件必須先對齊的事**:
+
+- **每家車的地圖不一樣、座標原點不一樣**,怎麼讓它們在同一張排程表上比較?(§1、§2)
+- **車廠交付的圖資怎麼變成 RMF 的路網?**(§3)
+- **對齊之後,誰先過路口?**(§4)
+- **RMF 對外有哪些 API 可以接?**(§5)
 
 > 前置:[OpenRMF](open-rmf.md)、[VDA5050](vda5050.md)、[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)。
 > API/格式名稱經官方來源查證;不確定處標待查證。
 
 ---
 
-## 1. OpenRMF 有哪些 API:三層,別混
-
-「RMF 的 API」橫跨三個層級,先分清在講哪一層:
-
-<p align="center"><img src="../../img/rmf-three-apis.svg" width="660" alt="RMF 三層 API:對外 Web API(rmf_api_msgs/rmf-web)、內部 ROS msgs(rmf_task_msgs/門梯)、adapter 程式 API"></p>
-
-- **A. 對外 Web API(給 dashboard / 上層系統)**:`rmf_api_msgs`(一組 JSON schema)+ `rmf-web` 的 **api-server**(FastAPI + Socket.IO)。REST 下任務/查車隊(如 `GET /fleets`),Socket.IO 推即時狀態(房間如 `/fleets/{name}/state`)。**task request JSON** 只有 `category` 與 `description` 必填,選填 `priority`、`fleet_name`、`labels`、`unix_millis_*` 等:
-  ```json
-  { "category": "delivery",
-    "description": { "...": "符合該車隊 delivery schema" },
-    "priority": { "type": "binary", "value": 0 }, "fleet_name": "forklift_fleet" }
-  ```
-- **B. 內部 ROS 2 msgs(RMF core 元件之間)**:派工走 `rmf_task_msgs` 的 **BidNotice → BidProposal → DispatchRequest**(競標,見 [open-rmf §7](open-rmf.md));基礎設施走 `rmf_door_msgs`(`DoorState`/`DoorRequest`)、`rmf_lift_msgs`(`LiftState`/`LiftRequest`)、`rmf_dispenser_msgs`(`DispenserRequest`…)。
-- **C. Fleet adapter 程式 API(把某廠車隊接進來)**:`Adapter` / `EasyFullControl` / `FleetUpdateHandle` / `RobotUpdateHandle`(見 [open-rmf §6](open-rmf.md))。
-
-一句話:**由外而內 = Web API(JSON over WS/REST)→ ROS msgs(派工/門梯)→ adapter 程式 API(接車)**。
-
-## 2. VDA5050 基本結構(精簡)
-
-完整 order 樹與設計理由見 [VDA5050 篇](vda5050.md);這裡補 topic 命名規則與 state/factsheet 關鍵欄位。
-
-- **MQTT topic 命名**:`interfaceName/majorVersion/manufacturer/serialNumber/topic`,例 `vda5050/v3/ACME/forklift-01/order`。
-- **6 個核心 topic**:`order`/`instantActions`(主控→車)、`state`/`visualization`/`factsheet`(車→主控)、`connection`(含 last-will);另有選用 `zoneSet`/`responses`。(與 [vda5050 §2](vda5050.md) 同一套。)
-- **state 關鍵欄位**:`agvPosition`(x,y,θ,mapId)、`nodeStates`/`edgeStates`(還要走的節點/邊)、`actionStates`、`batteryState`、`driving`、`operatingMode`、`errors`、`lastNodeId`、`orderId`/`orderUpdateId`。
-- **factsheet 關鍵欄位**:`typeSpecification`、`physicalParameters`(尺寸/重量/速度)、`agvGeometry`(外形包絡)、`loadSpecification`(載運規格)、`protocolFeatures`(支援哪些 action)、`localizationParameters`。RMF 跨廠派工要靠它判斷「這台車能不能做、成本多少」。
-
-## 3. VDA5050 車輛怎麼匯入圖資(最容易誤解)
-
-**關鍵認知:VDA5050 核心協定不傳「路網地圖」。** order 裡主控只給每個 node 的 `nodeId` + `nodePosition`(x,y,θ,mapId)——它**假設車輛已經有 `mapId` 對應的環境**,只是引用節點。那「整個廠房路網長怎樣、怎麼從車廠交給主控」由誰負責?答案是 **LIF**:
-
-<p align="center"><img src="../../img/vda5050-lif-maps.svg" width="700" alt="VDA5050 圖資:車廠出 LIF(JSON nodes/edges/stations)→主控匯入建路網→order 引用同套 nodeId;車載 SLAM 地圖另管定位"></p>
-
-- **LIF(Layout Interchange Format,佈局交換格式)**:**VDMA** 發布的配套指南(不是 VDA5050 協定的一部分),讓 AGV 車廠把車隊可行駛路網(nodes/edges/stations)以 **JSON 離線交付**給上位主控匯入。頂層 `metaInformation` + `layouts[]`,每個 layout 含 `nodes`/`edges`/`stations`。
-  - 注意結構差異:**LIF 把節點屬性按車種拆開**——位置與依車種屬性(如朝向、可掛 action)分開放;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。(精確欄位放在哪一層依 LIF 版本而異,以 VDMA 指南對照版本為準,見 §5。)
-  - **更正**:`github.com/VDA5050/VDA5050_LIF` repo **不存在**;LIF 是 VDMA 指南 PDF,GitHub 上只有社群 schema(`continua-systems/vdma-lif`)與編輯器。
-- **nodeId 是橋樑**:LIF 裡定義的 `nodeId`/`mapId` 就是日後 order 引用的同一套。流程:**車廠出 LIF → 主控匯入建路網 → 規劃 → 用同樣 nodeId 組 order 派車**。
-- **VDA5050 3.0 的 `downloadMap`**:這是另一回事——3.0 新增 `downloadMap`/`deleteMap` 動作讓車從 map server 下載「**車載地圖檔**」(SLAM 環境圖),`state` 加 `maps` 欄位回報。**待查證**:3.0 是否另開獨立 map topic,需核對規範原文。
-
-**三種「地圖」分清**(現場導入最常混淆):① 車載 SLAM 地圖(車自己定位/避障)② LIF 路網(主控規劃派工)③ RMF building map(下一節)。橋樑是 `nodeId+mapId`,且 **LIF 的 (x,y) 必須與車載地圖座標對齊**,否則「去 node N」會落到錯的物理位置——這是現場最常見的對位工作。
-
-## 4. RMF 怎麼讀不同車的地圖 + 座標轉換 + 避塞車
-
-### 4.1 地圖:一個 building、多車隊各一張 nav graph
+## 1. 一個場域、多張地圖:先分清楚有幾種「地圖」
 
 RMF 用 traffic-editor 畫的 **`.building.yaml`**:`levels`(樓層)→ 每個 level 有 `vertices`(waypoint,可帶 `is_charger`/`is_holding_point`/`is_parking_spot`)與 `lanes`(連 waypoint 成 nav graph)。用 `graph_idx` 區分多個 nav graph(traffic-editor 慣例提供數個,不是車隊數硬上限),每條 lane 標屬於哪隊。**重點:不同車隊各有自己的 nav graph,但全部疊在同一個 building/level 座標系**——這就是異質車隊能被統一調度的基礎。
 
-### 4.2 座標轉換:`reference_coordinates`(每家車本地座標 → RMF 世界座標)
+## 2. 座標對齊:`reference_coordinates` 在解什麼
+
+每家車有自己的原點與方位,而 RMF 的時空排程要把所有車放在同一個座標系裡比較。這一步做不對,後面的交通協商全部沒有意義。
 
 每家車有自己的座標原點,要先對齊到 RMF 世界座標。fleet adapter 的 `config.yaml` 用 **`reference_coordinates`**:給同一批實體地點在「RMF 座標」與「該車座標」的兩串對應點,求一個 **2D 相似變換(平移+旋轉+均勻縮放)**:
 
@@ -67,15 +32,29 @@ reference_coordinates:
 - fleet adapter 用 Python `nudged` 套件從兩串點最小平方擬合出雙向變換。相似變換只有 4 個自由度(平移 x/y、旋轉、縮放),**理論上 2 組點就解得出**;實務取 **≥4 組**做最小平方,是為了吸收人工取點誤差。
 - 為什麼是「相似變換」不是任意變換?剛體場域只差平移+旋轉,加一個均勻縮放吸收單位差(像素↔公尺);**不允許拉伸/剪切**(那會扭曲距離與角度)。這正是 [座標轉換篇](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) 的齊次變換用在「跨座標系對齊」的實例。
 
-### 4.3 避塞車:共用時空排程 + 協商 + 路權原語
+## 3. VDA5050 車輛怎麼拿到圖資(最容易誤解的一段)
+
+**關鍵認知:VDA5050 核心協定不傳「路網地圖」。** order 裡主控只給每個 node 的 `nodeId` + `nodePosition`(x,y,θ,mapId)——它**假設車輛已經有 `mapId` 對應的環境**,只是引用節點。那「整個廠房路網長怎樣、怎麼從車廠交給主控」由誰負責?答案是 **LIF**:
+
+<p align="center"><img src="../../img/vda5050-lif-maps.svg" width="700" alt="VDA5050 圖資:車廠出 LIF(JSON nodes/edges/stations)→主控匯入建路網→order 引用同套 nodeId;車載 SLAM 地圖另管定位"></p>
+
+- **LIF(Layout Interchange Format,佈局交換格式)**:**VDMA** 發布的配套指南(不是 VDA5050 協定的一部分),讓 AGV 車廠把車隊可行駛路網(nodes/edges/stations)以 **JSON 離線交付**給上位主控匯入。頂層 `metaInformation` + `layouts[]`,每個 layout 含 `nodes`/`edges`/`stations`。
+  - 注意結構差異:**LIF 把節點屬性按車種拆開**——位置與依車種屬性(如朝向、可掛 action)分開放;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。(精確欄位放在哪一層依 LIF 版本而異,以 VDMA 指南對照版本為準,見 §5。)
+  - 注意 LIF **沒有**官方 GitHub repo(`github.com/VDA5050/VDA5050_LIF` 不存在)——它是 VDMA 的指南 PDF,GitHub 上只有社群維護的 schema(`continua-systems/vdma-lif`)與編輯器。
+- **nodeId 是橋樑**:LIF 裡定義的 `nodeId`/`mapId` 就是日後 order 引用的同一套。流程:**車廠出 LIF → 主控匯入建路網 → 規劃 → 用同樣 nodeId 組 order 派車**。
+- **VDA5050 3.0 的 `downloadMap`**:這是另一回事——3.0 新增 `downloadMap`/`deleteMap` 動作讓車從 map server 下載「**車載地圖檔**」(SLAM 環境圖),`state` 加 `maps` 欄位回報。**待查證**:3.0 是否另開獨立 map topic,需核對規範原文。
+
+**三種「地圖」分清**(現場導入最常混淆):① 車載 SLAM 地圖(車自己定位/避障)② LIF 路網(主控規劃派工)③ RMF building map(下一節)。橋樑是 `nodeId+mapId`,且 **LIF 的 (x,y) 必須與車載地圖座標對齊**,否則「去 node N」會落到錯的物理位置——這是現場最常見的對位工作。
+
+## 4. 避塞車:共用時空排程 + 協商 + 路權原語
 
 <p align="center"><img src="../../img/rmf-congestion.svg" width="700" alt="RMF 避塞車:提交 itinerary→時空衝突偵測(time-dependent A*)→協商(judge 選)→逐段放行;路權原語:單向lane/mutex/holding/限速"></p>
 
-`rmf_traffic` 採「先預防、衝突再協商」(第一性原理見 [open-rmf §3](open-rmf.md) 的「事前預測 vs 事後撞」):
+`rmf_traffic` 採「先預防、衝突再協商」(第一性原理見 [open-rmf §3](open-rmf.md#3-交通協商從事後撞到變事前預測) 的「事前預測 vs 事後撞」):
 
 1. **共用時空排程**:各車向中央排程庫申報 **itinerary(時空軌跡)**,系統因此有全域意圖可見性。
 2. **衝突偵測**:比對**時空軌跡**(不只空間交叉,還看同時刻),用 **time-dependent A***(加時間維度的 A*)規劃避開他車。
-3. **協商(negotiation)**:衝突 → 各車隊提偏好 + 可容讓的替代 itinerary → **第三方 judge**(系統整合商部署)選整體較佳的一組。(協商層大致平等對待各車,任務優先序主要在派工端;見 [open-rmf §3](open-rmf.md)。)
+3. **協商(negotiation)**:衝突 → 各車隊提偏好 + 可容讓的替代 itinerary → **第三方 judge**(系統整合商部署)選整體較佳的一組。(協商層大致平等對待各車,任務優先序主要在派工端;見 [open-rmf §3](open-rmf.md#3-交通協商從事後撞到變事前預測)。)
 4. **路權交接(blockade)**:路線空間交疊時,用 checkpoint 確保「同一段不同時前進」。(與下節 VDA5050 `released`/horizon 的逐段釋放是不同層機制,別混。)
 
 掛在 nav graph 上的**路權原語**(避塞車的具體工具):
@@ -88,17 +67,43 @@ reference_coordinates:
 | **parking spot** | waypoint `is_parking_spot` | 緊急警報時自行停靠 |
 | **speed limit** | lane 屬性 | 該段限速 |
 
-> 對應 VDA5050:RMF 協商定案後,透過 fleet adapter 控制車隊;對 VDA5050 車隊則對映到 order 的 `released`/horizon 逐段放行(見 [open-rmf §7](open-rmf.md))。
+> 對應 VDA5050:RMF 協商定案後,透過 fleet adapter 控制車隊;對 VDA5050 車隊則對映到 order 的 `released`/horizon 逐段放行(見 [open-rmf §5](open-rmf.md#5-串接流程從下任務到車執行))。
 
-## 5. 待查證
+## 5. OpenRMF 對外的三層 API
 
+「RMF 的 API」橫跨三個層級,先分清在講哪一層:
+
+<p align="center"><img src="../../img/rmf-three-apis.svg" width="660" alt="RMF 三層 API:對外 Web API(rmf_api_msgs/rmf-web)、內部 ROS msgs(rmf_task_msgs/門梯)、adapter 程式 API"></p>
+
+- **A. 對外 Web API(給 dashboard / 上層系統)**:`rmf_api_msgs`(一組 JSON schema)+ `rmf-web` 的 **api-server**(FastAPI + Socket.IO)。REST 下任務/查車隊(如 `GET /fleets`),Socket.IO 推即時狀態(房間如 `/fleets/{name}/state`)。**task request JSON** 只有 `category` 與 `description` 必填,選填 `priority`、`fleet_name`、`labels`、`unix_millis_*` 等:
+  ```json
+  { "category": "delivery",
+    "description": { "...": "符合該車隊 delivery schema" },
+    "priority": { "type": "binary", "value": 0 }, "fleet_name": "forklift_fleet" }
+  ```
+- **B. 內部 ROS 2 msgs(RMF core 元件之間)**:派工走 `rmf_task_msgs` 的 **BidNotice → BidProposal → DispatchRequest**(競標,見 [open-rmf §5](open-rmf.md#5-串接流程從下任務到車執行));基礎設施走 `rmf_door_msgs`(`DoorState`/`DoorRequest`)、`rmf_lift_msgs`(`LiftState`/`LiftRequest`)、`rmf_dispenser_msgs`(`DispenserRequest`…)。
+- **C. Fleet adapter 程式 API(把某廠車隊接進來)**:`Adapter` / `EasyFullControl` / `FleetUpdateHandle` / `RobotUpdateHandle`(見 [open-rmf §6](open-rmf.md#6-怎麼寫一個-fleet-adapter))。
+
+一句話:**由外而內 = Web API(JSON over WS/REST)→ ROS msgs(派工/門梯)→ adapter 程式 API(接車)**。
+
+## 6. 待查證
 - rmf-web dispatch task 的精確 REST 路徑、完整 socket room 清單(讀 `/docs` OpenAPI 核對)。
 - `.building.yaml` vertices 像素 → 公尺/RMF world 的換算流程。
 - VDA5050 3.0 是否另開獨立 map MQTT topic(還是沿用 order/instantActions 帶 downloadMap)。
 - RMF 獨立 reservation node(停車/充電資源分配)在主線的正式套件名與成熟度。
 
-## 6. 來源
-
+## 7. 來源
 - RMF API:[rmf_api_msgs](https://github.com/open-rmf/rmf_api_msgs)、[rmf-web](https://github.com/open-rmf/rmf-web)、[task bidding(ROS2 book)](https://osrf.github.io/ros2multirobotbook/task.html)
 - 地圖/座標/避塞車:[traffic-editor(book)](https://osrf.github.io/ros2multirobotbook/traffic-editor.html)、[整合車隊/reference_coordinates](https://osrf.github.io/ros2multirobotbook/integration_fleets.html)、[fleet_adapter_template config.yaml](https://github.com/open-rmf/fleet_adapter_template/blob/main/fleet_adapter_template/config.yaml)、[rmf_traffic](https://github.com/open-rmf/rmf_traffic)
 - VDA5050 / LIF:[VDA5050 規格](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)、[LIF 指南(VDMA PDF)](https://www.vdma.eu/documents/34570/3317035/FuI_Guideline_LIF_GB.pdf)、[社群 LIF schema](https://github.com/continua-systems/vdma-lif)
+
+## 附錄:VDA5050 訊息結構速查
+
+> [VDA5050](vda5050.md) 那篇講得完整,這裡只留一張對照表方便回查。
+
+完整 order 樹與設計理由見 [VDA5050 篇](vda5050.md);這裡補 topic 命名規則與 state/factsheet 關鍵欄位。
+
+- **MQTT topic 命名**:`interfaceName/majorVersion/manufacturer/serialNumber/topic`,例 `vda5050/v3/ACME/forklift-01/order`。
+- **6 個核心 topic**:`order`/`instantActions`(主控→車)、`state`/`visualization`/`factsheet`(車→主控)、`connection`(含 last-will);另有選用 `zoneSet`/`responses`。(與 [vda5050 §2](vda5050.md) 同一套。)
+- **state 關鍵欄位**:`agvPosition`(x,y,θ,mapId)、`nodeStates`/`edgeStates`(還要走的節點/邊)、`actionStates`、`batteryState`、`driving`、`operatingMode`、`errors`、`lastNodeId`、`orderId`/`orderUpdateId`。
+- **factsheet 關鍵欄位**:`typeSpecification`、`physicalParameters`(尺寸/重量/速度)、`agvGeometry`(外形包絡)、`loadSpecification`(載運規格)、`protocolFeatures`(支援哪些 action)、`localizationParameters`。RMF 跨廠派工要靠它判斷「這台車能不能做、成本多少」。

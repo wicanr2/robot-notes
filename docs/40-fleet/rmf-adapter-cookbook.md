@@ -66,7 +66,7 @@ rmf.run()
 
 ## 2. 用 REST API 叫 RMF 派一個任務
 
-**一句話**:`rmf-web` 的 api-server 開了 HTTP 端點,你 POST 一個 **task request**,RMF 就會把它丟進競標派工(BidNotice → BidProposal → DispatchRequest,見 [open-rmf §7](open-rmf.md)),選一台車去做。
+**一句話**:`rmf-web` 的 api-server 開了 HTTP 端點,你 POST 一個 **task request**,RMF 就會把它丟進競標派工(BidNotice → BidProposal → DispatchRequest,見 [open-rmf §5 串接流程](open-rmf.md#5-串接流程從下任務到車執行)),選一台車去做。
 
 `curl`:
 

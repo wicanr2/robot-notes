@@ -128,6 +128,24 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 - **heightmap 要設 collision 才有物理**(只放 visual 輪子會穿透);gz 官方建議 heightmap world 把碰撞偵測器設成 `bullet`(DART 預設對 heightmap 較差)。
 - 現成素材:gz-sim 的 `examples/worlds/heightmap.sdf`、`dem_*.sdf`(DEM 地形)可改。
 
+### 6.1 摩擦係數怎麼變成 odom 漂移(為什麼這是最有效的壓力測試)
+
+上表第一列的「低摩擦區」值得單獨拆開,因為它是**唯一一個能用五行算式從物理參數一路推到感測缺陷**的例子——搞懂這條,其他幾種異常的道理都一樣。
+
+模擬器每一步都在「輪子↔地面」的接觸點解下面這幾條,再積分出位移:
+
+1. **法向力 `N`**——輪子壓在地上的力(約等於分到這顆輪的車重)。
+2. **地面能給的最大牽引力**(庫倫摩擦上限):`F_牽引(上限) = μ × N`。
+3. **抓不抓得住**:輪子要前進需要切向牽引力 `F_t`。`F_t ≤ μN` → 抓住地、正常前進;`F_t > μN` → **多出來的傳不出去,牽引力卡在 `μN`,輪子開始打滑空轉**。
+4. **`slip` 參數**(ODE 的「力相依滑移」):就算還在摩擦上限內,接觸點仍容許一點滑移,滑移速度正比於切向力——`v_滑移 = slip × F_t`,slip 越大、同樣的力滑得越多。
+5. **車身前進**:把牽引力減掉阻力,套牛頓第二定律積分——`a = (F_牽引 − F_阻力) / m`,`v = ∫ a·dt`。
+
+把 `μ` 壓到 **0.05**(一般地面是 0.6–1.0)再配上高 `slip`:`μN` 一下就被超過、`v_滑移` 又大 → **輪子轉得飛快,車卻幾乎沒前進**。
+
+而輪式 odometry 是拿「輪子轉了多少」乘輪徑回推位移的——它沒有辦法知道輪子在空轉。於是它**以為車走了一大段**。
+
+> **這就是漂移的來源:「輪子轉動量」與「實際位移」的落差。** 也是為什麼 §7 堅持 odom 要走 `DiffDrive` plugin 而不是直接讀模擬器的真值——讀真值就沒有這個落差,壓力測試也就測不到任何東西。
+
 ## 7. 感測器與物理整合:讓異常「反映得出來」
 
 地面異常擺好了,但**如果感測器讀的是「理想真值」,異常就完全看不到**。關鍵在這:**感測器必須讀模擬的物理量**,異常才會反映成 odom 漂移、IMU 尖峰、雷射量測變化——這才有訓練/測試的意義。
@@ -204,7 +222,7 @@ forklift_gz_sim/
 
 - **取放怎麼讓 RMF 表達**:兩條路——(A) RMF 內建 **Delivery Task + Teleport Dispenser/Ingestor**(在 A 放 Dispenser、B 放 Ingestor,瞬移取放,最省力,RMF demo 就這樣);(B) 自訂 **PerformAction**(fleet adapter 用 `add_performable_action("pick"/"drop", ...)` 宣告、`config.yaml` 的 `actions: [pick, drop]`、`execute_action` callback 內實際驅動升叉 + DetachableJoint,完成呼叫 `execution.finished()`)。
 - **nav graph**:用 traffic-editor 畫 waypoint/lane,貨架前的 waypoint 標上 dispenser/ingestor 名稱或 dock 名。
-- **VDA5050 對映**:叉車的「叉起/放下」= VDA5050 order 某 node 上的 **action**,`actionType: pick/drop`、`blockingType: HARD`(停車作業)、`actionParameters` 帶 `loadType: EPAL`。RMF 端要接需經 VDA5050 connector(`tum-fml/vda5050_connector`、`inorbit-ai/ros_amr_interop` 等),官方 RMF-as-VDA5050-master adapter 仍非現成(見 [open-rmf §4](../40-fleet/open-rmf.md))。
+- **VDA5050 對映**:叉車的「叉起/放下」= VDA5050 order 某 node 上的 **action**,`actionType: pick/drop`、`blockingType: HARD`(停車作業)、`actionParameters` 帶 `loadType: EPAL`。RMF 端要接需經 VDA5050 connector(`tum-fml/vda5050_connector`、`inorbit-ai/ros_amr_interop` 等),官方 RMF-as-VDA5050-master adapter 仍非現成(見 [open-rmf §7 現況](../40-fleet/open-rmf.md#7-現況哪些是現成的哪些還在路上))。
 
 ## 11. 一趟搬運的端到端流程
 
@@ -225,6 +243,8 @@ forklift_gz_sim/
 - 現成倉儲:[aws-robomaker-small-warehouse-world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)
 
 ## 14. 附錄:起手式片段(骨架,需驗證再用)
+
+> **這一節是給 agent(或你自己)照抄的骨架,佔全篇約一半篇幅。理解這個專案讀完 §1–§13 就夠了。** 真的要動手時再回來,並且**每一段都要自己驗證過**——下面的片段沒有全部實跑過。
 
 以下是最容易做錯、最核心的幾段,給 agent 當起點。**都是骨架——版本/欄位以官方為準,貼上後一定要在 gz 跑過驗證,別當成保證可動的最終答案**(呼應前面說的:先建回饋迴路驗它,不靠貼來的 code 自說自話)。
 
@@ -291,15 +311,7 @@ forklift_gz_sim/
 - **坡道**:`<pose>8 0 0.2  0 0.15 0</pose>` 的第 5 個數字 `0.15` 是 **pitch(繞 y 軸傾斜,弧度,約 8.6°)**,把一塊 box 轉成斜面。
 - **凸塊**:`<size>0.05 1.5 0.03</size>` 是一塊**很扁(高只有 3 cm)的長條**貼地擺,車輾過去的瞬間,IMU 的垂直加速度與俯仰角速度會跳出尖峰。
 
-**Gazebo(ODE 引擎)怎麼把這些數字算成「車能前進多少」**:每個模擬步,引擎在「輪子↔地面」接觸點解下面幾條,再積分出位移。
-
-1. 法向力 `N`:輪子壓在地上的力(約等於分到這顆輪的車重)。
-2. 地面能給的最大牽引力(庫倫摩擦上限):`F_牽引(上限) = μ × N`
-3. 抓不抓得住:輪子要前進需要切向牽引力 `F_t`。`F_t ≤ μN` → 抓住地、正常前進;`F_t > μN` → **多出來的傳不出去,牽引力卡在 μN,輪子開始打滑空轉**(次方向同理用 `mu2`)。
-4. `slip1` / `slip2`(ODE 的「力相依滑移」):就算還在摩擦上限內,接觸點仍容許一點滑移,滑移速度正比於切向力與 slip 係數——`v_滑移 = slip × F_t`,slip 越大、同樣的力滑得越多。
-5. 車身前進:把牽引力減掉阻力,套牛頓第二定律積分成速度與位移——`a = (F_牽引 − F_阻力) / m`,`v = ∫ a·dt`。
-
-把 `μ = 0.05`(很小)配上高 `slip`:`μN` 一下就被超過、`v_滑移` 又大 → 輪子轉得快、車卻幾乎沒前進。但輪式 odom 是拿「輪子轉了多少」回推位移,於是它**以為車走了一大段**——漂移就是這個「輪子轉動 vs 實際位移」的落差。
+> 這五個 tag 怎麼一路變成「車走不動、odom 卻以為走了很遠」,推導在 [§6.1](#61-摩擦係數怎麼變成-odom-漂移為什麼這是最有效的壓力測試)。
 
 ### 14.3 慣性張量實算範例(棧板 20kg、1.2×0.8×0.15 m)
 

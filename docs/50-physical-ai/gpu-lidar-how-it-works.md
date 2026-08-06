@@ -88,9 +88,11 @@ z = depth * sin(inclination);
 
 `LaserScan`(2D)直接用距離陣列;`PointCloud`(3D)用上面的轉換。這就是 `/scan`、`/points` 的由來。
 
-## 5. ray tracing 是什麼,為什麼那麼吃運算
+## 5. 對照組:ray tracing 為什麼貴到 gz 不用它
 
-前面一直說 gz「不是用 ray tracing」,那 ray tracing 到底是什麼、為什麼大家提到它都說「很貴」?
+前面一直說 gz「不是用 ray tracing」。**這一節是對照組**——知道被繞開的是什麼,才知道 §2 那個「拿 rasterizer 的深度緩衝當測距結果」的取巧到底省下了什麼。
+
+想直接看結論的話:ray tracing 的成本是**相乘**的(像素 × 取樣 × 反彈 × 場景複雜度),乘下來每幀數十億次求交,所以幾十年來都只能離線算。gz 用 rasterizer 是因為**光達只需要「最近的表面在多遠」,不需要光線後續怎麼反射**——而深度這件事,rasterizer 本來就在做。
 
 **它的核心想法很老、也很直白**:從相機(眼睛)出發,**對每個像素射一條 ray 進場景,找它第一個打中的表面**。這叫 **ray casting**,Arthur Appel 在 **1968** 年就提出([Appel, 1968](https://dl.acm.org/doi/10.1145/1468075.1468082))。十二年後,Turner Whitted 在 **1980** 年把它變成**遞迴**的:ray 打中表面後,**再生出新的 ray**——往鏡射方向的「反射 ray」、穿過透明材質的「折射 ray」、朝光源問「我被擋住了沒」的「陰影 ray」;這些新 ray 又可能再打中表面、再分裂下去。這就是現代「Whitted-style ray tracing」([Whitted, 1980](https://dl.acm.org/doi/10.1145/358876.358882))。所以它其實是 **1960~80 年代**的算法,不是 90 年代才出現。
 
@@ -102,7 +104,27 @@ z = depth * sin(inclination);
 
 乘下來每幀就是**數十億到上百億次求交**。所以幾十年來 ray tracing 都是「**離線算**」的(電影一幀算好幾小時、靠農場機房);**即時**ray tracing 一直做不到,直到 GPU 內建了**專用硬體**(在晶片上做 BVH 走訪與射線求交,例如 NVIDIA 的 RTX,**2018**)才在遊戲/模擬裡跑得動。物理上它最迷人:反射、折射、軟陰影、多次反彈的光,都自然算出來——代價就是這個運算量。
 
-### ray tracing 的數學:一條 ray 怎麼求交、複雜度怎麼來
+> **完整的求交數學與複雜度推導**(球面/平面/三角形的封閉解、Möller–Trumbore、rendering equation 與 Monte Carlo)拆到附錄:[ray tracing 的數學](#附錄ray-tracing-的求交數學)。想知道「為什麼 rasterizer 便宜」讀到這裡就夠了。
+
+### 那 `gpu_lidar` 跟 ray tracing 是什麼關係
+
+- **概念上**:LiDAR「每個方向一條 ray、量到最近表面」就是 ray casting 的語意,所以直覺把它跟 ray tracing 連在一起不算錯。
+- **gz 的實作不是**:gz 沒有對每條 ray 去做「射線–幾何求交」(那就是上面那筆貴帳),而是用 **rasterization 把場景深度畫出來 + cubemap + 深度取樣**(§2~§4)。它繞開了逐 ray 求交,用通用 GPU 就快——代價是少了反射/折射這些光路效果(對一般 LiDAR 測距夠用)。
+- **真的用 ray tracing 的模擬也有**:像 NVIDIA Isaac Sim 的 **RTX Lidar** 就是用 RTX 硬體 ray tracing 算 LiDAR,能模擬玻璃/鏡面反射、材質反射率這些 `gpu_lidar` 做不到的效果——但要 RTX 等級的 GPU。**這正是「rasterized depth(快、通用)」與「hardware ray tracing(準、要專用硬體)」的取捨**。
+
+> 所以「`gpu_lidar` = ray tracing」是個方便但不精確的說法;精確講是「**用 GPU rasterizer render 深度來模擬 ray 測距**」。要真 ray tracing 的物理保真度,得上 RTX 那條路。
+
+## 6. 回扣:為什麼沒 GPU / CI 軟體渲染就慢
+
+既然 `gpu_lidar` 的距離是「render 出來的」,它就**需要一個 render 後端(ogre2)能用的 GPU**。沒有實體 GPU 時,Mesa 用 **llvmpipe** 在 CPU 上「軟體模擬」整個 rasterizer——能跑,但把「本來硬體並行的深度 render」變成 CPU 算,於是又慢又吃 CPU。這正是我們在 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md) 看到的:**免費 runner 上 `gpu_lidar` 出 `/scan` 不穩**,因為它骨子裡是 render。
+
+也因此,把 LiDAR 換成「不需 render 的 CPU ray-cast 感測器」一直是無 GPU CI 的願望——但 gz 新版主力就是 `gpu_lidar`(rendering-based),這條限制短期改不掉。
+
+---
+
+## 附錄:ray tracing 的求交數學
+
+> 這節是 §5 的展開,**不影響理解 gz 的做法**。想知道「一條射線怎麼跟一個三角形求交、複雜度為什麼會爆」再讀。
 
 一條 ray 用參數式寫成 `P(t) = O + t·D`(`O` 是起點、`D` 是單位方向向量、`t ≥ 0` 是沿射線走的距離)。「找這條 ray 第一個打中什麼」= 對場景裡每個幾何體,解出它跟 ray 相交的 `t`,取**最小的正根**。幾個基本幾何體都有封閉解:
 
@@ -131,20 +153,6 @@ $$ L_o(x,\omega_o) = L_e(x,\omega_o) + \int_{\Omega} f_r(x,\omega_i,\omega_o)\, 
 逐項白話:`L_o` = 從點 `x` 往 `ω_o` 方向**射出**的光;`L_e` = 這個點**自己發**的光(光源才有);積分號 `∫_Ω` = **對頭頂整個半球所有入射方向加總**;`f_r` = 材質的反射特性(這個入射角的光,有多少比例反射到出射方向);`L_i` = 從 `ω_i` 方向**射進來**的光;`(ω_i · n)` = 入射角的餘弦(光越斜貢獻越少,背面入射算 0)。
 
 這個積分沒有解析解,只能用 **Monte Carlo**(蒙地卡羅:用大量隨機取樣去逼近一個算不出來的積分,取樣越多越準、越少畫面越雜訊)去逼近——這種「每個交點都對半球取樣積分」的做法叫 **path tracing**,前面複雜度公式裡的 `S`(每像素取樣數)在這裡就是在逼近這個積分。(注:§5 開頭講的 Whitted-style 比較陽春,只追固定幾條反射/折射/陰影 ray,它的 `S` 主要是用來**抗鋸齒、軟化陰影**;要完整逼近上面的半球積分,是後來 path tracing 才做到的。)**運算量的根源,就是這個「對每個交點再積分一次」的遞迴**([Kajiya, 1986](https://dl.acm.org/doi/10.1145/15922.15902))。
-
-### 那 `gpu_lidar` 跟 ray tracing 是什麼關係
-
-- **概念上**:LiDAR「每個方向一條 ray、量到最近表面」就是 ray casting 的語意,所以直覺把它跟 ray tracing 連在一起不算錯。
-- **gz 的實作不是**:gz 沒有對每條 ray 去做「射線–幾何求交」(那就是上面那筆貴帳),而是用 **rasterization 把場景深度畫出來 + cubemap + 深度取樣**(§2~§4)。它繞開了逐 ray 求交,用通用 GPU 就快——代價是少了反射/折射這些光路效果(對一般 LiDAR 測距夠用)。
-- **真的用 ray tracing 的模擬也有**:像 NVIDIA Isaac Sim 的 **RTX Lidar** 就是用 RTX 硬體 ray tracing 算 LiDAR,能模擬玻璃/鏡面反射、材質反射率這些 `gpu_lidar` 做不到的效果——但要 RTX 等級的 GPU。**這正是「rasterized depth(快、通用)」與「hardware ray tracing(準、要專用硬體)」的取捨**。
-
-> 所以「`gpu_lidar` = ray tracing」是個方便但不精確的說法;精確講是「**用 GPU rasterizer render 深度來模擬 ray 測距**」。要真 ray tracing 的物理保真度,得上 RTX 那條路。
-
-## 6. 回扣:為什麼沒 GPU / CI 軟體渲染就慢
-
-既然 `gpu_lidar` 的距離是「render 出來的」,它就**需要一個 render 後端(ogre2)能用的 GPU**。沒有實體 GPU 時,Mesa 用 **llvmpipe** 在 CPU 上「軟體模擬」整個 rasterizer——能跑,但把「本來硬體並行的深度 render」變成 CPU 算,於是又慢又吃 CPU。這正是我們在 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md) 看到的:**免費 runner 上 `gpu_lidar` 出 `/scan` 不穩**,因為它骨子裡是 render。
-
-也因此,把 LiDAR 換成「不需 render 的 CPU ray-cast 感測器」一直是無 GPU CI 的願望——但 gz 新版主力就是 `gpu_lidar`(rendering-based),這條限制短期改不掉。
 
 ---
 

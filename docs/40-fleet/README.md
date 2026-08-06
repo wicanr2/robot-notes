@@ -13,10 +13,10 @@
 
 | # | 篇 | 為什麼在這個位置 |
 |---|---|---|
-| 1 | [ROS 2 與 DDS](ros2-dds-intro.md) | 地基。RMF 整套跑在 ROS 2 上,而 ROS 2 的節點怎麼互相找到對方、怎麼保證訊息送達,決定了上層能做什麼 |
+| 1 | [ROS 2 與 DDS](ros2-dds-intro.md) | 地基。RMF 整套跑在 ROS 2 上,而節點怎麼互相找到對方、怎麼保證訊息送達,決定了上層能做什麼 |
 | 2 | [VDA5050](vda5050.md) | 共同語言。訊息長什麼樣、`order` 怎麼組、`released` 與 horizon 在解什麼問題 |
 | 3 | [Open-RMF](open-rmf.md) | 協調層。為什麼要在車隊「之上」再加一層,以及它怎麼透過 VDA5050 指揮異廠牌的車 |
-| 4 | [地圖、座標與交通](rmf-maps-and-traffic.md) | 前一篇的四個實作細節:三層 API、三種地圖、座標系怎麼對齊、怎麼避塞車 |
+| 4 | [多車隊怎麼共用一個場域](rmf-maps-and-traffic.md) | 幾種「地圖」的差別、座標怎麼對齊(相似變換為什麼只有 4 個自由度)、誰先過路口 |
 | 5 | [fleet adapter 怎麼寫](rmf-adapter-cookbook.md) | 把 §3 的概念變成程式碼骨架 |
 | 6 | [路網模型與交通管制](roadnet-and-traffic-control.md) | 換個角度重來一次:不談特定框架,問「空間怎麼表示、衝突怎麼偵測、卡住怎麼脫困」三個根本問題 |
 | 7 | [室內 AMR 路網選型](indoor-amr-roadnet-selection.md) | 上一篇的結論套用到叉車 / 搬運車 / 送貨機器人三種場景 |

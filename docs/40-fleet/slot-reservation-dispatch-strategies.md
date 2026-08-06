@@ -1,4 +1,4 @@
-# 目的點/儲位重複預定:預排即拒絕,還是調度層序列化
+# 兩台車搶同一個儲位:預排時就拒絕,還是讓調度層排隊
 
 一個多機現場常碰到的調度設計題:同一個目的點(以下叫 **B 點**,可以是某個儲位、放貨點、停靠點)被**不只一筆任務**指定。系統該怎麼處理?
 
@@ -149,13 +149,9 @@ Open-RMF 沒有「排程當下把目的地鎖死」的單一全域設計,而是�
 
 [一篇 AGV 車隊架構文章](https://www.smartloadinghub.com/insights/agv-amr/designing-agv-fleet-architecture-reliable-warehouse/)把分層講得很具體,並點到兩件跟本題直接相關的事:
 
-> **分工**:它把架構分成上位(WMS/WES 下商業層運輸單)、車隊層(task allocation、路徑/資源預定、traffic control)、PLC、車四層;**上位下「商業層」任務、車隊層負責 sequence(序列化)與路由**——這正是策略二的分工,而且文中把路徑/資源預定歸在車隊層、不是上位。原文(節錄,完整版見文末附錄①②):
->
-> *"the host system, usually a WMS or WES, releasing transport orders … Below that sits the fleet manager, which performs task allocation, route reservation, traffic control …"*;*"let the WMS or WES issue transport missions at a business level, let the fleet manager sequence and route them …"*
+> **分工**:它把架構分成上位(WMS/WES 下商業層運輸單)、車隊層(task allocation、路徑/資源預定、traffic control)、PLC、車四層;**上位下「商業層」任務、車隊層負責 sequence(序列化)與路由**——這正是策略二的分工,而且文中把路徑/資源預定歸在車隊層、不是上位。(原文見[附錄](#附錄引用原文english-verbatim)①②)
 
-> **重複預定的直接後果**:它在「重啟/復原」一節警告——「**該由誰、在什麼條件下 hold 或重送任務**」沒定義清楚,現場就會冒出**重複任務與庫存錯亂**。這正是本篇「目的點重複預定」要回答的:hold(策略一/序列化卡住)還是 resend(再派),以及釋放/觸發條件怎麼定。原文(完整版見附錄③):
->
-> *"… whether the **WMS should hold or resend the transport order. Ambiguity here creates duplicate missions and inventory mismatches.**"*
+> **重複預定的直接後果**:它在「重啟/復原」一節警告——「**該由誰、在什麼條件下 hold 或重送任務**」沒定義清楚,現場就會冒出**重複任務與庫存錯亂**。這正是本篇「目的點重複預定」要回答的:hold(策略一/序列化卡住)還是 resend(再派),以及釋放/觸發條件怎麼定。(原文見[附錄](#附錄引用原文english-verbatim)③)
 
 ### 3.4 學界:目的/資源衝突有成熟解法,且偏向「帶時間窗的動態預定」
 
@@ -205,6 +201,8 @@ Open-RMF 沒有「排程當下把目的地鎖死」的單一全域設計,而是�
 ---
 
 ## 附錄:引用原文(English, verbatim)
+
+> 正文的中文轉述已足夠讀懂論點,這裡留原文供查核與引用。
 
 上面 §3.3、§4 引用的 [AGV 車隊架構文章](https://www.smartloadinghub.com/insights/agv-amr/designing-agv-fleet-architecture-reliable-warehouse/)為英文,以下節錄**完整原文段落**(未刪節)供對照。
 
