@@ -58,5 +58,5 @@
   <rect x="20" y="346" width="840" height="44" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
   <text x="40" y="367" font-size="11.5" font-weight="700" fill="#374151">n 組等間隔錯開時,要恆有至少 k 組著地 ⟺ d ≥ k/n</text>
   <text x="330" y="367" font-size="10.5" fill="#374151">walk 是 n=4、k=3 → 0.75;trot 是 n=2、k=1 → 0.5;雙足同 0.5。飛行相是 k=1 的特例。</text>
-  <text x="40" y="384" font-size="10.5" fill="#374151">所以「0.5 是走與跑的分界」對<tspan font-weight="700">雙足</tspan>是嚴格的幾何門檻,對<tspan font-weight="700">四足</tspan>則是動物步態分類上的統計性說法——實際門檻由相位怎麼排決定。</text>
+  <text x="40" y="384" font-size="10.5" fill="#374151">「0.5 是走與跑的分界」也是 k/n:對稱步態裡同一<tspan font-weight="700">對</tspan>腳恰好差半週期,n=2、k=1。它是<tspan font-weight="700">充分</tspan>條件——反過來的「d &lt; 0.5 必有飛行相」不成立(amble)。</text>
 </svg>

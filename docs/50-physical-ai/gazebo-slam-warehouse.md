@@ -43,7 +43,7 @@ slam_toolbox 吃 `/scan` + tf,**產出** `/map`(`OccupancyGrid`)並補上 `map �
     <always_on>1</always_on>
   </sensor>
   ```
-  > `gpu_lidar` 掃的是**視覺 mesh**(rendering),不是 collision——所以即使 [dartsim 忽略倉庫的 mesh collision](simulation-gazebo-ros2.md#5-物理層的雷),雷射**照樣掃得到貨架與牆**,地圖會長出貨架輪廓。代價是它要 render。
+  > `gpu_lidar` 掃的是**視覺 mesh**(rendering),不是 collision——所以即使 [dartsim 忽略倉庫的 mesh collision](simulation-gazebo-ros2.md#7-把舊世界搬上新-gazebo以-aws-small-warehouse-為例),雷射**照樣掃得到貨架與牆**,地圖會長出貨架輪廓。代價是它要 render。
 
 - **里程計**:`gz-sim-odometry-publisher-system` 發 `odom` 與 `odom→base_link` tf:
   ```xml

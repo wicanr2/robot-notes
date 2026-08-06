@@ -3,7 +3,7 @@
 
   <!-- 標題 -->
   <text x="450" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">送餐機器人拆開來看:每個零件對應哪一章</text>
-  <text x="450" y="56" text-anchor="middle" font-size="12" fill="#6B7280">沿中心虛線垂直分解,右側標籤對照筆記章節(§)</text>
+  <text x="450" y="56" text-anchor="middle" font-size="12" fill="#6B7280">沿中心虛線垂直分解,標籤前綴對照筆記的主題分區</text>
 
   <!-- 組裝軸 -->
   <line x1="230" y1="80" x2="230" y2="883" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6 6"/>
@@ -50,7 +50,7 @@
   <line x1="295" y1="288" x2="480" y2="288" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="274" font-size="13" font-weight="700" fill="#1F2937">深度相機</text>
   <text x="490" y="290" font-size="10.5" fill="#6B7280">看得到桌面、玻璃、矮障礙</text>
-  <text x="490" y="306" font-size="10" fill="#9A3412">§10 感測器</text>
+  <text x="490" y="306" font-size="10" fill="#9A3412">硬體·感測器</text>
 
   <!-- ============ Row4 上位機 (cy=373) ============ -->
   <g>
@@ -70,7 +70,7 @@
   <line x1="277" y1="373" x2="480" y2="373" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="359" font-size="13" font-weight="700" fill="#1F2937">上位機</text>
   <text x="490" y="375" font-size="10.5" fill="#6B7280">跑 Linux/ROS2,負責「想」</text>
-  <text x="490" y="391" font-size="10" fill="#9A3412">§30 導航 · §55 VLM</text>
+  <text x="490" y="391" font-size="10" fill="#9A3412">導航 · VLM</text>
 
   <!-- ============ Row5 下位機 MCU (cy=458) ============ -->
   <g>
@@ -100,7 +100,7 @@
   <line x1="295" y1="458" x2="480" y2="458" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="444" font-size="13" font-weight="700" fill="#1F2937">下位機 MCU</text>
   <text x="490" y="460" font-size="10.5" fill="#6B7280">即時控制馬達、回報里程</text>
-  <text x="490" y="476" font-size="10" fill="#9A3412">§20 韌體</text>
+  <text x="490" y="476" font-size="10" fill="#9A3412">韌體</text>
 
   <!-- ============ Row6 馬達驅動器 ×2 (cy=543) ============ -->
   <g>
@@ -125,7 +125,7 @@
   <line x1="305" y1="543" x2="480" y2="543" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="529" font-size="13" font-weight="700" fill="#1F2937">馬達驅動器</text>
   <text x="490" y="545" font-size="10.5" fill="#6B7280">FOC 閉迴路,走 CAN</text>
-  <text x="490" y="561" font-size="10" fill="#9A3412">§10 馬達與 FOC</text>
+  <text x="490" y="561" font-size="10" fill="#9A3412">硬體·馬達與 FOC</text>
 
   <!-- ============ Row7 電池組 (cy=628) ============ -->
   <g>
@@ -143,7 +143,7 @@
   <line x1="320" y1="628" x2="480" y2="628" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="614" font-size="13" font-weight="700" fill="#1F2937">電池組</text>
   <text x="490" y="630" font-size="10.5" fill="#6B7280">LFP + 金屬外殼</text>
-  <text x="490" y="646" font-size="10" fill="#9A3412">§10 電源 · §60 電池認證</text>
+  <text x="490" y="646" font-size="10" fill="#9A3412">硬體·電源 · 法規·電池認證</text>
 
   <!-- ============ Row8 2D LiDAR (cy=713) ============ -->
   <g>
@@ -158,7 +158,7 @@
   <line x1="305" y1="713" x2="480" y2="713" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="699" font-size="13" font-weight="700" fill="#1F2937">2D LiDAR</text>
   <text x="490" y="715" font-size="10.5" fill="#6B7280">水平掃一個平面,SLAM 與定位主力</text>
-  <text x="490" y="731" font-size="10" fill="#9A3412">§30 SLAM</text>
+  <text x="490" y="731" font-size="10" fill="#9A3412">導航·SLAM</text>
 
   <!-- ============ Row9 底盤板 / 急停 (cy=798) ============ -->
   <g>
@@ -171,7 +171,7 @@
   <line x1="335" y1="798" x2="480" y2="798" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="784" font-size="13" font-weight="700" fill="#1F2937">底盤板 / 急停</text>
   <text x="490" y="800" font-size="10.5" fill="#6B7280">急停是硬接線,不經過軟體</text>
-  <text x="490" y="816" font-size="10" fill="#9A3412">§10 電源與安全</text>
+  <text x="490" y="816" font-size="10" fill="#9A3412">硬體·電源與安全</text>
 
   <!-- ============ Row10 差速底盤(驅動輪 ×2 + 萬向輪 ×2) (cy=883) ============ -->
   <g>
@@ -188,8 +188,8 @@
   <line x1="347" y1="883" x2="480" y2="883" stroke="#94A3B8" stroke-width="1"/>
   <text x="490" y="869" font-size="13" font-weight="700" fill="#1F2937">差速底盤</text>
   <text x="490" y="885" font-size="10.5" fill="#6B7280">兩輪速差轉向</text>
-  <text x="490" y="901" font-size="10" fill="#9A3412">§10 底盤與驅動</text>
+  <text x="490" y="901" font-size="10" fill="#9A3412">形態·底盤與驅動</text>
 
   <!-- 頁尾 -->
-  <text x="450" y="944" text-anchor="middle" font-size="9.5" fill="#94A3B8">§ 為本筆記章節編號,完整目錄見 README</text>
+  <text x="450" y="944" text-anchor="middle" font-size="9.5" fill="#94A3B8">標籤前綴是本筆記的主題分區,完整目錄見 README 文件索引</text>
 </svg>

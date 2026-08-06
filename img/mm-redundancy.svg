@@ -36,8 +36,8 @@
   <line x1="296" y1="155" x2="330" y2="155" stroke="#6B7280" stroke-width="2" marker-end="url(#mrA)"/>
   <line x1="584" y1="155" x2="550" y2="155" stroke="#6B7280" stroke-width="2" marker-end="url(#mrA)"/>
   <rect x="336" y="112" width="208" height="86" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
-  <text x="440" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">9 − 6 = 3</text>
-  <text x="440" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">冗餘 3 個自由度</text>
+  <text x="440" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#9A3412">瞬時 8 − 6 = 2</text>
+  <text x="440" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#9A3412">冗餘 2(路徑上 3)</text>
   <text x="440" y="182" text-anchor="middle" font-size="9.5" fill="#6B7280">同一個末端位姿,有無限多組解</text>
 
   <!-- 底:預算花在哪 -->

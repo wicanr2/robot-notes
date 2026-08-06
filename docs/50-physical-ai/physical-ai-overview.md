@@ -36,7 +36,7 @@
 | **Omniverse Replicator** | 對環境與物件做 domain randomization,產生多樣化合成資料 |
 | **Cosmos** | NVIDIA 的 WFM 實作(WFM=概念,Cosmos=那個產品);擴增/整理/標註生成資料、擴展情境、模擬符合物理的世界 |
 | **Isaac Lab** | 模組化機器人學習框架,用強化學習(RL)或模仿學習(IL)訓練機器人策略 |
-| **Isaac Sim** | 開源機器人模擬框架(建於 Omniverse、用 OpenUSD),做模擬、測試、合成資料生成、驗證模型;支援 SIL/HIL 與 ROS/ROS2 橋接 |
+| **Isaac Sim** | 開源機器人模擬框架(建於 Omniverse、用 OpenUSD),做模擬、測試、合成資料生成、驗證模型;支援 SIL / HIL(Software / Hardware-in-the-Loop,把待測的軟體或實體硬體接進模擬迴路)與 ROS/ROS2 橋接 |
 | **Jetson Thor** | 邊緣端 runtime 部署電腦(通用機器人/邊緣 AI;**送餐 AMR 用這顆**) |
 | **DRIVE AGX** | 車規自駕平台(列為對照;室內 AMR 用不到) |
 | **RTX PRO Servers** | 模擬與較大型推理工作負載的基礎設施 |

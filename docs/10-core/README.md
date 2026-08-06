@@ -22,7 +22,7 @@
 
 | 分岔點 | 核心給到哪 | 換形態之後 |
 |---|---|---|
-| **底盤運動學**(輪速 ↔ 車體速度) | [座標轉換與 TF](30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 樹與 REP-105 慣例對所有形態成立 | 差速正逆解只對輪式成立;足式要處理浮動基座與接觸排程,見 [形態分支](../20-forms/) |
+| **底盤運動學**(輪速 ↔ 車體速度) | [座標轉換與 TF](30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 樹與 REP-105 慣例(ROS 官方對「座標系該怎麼命名、怎麼分層」的約定)對所有形態成立 | 差速正逆解只對輪式成立;足式要處理浮動基座與接觸排程,見 [形態分支](../20-forms/) |
 | **致動器選型** | [馬達與 FOC](10-hardware/motors-and-foc.md) 的 FOC 原理、[編碼器](10-hardware/encoders.md) 的回授 | 輪式用輪轂馬達 + 行星減速;足式要低減速比、高扭矩密度的 QDD;手臂用諧波或擺線減速機 |
 | **狀態估計** | [定位](30-navigation/localization.md) 的 odometry 與 AMCL | 輪式 odometry 來自輪子;足式要靠腿部運動學 + 接觸偵測反推,而且基座會浮動 |
 | **控制層** | [下位機運動控制](20-firmware/low-level-control.md) 的 PID、加減速 ramp、逾時保護 | 平衡、全身控制、力/阻抗控制是另一個量級的問題,不在 PID 這一層 |

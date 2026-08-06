@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 408" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="860" height="408" fill="#ffffff"/>
+  <text x="430" y="27" text-anchor="middle" font-size="18" font-weight="700" fill="#1F2937">PWM:開關只能全開全關,連續可變的電壓從時間軸上來</text>
+  <text x="430" y="47" text-anchor="middle" font-size="11.5" fill="#6B7280">開得夠快時(馬達用 10–20 kHz),負載感受到的不是瞬間值,是平均值</text>
+
+  <rect x="20" y="64" width="420" height="280" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="230" y="88" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D4ED8">電壓:方波的占空比決定平均值</text>
+  <text x="230" y="106" text-anchor="middle" font-size="10" fill="#6B7280">藍線 = 加在負載上的方波(0V 或 24V);紅虛線 = 平均值</text>
+  <text x="34" y="150" font-size="11" font-weight="700" fill="#374151">占空比 25%</text>
+  <line x1="140" y1="168" x2="392" y2="168" stroke="#D1D5DB" stroke-width="1"/>
+  <path d="M140.0,168.0 L140.0,126.0 L155.0,126.0 L155.0,168.0 L200.0,168.0 L200.0,126.0 L215.0,126.0 L215.0,168.0 L260.0,168.0 L260.0,126.0 L275.0,126.0 L275.0,168.0 L320.0,168.0 L320.0,126.0 L335.0,126.0 L335.0,168.0 L380.0,168.0" fill="none" stroke="#2563EB" stroke-width="2"/>
+  <line x1="140" y1="157.5" x2="396" y2="157.5" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="402" y="161.5" font-size="11" font-weight="700" fill="#991B1B">6V</text><text x="34" y="218" font-size="11" font-weight="700" fill="#374151">占空比 50%</text>
+  <line x1="140" y1="236" x2="392" y2="236" stroke="#D1D5DB" stroke-width="1"/>
+  <path d="M140.0,236.0 L140.0,194.0 L170.0,194.0 L170.0,236.0 L200.0,236.0 L200.0,194.0 L230.0,194.0 L230.0,236.0 L260.0,236.0 L260.0,194.0 L290.0,194.0 L290.0,236.0 L320.0,236.0 L320.0,194.0 L350.0,194.0 L350.0,236.0 L380.0,236.0" fill="none" stroke="#2563EB" stroke-width="2"/>
+  <line x1="140" y1="215.0" x2="396" y2="215.0" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="402" y="219.0" font-size="11" font-weight="700" fill="#991B1B">12V</text><text x="34" y="286" font-size="11" font-weight="700" fill="#374151">占空比 75%</text>
+  <line x1="140" y1="304" x2="392" y2="304" stroke="#D1D5DB" stroke-width="1"/>
+  <path d="M140.0,304.0 L140.0,262.0 L185.0,262.0 L185.0,304.0 L200.0,304.0 L200.0,262.0 L245.0,262.0 L245.0,304.0 L260.0,304.0 L260.0,262.0 L305.0,262.0 L305.0,304.0 L320.0,304.0 L320.0,262.0 L365.0,262.0 L365.0,304.0 L380.0,304.0" fill="none" stroke="#2563EB" stroke-width="2"/>
+  <line x1="140" y1="272.5" x2="396" y2="272.5" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="402" y="276.5" font-size="11" font-weight="700" fill="#991B1B">18V</text>
+  <text x="230" y="332" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1D4ED8">24V × 占空比 = 等效電壓。電壓從離散變連續,靠的是時間比例不是元件。</text>
+
+  <rect x="452" y="64" width="388" height="280" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>
+  <text x="646" y="88" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065F46">電流:線圈電感天生把方波磨平</text>
+  <text x="646" y="106" text-anchor="middle" font-size="10" fill="#6B7280">電感抗拒電流突變(v = L·di/dt),等於一個天然低通濾波器</text>
+  <text x="476" y="146" font-size="10.5" font-weight="700" fill="#1D4ED8">進去的電壓(方波)</text>
+  <line x1="486" y1="212" x2="806" y2="212" stroke="#D1D5DB" stroke-width="1"/>
+  <path d="M486.0,212.0 L486.0,166.0 L516.0,166.0 L516.0,212.0 L546.0,212.0 L546.0,166.0 L576.0,166.0 L576.0,212.0 L606.0,212.0 L606.0,166.0 L636.0,166.0 L636.0,212.0 L666.0,212.0 L666.0,166.0 L696.0,166.0 L696.0,212.0 L726.0,212.0 L726.0,166.0 L756.0,166.0 L756.0,212.0 L786.0,212.0" fill="none" stroke="#2563EB" stroke-width="2"/>
+  <text x="476" y="252" font-size="10.5" font-weight="700" fill="#065F46">出來的電流(平滑三角波)</text>
+  <line x1="486" y1="312" x2="806" y2="312" stroke="#D1D5DB" stroke-width="1"/>
+  <path d="M486.0,296.4 L516.0,281.6 L546.0,296.4 L576.0,281.6 L606.0,296.4 L636.0,281.6 L666.0,296.4 L696.0,281.6 L726.0,296.4 L756.0,281.6 L786.0,296.4" fill="none" stroke="#059669" stroke-width="2.4"/>
+  <line x1="486" y1="289" x2="812" y2="289" stroke="#059669" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <text x="646" y="332" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065F46">所以不必真的產生弦波電壓,讓平均值照弦波變化就行</text>
+
+  <rect x="20" y="356" width="820" height="42" rx="9" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="5,4"/>
+  <text x="40" y="378" font-size="11" fill="#374151"><tspan font-weight="700">這就是六顆只會開關的管子,能推出近似弦波三相電流的原因。</tspan>FOC 算出一個電壓向量,<tspan font-weight="700">SVPWM</tspan> 把它換算成三相各自的占空比,</text>
+  <text x="40" y="394" font-size="11" fill="#374151">三個半橋照著開關,線圈把方波磨成平滑電流。選 20 kHz 附近還有個實務理由:避開人耳聽得見的範圍,不然馬達會叫。</text>
+</svg>

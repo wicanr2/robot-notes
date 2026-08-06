@@ -2,7 +2,7 @@
 
 [2D SLAM](slam-mapping.md) 講透了「雞生蛋(要定位需地圖、要建圖需定位)」、占據柵格、scan matching 的加權最小二乘、loop closure、pose graph 全圖優化。這篇接續講 **3D**:把 2D 換成多線 / 固態 LiDAR 的點雲後,**多了什麼、難在哪、代表方法怎麼一步步演進**。2D 已講的基礎不重述。
 
-> 前置:[2D SLAM 建圖](slam-mapping.md)、[LiDAR 完整解析](../10-hardware/lidar-landscape.md)(點雲從哪來)、[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md)(配準與卡爾曼的數學底)。
+> 前置:[2D SLAM 建圖](slam-mapping.md)、[LiDAR 完整解析](../10-hardware/lidar-landscape.md)(點雲從哪來)、[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和)(配準與卡爾曼的數學底)。
 > 關鍵演算法、論文均附可查證來源(arXiv / DOI / GitHub),見文末來源清單;不確定的標「待查證」。
 
 ---

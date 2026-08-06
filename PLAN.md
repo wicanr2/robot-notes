@@ -13,37 +13,105 @@ robot-notes/
 ├── README.md                 # 索引入口(GitHub 首頁)
 ├── PLAN.md                   # 本檔:整理計畫與進度
 ├── CONTEXT.md                # 術語表(ubiquitous language)
-├── img/                      # 圖片與概念圖
+├── img/                      # 概念圖與示意圖(SVG 為主)
 └── docs/
-    ├── 00-overview/          # 系統全貌
+    ├── 00-overview/       # 系統全貌
     │   └── system-architecture.md
-    ├── 10-hardware/          # 硬體:機構、馬達、感測、電源、電路、通訊
-    │   ├── chassis-and-drivetrain.md
-    │   ├── motors-and-foc.md
-    │   ├── encoders.md
-    │   ├── sensors.md
-    │   ├── communication-buses.md
-    │   ├── digital-circuits.md
-    │   └── power-and-safety.md
-    ├── 20-firmware/          # 下位機韌體與模擬
-    │   ├── low-level-control.md
-    │   └── stm32-simulation-renode.md     (待寫)
-    ├── 30-navigation/        # 導航:運動學、SLAM、定位、路徑
-    │   ├── slam-mapping.md
-    │   ├── localization.md
-    │   ├── kinematics-and-coordinate-transforms.md   (待寫)
-    │   └── path-planning.md                          (待寫)
-    ├── 40-fleet/             # 多機調度
-    │   ├── open-rmf.md                     (待寫)
-    │   └── vda5050.md                       (待寫)
-    └── 50-physical-ai/       # Physical AI 模擬與學習
-        ├── physical-ai-overview.md
-        ├── simulation-isaac-gazebo.md       (待寫)
-        ├── sim-to-real.md                    (待寫)
-        └── claude-physical-ai-workflow.md    (待寫)
+    ├── 10-core/           # 共通核心 —— 換了形態也還在
+    │   ├── README.md
+    │   ├── 10-hardware/   # 硬體:電怎麼變成力矩、感測器怎麼把物理量變成數字
+    │   │   ├── README.md
+    │   │   ├── communication-buses.md
+    │   │   ├── digital-circuits.md
+    │   │   ├── encoders.md
+    │   │   ├── lidar-landscape.md
+    │   │   ├── motors-and-foc.md
+    │   │   ├── power-and-safety.md
+    │   │   └── sensors.md
+    │   ├── 20-firmware/   # 韌體:意圖怎麼變成馬達實際在轉
+    │   │   ├── README.md
+    │   │   ├── board-simulation-renode.md
+    │   │   ├── host-mcu-protocol.md
+    │   │   ├── low-level-control.md
+    │   │   └── stm32-rest-tls.md
+    │   └── 30-navigation/ # 導航:我在哪、地圖長什麼樣、怎麼從 A 到 B
+    │       ├── README.md
+    │       ├── kinematics-and-coordinate-transforms.md
+    │       ├── localization.md
+    │       ├── path-planning.md
+    │       ├── path-smoothing-and-trajectory.md
+    │       ├── slam-3d-lidar.md
+    │       └── slam-mapping.md
+    ├── 20-forms/          # 形態分支 —— 換了形態就得換
+    │   ├── README.md
+    │   ├── legged/        # 四足
+    │   │   ├── README.md
+    │   │   ├── gait-and-actuation.md
+    │   │   └── legged-fundamentals.md
+    │   ├── mobile-manipulator/ # 搬運車 + 機械手臂
+    │   │   ├── README.md
+    │   │   ├── arm-kinematics.md
+    │   │   └── mobile-manipulation.md
+    │   └── wheeled-amr/   # 輪式 AMR
+    │       ├── README.md
+    │       └── chassis-and-drivetrain.md
+    ├── 40-fleet/          # 多機調度
+    │   ├── README.md
+    │   ├── indoor-amr-roadnet-selection.md
+    │   ├── mqtt-tls-emqx.md
+    │   ├── open-rmf.md
+    │   ├── proprietary-vs-ros2-arbitrary-start.md
+    │   ├── rmf-adapter-cookbook.md
+    │   ├── rmf-maps-and-traffic.md
+    │   ├── rmf-multi-container-deploy.md
+    │   ├── roadnet-and-traffic-control.md
+    │   ├── robot-wan-5g-satellite.md
+    │   ├── ros2-dds-intro.md
+    │   ├── slot-reservation-dispatch-strategies.md
+    │   └── vda5050.md
+    ├── 50-physical-ai/    # Physical AI:模擬與 sim-to-real
+    │   ├── README.md
+    │   ├── claude-physical-ai-workflow.md
+    │   ├── gazebo-slam-warehouse.md
+    │   ├── gpu-lidar-how-it-works.md
+    │   ├── isaac-sim-isaac-lab-amr.md
+    │   ├── physical-ai-overview.md
+    │   ├── project-forklift-rmf-gazebo.md
+    │   ├── sdf-3d-models.md
+    │   ├── sensor-data-and-3d-reconstruction.md
+    │   ├── sim-to-real.md
+    │   ├── simulation-asset-sources.md
+    │   └── simulation-gazebo-ros2.md
+    ├── 55-vlm-llm/        # VLM 與 LLM
+    │   ├── README.md
+    │   ├── llm-vlm-for-robots.md
+    │   └── local-llm-on-nvidia-gb10.md
+    ├── 60-compliance/     # 法規與認證
+    │   ├── README.md
+    │   ├── battery-certification.md
+    │   ├── pwc-semi-iso3691-certification.md
+    │   └── semiconductor-amr-standards.md
+    ├── 70-security/       # 資安
+    │   ├── README.md
+    │   ├── ota-firmware-signing.md
+    │   ├── secure-boot.md
+    │   └── sros2-dds-security.md
+    ├── 90-foundations/    # 數學基礎
+    │   └── gaussian-from-first-principles.md
+    ├── _meta/             # 工作方法與教訓
+    │   ├── github-actions-gz-sim-playbook.md
+    │   └── lessons-learned.md
+    ├── _refs/             # 參考論文導讀
+    │   └── nav2-survey.md
+    └── _legacy/           # 舊版單檔整理(已被取代,保留對照)
+        ├── README.md
+        ├── delivery-robot-architecture.md
+        └── delivery-robot-fundamentals.md
 ```
 
-> 命名用數字前綴(00/10/…)維持閱讀順序;每個 doc 開頭一段「一句話定位 + 延伸閱讀連結」。
+> **兩層骨幹**:`10-core/` 是換了形態也還在的部分(硬體 / 韌體 / 導航),`20-forms/` 是換了形態就得換的部分。判準是「把形態換掉,這篇還成不成立?」
+>
+> 數字前綴是為了讓 GitHub 的字母排序剛好等於閱讀順序(沒有前綴的話 `core/` 會排到 `90-foundations` 後面)。每個 doc 開頭一段「一句話定位 + 延伸閱讀連結」;每一區都有 `README.md` 當入口。
 
 ---
 

@@ -48,7 +48,9 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 
 ## 4. OpenRMF 與 VDA5050 怎麼搭(含誠實的現況)
 
-層次很清楚:**OpenRMF(跨車隊協調)→ fleet adapter →(對 VDA5050 車隊)VDA5050 over MQTT → 各廠 AMR**。理想上,對「支援 VDA5050」的車隊用一個 VDA5050 fleet adapter,讓 RMF 扮演 VDA5050 的 master control。
+層次很清楚:**OpenRMF(跨車隊協調)→ fleet adapter →(對 VDA5050 車隊)VDA5050 over MQTT → 各廠 AMR**
+
+換句話說,**adapter 跨在兩條不同的匯流排上**:RMF 這側走 DDS(ROS 2 內部),車隊那側走 MQTT。兩邊都是 pub/sub,但不是同一張網——adapter 是唯一的接點,這也是為什麼「寫 adapter」聽起來像翻譯工作,實際上還要處理兩套傳輸語意的差異。。理想上,對「支援 VDA5050」的車隊用一個 VDA5050 fleet adapter,讓 RMF 扮演 VDA5050 的 master control。
 
 **但要誠實說明現況(查證結果,別被誤導)**:
 
@@ -78,7 +80,9 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - **架構**:amd64 與 **aarch64(ARM64)** 都支援;另有 RHEL/Fedora 的 RPM。
 - **安裝三選一**:① apt 二進位 `sudo apt install ros-<distro>-rmf-dev`(只用不改核心時最快);② source build(`vcs import` 抓 `rmf.repos` 共 17 個套件 + `colcon build`,**官方建議用 clang + lld**,因為 C++ template 重、編譯吃記憶體);③ 官方 docker image `ghcr.io/open-rmf/rmf`(各 distro nightly)。
 - **硬體**:**不需要 GPU**(核心是交通協商與任務規劃,純 CPU)。source build 因 template heavy 建議 **RAM ≥ 8GB(16GB 較穩)**;runtime 本身吃資源不大。
-- **使用語言**:**核心(rmf_traffic、rmf_task)是 C++**;**fleet adapter 可用 C++ 或 Python**(Python 經 pybind11 綁定,套件 `rmf_fleet_adapter_python`,import 名 `rmf_adapter`)。**官方範本 `fleet_adapter_template` 是純 Python**。設定用 **YAML**;場域地圖用 **traffic-editor** 畫、輸出 `.building.yaml`(含 waypoint/lane/交通圖)。
+- **使用語言**:**核心(rmf_traffic、rmf_task)是 C++**;**fleet adapter 可用 C++ 或 Python**(Python 經 pybind11 綁定,套件 `rmf_fleet_adapter_python`,import 名 `rmf_adapter`)。**官方範本 `fleet_adapter_template` 是純 Python**。設定用 **YAML**;場域地圖用 **traffic-editor** 畫、輸出 `.building.yaml`(含 waypoint/lane/交通圖)
+
+> 三個接下來一直會用到的詞先釘住:**waypoint** 是路網上的一個停靠點(帶座標與朝向);**lane** 是連接兩個 waypoint 的有向路段;兩者合起來就是 **nav graph**。**RMF 規劃時只在這張圖上走,不碰自由空間**——怎麼從一個 waypoint 開到下一個,是車自己的事。。
 - **核心 repo**:`rmf_traffic`(協商引擎)、`rmf_task`(競標派工)、`rmf_ros2`(ROS2 節點層,含 `rmf_fleet_adapter`)、`rmf_battery`(電量/回充模型)、`rmf_traffic_editor`、`rmf_demos`。
 
 ## 6. 怎麼寫一個 fleet adapter

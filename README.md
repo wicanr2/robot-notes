@@ -74,16 +74,46 @@
 | 想搞懂四足為什麼難 | [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md) |
 
 > 進階小節(如數位電路 §15 半導體物理、定位 §28 地標 PnP)初讀可跳過,需要時再回來。
-> 看到 `§11.3` 之類的編號不知在哪個檔 → 查 [章節對照表](docs/section-map.md)。看不懂的名詞 → 查 [術語表](CONTEXT.md)。
+> 看不懂的名詞 → 查 [術語表](CONTEXT.md),開頭有一節「基礎詞」放讀任何一篇之前該知道的。
 
 ---
 
 ## 文件索引
 
-### 00 系統全貌
+### 00-overview 系統全貌
 - [系統架構](docs/00-overview/system-architecture.md) — 上位機/下位機分層、資料流、硬體選型、軟體架構、研發路線
 
-### 形態:換了形態哪幾層會變
+### 10-core 共通核心 — 換了形態,這幾層還在
+
+- [共通核心總覽](docs/10-core/) — 判準(把形態換掉這篇還成不成立)、三個層次、四個分岔點
+
+#### 10-core/10-hardware 硬體
+
+> 底盤與傳動不在這裡——它只對輪式成立,放在[形態分支](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md)。這就是「共通核心 vs 形態分支」判準的第一個實例。
+
+- [馬達與 FOC 控制](docs/10-core/10-hardware/motors-and-foc.md) — FOC、定子/轉子、有刷/無刷、功率橋、閘極驅動
+- [編碼器](docs/10-core/10-hardware/encoders.md) — 霍爾、增量式 A/B 相、四倍頻、STM32 硬體讀取
+- [感測器](docs/10-core/10-hardware/sensors.md) — 2D LiDAR、深度相機、IMU,以及各自的盲區
+- [LiDAR 完整解析](docs/10-core/10-hardware/lidar-landscape.md) — 測距原理(dToF/相位/FMCW)、905 vs 1550nm、掃描機構、2D vs 3D;附 2025–2026 產品盤點與選型
+- [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) — CAN 與 RS485 的分工,STM32F4 串接
+- [數位電路](docs/10-core/10-hardware/digital-circuits.md) — 推挽 vs open-drain、上拉電阻、wired-AND
+- [電源與安全](docs/10-core/10-hardware/power-and-safety.md) — 電壓法規、急停鏈、ramp/過流/堵轉保護
+
+#### 10-core/20-firmware 韌體
+- [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) — 運動學解算 vs PID、odometry 積分、控制週期
+- [上下位機通訊協議](docs/10-core/20-firmware/host-mcu-protocol.md) — 從三個根本痛點推出 framing/CRC16/心跳逾時/序號
+- [主板模擬:Renode](docs/10-core/20-firmware/board-simulation-renode.md) — 為何要模擬主板、STM32 全系統模擬、確定性測試進 CI
+- [STM32F4 上的 REST API + TLS 1.2](docs/10-core/20-firmware/stm32-rest-tls.md) — lwIP + mbedTLS 堆疊、RAM/CPU 瓶頸、硬體 crypto
+
+#### 10-core/30-navigation 導航
+- [SLAM 建圖](docs/10-core/30-navigation/slam-mapping.md) — 2D SLAM 流程、scan matching、loop closure、pose graph
+- [3D LiDAR SLAM 建圖](docs/10-core/30-navigation/slam-3d-lidar.md) — 點雲配準(ICP/NDT/LOAM)、LIO 融 IMU、FAST-LIO 系譜;附 ROS2 可用套件盤點
+- [定位](docs/10-core/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
+- [座標轉換與 TF](docs/10-core/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
+- [路徑規劃與軌跡(Nav2)](docs/10-core/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
+- [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
+
+### 20-forms 形態分支 — 換了形態,這幾層就得換
 - [形態分支總覽](docs/20-forms/) — 四種形態在自由度、支撐面、運動學、控制核心、狀態估計、法規上的分岔點對照
 - [輪式 AMR](docs/20-forms/wheeled-amr/) — 為什麼輪式的問題最「乾淨」(支撐面固定 + 平面運動 + 接觸不切換)
   - [底盤與傳動](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 兩輪差速、萬向輪、輪轂馬達、行星減速機
@@ -94,31 +124,7 @@
   - [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) — 浮動基座與欠致動、接觸讓系統變成混合系統、ZMP 與 capture point 各保證什麼、沒有輪子怎麼估狀態
   - [步態與致動](docs/20-forms/legged/gait-and-actuation.md) — duty factor 的門檻為什麼是 1/n 而不是固定的 0.5、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
 
-### 10 硬體
-- [底盤與驅動系統](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) — 差速、萬向輪、輪轂馬達、BLDC、行星減速機
-- [馬達與 FOC 控制](docs/10-core/10-hardware/motors-and-foc.md) — FOC、定子/轉子、有刷/無刷、功率橋、閘極驅動
-- [編碼器](docs/10-core/10-hardware/encoders.md) — 霍爾、增量式 A/B 相、四倍頻、STM32 硬體讀取
-- [感測器](docs/10-core/10-hardware/sensors.md) — 2D LiDAR、深度相機、IMU,以及各自的盲區
-- [LiDAR 完整解析](docs/10-core/10-hardware/lidar-landscape.md) — 測距原理(dToF/相位/FMCW)、905 vs 1550nm、掃描機構、2D vs 3D;附 2025–2026 產品盤點與選型
-- [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) — CAN 與 RS485 的分工,STM32F4 串接
-- [數位電路](docs/10-core/10-hardware/digital-circuits.md) — 推挽 vs open-drain、上拉電阻、wired-AND
-- [電源與安全](docs/10-core/10-hardware/power-and-safety.md) — 電壓法規、急停鏈、ramp/過流/堵轉保護
-
-### 20 韌體
-- [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) — 運動學解算 vs PID、odometry 積分、控制週期
-- [上下位機通訊協議](docs/10-core/20-firmware/host-mcu-protocol.md) — 從三個根本痛點推出 framing/CRC16/心跳逾時/序號
-- [主板模擬:Renode](docs/10-core/20-firmware/board-simulation-renode.md) — 為何要模擬主板、STM32 全系統模擬、確定性測試進 CI
-- [STM32F4 上的 REST API + TLS 1.2](docs/10-core/20-firmware/stm32-rest-tls.md) — lwIP + mbedTLS 堆疊、RAM/CPU 瓶頸、硬體 crypto
-
-### 30 導航
-- [SLAM 建圖](docs/10-core/30-navigation/slam-mapping.md) — 2D SLAM 流程、scan matching、loop closure、pose graph
-- [3D LiDAR SLAM 建圖](docs/10-core/30-navigation/slam-3d-lidar.md) — 點雲配準(ICP/NDT/LOAM)、LIO 融 IMU、FAST-LIO 系譜;附 ROS2 可用套件盤點
-- [定位](docs/10-core/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
-- [座標轉換與 TF](docs/10-core/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
-- [路徑規劃與軌跡(Nav2)](docs/10-core/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
-- [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
-
-### 40 多機調度
+### 40-fleet 多機調度
 
 **路網與交管(先讀這兩篇)**
 - [路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) — 三條技術路線的第一性原理比較:空間怎麼表示、衝突怎麼定義、卡死怎麼解;前導線公式推導、柵格化的理由、環形鎖偵測
@@ -138,7 +144,7 @@
 - [MQTT over TLS(EMQX)](docs/40-fleet/mqtt-tls-emqx.md) — 三層(加密/認證/授權)、mTLS client 憑證、ACL、cipher 選擇
 - [機器人的廣域連線](docs/40-fleet/robot-wan-5g-satellite.md) — 廠區 private 5G、公網 5G+VPN、衛星 Direct-to-Device(3GPP NTN)、6G NTN
 
-### 50 Physical AI(進階)
+### 50-physical-ai Physical AI(進階)
 
 > 術語密度較高,建議先讀完 00/10/30。
 
@@ -154,23 +160,23 @@
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md) — 方法論:Claude 當膠水層與迭代引擎
 - [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md) — capstone:URDF 設計、物理參數、第一性原理 worklist(M0–M7)
 
-### 55 VLM & LLM
+### 55-vlm-llm VLM & LLM
 - [LLM 與 VLM 給機器人](docs/55-vlm-llm/llm-vlm-for-robots.md) — token 化、自注意力在解什麼、VLM 怎麼把影像變 token、VLA 與開放詞彙感知對機器人的意義
 - [在 NVIDIA GB10(DGX Spark)上架本地 LLM](docs/55-vlm-llm/local-llm-on-nvidia-gb10.md) — 為何 LLM 推論是記憶體頻寬 bound、統一記憶體的取捨、量化、GB10 規格查證與軟體堆疊
 
-### 60 法規與認證
+### 60-compliance 法規與認證
 - [法規與認證總覽](docs/60-compliance/README.md) — 合規地圖:一台機器人要過哪些關
 - [電池認證法規](docs/60-compliance/battery-certification.md) — UL 2271 vs UL 2580、為何選 LFP + 金屬外殼、配套標準
 - [半導體 fab AMR 規範](docs/60-compliance/semiconductor-amr-standards.md) — SEMI S2/S8/E84、AMHS、潔淨室/ESD、ISO 3691-4 對照
 - [PwC、SEMI E187 與 ISO 3691 認證角色](docs/60-compliance/pwc-semi-iso3691-certification.md) — 顧問/評估 vs 官方檢測發證的分界
 
-### 70 資安
+### 70-security 資安
 - [機器人通訊安全(總覽)](docs/70-security/README.md) — 五個通訊面的威脅與手段、加密+認證+授權三件套、誠實現況
 - [SROS2 / DDS-Security](docs/70-security/sros2-dds-security.md) — ROS2 節點間預設明文這個洞怎麼補:認證、加密、授權一次到位
 - [OTA 韌體簽章](docs/70-security/ota-firmware-signing.md) — 守「裝什麼」:上位機軟體與 MCU 韌體兩種 OTA,簽章驗證的核心
 - [Secure boot](docs/70-security/secure-boot.md) — 守「跑什麼」:即使 Flash 被用別的方式改過,開機時也擋下來
 
-### 90 數學基礎
+### 90-foundations 數學基礎
 - [高斯分布:第一性原理](docs/90-foundations/gaussian-from-first-principles.md) — 從最大熵/CLT 推出高斯,用四條性質統一理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS
 
 ### 參考論文
@@ -184,6 +190,6 @@
 - [GitHub Actions × gz sim playbook](docs/_meta/github-actions-gz-sim-playbook.md) — 沒有 GPU 也能驗證/視覺化 gz sim 模型
 - [PLAN.md](PLAN.md) — 分輪整理計畫與進度
 - [CONTEXT.md](CONTEXT.md) — 術語表(ubiquitous language)
-- [章節對照表](docs/section-map.md) — `§N` 編號對應到哪個檔
+- [舊版 28 章對照表](docs/section-map.md) — 早期單檔整理的 §N 現在各自搬到哪個檔
 
 歷史原始整理文件保留在 [`docs/_legacy/`](docs/_legacy/)(內容已拆分到上述主題檔)。

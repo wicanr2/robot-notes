@@ -38,7 +38,7 @@ $$ \Delta^{\star}=\arg\min_{\Delta}\;\sum_{i=1}^{N}\,d\!\big(\mathcal{M},\,T_\De
 
 <p align="center"><img src="../../../img/scan-matching-residual.svg" width="600" alt="scan matching = 找位姿讓 scan 點到牆的殘差平方和最小"></p>
 
-為什麼是「平方和」而不是「絕對值和」?因為量測誤差假設成高斯,最大化似然 ⟺ 最小化殘差平方和——這條線一路接到 [高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md);下一節的全圖優化也是同一個「加權最小二乘」。
+為什麼是「平方和」而不是「絕對值和」?因為量測誤差假設成高斯,最大化似然 ⟺ 最小化殘差平方和——這條線一路接到 [高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和);下一節的全圖優化也是同一個「加權最小二乘」。
 
 ### 21.3 迴圈閉合 (loop closure):SLAM 真正的難點
 
@@ -50,7 +50,7 @@ graph-based SLAM(`slam_toolbox` 的做法)的處理:
 
 <p align="center"><img src="../../../img/pose-graph.svg" width="720" alt="pose graph:節點 P1~P5 是歷史位姿,相鄰邊是 odometry/scan matching 約束;P5 與 P1 之間加一條 loop closure 邊(P5 的 scan 跟 P1 附近超像),全圖優化把矛盾按各邊信心攤回 P2~P4"></p>
 
-那個「**按比例**攤回」的比例不是隨便分的(第一性原理):每條邊都是一個帶不確定性的約束,全圖優化就是**最小化所有約束的加權誤差平方和**(非線性最小二乘);loop closure 約束和 odometry 約束打架時,**各自按「信心」加權**——信心由協方差/資訊矩陣表示,越確定的約束權重越大、被改動越少。所以這又是同一個「加權最小二乘 + 高斯不確定性」的故事,跟上一節的 scan matching、[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md) 的協方差是同一套。
+那個「**按比例**攤回」的比例不是隨便分的(第一性原理):每條邊都是一個帶不確定性的約束,全圖優化就是**最小化所有約束的加權誤差平方和**(非線性最小二乘);loop closure 約束和 odometry 約束打架時,**各自按「信心」加權**——信心由協方差/資訊矩陣表示,越確定的約束權重越大、被改動越少。所以這又是同一個「加權最小二乘 + 高斯不確定性」的故事,跟上一節的 scan matching、[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和) 的協方差是同一套。
 
 ### 21.4 實際建圖操作與品質要訣
 

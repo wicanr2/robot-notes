@@ -25,7 +25,7 @@
 | **半導體 fab 場域** | [SEMI S2/S8/E84…](semiconductor-amr-standards.md) | 客戶(fab)**強制要求** | 進晶圓廠的入場門檻 |
 | **區域市場准入** | CE/UKCA(歐英)、BSMI(台)、各國強制清單 | **強制** | 進該市場才需要 |
 
-> 表格裡三個會反覆出現的縮寫,先在這裡釘住:**PL(Performance Level)** 是 ISO 13849 用來量化「一個安全功能有多可靠」的等級,a 到 e 五級;**SIL(Safety Integrity Level)** 是 IEC 62061 / IEC 61508 體系的同類概念,1 到 4 級,兩套可互相對照但不是同一把尺。**SELV(Safety Extra-Low Voltage,安全特低電壓)** 指低到不會電死人的電壓等級,機器人本體走 24V/48V 就落在這裡。
+> 表格裡三個會反覆出現的縮寫,先在這裡釘住:**PL(Performance Level)** 是 ISO 13849 用來量化「一個安全功能有多可靠」的等級,a 到 e 五級;**SIL(Safety Integrity Level)** 是 IEC 62061 / IEC 61508 體系的同類概念,1 到 4 級,兩套可互相對照但不是同一把尺(注意這個縮寫在模擬領域另有 Software-in-the-Loop 的意思,兩者無關)。**SELV(Safety Extra-Low Voltage,安全特低電壓)** 指低到不會電死人的電壓等級,機器人本體走 24V/48V 就落在這裡。
 >
 > **ISO 13482 的正式範圍是「個人照護機器人」(personal care robots)**,分成移動僕從、身體輔助、載人三型——業界常用「服務機器人」通俗代稱,但它其實是服務機器人裡的一個子集,不涵蓋工業機器人與時速 20 km/h 以上的載具。
 

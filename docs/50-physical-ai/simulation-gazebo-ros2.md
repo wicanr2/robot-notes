@@ -180,6 +180,8 @@ tf 樹由三方各補一段,合起來才完整:
 
 ## 7. 把舊世界搬上新 Gazebo:以 AWS Small Warehouse 為例
 
+> **第一次讀可以整節跳過。** 這節是把一個 Gazebo Classic 時代的現成世界搬到新版的實錄,服務的是「網路上找到一個 world 但打不開」的情境。你還沒跑過 `gz sim` 的話,先讀完 §1–§6 再回來。
+
 網路上現成的模擬世界(餐廳、倉庫、辦公室)很多都是 **Gazebo Classic** 時代的,直接丟進 `gz sim` 不會動。這節用實際把 **AWS RoboMaker Small Warehouse**(Classic)遷到 **Harmonic** 的經驗,講「為什麼不能直接載、要改什麼、怎麼確認改對了」。完整可跑的成品在獨立 repo:[aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
 
 ### 為什麼 Classic 的 `.world` 不能直接在 gz sim 跑
@@ -253,8 +255,6 @@ tf 樹由三方各補一段,合起來才完整:
 
 > 這整套「用 GitHub Actions 驗證與看 gz sim 模型」的做法、job 結構、踩過的雷,整理成可重用的 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md)。
 
-來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)
-
 來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)、[gz 資源路徑](https://gazebosim.org/api/sim/8/resources.html)、[world 系統 plugin](https://gazebosim.org/docs/latest/sdf_worlds/)、[AWS Small Warehouse(Classic 原始)](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)。
 
 ---
@@ -278,5 +278,3 @@ tf 樹由三方各補一段,合起來才完整:
 - gz sim 資源路徑(GZ_SIM_RESOURCE_PATH / model://):https://gazebosim.org/api/sim/8/resources.html
 - AWS Small Warehouse(Classic 原始,MIT):https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
 - 本系列遷移成品 + 驗證 CI:https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic
-</content>
-</invoke>

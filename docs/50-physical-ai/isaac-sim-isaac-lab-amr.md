@@ -109,7 +109,14 @@ Isaac Sim 內附可直接跑 Nav2 的樣板:
 
 ## 4. 強化學習訓練迴圈(Isaac Lab)
 
-Isaac Lab 把 RL 任務建模成 **MDP(Markov Decision Process,馬可夫決策過程)**:環境提供當前 observation,agent 給出 action,環境回傳下一個 state、reward、done 旗標與 episode 資訊。
+> **先釘住五個 RL 詞**,不然這一節會全是黑話:
+> - **policy(策略)**——一個函式,吃「現在看到什麼」吐「現在該做什麼」。訓練出來的模型就是它。
+> - **observation(觀測)**——這一步餵給 policy 的東西(光達、關節角、目標方位…)。不等於環境的全部真實狀態。
+> - **action(動作)**——policy 能下的指令(輪速、關節力矩…)。
+> - **reward(回報)**——這一步做得好不好的分數。訓練就是在調 policy 讓累積分數最高。
+> - **episode(回合)**——一次從重置到結束(達標、翻車或超時)的完整過程。
+
+Isaac Lab 把 RL 任務建模成 **MDP(Markov Decision Process,馬可夫決策過程——「下一步只跟現在的狀態與動作有關,跟怎麼走到現在的無關」這個假設)**:環境提供當前 observation,agent 給出 action,環境回傳下一個 state、reward、done 旗標與 episode 資訊。
 
 ### 定義環境的兩種寫法
 
