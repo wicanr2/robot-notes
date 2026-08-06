@@ -8,11 +8,11 @@
 
 | 通訊面 | 威脅 | 成熟手段 | 詳細子篇 |
 |---|---|---|---|
-| **下位機↔上位機**(UART/CAN) | 封閉但匯流排無加密無認證 | CRC + 序號 + 心跳(完整性/防重放);要防竄改 → SecOC | [上下位機協議](../10-core/20-firmware/host-mcu-protocol.md) |
+| **下位機↔上位機**(UART/CAN) | 封閉但匯流排無加密無認證 | CRC + 序號 + 心跳(完整性/防重放);要防竄改 → SecOC(Secure Onboard Communication,AUTOSAR 車用體系裡替 CAN 訊框加上訊息認證碼與新鮮值的機制) | [上下位機協議](../10-core/20-firmware/host-mcu-protocol.md) |
 | **ROS2 節點間**(DDS) | ⚠ 預設明文,同網路可注入 `/cmd_vel` | DDS-Security / SROS2:認證 + 加密 + ACL | [SROS2 / DDS-Security](sros2-dds-security.md) |
-| **車↔車隊**(MQTT/VDA5050、REST) | 明文誰都能 pub/sub | mqtts + mTLS + ACL;HTTPS + token | [MQTT over TLS(EMQX)](../40-fleet/mqtt-tls-emqx.md) |
+| **車↔車隊**(MQTT/VDA5050、REST) | 明文誰都能 pub/sub | mqtts + mTLS(雙向 TLS:一般 TLS 只有伺服器出示憑證,mTLS 兩邊都要,所以伺服器也能確認來的是誰)+ ACL;HTTPS + token | [MQTT over TLS(EMQX)](../40-fleet/mqtt-tls-emqx.md) |
 | **對外/雲端/OTA** | 公網暴露、惡意韌體 | TLS + VPN;韌體簽章(+ secure boot) | [OTA 韌體簽章](ota-firmware-signing.md) |
-| **MCU 端** | 私鑰外洩、弱亂數 | mbedTLS + 硬體 RNG/CRYP + RDP | [STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md) |
+| **MCU 端** | 私鑰外洩、弱亂數 | mbedTLS + 硬體 RNG/CRYP + RDP(Readout Protection,STM32 的讀出保護——鎖住 Flash 不讓人用除錯埠把韌體讀走;**不是** Remote Desktop Protocol) | [STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md) |
 
 ## 三件套:加密 + 認證 + 授權(缺一不可)
 
@@ -25,7 +25,7 @@
 ## 橫切原則
 
 - **威脅模型決定強度**:封閉機體內部 / 共享內網 / 連公網,威脅天差地遠,投入也該不同。
-- **金鑰與憑證生命週期**:per-device 簽發、輪換、撤銷(CRL/OCSP)、過期監控——一台被偷要能單獨吊銷。
+- **金鑰與憑證生命週期**:per-device 簽發、輪換、撤銷(CRL / OCSP——前者是伺服器定期發布的「已作廢憑證清單」,後者是即時查詢單一憑證還有沒有效)、過期監控——一台被偷要能單獨吊銷。
 - **別把隔離當安全**:`ROS_DOMAIN_ID`、VLAN 是隔離,不等於認證加密。
 - **網路分段**:機器人網段別跟公網 / IT 網混;不必要的 port 不開。
 - **安全開機 + 韌體簽章**:防止被換上惡意韌體。

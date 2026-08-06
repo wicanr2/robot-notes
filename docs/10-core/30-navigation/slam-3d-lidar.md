@@ -77,6 +77,8 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 ## 4. 代表方法演進(每代只記「比上一代多解了什麼」)
 
+> **這節是名詞與方法的對照表,初讀可以跳過**,選型或讀論文遇到不認得的縮寫時再回來查。
+
 <p align="center"><img src="../../../img/slam-3d-evolution.svg" width="780" alt="3D LiDAR SLAM 演進時間軸:LOAM 2014 奠基 → LeGO-LOAM 2018 輕量地面車 → LIO-SAM 2020 緊耦合 factor graph → FAST-LIO 2021 iEKF → FAST-LIO2 2022 ikd-tree 直接點 → Faster-LIO 2022 iVox"></p>
 
 - **LOAM(2014)**:奠基。邊緣+平面特徵、point-to-line/plane 配準、odometry+mapping 雙執行緒。低漂移、嵌入式可跑,長期居 KITTI 里程計榜首,後續幾乎都從它分支。
@@ -138,6 +140,8 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 ---
 
 ## 8. ROS2 上實際能跑的 3D SLAM 套件(2025–2026)
+
+> **這節是套件與工具的盤點,初讀可以跳過**,真的要選型時再回來。
 
 前面講的是**方法家族**(ICP / NDT / LOAM / LIO);實務上你要的是「ROS2 裝得起來、跑得動」的套件。先點一個最常踩的坑:**很多知名 LIO 的官方 repo 主分支其實是 ROS1,ROS2 放在獨立 branch**(FAST-LIO 的 `ROS2`、DLIO 的 `feature/ros2`、LIO-SAM 的 `ros2`)——不是 `apt install` 一行就有的正式 release,得自己 clone 那條 branch 來 build。反而真正「原生 first-class、ROS Index / apt 直接裝」的是另一批:KISS-ICP、MOLA、RTAB-Map、GLIM。
 

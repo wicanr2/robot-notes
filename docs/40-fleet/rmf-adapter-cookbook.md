@@ -6,6 +6,20 @@
 
 ---
 
+## 先讀這段:pseudo 跟真實 API 差在哪
+
+下面的骨架為了敘事做了三處簡化,實作前要知道:
+
+| pseudo 寫的 | 真實 API |
+|---|---|
+| 一次給整條 `path` | `EasyFullControl` 的 `NavigationRequest` 目的地是**單一 waypoint**,RMF 逐段下 |
+| 狀態分幾個欄位回報 | 單一 `EasyRobotUpdateHandle.update(RobotState{map, position, battery_soc})` |
+| `battery_soc` 直接放電量 | 它是 **0–1 的比例**;VDA5050 的 `batteryCharge` 是 0–100,要除以 100 |
+
+還有一處**不是簡化而是重點**:`nodeId` **不能現生**。它必須用車廠透過 LIF 交付、車自己已經認得的那一套(見[多車隊怎麼共用一個場域 §3](rmf-maps-and-traffic.md#3-vda5050-車輛怎麼拿到圖資最容易誤解的一段))。下面骨架裡寫成 `node_id_of(wp)`,就是在提醒這裡要查表而不是編號。
+
+---
+
 ## 1. 寫一個 VDA5050 fleet adapter(最小骨架)
 
 **一句話定位**:adapter 是「RMF 世界 ↔ VDA5050 世界」的翻譯員。RMF 那側用 fleet adapter 程式 API(`EasyFullControl`),VDA5050 那側用 MQTT 收發 `order` / `state`。
@@ -33,7 +47,8 @@ def on_navigate(robot, path, on_done):     # path = [(x, y, theta, map_id), ...]
         "orderId":  new_uuid(),
         "orderUpdateId": 0,
         "nodes": [
-            {"nodeId": f"n{i}", "sequenceId": 2*i, "released": True,
+            {"nodeId": node_id_of(wp),   # 用車已經認得的 LIF nodeId,不要現生
+             "sequenceId": 2*i, "released": True,
              "nodePosition": {"x": p.x, "y": p.y, "theta": p.theta, "mapId": p.map_id}}
             for i, p in enumerate(path)
         ],
@@ -62,7 +77,7 @@ mqtt.subscribe("vda5050/v2/+/+/state", on_state)       # + 萬用字元收全車
 rmf.run()
 ```
 
-**取放怎麼接**:叉起/放下這類動作,對映成 VDA5050 的 `action`(掛在 node 上)或 `instantActions`;在 RMF 那側對應 dispenser / ingestor 事件。最小導航骨架可先不做,要展示完整搬運再加(見 [VDA5050 篇](vda5050.md) 的 order 樹與 action)。
+**取放怎麼接**:叉起/放下這類動作,對映成 VDA5050 的 `action`(掛在 node 上)或 `instantActions`;在 RMF 那側對應 **dispenser / ingestor** 事件(RMF 把「取貨」與「放貨」抽象成兩種工作站:dispenser 是**出貨方**,把東西交給機器人;ingestor 是**收貨方**,從機器人手上收走。分成兩個是因為兩邊可能是完全不同的設備,而且各自有自己的忙碌/就緒狀態要等)。最小導航骨架可先不做,要展示完整搬運再加(見 [VDA5050 篇](vda5050.md) 的 order 樹與 action)。
 
 ## 2. 用 REST API 叫 RMF 派一個任務
 
@@ -99,10 +114,9 @@ print(resp.json())   # 回傳 task_id / state,可再用 GET /tasks/{id} 追蹤
 
 `request` 裡只有 `category` 與 `description` 必填,`description` 的內容要符合該車隊那個 category 的 schema(delivery / patrol / clean 各不同);選填 `fleet_name`(指定車隊)、`priority`、`labels`、`unix_millis_earliest_start_time` 等(對照 [Fleet 深入 §1](rmf-maps-and-traffic.md))。正式部署的 api-server 通常開了驗證,裸 `curl` 要帶 auth token。
 
-## 注意
+## 其他注意
 
 - 以上是 **pseudo-code 等級**:確切簽名、REST 端點路徑與 task schema,**一定要對照當前版本的 `rmf_ros2`、`rmf_api_msgs`、`rmf-web` 原始碼**(版本間會變)。
-- **真實 API 比 pseudo 更細**:`EasyFullControl` 是用 `add_robot` 註冊 `NavigationRequest`(目的地是**單一 waypoint**,RMF 逐段下,不是一次給整條 path)、`StopRequest`、`ActionExecutor`;狀態回報是單一 `EasyRobotUpdateHandle.update(RobotState{map, position, battery_soc})`,其中 `battery_soc` 是 **0–1 比例**(VDA5050 的 `batteryCharge` 是 0–100,要 /100)。pseudo 為敘事把它合併簡化了。
 - **MQTT topic 的 `v2`** 跟著 VDA5050 協定主版本走(spec main 已示範 `v3`),用哪版對齊你車隊的協定版本。
 - VDA5050 的 `headerId` 遞增、`orderUpdateId` 規則、`released` vs horizon 的逐段釋放,按規範處理(見 [VDA5050 篇](vda5050.md))。
 

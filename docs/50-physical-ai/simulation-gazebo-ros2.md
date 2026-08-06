@@ -220,44 +220,13 @@ tf 樹由三方各補一段,合起來才完整:
 
 > 一個工作習慣:**先在本機把驗證腳本跑通,再寫成 CI**。CI 腳本自己也有盲點(例如一開始用 `gz sdf -p` 想驗 world,卻因為它解析不了 `model://` 而誤判),先在本機踩過,CI 才不會綠得不明不白或紅得冤枉。
 
-### 想在 CI 裡 headless「出圖 / 錄影」:技術與雷
+### 想在 CI 裡驗證這些改動
 
-把模擬畫面(相機影像、影片)在無 GPU 的 GitHub Actions 上 render 出來,是另一個層級的問題。**會動的技術組合**:
+搬完之後總要有人確認沒搬壞,而免費 CI runner 沒有 GPU——這件事的完整處方(靜態驗證、headless 載入、純物理跑軌跡、真的要出圖時的 EGL/llvmpipe 設定)整理在另一篇:
 
-1. **`gz sim -s -r --headless-rendering`**:EGL surfaceless,不需 X server / xvfb(EGL 只在 ogre2 可用)。
-2. **裝 Mesa 軟體渲染**:`libgl1-mesa-dri libegl1 libegl-mesa0 mesa-utils`。
-3. **強制最快的軟體光柵器**:`export LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe`。**關鍵**:EGL surfaceless 預設會掉到 `swrast`(最舊最慢的軟體光柵器),`GALLIUM_DRIVER=llvmpipe` 才切到多執行緒、吃滿 CPU 核的 llvmpipe([Mesa 文件](https://docs.mesa3d.org/drivers/llvmpipe.html))。
-4. **相機要存檔**:`<sensor type="camera">` 內加 `<save enabled="true"><path>/tmp/frames</path></save>`,world 掛 `gz-sim-sensors-system`(沒掛這個 system,相機不會 render)。
-5. **給暖機時間**:render 在獨立 thread 跑,首張影格要等 ogre2/llvmpipe 暖機;用 real-time 跑、輪詢磁碟出圖,別用 `--iterations`(它跑完會在 render thread 出圖前就關掉 server)。影格存出後用 `ffmpeg` 合成 mp4。
+**→ [GitHub Actions 跑 gz sim 的 playbook](../_meta/github-actions-gz-sim-playbook.md)**
 
-**但要誠實面對的雷**:**免費 GitHub runner 沒有 GPU,純軟體渲染又慢又不穩定**——首張影格動輒十幾秒,而且**常常整輪跑完都生不出影格(間歇性失敗)**,加重試也未必穩。所以分界線很清楚:
-
-| 任務 | 需要 GPU? | 在免費 runner 上 |
-|---|---|---|
-| SDF 結構驗證(`gz sdf -k`)、XML 良構、`model://` 路徑 | 否 | **完全可靠** |
-| world headless 載入(`gz sim -s`,驗 include 解析) | 否 | **可靠** |
-| 機器人「會不會動」(下指令、比對位姿) | 否(純物理) | **可靠** |
-| **相機出圖 / 錄影** | 實質上要 | **不可靠**(軟體渲染慢且間歇) |
-
-要穩定產圖/影片,實務上的可靠路線是:① 用**帶正確 Mesa/GL 的 Docker image**、② **GPU runner**(self-hosted 或付費大型 runner)、③ 或**本機一次性截圖**(開 gz 截一張就關,是單發、非持續負載)。**結論:把「需不需要 render」當成 CI 設計的分水嶺**——不需 render 的驗證盡量自動化上 CI;需要 render 的視覺產出,別硬塞免費 runner。
-
-### 「看」機器人走場景,其實不必 render
-
-要讓人「看到」叉車在倉庫裡走,**不一定要 render 3D 畫面**:把叉車的**位姿軌跡記下來、用 matplotlib 畫成俯視路徑圖**(純 CPU,無 GPU 也 100% 可靠)。下圖就是在 CI 上驅動舵輪叉車、記錄位姿、疊到 AWS 倉庫佈局畫出的行走軌跡:
-
-<p align="center"><img src="../../img/forklift-warehouse-path.png" width="520" alt="叉車在 AWS Small Warehouse 走道開出弧線的俯視軌跡(CI 實跑位姿,純物理無 render)"></p>
-
-一個關鍵洞見讓這變可靠:**dartsim(Harmonic 預設物理)不支援 mesh 碰撞**,而倉庫地板/貨架的 collision 都是 mesh → 對物理零影響。所以叉車「在倉庫開」與「在一塊平面地板上開」**物理完全等價**;重倉庫在免費 runner 上 sim 只跑 ~4% 真實時間(叉車幾乎不動),於是改在輕量世界開出路徑、再疊到倉庫佈局——物理等價、又快又穩。
-
-至於真的 render 出來的 3D 畫面,軟體渲染雖不穩,但成功過一次(下圖是 CI headless 渲染的方塊叉車,構圖陽春但證明管線可行):
-
-<p align="center"><img src="../../img/forklift-ci-render.png" width="300" alt="CI headless 渲染的舵輪叉車俯視圖(EGL 軟體渲染)"></p>
-
-> 這整套「用 GitHub Actions 驗證與看 gz sim 模型」的做法、job 結構、踩過的雷,整理成可重用的 [GitHub Actions × gz sim playbook](../_meta/github-actions-gz-sim-playbook.md)。
-
-來源:[Classic→gz 遷移(SDF/plugin)](https://gazebosim.org/api/sim/8/migrationsdf.html)、[gz 資源路徑](https://gazebosim.org/api/sim/8/resources.html)、[world 系統 plugin](https://gazebosim.org/docs/latest/sdf_worlds/)、[AWS Small Warehouse(Classic 原始)](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)。
-
----
+一句話帶走:**先問「這一關需不需要 render」**。不需要 render 的檢查又快又穩(SDF 靜態解析、world 載入、逐步位姿記錄再用 matplotlib 畫成軌跡圖),需要 render 的那些在免費 runner 上會掉到軟體光柵器,慢到只跑得動 4% 真實時間。
 
 ## 參考來源(實際查證)
 

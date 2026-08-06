@@ -49,7 +49,7 @@ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker
 
 ## 3. 兩個關鍵簽章檔
 
-設定產出兩種 XML,**都必須由 keystore 的 CA 簽章**(簽完是 `.p7s`):
+設定產出兩種 XML,**都必須由 keystore 的 CA 簽章**(簽完是 `.p7s`(PKCS#7 簽章格式:把原始內容與簽章包在一起的標準容器)):
 
 - **`governance.p7s`(domain 級)**:整個 domain 的策略——要不要加密、要不要認證、未授權的 topic 如何處理。
 - **`permissions.p7s`(節點級)**:這個身分能 pub / sub / 哪些 topic。**最小權限**就靠它(例如一台 AMR 的節點只能發自己的 `/odom`、收自己的 `/cmd_vel`)。

@@ -214,6 +214,9 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 ## 9. 來源清單與實測狀態(2026-08-05)
 
+> **這一節是查證紀錄,不是要讀的內容。** 裡面是每個網址的實測狀態碼、每個 repo 的星數與最後 push 時間——留著是為了讓「哪些還活著」這件事可以被複驗,以及日後重掃時有基準。**初讀整節跳過。**
+
+
 ### 9.1 網址
 
 | 來源 | URL | HTTP |

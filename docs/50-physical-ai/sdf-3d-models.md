@@ -111,6 +111,9 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 
 ## 9. 實戰:一台最簡單的搬運車 AMR(差速 + LiDAR)
 
+> ⚠ **下面的範例用的是 Gazebo Classic 的 plugin 語法**(`libgazebo_ros_*.so`)。[上一篇](simulation-gazebo-ros2.md)講過 Classic 已 EOL、新專案應該用 `gz sim`——**這裡保留 Classic 寫法是因為網路上找得到的現成範例多半長這樣**,看得懂它才能判斷一份教學是不是過時的。新版對應的寫法見該篇 §2。
+
+
 我們不用現成的 TurtleBot3,自己搭一台**差速搬運車**(呼應送餐 / 倉儲 AMR 的底盤)。一台能在 Gazebo 裡跑 SLAM 的搬運車,SDF 至少要這些零件:
 
 | 零件 | 用 | 說明 |

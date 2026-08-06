@@ -40,6 +40,8 @@ $$ \Delta^{\star}=\arg\min_{\Delta}\;\sum_{i=1}^{N}\,d\!\big(\mathcal{M},\,T_\De
 
 為什麼是「平方和」而不是「絕對值和」?因為量測誤差假設成高斯,最大化似然 ⟺ 最小化殘差平方和——這條線一路接到 [高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和);下一節的全圖優化也是同一個「加權最小二乘」。
 
+> **SLAM 的輸出落在哪個座標系?** 就是[座標轉換那篇](kinematics-and-coordinate-transforms.md#3-rep-105frame-鏈以及為什麼分-map-與-odom-兩層)講的 `map`。地圖本身以 `map` 為原點畫;而 SLAM 每次校正位姿,實際上是在**更新 `map → odom` 這一段變換**——`odom → base_link` 那段是輪子積出來的、連續但會漂,SLAM 不動它,只調前面那一段把累積的漂移吸收掉。這就是為什麼 `map` 會跳、`odom` 不會跳:**跳的是那個修正量,不是車。**
+
 ### 21.3 迴圈閉合 (loop closure):SLAM 真正的難點
 
 scan matching 只能修小誤差,**長走廊繞一大圈回來,累積誤差可能已經半公尺**——這時地圖會「裂開」:

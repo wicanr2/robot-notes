@@ -54,6 +54,10 @@
 
 這是無 GPU 也能「看到機器人在倉庫走」的可靠方式。
 
+<p align="center"><img src="../../img/forklift-warehouse-path.png" width="520" alt="CI 實跑的叉車位姿序列畫成俯視軌跡圖,倉庫佈局是事後從 world SDF 抽出座標疊上去的,純 CPU 無 render"></p>
+
+> ⚠ **上圖的軌跡是真的、佈局是疊的。** 物理其實跑在一塊空平地上,倉庫的貨架位置是事後從 world SDF 的 `<model><pose>` 抽出來畫上去的——理由見下面那段「物理等價技巧」。
+
 > **物理等價技巧**:重場景(如貼了一堆 mesh 的倉庫)在免費 runner 上 sim 跑得很慢(見 §5),機器人在 wall-time 內幾乎走不動。但因為 **dartsim 忽略 mesh 碰撞**(§5),機器人「在倉庫開」與「在一塊平面地板上開」**物理完全等價**。所以可以**在輕量世界(只有地板+機器人)把路徑開出來**(sim 快、跑得遠),再把路徑**疊到重場景的佈局圖**上。
 
 ---
@@ -77,6 +81,10 @@ gz sim -s -r --headless-rendering <world>   # EGL surfaceless,免 X / xvfb(僅 o
 - 相機 `<sensor type="camera">` 加 `<save enabled="true"><path>…</path></save>`,world 掛 `gz-sim-sensors-system`(沒掛就不 render)。
 - 給暖機時間:render 在獨立 thread,首張影格要等 ogre2/llvmpipe 暖機;用 real-time 跑、輪詢磁碟出圖,**別用 `--iterations`**(它跑完會在 render thread 出圖前就關 server)。
 - **誠實的雷**:即使 recipe 對,**免費 runner 純軟體渲染又慢又間歇**——首張影格十幾秒、常整輪生不出圖。可成功一兩次,但不可靠。**影片更不切實際**(每張 ~15s)。要穩定 → GPU runner / 帶 GL 的 Docker / 本機一次性截圖。
+
+<p align="center"><img src="../../img/forklift-ci-render.png" width="420" alt="免費 runner 上純軟體渲染勉強生出的一張畫面,解析度與品質都很勉強,而且不是每輪都生得出來"></p>
+
+> 這張是**真的在免費 runner 上生出來的**——但同一份設定跑十輪大概只成功一兩輪。放在這裡是為了說明「做得到」與「可以依賴」是兩件事。
 
 ## 7. 工程習慣與雷總表
 
