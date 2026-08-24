@@ -1,0 +1,32 @@
+title: robot-notes — 機器人知識筆記
+description: 從硬體到調度的機器人筆記:輪式 AMR、移動操作、四足與人形
+lang: zh-Hant
+url: https://wicanr2.github.io
+baseurl: /robot-notes
+repository: wicanr2/robot-notes
+
+# GitHub Pages 白名單 plugin:讓純 markdown repo 直接變站
+plugins:
+  - jekyll-optional-front-matter   # .md 不用 front matter 也產生頁面
+  - jekyll-readme-index            # README.md → index.html
+  - jekyll-relative-links          # [x](y.md) → y.html
+  - jekyll-default-layout          # 自動套 default layout
+  - jekyll-titles-from-headings    # 第一個 # 標題當 <title>
+
+relative_links:
+  enabled: true
+  collections: false
+
+titles_from_headings:
+  strip_title: false
+
+# docs/ 底下的底線目錄預設會被 Jekyll 吃掉,明確放行
+include:
+  - docs/_legacy
+  - docs/_meta
+  - docs/_refs
+
+exclude:
+  - talk_record/
+  - tmp/
+  - CLAUDE.md

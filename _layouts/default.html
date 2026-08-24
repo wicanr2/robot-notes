@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.title and page.url != "/" %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+<meta name="description" content="{{ site.description }}">
+<style>
+:root{
+  --bg:#fcfcfb;            /* 紙面 */
+  --ink:#2a2a28;           /* 正文 */
+  --ink-2:#5c5c58;         /* 次要 */
+  --ink-3:#8a8a84;         /* 輔助 */
+  --rule:#e4e4df;          /* 細線 */
+  --rule-2:#c9c9c2;        /* 較明顯的線 */
+  --key:#1e6b52;           /* 關鍵路徑色(墨綠):連結、當前位置 */
+  --code-bg:#f4f4f1;
+  --code-border:#e0e0da;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#191a19;
+    --ink:#d9d9d4;
+    --ink-2:#a6a6a0;
+    --ink-3:#7d7d77;
+    --rule:#33342f;
+    --rule-2:#4a4b45;
+    --key:#5fb894;
+    --code-bg:#222320;
+    --code-border:#383934;
+  }
+  main img{background:#fff;padding:6px;border-radius:2px}
+}
+html{font-size:17px}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  line-height:1.95;letter-spacing:.01em;
+  -webkit-text-size-adjust:100%;
+}
+header.site{
+  border-bottom:1px solid var(--rule);
+  padding:.85rem 1.2rem;
+}
+header.site .inner{max-width:50rem;margin:0 auto;display:flex;gap:1.4rem;align-items:baseline;flex-wrap:wrap}
+header.site a{color:var(--ink);text-decoration:none;font-weight:600}
+header.site a.repo{color:var(--ink-3);font-weight:400;font-size:.85rem;margin-left:auto}
+header.site a:hover{color:var(--key)}
+main{max-width:50rem;margin:0 auto;padding:1.6rem 1.2rem 4rem}
+footer.site{border-top:1px solid var(--rule);margin-top:2rem}
+footer.site .inner{max-width:50rem;margin:0 auto;padding:1rem 1.2rem 2.2rem;color:var(--ink-3);font-size:.82rem}
+footer.site a{color:var(--ink-3)}
+
+a{color:var(--key);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+
+h1,h2,h3,h4{line-height:1.5;color:var(--ink);font-weight:660}
+h1{font-size:1.65rem;margin:1rem 0 1.2rem;padding-bottom:.55rem;border-bottom:2px solid var(--rule-2)}
+h2{font-size:1.32rem;margin:3.2rem 0 1rem;padding-top:1.15rem;border-top:1px solid var(--rule)}
+h3{font-size:1.12rem;margin:2.4rem 0 .8rem}
+h4{font-size:1rem;margin:2rem 0 .7rem}
+
+p{margin:2em 0}
+li{margin:.55rem 0}
+ul,ol{padding-left:1.5em;margin:1.6em 0}
+li p{margin:.6em 0}
+
+strong{font-weight:660}
+hr{border:none;border-top:1px solid var(--rule);margin:3rem 0}
+
+blockquote{
+  margin:1.8em 0;padding:.1em 1.1em;
+  border-left:2px solid var(--rule-2);
+  color:var(--ink-2);
+}
+blockquote p{margin:1em 0}
+
+img{max-width:100%;height:auto}
+
+table{
+  display:block;max-width:100%;overflow-x:auto;
+  border-collapse:collapse;margin:1.8em 0;
+  font-size:.92rem;line-height:1.8;
+}
+th{
+  font-size:.8rem;letter-spacing:.06em;color:var(--ink-2);
+  font-weight:600;text-align:left;
+  border-bottom:1px solid var(--rule-2);
+  padding:.5rem .9rem .5rem 0;
+}
+td{border-bottom:1px solid var(--rule);padding:.7rem .9rem .7rem 0;vertical-align:top}
+tr:last-child td{border-bottom:1px solid var(--rule-2)}
+
+code,pre,kbd{
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  font-variant-numeric:tabular-nums;
+}
+code{font-size:.86em;background:var(--code-bg);border:1px solid var(--code-border);border-radius:2px;padding:.08em .3em;margin:0 .12em}
+pre{line-height:1.7}
+pre code{background:none;border:none;padding:0;margin:0}
+div.highlighter-rouge,figure.highlight{
+  background:var(--code-bg);border:1px solid var(--code-border);border-radius:2px;
+  padding:.8rem 1rem;margin:1.8em 0;overflow-x:auto;
+}
+div.highlighter-rouge pre,figure.highlight pre{margin:0}
+
+mjx-container[jax="CHTML"][display="true"]{margin:1.4em 0;overflow-x:auto;overflow-y:hidden}
+</style>
+<script>
+window.MathJax = {
+  tex: {inlineMath: [["\\(","\\)"]], displayMath: [["\\[","\\]"]]},
+  startup: {typeset: false}
+};
+document.addEventListener("DOMContentLoaded", function () {
+  /* kramdown 把 $$…$$ 輸出成 <script type="math/tex">(MathJax v2 慣例),轉給 v3 */
+  document.querySelectorAll("script[type^='math/tex']").forEach(function (el) {
+    var display = el.getAttribute("type").indexOf("mode=display") !== -1;
+    var node = document.createElement(display ? "div" : "span");
+    node.textContent = (display ? "\\[" : "\\(") + el.textContent + (display ? "\\]" : "\\)");
+    el.parentNode.replaceChild(node, el);
+  });
+  (function typesetWhenReady(){
+    if (window.MathJax && MathJax.typesetPromise) { MathJax.typesetPromise(); }
+    else { setTimeout(typesetWhenReady, 80); }
+  })();
+});
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <a class="repo" href="https://github.com/{{ site.repository }}">GitHub ↗</a>
+  </div>
+</header>
+<main>
+{{ content }}
+</main>
+<footer class="site">
+  <div class="inner"><a href="https://github.com/{{ site.repository }}">wicanr2/robot-notes</a> — 內容以 repo 內 markdown 為準,本站為閱讀版。</div>
+</footer>
+</body>
+</html>
