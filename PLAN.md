@@ -231,6 +231,8 @@ SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法�
 
 | **R18.1** | 套用 R18 專家 + 學生審查 | 專家抓到五處「詮釋句比數學多說半步」:**「C 不做功」是過強斷言**(θ̇ᵀCθ̇ 一般非零,為零的是它與 ½Ṁθ̇ 的組合→改成「能量帳上淨貢獻為零」,CONTEXT 同步改);**P3 的線性參數化指錯對象**(對 (m, c, ℐ_c) 不線性,線性的是 (m, m·c, 對連桿原點的 ℐ) 這組;補 base parameters 但書);質心「唯一選擇」加「對任意運動」限定(固定點特例也行);「非完整=不限制能到哪」限縮到差速車單約束例(一般要可控性論證);QDD「沒有平方放大」改成「只剩幾十倍」。Coriolis 圖右半 `2m·θ̇ᵢθ̇ⱼ` 量綱不是力→改 `2m·ṙ·θ̇ᵢ`。學生端 18 條:∂L/∂θ̇ 把 θ 與 θ̇ 當獨立引數 + τ 是廣義力放右邊(兩個最大裂縫)、P2 補「Mθ̈ 已用運動方程代換」與反對稱定義、帶約束完整方程 + λ 命名 + Aᵀλ 形狀從虛功原理接回、ω 是 3 維向量、q vs θ 符號交代、構型定義、Coriolis 圖與 2R 的對應註記、陀螺項 ω×ℐω 一句解釋、π 與圓周率消歧、hat 記號、正定⇒可逆白話、極點改白話、科氏/達朗貝爾/克里斯多福/自適應/李亞普諾夫/全身控制/摩擦錐/前饋當場翻譯、§8→§9 接橋;剛體動能圖改成「同一根棒兩種擺法」與正文對齊、單擺結論式字級加大 | ✅ 完成 |
 
+| **R19** | GitHub Pages 上線 | https://wicanr2.github.io/robot-notes/ 。`_config.yml` 用 GH Pages 白名單 plugin(optional-front-matter / readme-index / relative-links / default-layout / titles-from-headings)讓純 markdown repo 直接成站,`docs/_legacy`、`_meta`、`_refs` 底線目錄明確 `include` 否則被 Jekyll 吃掉;`_layouts/default.html` 單檔版面(層級靠細線與留白、關鍵色只有墨綠一個、表格細線無彩色表頭、中文行高 1.95、深色模式同一組語意變數換值)。數學式:kramdown 在 GH Pages 實際輸出裸 `\[...\]`,MathJax 3 的 displayMath delimiter 直接吃(另留 math/tex script 轉換 shim 當備援)。踩到一個:CSS `img{height:auto}` 會蓋掉 HTML 的 `height` 屬性,README 兩張 `height="180"` 產品照被撐成全寬——改成只對帶 `width` 屬性的圖做 `height:auto`。首頁與動力學頁(含 §2–§5 公式段)已實際 chrome 渲染核對 | ✅ 完成 |
+
 ## 後續形態輪次(待做)
 
 | 輪次 | 主題 | 內容 |
