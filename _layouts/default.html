@@ -75,7 +75,8 @@ blockquote{
 }
 blockquote p{margin:1em 0}
 
-img{max-width:100%;height:auto}
+img{max-width:100%}
+img[width]{height:auto}   /* 帶 width 屬性的圖等比縮;帶 height 屬性的(README 產品照)保留指定高度 */
 
 table{
   display:block;max-width:100%;overflow-x:auto;
