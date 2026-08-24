@@ -23,7 +23,7 @@
   <line x1="370" y1="46" x2="370" y2="252" stroke="#E5E7EB"/>
 
   <!-- RIGHT: coriolis -->
-  <text x="555" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Coriolis 項:θ̇ᵢθ̇ⱼ(交叉)</text>
+  <text x="555" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Coriolis 項:兩個速度相乘(交叉)</text>
   <circle cx="475" cy="165" r="6" fill="#374151"/>
   <line x1="475" y1="165" x2="605" y2="115" stroke="#6B7280" stroke-width="3"/>
   <circle cx="565" cy="130" r="10" fill="#6B7280"/>
@@ -31,10 +31,10 @@
   <text x="467" y="122" font-size="12.5" font-weight="700" fill="#1E40AF">θ̇ᵢ</text>
   <!-- radial motion along link -->
   <line x1="576" y1="126" x2="616" y2="111" stroke="#059669" stroke-width="2.4" marker-end="url(#cc-g)"/>
-  <text x="622" y="106" font-size="12" font-weight="700" fill="#065F46">θ̇ⱼ(沿桿外移)</text>
+  <text x="620" y="104" font-size="12.5" font-weight="700" fill="#065F46">ṙ(沿桿外移的速度)</text>
   <!-- coriolis force perpendicular -->
   <line x1="562" y1="120" x2="546" y2="80" stroke="#EA580C" stroke-width="2.6" marker-end="url(#cc-o)"/>
-  <text x="470" y="80" font-size="12" font-weight="700" fill="#9A3412">2m·θ̇ᵢθ̇ⱼ</text>
+  <text x="466" y="78" font-size="13" font-weight="700" fill="#9A3412">2m·ṙ·θ̇ᵢ</text>
   <text x="555" y="212" text-anchor="middle" font-size="11.5" fill="#6B7280">兩個運動同時發生才存在:</text>
   <text x="555" y="230" text-anchor="middle" font-size="11.5" fill="#6B7280">邊轉邊外移,側向被拖一把</text>
 
