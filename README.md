@@ -70,6 +70,7 @@
 | 想做 AI 模擬(進階) | 先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
 | 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
 | **想比較不同形態** | [形態分支總覽](docs/20-forms/) — 一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪 |
+| 想知道力矩怎麼算(動力學) | [機器人動力學](docs/90-foundations/robot-dynamics.md) — 運動學什麼時候不夠用、M/C/N 三項從哪長出來、模型怎麼進控制器 |
 | 要在搬運車上裝手臂 | [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) |
 | 想搞懂四足為什麼難 | [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md) |
 
@@ -176,8 +177,9 @@
 - [OTA 韌體簽章](docs/70-security/ota-firmware-signing.md) — 守「裝什麼」:上位機軟體與 MCU 韌體兩種 OTA,簽章驗證的核心
 - [Secure boot](docs/70-security/secure-boot.md) — 守「跑什麼」:即使 Flash 被用別的方式改過,開機時也擋下來
 
-### 90-foundations 數學基礎
+### 90-foundations 數學與力學基礎
 - [高斯分布:第一性原理](docs/90-foundations/gaussian-from-first-principles.md) — 從最大熵/CLT 推出高斯,用四條性質統一理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS
+- [機器人動力學](docs/90-foundations/robot-dynamics.md) — 從 F=ma 推到 M(θ)θ̈+C(θ,θ̇)θ̇+N(θ)=τ:Newton vs Lagrange、慣性張量、三條結構性質、Newton-Euler 遞迴、非完整約束,以及 computed torque 與 PD+重力補償為什麼穩
 
 ### 參考論文
 - [Nav2 導航全棧 survey 導讀](docs/_refs/nav2-survey.md) — Nav2 維護者親寫的 ROS2 導航全棧 survey,附章節對照;CC BY 4.0 全文 PDF 收錄

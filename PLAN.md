@@ -96,8 +96,9 @@ robot-notes/
     │   ├── ota-firmware-signing.md
     │   ├── secure-boot.md
     │   └── sros2-dds-security.md
-    ├── 90-foundations/    # 數學基礎
-    │   └── gaussian-from-first-principles.md
+    ├── 90-foundations/    # 數學與力學基礎
+    │   ├── gaussian-from-first-principles.md
+    │   └── robot-dynamics.md
     ├── _meta/             # 工作方法與教訓
     │   ├── github-actions-gz-sim-playbook.md
     │   └── lessons-learned.md
@@ -225,6 +226,8 @@ SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法�
 > 三件事全是審查抓的,沒有一件是自己複查抓的。順序也有訊息:**學生問「憑什麼」先到**(「照 walk 那張圖的排法算,門檻是 0.25」),專家答「對照哪一篇」在後,而第三件要等到**下一輪覆審**才浮出來。角色分開派 + 修正後再審一次,兩件都有效。
 >
 > 另記一個自己的推導失誤:roll 的旋轉方向我親手推過一次還推錯——逆時針是把 9 點鐘帶到 6 點鐘(壓下去),不是抬起來。**推導過不等於推對了**,幾何方向這種一步就能翻的東西要用代數驗,不要靠腦內轉圖。
+
+| **R18** | 機器人動力學 | `90-foundations/robot-dynamics.md`:整合 [HITSZ-OpenAuto AUTO3005](https://github.com/HITSZ-OpenAuto/AUTO3005)(港科大李澤湘 2012 講義 + MLS 教材)的動力學章。從「速度環為什麼把動力學藏得住」推起:Newton vs Lagrange 兩條路(單擺對照,約束力不做虛功)、廣義座標、慣性張量與剛體動能、M(θ)θ̈+C θ̇+N=τ 三項各自的來源(C = 慣量隨構型變的倒影,Christoffel)、平面二連桿的 m₁₁=α+2βcosθ₂、三條結構性質(M 正定 / Ṁ−2C 反對稱=能量記帳 / 對慣性參數線性)、Newton-Euler O(n) 遞迴(重力=基座向上加速的技巧)、完整 vs 非完整約束(差速側滑約束積不回去→接回 Hybrid-A* 與曲率約束)、computed torque 與 PD+重力補償的 Lyapunov 能量論證、「什麼時候可以不管動力學」的兜底機制表 + 7 張 SVG(全部 chrome 渲染核對過)。體系註記:原課程用旋量/PoE,本篇用廣義座標寫法銜接全書 | ✅ 完成 |
 
 ## 後續形態輪次(待做)
 

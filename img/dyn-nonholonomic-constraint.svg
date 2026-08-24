@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 310" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="nh-b" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563EB"/></marker>
+    <marker id="nh-r" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/></marker>
+    <marker id="nh-g" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#059669"/></marker>
+  </defs>
+  <rect width="760" height="310" fill="#ffffff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">非完整約束:限制的是速度,不是位置</text>
+
+  <!-- LEFT: diff drive top view -->
+  <text x="180" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">瞬時速度:只有 2 維</text>
+  <!-- robot body -->
+  <rect x="130" y="120" width="100" height="70" rx="6" fill="#F3F4F6" stroke="#374151" stroke-width="1.8"/>
+  <!-- wheels -->
+  <rect x="140" y="110" width="34" height="9" rx="2" fill="#374151"/>
+  <rect x="140" y="191" width="34" height="9" rx="2" fill="#374151"/>
+  <circle cx="180" cy="155" r="4" fill="#1F2937"/>
+  <!-- forward/backward -->
+  <line x1="180" y1="155" x2="278" y2="155" stroke="#2563EB" stroke-width="2.6" marker-end="url(#nh-b)"/>
+  <line x1="180" y1="155" x2="112" y2="155" stroke="#2563EB" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#nh-b)"/>
+  <text x="252" y="143" font-size="12" font-weight="700" fill="#1E40AF">v(沿車頭)</text>
+  <!-- rotate -->
+  <path d="M158,133 A30 30 0 0 1 204,135" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#nh-b)"/>
+  <text x="180" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">ω(原地轉)</text>
+  <!-- lateral blocked -->
+  <line x1="180" y1="165" x2="180" y2="228" stroke="#DC2626" stroke-width="2.4" marker-end="url(#nh-r)"/>
+  <line x1="167" y1="196" x2="193" y2="212" stroke="#DC2626" stroke-width="2.6"/>
+  <line x1="193" y1="196" x2="167" y2="212" stroke="#DC2626" stroke-width="2.6"/>
+  <text x="204" y="230" font-size="12" font-weight="700" fill="#DC2626">側滑被輪胎封死</text>
+  <text x="180" y="266" text-anchor="middle" font-size="12.5" fill="#374151">ẋ·sinθ − ẏ·cosθ = 0</text>
+  <text x="180" y="286" text-anchor="middle" font-size="10.5" fill="#6B7280">這條式子積不回 h(x,y,θ)=0 → 非完整</text>
+
+  <!-- divider -->
+  <line x1="368" y1="46" x2="368" y2="292" stroke="#E5E7EB"/>
+
+  <!-- RIGHT: parallel parking -->
+  <text x="565" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">可達位置:3 維(x, y, θ)全可達</text>
+  <!-- road edge -->
+  <line x1="410" y1="240" x2="740" y2="240" stroke="#9CA3AF" stroke-width="2"/>
+  <!-- parked cars -->
+  <rect x="420" y="205" width="80" height="30" rx="5" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.4"/>
+  <rect x="630" y="205" width="80" height="30" rx="5" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.4"/>
+  <!-- target slot -->
+  <rect x="510" y="205" width="110" height="30" fill="none" stroke="#059669" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <!-- starting car -->
+  <rect x="440" y="112" width="76" height="30" rx="5" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.6"/>
+  <text x="478" y="132" text-anchor="middle" font-size="10.5" fill="#1E40AF">起點</text>
+  <!-- maneuver path: forward, reverse-turn, forward straighten -->
+  <path d="M520,127 C570,127 600,140 610,160 C620,180 600,196 575,205 C562,210 552,214 552,218" fill="none" stroke="#059669" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#nh-g)"/>
+  <text x="668" y="130" text-anchor="middle" font-size="11" fill="#065F46">前進、打方向、倒車</text>
+  <text x="668" y="146" text-anchor="middle" font-size="11" fill="#065F46">的組合就能側移</text>
+  <text x="565" y="266" text-anchor="middle" font-size="11.5" fill="#374151">側向沒有直達的速度,但有繞路的走法</text>
+  <text x="565" y="286" text-anchor="middle" font-size="10.5" fill="#6B7280">平行停車:每天都在示範非完整系統的可控性</text>
+</svg>
