@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 402" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="lm-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker></defs>
+  <rect width="880" height="402" fill="#ffffff"/>
+  <text x="440" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">約束:LQR 撞上才知道,MPC 看得見才閃得開</text>
+
+  <!-- 上排機制框 -->
+  <rect x="60" y="46" width="360" height="76" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="240" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#B91C1C">LQR:離線解一次,線上只做乘法</text>
+  <text x="76" y="88" font-size="11.5" fill="#B91C1C">u = −Kx，只看當下狀態,沒有「往前看」的能力</text>
+  <text x="76" y="106" font-size="11.5" fill="#B91C1C">約束靠事後夾限——夾住的那一刻,§6 的穩定保證全部作廢</text>
+
+  <rect x="500" y="46" width="340" height="76" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="670" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">MPC:每週期解一個帶約束的 QP</text>
+  <text x="516" y="88" font-size="11.5" fill="#047857">對未來 N 步最佳化,約束是問題的一部分</text>
+  <text x="516" y="106" font-size="11.5" fill="#047857">只執行第一步,下個週期重解(滾動時域)</text>
+
+  <!-- 下排:轉向角曲線 -->
+  <text x="240" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">轉向角指令 δ(t):接近一個急彎</text>
+  <line x1="60" y1="300" x2="430" y2="300" stroke="#374151" stroke-width="1.5" marker-end="url(#lm-a)"/>
+  <line x1="60" y1="300" x2="60" y2="166" stroke="#374151" stroke-width="1.5" marker-end="url(#lm-a)"/>
+  <line x1="60" y1="196" x2="420" y2="196" stroke="#B45309" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="66" y="189" font-size="11" font-weight="700" fill="#B45309">δ_max(機械上限)</text>
+  <path d="M60,300 C140,300 165,254 205,196 C235,168 255,166 285,196 C325,236 360,292 420,300" fill="none" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 3" opacity="0.75"/>
+  <path d="M60,300 C140,300 165,254 205,196 L292,196 C330,240 362,292 420,300" fill="none" stroke="#DC2626" stroke-width="2.8"/>
+  <text x="248" y="160" text-anchor="middle" font-size="10.5" fill="#DC2626">虛線 = 算出來的 −Kx</text>
+  <text x="300" y="216" font-size="11" font-weight="700" fill="#DC2626">實線 = 被夾平的實際輸出</text>
+  <text x="240" y="326" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">等偏差夠大才下大指令,而那時已經超過能挽回的範圍</text>
+
+  <text x="670" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">同一個彎,MPC 提早開始轉</text>
+  <line x1="500" y1="300" x2="856" y2="300" stroke="#374151" stroke-width="1.5" marker-end="url(#lm-a)"/>
+  <line x1="500" y1="300" x2="500" y2="166" stroke="#374151" stroke-width="1.5" marker-end="url(#lm-a)"/>
+  <line x1="500" y1="196" x2="846" y2="196" stroke="#B45309" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="506" y="189" font-size="11" font-weight="700" fill="#B45309">δ_max</text>
+  <rect x="500" y="166" width="150" height="134" fill="#ECFDF5" opacity="0.6"/>
+  <text x="575" y="180" text-anchor="middle" font-size="10.5" fill="#047857">預測視窗 N 步</text>
+  <path d="M500,300 C556,292 588,250 640,222 C672,206 704,204 734,216 C776,234 812,290 846,300" fill="none" stroke="#047857" stroke-width="2.8"/>
+  <circle cx="512" cy="298" r="4.5" fill="#047857"/>
+  <text x="522" y="288" font-size="10.5" font-weight="700" fill="#047857">只執行這一步</text>
+  <text x="670" y="326" text-anchor="middle" font-size="11.5" font-weight="700" fill="#047857">全程貼在上限之下,不需要夾限,假設沒有被破壞</text>
+
+  <line x1="462" y1="140" x2="462" y2="336" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <rect x="90" y="344" width="700" height="40" rx="7" fill="#FFFBEB" stroke="#B45309" stroke-width="1.6"/>
+  <text x="440" y="362" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E">LQR 是 MPC 的特例:拿掉不等式約束、把 N 推到無限大,解就是 u = −Kx</text>
+  <text x="440" y="379" text-anchor="middle" font-size="11" fill="#92400E">而 MPC 的終端代價 xᴺᵀPxᴺ 裡那個 P,通常就直接用 LQR 的 Riccati 解——LQR 沒被取代,它變成 MPC 的零件</text>
+</svg>

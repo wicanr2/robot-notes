@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 362" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="tp-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker>
+    <marker id="tp-r" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+  </defs>
+  <rect width="880" height="362" fill="#ffffff"/>
+  <text x="440" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">兩個誤差、一個方向盤:比例由誰決定</text>
+
+  <!-- ===== 左:兩個獨立 PID ===== -->
+  <text x="215" y="56" text-anchor="middle" font-size="13.5" font-weight="700" fill="#DC2626">兩個獨立 PID,輸出相加</text>
+  <rect x="60" y="76" width="130" height="44" rx="6" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="125" y="94" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">PID₁(e_y)</text>
+  <text x="125" y="111" text-anchor="middle" font-size="10.5" fill="#B91C1C">「偏左了,往右打」</text>
+  <rect x="60" y="132" width="130" height="44" rx="6" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="125" y="150" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">PID₂(e_θ)</text>
+  <text x="125" y="167" text-anchor="middle" font-size="10.5" fill="#B91C1C">「車頭歪了,打回來」</text>
+  <line x1="190" y1="98" x2="232" y2="118" stroke="#DC2626" stroke-width="1.8" marker-end="url(#tp-r)"/>
+  <line x1="190" y1="154" x2="232" y2="134" stroke="#DC2626" stroke-width="1.8" marker-end="url(#tp-r)"/>
+  <circle cx="248" cy="126" r="14" fill="#ffffff" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="248" y="131" text-anchor="middle" font-size="14" fill="#DC2626">+</text>
+  <line x1="262" y1="126" x2="300" y2="126" stroke="#DC2626" stroke-width="1.8" marker-end="url(#tp-r)"/>
+  <text x="322" y="131" text-anchor="middle" font-size="13" font-weight="700" fill="#DC2626">δ</text>
+  <text x="215" y="200" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">兩者在同一個致動器上互相抵銷</text>
+  <text x="215" y="217" text-anchor="middle" font-size="11" fill="#6B7280">增益比例沒有原則,只能試 → 蛇行或遲鈍</text>
+
+  <!-- 蛇行軌跡 -->
+  <line x1="60" y1="272" x2="380" y2="272" stroke="#059669" stroke-width="2" stroke-dasharray="6 4"/>
+  <path d="M60,272 C100,236 128,310 160,262 C190,220 218,314 250,266 C280,232 308,296 340,274 L380,272" fill="none" stroke="#DC2626" stroke-width="2.4"/>
+  <text x="220" y="336" text-anchor="middle" font-size="11.5" fill="#B91C1C">修 e_y 就製造 e_θ,修 e_θ 又把 e_y 拉回去</text>
+
+  <!-- ===== 右:LQR ===== -->
+  <text x="665" y="56" text-anchor="middle" font-size="13.5" font-weight="700" fill="#047857">一個 LQR,增益一起解出來</text>
+  <rect x="510" y="90" width="200" height="66" rx="7" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="610" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#047857">u = −K x = −(k₁·e_y + k₂·e_θ)</text>
+  <text x="610" y="132" text-anchor="middle" font-size="11" fill="#047857">形式上也是兩項相加,但</text>
+  <text x="610" y="149" text-anchor="middle" font-size="11" font-weight="700" fill="#047857">k₁ 與 k₂ 出自同一個 Riccati 方程</text>
+  <line x1="710" y1="123" x2="748" y2="123" stroke="#059669" stroke-width="1.8" marker-end="url(#tp-a)"/>
+  <text x="768" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">δ</text>
+
+  <rect x="510" y="168" width="200" height="52" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.5"/>
+  <text x="610" y="187" text-anchor="middle" font-size="11" fill="#374151">比例反映系統的真實動態:</text>
+  <text x="610" y="205" text-anchor="middle" font-size="11" fill="#374151">A 裡那個 v、B 裡那個 v/L</text>
+
+  <line x1="510" y1="272" x2="830" y2="272" stroke="#059669" stroke-width="2" stroke-dasharray="6 4"/>
+  <path d="M510,272 C548,244 580,258 620,266 C670,274 720,272 830,272" fill="none" stroke="#047857" stroke-width="2.4"/>
+  <text x="670" y="336" text-anchor="middle" font-size="11.5" fill="#047857">手調兩個 PID 增益,本質上是在盲目搜尋 LQR 已經解出來的那組比例</text>
+
+  <line x1="440" y1="44" x2="440" y2="344" stroke="#E5E7EB" stroke-width="1.4"/>
+  <text x="220" y="255" text-anchor="middle" font-size="10.5" fill="#6B7280">實際軌跡 vs 參考路徑</text>
+  <text x="670" y="255" text-anchor="middle" font-size="10.5" fill="#6B7280">實際軌跡 vs 參考路徑</text>
+</svg>

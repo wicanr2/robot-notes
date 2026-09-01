@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 396" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="tk-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker></defs>
+  <rect width="800" height="396" fill="#ffffff"/>
+  <text x="400" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">舵輪車的 ICR:每顆輪的垂線交在同一點</text>
+  <text x="400" y="47" text-anchor="middle" font-size="12" fill="#6B7280">唯一用到的假設是「輪子不側滑」——速度必須沿著自己的滾動方向</text>
+
+  <!-- ================= 左:轉向輪在前 ================= -->
+  <text x="215" y="76" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1E40AF">轉向輪在「行進方向」的前方</text>
+
+  <!-- ICR 與半徑虛線 -->
+  <line x1="57" y1="260" x2="200" y2="260" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <line x1="57" y1="260" x2="200" y2="140" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <circle cx="57" cy="260" r="5" fill="#DC2626"/>
+  <text x="57" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">ICR</text>
+  <text x="126" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">R</text>
+  <text x="112" y="192" text-anchor="middle" font-size="11" fill="#DC2626">L / sin δ</text>
+
+  <!-- 車體 -->
+  <line x1="200" y1="260" x2="200" y2="140" stroke="#374151" stroke-width="3"/>
+  <line x1="170" y1="260" x2="230" y2="260" stroke="#374151" stroke-width="2.4"/>
+  <rect x="166" y="248" width="8" height="24" rx="2" fill="#374151"/>
+  <rect x="226" y="248" width="8" height="24" rx="2" fill="#374151"/>
+  <circle cx="200" cy="260" r="4" fill="#374151"/>
+  <text x="243" y="206" font-size="12" font-weight="700" fill="#374151">L</text>
+  <text x="243" y="222" font-size="10.5" fill="#6B7280">軸距</text>
+  <!-- 直角記號 -->
+  <path d="M200,248 L212,248 L212,260" fill="none" stroke="#DC2626" stroke-width="1.4"/>
+
+  <!-- 前轉向輪(δ=40° 往左) -->
+  <line x1="212.9" y1="155.3" x2="187.1" y2="124.7" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="200" y1="140" x2="200" y2="106" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <path d="M200,116 A24,24 0 0,0 184.6,121.6" fill="none" stroke="#1D4ED8" stroke-width="1.6"/>
+  <text x="176" y="112" font-size="13" font-weight="700" fill="#1D4ED8">δ</text>
+  <text x="234" y="136" font-size="11" fill="#1D4ED8">轉向 + 驅動</text>
+  <text x="234" y="151" font-size="11" fill="#1D4ED8">同一顆輪</text>
+
+  <text x="215" y="312" text-anchor="middle" font-size="12" fill="#374151">教科書的 tricycle 模型;叉車貨叉朝後推行時就是這個構型</text>
+  <text x="215" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">方向盤往左 → 車頭往左</text>
+
+  <!-- ================= 右:轉向輪在後 ================= -->
+  <text x="645" y="76" text-anchor="middle" font-size="13.5" font-weight="700" fill="#B45309">轉向輪在「行進方向」的後方</text>
+
+  <line x1="600" y1="140" x2="743" y2="140" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <line x1="600" y1="260" x2="743" y2="140" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <circle cx="743" cy="140" r="5" fill="#DC2626"/>
+  <text x="743" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">ICR</text>
+  <text x="671" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">R</text>
+
+  <line x1="600" y1="260" x2="600" y2="140" stroke="#374151" stroke-width="3"/>
+  <line x1="570" y1="140" x2="630" y2="140" stroke="#374151" stroke-width="2.4"/>
+  <rect x="566" y="128" width="8" height="24" rx="2" fill="#374151"/>
+  <rect x="626" y="128" width="8" height="24" rx="2" fill="#374151"/>
+  <circle cx="600" cy="140" r="4" fill="#374151"/>
+  <path d="M600,152 L612,152 L612,140" fill="none" stroke="#DC2626" stroke-width="1.4"/>
+  <text x="530" y="136" text-anchor="end" font-size="11" fill="#374151">前兩輪驅動</text>
+  <text x="530" y="151" text-anchor="end" font-size="11" fill="#374151">(承載側,貨叉在此)</text>
+
+  <!-- 後轉向輪 δ=40° 往左 -->
+  <line x1="612.9" y1="275.3" x2="587.1" y2="244.7" stroke="#B45309" stroke-width="6" stroke-linecap="round"/>
+  <line x1="600" y1="260" x2="600" y2="294" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <path d="M600,284 A24,24 0 0,1 584.6,278.4" fill="none" stroke="#B45309" stroke-width="1.6"/>
+  <text x="574" y="296" font-size="13" font-weight="700" fill="#B45309">δ</text>
+  <text x="634" y="266" font-size="11" fill="#B45309">主動轉向</text>
+
+  <!-- 車體轉向指示 -->
+  <path d="M600,124 A50,50 0 0,1 636,110" fill="none" stroke="#B45309" stroke-width="2" marker-end="url(#tk-a)"/>
+  <text x="646" y="106" font-size="11" font-weight="700" fill="#B45309">車頭往右</text>
+
+  <text x="645" y="312" text-anchor="middle" font-size="12" fill="#374151">三輪平衡重式(後輪主動轉向);前移式貨叉朝前行駛時也是這樣</text>
+  <text x="645" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#B45309">方向盤往左 → 車頭往右(θ̇ 多一個負號)</text>
+
+  <line x1="430" y1="66" x2="430" y2="342" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <rect x="120" y="350" width="560" height="28" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.5"/>
+  <text x="400" y="368" text-anchor="middle" font-size="12.5" fill="#374151">tan δ = L / R  ⟹  ω = v·tan δ / L,曲率 κ = tan δ / L 與速度無關,只由方向盤決定</text>
+</svg>

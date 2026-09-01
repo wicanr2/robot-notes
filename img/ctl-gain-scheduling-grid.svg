@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 366" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="gs-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker></defs>
+  <rect width="860" height="366" fill="#ffffff"/>
+  <text x="430" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">增益排程:離線解一整張表,線上只查表</text>
+  <text x="430" y="47" text-anchor="middle" font-size="12" fill="#6B7280">B = [0, v/L]ᵀ 裡直接寫著 v——速度一變,模型就變,不是近似誤差</text>
+
+  <!-- 網格 -->
+  <g stroke="#D1D5DB" stroke-width="1.2">
+    <line x1="90" y1="100" x2="370" y2="100"/><line x1="90" y1="150" x2="370" y2="150"/>
+    <line x1="90" y1="200" x2="370" y2="200"/><line x1="90" y1="250" x2="370" y2="250"/>
+    <line x1="90" y1="100" x2="90" y2="250"/><line x1="160" y1="100" x2="160" y2="250"/>
+    <line x1="230" y1="100" x2="230" y2="250"/><line x1="300" y1="100" x2="300" y2="250"/>
+    <line x1="370" y1="100" x2="370" y2="250"/>
+  </g>
+  <line x1="90" y1="250" x2="400" y2="250" stroke="#374151" stroke-width="1.6" marker-end="url(#gs-a)"/>
+  <line x1="90" y1="250" x2="90" y2="86" stroke="#374151" stroke-width="1.6" marker-end="url(#gs-a)"/>
+  <text x="240" y="278" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">速度 v</text>
+  <text x="240" y="294" text-anchor="middle" font-size="10.5" fill="#6B7280">0.2 → 2.0 m/s</text>
+  <text x="76" y="180" text-anchor="end" font-size="12" font-weight="700" fill="#374151">載重</text>
+  <text x="76" y="196" text-anchor="end" font-size="10.5" fill="#6B7280">m</text>
+  <text x="76" y="96" text-anchor="end" font-size="10" fill="#6B7280">3.5 t</text>
+  <text x="76" y="254" text-anchor="end" font-size="10" fill="#6B7280">2.0 t</text>
+
+  <!-- 格點上的 K -->
+  <g font-size="10" fill="#1E40AF" text-anchor="middle">
+    <circle cx="90" cy="100" r="3.5" fill="#2563EB"/><circle cx="160" cy="100" r="3.5" fill="#2563EB"/>
+    <circle cx="230" cy="100" r="3.5" fill="#2563EB"/><circle cx="300" cy="100" r="3.5" fill="#2563EB"/><circle cx="370" cy="100" r="3.5" fill="#2563EB"/>
+    <circle cx="90" cy="150" r="3.5" fill="#2563EB"/><circle cx="160" cy="150" r="3.5" fill="#2563EB"/>
+    <circle cx="230" cy="150" r="3.5" fill="#2563EB"/><circle cx="300" cy="150" r="3.5" fill="#2563EB"/><circle cx="370" cy="150" r="3.5" fill="#2563EB"/>
+    <circle cx="90" cy="200" r="3.5" fill="#2563EB"/><circle cx="160" cy="200" r="3.5" fill="#2563EB"/>
+    <circle cx="230" cy="200" r="3.5" fill="#2563EB"/><circle cx="300" cy="200" r="3.5" fill="#2563EB"/><circle cx="370" cy="200" r="3.5" fill="#2563EB"/>
+    <circle cx="90" cy="250" r="3.5" fill="#2563EB"/><circle cx="160" cy="250" r="3.5" fill="#2563EB"/>
+    <circle cx="230" cy="250" r="3.5" fill="#2563EB"/><circle cx="300" cy="250" r="3.5" fill="#2563EB"/><circle cx="370" cy="250" r="3.5" fill="#2563EB"/>
+  </g>
+  <text x="330" y="92" font-size="10.5" fill="#1E40AF">每個格點:離線解一次 Riccati → 存一組 K</text>
+
+  <!-- 當前工作點 -->
+  <rect x="230" y="150" width="70" height="50" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+  <circle cx="258" cy="178" r="5.5" fill="#DC2626"/>
+  <text x="258" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#B45309">當前工作點</text>
+  <text x="258" y="237" text-anchor="middle" font-size="10" fill="#B45309">四個角雙線性內插</text>
+
+  <!-- 右側說明 -->
+  <line x1="430" y1="76" x2="430" y2="330" stroke="#E5E7EB" stroke-width="1.4"/>
+  <text x="460" y="98" font-size="13" font-weight="700" fill="#374151">成本結構</text>
+  <text x="460" y="120" font-size="11.5" fill="#374151">離線:格點數 × 一次 Riccati。幾百點是秒級的事</text>
+  <text x="460" y="140" font-size="11.5" fill="#374151">線上:查表 + 內插,幾乎為零</text>
+  <text x="460" y="160" font-size="11" fill="#6B7280">呼應「LQR 貴在離線,不貴在線上」</text>
+
+  <text x="460" y="192" font-size="13" font-weight="700" fill="#B45309">兩個必須守住的條件</text>
+  <text x="460" y="214" font-size="11.5" fill="#92400E">① 排程變數要變得比系統動態慢</text>
+  <text x="474" y="231" font-size="10.5" fill="#6B7280">載重只在取放貨時階躍變化,速度也遠慢於控制迴路 → 合格</text>
+  <text x="460" y="252" font-size="11.5" fill="#92400E">② 相鄰格點的 K 要平滑</text>
+  <text x="474" y="269" font-size="10.5" fill="#6B7280">Q、R 全表用同一組;各點手調就會在邊界跳,車會抽動</text>
+
+  <rect x="452" y="286" width="386" height="52" rx="7" fill="#ECFDF5" stroke="#059669" stroke-width="1.6"/>
+  <text x="645" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#047857">更保守也更常見的替代方案:不換增益,換速度上限</text>
+  <text x="645" y="325" text-anchor="middle" font-size="11" fill="#047857">載重就降 v_max,把系統推回同一個工作點附近——與安全規範同向</text>
+
+  <text x="240" y="322" text-anchor="middle" font-size="11" fill="#6B7280">為滿載調的增益開空車會過衝;</text>
+  <text x="240" y="339" text-anchor="middle" font-size="11" fill="#6B7280">為空車調的增益載重會跟線遲鈍</text>
+</svg>

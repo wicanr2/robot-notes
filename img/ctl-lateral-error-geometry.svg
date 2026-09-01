@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 358" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="le-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker>
+  <marker id="le-b" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#1D4ED8"/></marker></defs>
+  <rect width="840" height="358" fill="#ffffff"/>
+  <text x="420" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">路徑追蹤的兩個誤差,以及它們為什麼不能拆開處理</text>
+
+  <!-- 參考路徑 -->
+  <path d="M60,262 C170,258 250,215 380,170 C500,129 600,124 700,146" fill="none" stroke="#059669" stroke-width="3"/>
+  <text x="120" y="248" font-size="12" font-weight="700" fill="#059669">參考路徑</text>
+
+  <!-- 最近點 P 與切線 -->
+  <circle cx="380" cy="170" r="5" fill="#059669"/>
+  <text x="374" y="158" text-anchor="end" font-size="11.5" font-weight="700" fill="#059669">最近點</text>
+  <line x1="323.6" y1="190.4" x2="452" y2="144" stroke="#059669" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <text x="458" y="142" font-size="11" fill="#059669">路徑切線</text>
+
+  <!-- 法線與 e_y -->
+  <line x1="380" y1="170" x2="398.7" y2="221.7" stroke="#DC2626" stroke-width="2.4"/>
+  <path d="M380,170 L392,174 L388,186" fill="none" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="352" y="204" font-size="14" font-weight="700" fill="#DC2626">e_y</text>
+  <text x="330" y="221" font-size="10.5" fill="#DC2626">橫向誤差(左負右正)</text>
+
+  <!-- 車 -->
+  <g transform="rotate(-4.9,398.7,221.7)">
+    <rect x="363.7" y="204.7" width="70" height="34" rx="4" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+    <rect x="425.7" y="212.7" width="18" height="5" rx="1" fill="#1D4ED8"/>
+    <rect x="425.7" y="226.7" width="18" height="5" rx="1" fill="#1D4ED8"/>
+  </g>
+  <circle cx="398.7" cy="221.7" r="4" fill="#1D4ED8"/>
+  <text x="352" y="252" font-size="11" fill="#1D4ED8">車體參考點</text>
+
+  <!-- 車頭方向 -->
+  <line x1="398.7" y1="221.7" x2="508" y2="212.4" stroke="#1D4ED8" stroke-width="2" marker-end="url(#le-b)"/>
+  <text x="514" y="210" font-size="11" font-weight="700" fill="#1D4ED8">車頭方向</text>
+  <!-- 切線平移到 C,標角 -->
+  <line x1="398.7" y1="221.7" x2="492" y2="187.9" stroke="#059669" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <path d="M468,207 A72,72 0 0,0 464.5,194" fill="none" stroke="#B45309" stroke-width="2"/>
+  <text x="480" y="230" font-size="14" font-weight="700" fill="#B45309">e_θ</text>
+  <text x="470" y="247" font-size="10.5" fill="#B45309">航向誤差</text>
+
+  <!-- 曲率標註 -->
+  <text x="640" y="176" font-size="11.5" font-weight="700" fill="#059669">κ:路徑自己的曲率</text>
+  <text x="640" y="192" font-size="10.5" fill="#6B7280">已知量 → 該用前饋,不該丟給回授</text>
+
+  <!-- 底部方程塊 -->
+  <rect x="60" y="272" width="360" height="66" rx="7" fill="#F9FAFB" stroke="#374151" stroke-width="1.6"/>
+  <text x="240" y="292" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">線性化後的誤差動態</text>
+  <text x="240" y="312" text-anchor="middle" font-size="12.5" fill="#374151">ė_y ≈ v · e_θ　　　ė_θ ≈ (v/L)·δ − v·κ</text>
+  <text x="240" y="330" text-anchor="middle" font-size="10.5" fill="#6B7280">橫向誤差的變化率,只由航向誤差供給</text>
+
+  <rect x="440" y="272" width="340" height="66" rx="7" fill="#FFFBEB" stroke="#B45309" stroke-width="1.6"/>
+  <text x="610" y="292" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E">B = [0, v/L]ᵀ 的那個零很關鍵</text>
+  <text x="610" y="311" text-anchor="middle" font-size="11" fill="#92400E">方向盤打下去,橫向位置<tspan font-weight="700">不會立刻改變</tspan></text>
+  <text x="610" y="329" text-anchor="middle" font-size="11" fill="#92400E">得先改航向,再由 A 把航向積成橫向位移</text>
+</svg>
