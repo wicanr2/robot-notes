@@ -690,9 +690,200 @@ $$ \min_{u_0 \dots u_{N-1}} \sum_{k=0}^{N-1} \left( x_k^{\mathsf T} Q x_k + u_k^
 
 ---
 
-## 13. 實作:算出 K,然後在 MCU 上跑
+## 13. 取樣式 MPC:MPPI 怎麼繞過「代價必須是二次型」
 
-### 13.1 離線算 K(Python)
+§12 的 MPC 鬆開了 LQR 的約束假設,但它自己還留著一條:**要能解那個最佳化問題**。QP 求解器要求代價是凸的、限制式是線性的;非線性版(NLP)至少要求代價**可微**,因為求解器要算梯度。
+
+問題是,移動機器人的代價根本不長那樣。
+
+<p align="center"><img src="../../img/ctl-quadratic-vs-costmap.svg" width="840" alt="左為 LQR 假設的二次型代價:處處可微、凸、唯一最小,求導設零就有解析解;右為真實的代價地圖:障礙物是不可微的陡峭牆、非凸、有多個局部最小,求導這條路走不通"></p>
+
+「離目標多遠」確實可以寫成 `xᵀQx`,但「會不會撞到牆」不行。costmap 上的障礙物是查表查出來的階梯、footprint 碰撞檢查回傳的是布林值——**不可微,而且非凸**。
+
+於是有了第三條路:**不要求解,改用取樣**。這就是 Nav2 預設路線上的 `nav2_mppi_controller`,MPPI(Model Predictive Path Integral,模型預測路徑積分)。
+
+### 13.1 換一個問法:從最優控制序列,到最優控制分布
+
+MPPI 的第一步不是換演算法,是**換問題**。
+
+不要問「最優的控制序列 `u = (u_0, …, u_{T-1})` 是哪一條」,改問:「**軌跡的最優機率分布**長什麼樣?」
+
+這個轉換看起來像把問題弄複雜了,但它換來一件事:**分布可以用取樣逼近,而序列不行**。
+
+設定如下。控制序列上加高斯噪聲得到實際執行的指令:
+
+$$ v_t = u_t + \varepsilon_t, \qquad \varepsilon_t \sim \mathcal{N}(0, \Sigma) $$
+
+這定義了一個**基礎分布** `p`(以當前控制序列為均值的高斯)。把整條軌跡的代價寫成 `S(τ)`——注意它可以是任何東西,只要算得出一個數字。
+
+現在要找一個新的分布 `q`,它要同時滿足兩個彼此拉扯的要求:**期望代價要低**,但**不能離 `p` 太遠**(離太遠就等於放棄了「從當前控制序列附近搜尋」這件事,而且取樣會失效)。寫成一個泛函:
+
+$$ J[q] \;=\; \underbrace{\mathbb{E}_q\big[S(\tau)\big]}_{\text{代價要低}} \;+\; \lambda \underbrace{D_{\mathrm{KL}}\big(q \,\|\, p\big)}_{\text{不要離太遠}} $$
+
+`λ > 0` 決定兩者的權衡,`D_KL` 是 KL 散度(衡量兩個分布差多少,恆非負,只有兩者相同時為零)。
+
+### 13.2 這個問題有閉式解,而且答案必然是指數形式
+
+`J[q]` 看起來要對「所有可能的機率分布」做最佳化——無窮維。但它有閉式解,而且推導只用到一件事:**KL 散度非負**。
+
+先定義
+
+$$ Z = \mathbb{E}_p\!\left[e^{-S(\tau)/\lambda}\right], \qquad q^*(\tau) = \frac{1}{Z}\, e^{-S(\tau)/\lambda}\, p(\tau) $$
+
+`q*` 是個合法的機率分布(非負,而且除以 `Z` 之後積分為 1)。現在把 `J[q]` 硬湊成含 `q*` 的形式:
+
+$$ J[q] = \mathbb{E}_q[S] + \lambda\,\mathbb{E}_q\!\left[\log\frac{q}{p}\right] = \lambda\,\mathbb{E}_q\!\left[\frac{S}{\lambda} + \log\frac{q}{p}\right] = \lambda\,\mathbb{E}_q\!\left[\log\frac{q}{p\,e^{-S/\lambda}}\right] $$
+
+分母上下同乘 `Z`,把 `p e^{−S/λ}` 換成 `Z q*`:
+
+$$ J[q] = \lambda\,\mathbb{E}_q\!\left[\log\frac{q}{Z\,q^*}\right] = \lambda\, D_{\mathrm{KL}}(q \,\|\, q^*) \;-\; \lambda \log Z $$
+
+第二項與 `q` 無關。第一項是 KL 散度,**恆非負,而且只有在 `q = q*` 時為零**。所以:
+
+$$ \boxed{\;q^*(\tau) = \frac{1}{Z}\, e^{-S(\tau)/\lambda}\, p(\tau)\;} \qquad\text{並且}\qquad \min_q J[q] = -\lambda \log \mathbb{E}_p\!\left[e^{-S/\lambda}\right] $$
+
+**指數權重不是一個設計選擇,是推導的結果**——就像 §5 的 `u = −Kx` 一樣。要「代價低 + 不離基礎分布太遠」,答案必然是拿 `e^{−S/λ}` 去重新加權原本的分布:代價越低的軌跡,權重指數級地越高。
+
+> 右邊那個下界 `−λ log E_p[e^{−S/λ}]` 在文獻裡叫**自由能**(free energy),這條不等式則是統計物理裡的 Gibbs 變分原理。不同文獻的自由能定義可能差一個 `−λ` 因子(熱力學慣例與資訊論慣例的差別),但最優分布 `q*` 的形式不受影響。
+
+### 13.3 從理論分布到算得出來的權重:重要性取樣
+
+`q*` 有了,但**不能直接從它取樣**——`Z` 是一個對所有軌跡的積分,算不出來。
+
+解法是**重要性取樣**:從我們會取樣的 `p`(高斯,隨手就能撒)取樣,再用密度比修正。對任意函數 `f`:
+
+$$ \mathbb{E}_{q^*}[f] = \mathbb{E}_p\!\left[\frac{q^*}{p}\,f\right] = \frac{1}{Z}\,\mathbb{E}_p\!\left[e^{-S/\lambda} f\right] $$
+
+用 `K` 條取樣軌跡近似,分子分母的 `Z` **對消掉**:
+
+$$ \mathbb{E}_{q^*}[f] \;\approx\; \sum_{k=1}^{K} w_k\, f(\tau_k), \qquad \boxed{\;w_k = \frac{e^{-S_k/\lambda}}{\sum_{j=1}^{K} e^{-S_j/\lambda}}\;} $$
+
+**這就是 softmax**,以 `−S_k/λ` 為 logit。那個算不出來的積分 `Z` 被分母的求和取代了——這正是重要性取樣買到的東西。
+
+實作上還有一步:所有 `S_k` 同時減去 `ρ = min_j S_j`。分子分母同乘 `e^{ρ/λ}`,**權重完全不變**,但指數不會溢位。Nav2 原始碼裡就是這一行:
+
+```cpp
+auto costs_normalized = costs_ - costs_.minCoeff();     // 減最小值:數值穩定
+const float inv_temp = 1.0f / s.temperature;            // 1/λ
+auto softmaxes = (-inv_temp * costs_normalized).exp().eval();
+softmaxes /= softmaxes.sum();                           // 正規化成權重
+```
+
+### 13.4 更新律:兩種等價的寫法
+
+把 `f` 取成控制序列本身,就得到新的控制序列:
+
+$$ u_t^{\text{new}} = \sum_{k=1}^{K} w_k\, v_{k,t} $$
+
+而 `v_{k,t} = u_t + \varepsilon_{k,t}`,又 `Σ_k w_k = 1`,所以
+
+$$ u_t^{\text{new}} = u_t \underbrace{\sum_k w_k}_{=1} + \sum_k w_k\, \varepsilon_{k,t} \;=\; u_t + \sum_{k=1}^{K} w_k\, \varepsilon_{k,t} $$
+
+**兩種寫法是同一件事。** 原始論文寫成右邊(名目控制 + 加權噪聲),Nav2 原始碼寫成左邊(直接對取樣到的控制做加權平均):
+
+```cpp
+control_sequence_.vx = state_.cvx.transpose().matrix() * softmax_mat;
+control_sequence_.wz = state_.cwz.transpose().matrix() * softmax_mat;
+```
+
+一句話講完整個演算法:**撒一批控制序列 → 各自往前模擬算代價 → 用 softmax 加權平均 → 這就是新的控制序列**。沒有梯度、沒有求解器、沒有迭代收斂判斷。
+
+<p align="center"><img src="../../img/ctl-mppi-mechanism.svg" width="880" alt="MPPI 一個控制週期的六個步驟:以上週期的控制序列為均值撒 K 條高斯噪聲、各自用運動模型前向模擬成軌跡、每條軌跡經 critic 評分得到代價、減最小值後取 softmax 得權重、加權平均成新控制序列、送出第一步並把序列往前平移一格"></p>
+
+還有兩個實作細節,少了會出事:
+
+- **只送出第一步,然後把序列往前平移一格**。這是滾動時域的實作方式:下個週期不從零開始,而是拿這次剩下的 `T−1` 步當起點——所以「撒噪聲」是撒在**已經不錯的解**附近,而不是每次重新亂猜。這是 MPPI 能用區區一千條樣本就work的關鍵。
+- **輸出後平滑**。Nav2 在加權平均之後、施加約束之前,套一個 9 點窗的 Savitzky-Golay 濾波器:
+
+  ```cpp
+  utils::savitskyGolayFilter(control_sequence_, control_history_, settings_);
+  ```
+
+  因為加權平均出來的序列在時間軸上可能有抖動,直接送給底盤會變成可感知的震動。
+
+### 13.5 λ 是溫度:兩個極端都沒有用
+
+`λ` 在 Nav2 裡的參數名就叫 `temperature`,而它的行為完全對得上這個名字:
+
+| λ | 權重的樣子 | 行為 |
+|---|---|---|
+| **λ → 0** | 全部集中在代價最小的那一條 | 退化成 `argmin`——只信一條取樣軌跡,對取樣噪聲極度敏感,結果會抖 |
+| **λ 適中** | 少數幾條好軌跡分掉大部分權重 | 平均掉取樣噪聲,同時仍偏好低代價區 |
+| **λ → ∞** | 全部趨近 `1/K` | 退化成「不管代價的平均」,等於沒在控制 |
+
+Nav2 預設 `temperature = 0.3`。這個參數的直覺是:**你有多相信「最好的那一條取樣」真的是最好的**。取樣越少、模型越不準,就越該調高一點。
+
+還有一個相關的參數 `gamma`(預設 0.015)。Nav2 在算 softmax 之前,會先在代價上加一項:
+
+```cpp
+const float gamma_vx = s.gamma / (s.sampling_std.vx * s.sampling_std.vx);
+costs_ += (gamma_vx * (bounded_noises_vx.rowwise() * vx_T).rowwise().sum()).eval();
+```
+
+也就是 `S_k ← S_k + (γ/σ²)·Σ_t ε_{k,t} u_t`。它懲罰「偏離名目控制太遠」的取樣,對應論文裡的控制能量正則化項——注意分母的 `σ²` 就是取樣分布的 `Σ`,兩者是綁在一起的,單獨調 `gamma` 而不管 `vx_std` 會得到意外的結果。
+
+### 13.6 關鍵:為什麼它不需要代價可微,也不需要凸
+
+回頭看整條推導鏈,`S(τ)` 出現的地方只有一個:`e^{−S_k/λ}`,也就是**把代價的數值代進指數函數**。
+
+**從頭到尾沒有對 `S` 求導。**
+
+所以 `S` 可以是任何算得出數字的東西:costmap 的查表值、footprint 的碰撞檢查(布林)、if-else 規則、甚至一個神經網路。這正是 Nav2 的 survey 明講的那句話:
+
+> "Since this method does not involve the non-linear optimization stage found in most MPC techniques, the cost functions are **uniquely not required to be differentiable or convex** — yielding greater latitude in designing system behavior."
+
+對照 §4.1 的結論會看得更清楚:**LQR 的閉式解是用「代價必須是二次型」換來的**。二次型可微、凸、有唯一最小,所以求導設零就解得出來。MPPI 放棄了閉式解,換到的正是這個限制的解除。
+
+三者其實是同一條光譜上的三個點,差別在**對代價函數要求多少結構**:
+
+| | 對代價的要求 | 怎麼找解 | 代價 |
+|---|---|---|---|
+| **LQR** | 必須是二次型 | 閉式解 `u = −Kx` | 只能跟線,障礙物寫不進去 |
+| **QP-MPC** | 凸(或至少可微) | 數值最佳化,梯度式 | 求解時間不定,非凸會卡局部最優 |
+| **MPPI** | **只要算得出數字** | 取樣 + 加權平均 | 沒有最優性保證,算力隨 K×T 成長 |
+
+這張表也解釋了一件事:**ROS 2 官方沒有任何 LQR 控制器**。LQR 曾經列在 Nav2 的待辦演算法清單上,後來被劃掉,理由只有一句 `MPPI supersedes`;維護者對它的定性是 "MPC-lite"([navigation2#1710](https://github.com/ros-navigation/navigation2/issues/1710))。在一個必須處理 costmap 的框架裡,「代價必須是二次型」這個前提本身就出局了。
+
+### 13.7 Nav2 的實際數字
+
+以下參數與程式碼片段核對自 `nav2_mppi_controller` 的原始碼(`optimizer.cpp` 的 `getParams()` 與 `updateControlSequence()`):
+
+| 參數 | 預設值 | 意義 |
+|---|---|---|
+| `batch_size` (K) | **1000** | 每週期撒幾條軌跡 |
+| `time_steps` (T) | **56** | 往前看幾步 |
+| `model_dt` | **0.05 s** | 每步的時間 |
+| → 預測時域 | **2.8 s** | `T × model_dt` |
+| `temperature` (λ) | **0.3** | 溫度 |
+| `gamma` | **0.015** | 控制正則化 |
+| `vx_std` / `wz_std` | **0.2 / 0.4** | 取樣噪聲的標準差 |
+| `iteration_count` | **1** | 每週期迭代幾次 |
+
+算一下規模:每個控制週期要前向模擬 `1000 × 56 = 56,000` 個位姿,再對每個位姿跑一遍所有 critic。這就是 survey 的 Table II 裡 MPPI 只有 **125 Hz** 而 RPP 有 **>4000 Hz** 的來源——差了三十幾倍,而那正是「不需要模型、閉式幾何」與「撒五萬個點」的差距。
+
+代價函數不是一整塊,而是 **11 個可插拔的 critic**(原始碼 `src/critics/` 目錄):`ConstraintCritic`、`CostCritic`、`GoalCritic`、`GoalAngleCritic`、`ObstaclesCritic`、`PathAlignCritic`、`PathAngleCritic`、`PathFollowCritic`、`PreferForwardCritic`、`TwirlingCritic`、`VelocityDeadbandCritic`。每個各自對一批軌跡評分再加總——這種「代價可以隨意插拔」的架構,本身就是 §13.6 那個性質的直接產物:**因為不需要可微,所以可以讓使用者自己加**。
+
+運動學模型支援 `DiffDrive`、`Omni`、`Ackermann` 三種。Ackermann 的約束施加方式很直接:
+
+$$ |\omega| \le \frac{|v|}{R_{\min}} $$
+
+把角速度夾在這個範圍內,而這正是 [§7.1](#71-舵輪車的運動學ω--vtanδ--l-從哪來) 那條 `κ = ω/v = tanδ/L` 的另一種寫法——最小轉彎半徑決定了曲率上限。**叉車的運動學約束,在 MPPI 裡就是這一行夾限。**
+
+### 13.8 誠實的限制
+
+MPPI 不是免費的:
+
+- **沒有最優性保證。** 取樣是近似,`K` 不夠大就找不到好軌跡。這與 LQR「在線性模型下保證漸近穩定」是完全不同等級的承諾。
+- **單峰高斯提議分布,遇到多峰代價地形會卡住。** 而「拿上一輪的解暖啟動」這個讓它高效的技巧,同時也會**固化局部最小**——已經在某個峰附近,就很難跳到另一個峰。這是公開文獻討論中的已知弱點。
+- **硬約束是事後懲罰**,不是事前排除。軌跡違反了才被扣分,而不是一開始就不會被產生出來。
+- **對 `λ` 與取樣標準差敏感**,而這兩者又互相耦合(見 `gamma` 的分母)。
+- Nav2 的實作是 **CPU-only**(原論文用 GPU),靠 Eigen 向量化達到可用頻率。
+
+---
+
+## 14. 實作:算出 K,然後在 MCU 上跑
+
+### 14.1 離線算 K(Python)
 
 `scipy` 直接解 Riccati 方程;`python-control` 提供包好的 `lqr` / `dlqr`。
 
@@ -745,7 +936,7 @@ K, S, E = control.lqr(A, B, Q, R)        # 連續;E 直接就是閉迴路極點
 Kd, Sd, Ed = control.dlqr(Ad, Bd, Q, R)  # 離散
 ```
 
-### 13.2 線上執行(C,跑在下位機或工控機)
+### 14.2 線上執行(C,跑在下位機或工控機)
 
 `K` 是離線算好的常數,線上只剩矩陣乘法:
 
@@ -805,7 +996,7 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 
 ---
 
-## 14. 貨叉那一軸:為什麼精度瓶頸在垂直方向
+## 15. 貨叉那一軸:為什麼精度瓶頸在垂直方向
 
 底盤跟線只是前半場。真正決定「這趟搬運成不成功」的是貨叉能不能插進叉孔。
 
@@ -822,7 +1013,7 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 
 ---
 
-## 15. 誠實的邊界
+## 16. 誠實的邊界
 
 - **這篇的 LQR 全部建立在線性模型上。** 叉車是非線性的,`A`、`B` 只在工作點附近成立。所有「保證穩定」的說法,保證的是那個線性模型的閉迴路,不是真車。
 - **§6.3 的裕度保證在實車上幾乎必然失效**:狀態要靠估測(變成 LQG,裕度歸零)、輸入會飽和、模型會漂。把它當成理解 LQR 為什麼好用的性質,不要當成安全論證。
@@ -830,11 +1021,14 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 - **§10.3 的「倒車在控制上是最小相位」是本篇的推導,不是文獻引用。** 推導可以驗算,但沒有查到把它當作叉車設計理由的來源。
 - **§11 的增益排程套用的是通用理論**,沒有查到叉車領域明確以此命名的公開文獻。
 - **Apollo 橫向控制器的狀態向量定義來自二手來源**,未直接核對現行原始碼。
+- **§13 的 Gibbs 變分原理推導是本篇自己推的**(只用到 KL 散度非負),結論與 MPPI 文獻一致,但**沒有逐式核對原始論文的式號**。另外不同文獻的自由能定義可能差一個 `−λ` 因子(熱力學慣例 vs 資訊論慣例),正文已標明這不影響 `q*` 的形式。
+- §13.7 的 Nav2 參數預設值與程式碼片段**是原始碼級核對的**(`nav2_mppi_controller/src/optimizer.cpp`),不是只看文件——文件與原始碼曾出現不一致(Savitzky-Golay 濾波器在文件裡不明顯,原始碼裡確實有呼叫)。
+- §13.8 的 MPPI 限制取自公開文獻的討論,不是官方自己列的清單。
 - 幾項數字仍待查證:各機型舵輪的轉向角範圍、ISO 2328 各級叉齒尺寸、ISO 3691-4 的具體速度與停止距離要求(標準原文付費,本篇未購買)、主要自動叉車廠牌的官方定位精度規格。
 
 ---
 
-## 16. 來源
+## 17. 來源
 
 **控制理論**
 
@@ -842,6 +1036,14 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 - Kalman, R. E., "[When Is a Linear Control System Optimal?](https://asmedigitalcollection.asme.org/fluidsengineering/article/86/1/51/392203/When-Is-a-Linear-Control-System-Optimal)," *ASME Journal of Basic Engineering*, vol. 86, no. 1, pp. 51–60, 1964. DOI: 10.1115/1.3653115 — Kalman 不等式(回歸差在所有頻率上 ≥ 1)的原始文獻,§6.3 單輸入裕度保證的出處。
 - Safonov, M. G., Athans, M., "Gain and phase margin for multiloop LQG regulators," *IEEE Transactions on Automatic Control*, vol. AC-22, pp. 173–179, 1977. — 多迴路(多輸入)情形的推廣。注意它處理的是**狀態回授**的 regulator;含估測器的 LQG 是下一條那個負面結果的對象,兩者不衝突。
 - Doyle, J. C., "[Guaranteed Margins for LQG Regulators](https://murray.cds.caltech.edu/images/murray.cds/b/b4/Guaranteed_margins_for_LQG_regulators_-_doyle.pdf)," *IEEE Transactions on Automatic Control*, vol. AC-23, pp. 756–757, 1978. DOI: 10.1109/TAC.1978.1101812 — 全文極短,摘要是有名的一句 "There are none.";§6.3 LQG 沒有裕度保證的出處。
+
+**取樣式 MPC(MPPI)**
+
+- Williams, G., Drews, P., Goldfain, B., Rehg, J. M., Theodorou, E. A., "Aggressive driving with model predictive path integral control," *2016 IEEE ICRA*, pp. 1433–1440. DOI: 10.1109/ICRA.2016.7487277 — Nav2 的 survey 引用的 MPPI 出處(該版用 GPU)。
+- Williams, G., Aldrich, A., Theodorou, E. A., "Model Predictive Path Integral Control: From Theory to Parallel Computation," *Journal of Guidance, Control, and Dynamics*, vol. 40, pp. 344–357, 2017. DOI: 10.2514/1.G001921 — `nav2_mppi_controller` 的 README 引用的理論依據。
+- Williams, G. et al., "[Information Theoretic MPC for Model-Based Reinforcement Learning](https://arxiv.org/abs/1707.02342)" (arXiv:1707.02342) — 自由能與 KL 散度那條推導鏈的資訊論版本。
+- [`nav2_mppi_controller` 設定文件](https://docs.nav2.org/configuration/packages/configuring-mppic.html) 與[原始碼](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller) — §13.7 的參數與程式碼片段核對自後者。
+- [navigation2#1710 "Working list of algorithms to include"](https://github.com/ros-navigation/navigation2/issues/1710) — LQR 被劃掉、註明 `MPPI supersedes` 的原始紀錄。
 
 **實作與工具**
 
@@ -854,5 +1056,5 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 
 - [Path tracking and stabilization for a reversing general 2-trailer configuration](https://arxiv.org/pdf/1602.06675) (arXiv:1602.06675) — §10.3 倒車路徑追蹤需要重新設計控制器的文獻依據(對象是聯結車輛,非叉車)。
 - [MathWorks — Mobile Robot Kinematics Equations](https://www.mathworks.com/help/robotics/ug/mobile-robot-kinematics-equations.html) — 差速 / Ackermann / 三輪車三種運動學模型的對照。
-- [EPAL Euro Pallet 官方規格](https://www.epal-pallets.org/eu-en/load-carriers/epal-euro-pallet) — §14 的叉孔尺寸。
+- [EPAL Euro Pallet 官方規格](https://www.epal-pallets.org/eu-en/load-carriers/epal-euro-pallet) — §15 的叉孔尺寸。
 - ISO 3691-4:2023, *Industrial trucks — Safety requirements and verification — Part 4: Driverless industrial trucks and their systems* — 本篇**未購買原文**,只引用公開摘要的定性描述。

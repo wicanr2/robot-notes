@@ -51,7 +51,7 @@
 - Hybrid-A* — 考慮車輛運動學(最小轉彎半徑、可否倒車)的全域規劃器;以 Dubins/Reeds-Shepp 為展開的運動模型與啟發式。Nav2 實作為 `nav2_smac_planner`(Smac Hybrid-A*)。
 - Dubins 曲線 — 只能前進、最小轉彎半徑下兩 pose 間的最短路徑,6 種「弧-直-弧」候選。_Avoid_: 講成含倒車。
 - Reeds-Shepp 曲線 — 允許倒車的最短 pose-to-pose 路徑,46 種候選、含換向點(cusp);目標在後方時比 Dubins 短。
-- MPPI / DWB / RPP — Nav2 的三種區域控制器(取樣最佳化 / 動態視窗 / 純追蹤)。
+- MPPI / DWB / RPP — Nav2 的三種區域控制器(取樣最佳化 / 動態視窗 / 純追蹤)。MPPI 的數學見「回授控制」節。
 - tf2 — ROS2 維護座標系關係的樹狀變換系統。
 - base_link — 剛性固定在車身上、跟著車一起走的參考座標系;差速車通常設在兩驅動輪的軸心中點。路徑點與位姿預設都是描述這個點,不是車頭。
 - 行為樹(Behavior Tree)— Nav2 用來編排規劃→跟隨→恢復的可組合結構。
@@ -172,6 +172,15 @@
 - MPC(Model Predictive Control,模型預測控制)— 每週期對未來 N 步解一個**帶約束**的最佳化問題,只執行第一步再滾動重解。**LQR 是它的特例**(拿掉約束、N → ∞);而 MPC 的終端代價裡那個 P 通常直接用 LQR 的 Riccati 解——LQR 沒被取代,它變成 MPC 的零件。
 - 舵輪(steered drive wheel)/ tricycle 運動學 — 驅動與轉向同一顆輪。控制輸入是 `(v, δ)` 而非差速車的 `(v, ω)`:`ω = v·tanδ/L`,**ω 與 v 相乘綁死**,v = 0 時方向盤打死車也不轉(差速車可以原地旋轉)。曲率 `κ = tanδ/L` 與速度無關。
 - 橫向誤差 / 航向誤差(e_y / e_θ)— 路徑追蹤的兩個誤差。關鍵在 `B = [0, v/L]ᵀ` 的那個零:方向盤**不會立刻改變橫向位置**,得先改航向再積成位移。兩者強耦合,所以不能拆成兩個獨立 PID——它們會在同一個致動器上互相抵銷。
+
+## 取樣式 MPC(MPPI)
+- MPPI(Model Predictive Path Integral)— 取樣式的 MPC:每週期以上一輪的控制序列為均值撒 K 條高斯噪聲、各自前向模擬算代價、用 softmax 加權平均成新序列。**全程沒有對代價求導**,所以代價可以是查表、布林、if-else——這是它能吃 costmap 的全部原因。Nav2 的預設路線控制器。
+- Gibbs 變分原理 — 要最小化「期望代價 + λ·KL(q‖p)」時,最優分布必然是 `q* ∝ exp(−S/λ)·p`。推導只用到 KL 散度非負:把泛函湊成 `λ·KL(q‖q*) − λ log Z` 即可。**指數權重不是設計選擇,是推導結果**,地位等同 LQR 的 `u = −Kx`。
+- 自由能(free energy)— 上述最小值 `−λ log E_p[e^{−S/λ}]`。不同文獻的定義可能差一個 `−λ` 因子(熱力學 vs 資訊論慣例),不影響 `q*` 的形式。
+- 重要性取樣(importance sampling)— `q*` 因為含一個算不出來的歸一化常數 `Z` 而無法直接取樣;改從高斯提議分布取樣再用密度比加權,`Z` 在分子分母對消。這正是 softmax 權重 `w_k = e^{−S_k/λ} / Σ_j e^{−S_j/λ}` 的來源。
+- 溫度 λ(Nav2 參數名 `temperature`,預設 0.3)— 決定「多相信最好的那一條取樣」。λ→0 退化成 argmin(只信一條、會抖),λ→∞ 退化成均勻平均(等於沒在控制)。
+- critic(Nav2)— 可插拔的代價函數,對一批軌跡評分再加總。`nav2_mppi_controller` 有 11 個(ObstaclesCritic、CostCritic、PathAlignCritic、GoalCritic、PreferForwardCritic、TwirlingCritic…)。**因為不需要可微,所以可以讓使用者自己加**。
+- 預測時域(MPPI)— `time_steps × model_dt`,Nav2 預設 56 × 0.05 s = 2.8 秒;每週期前向模擬 1000 × 56 = 56,000 個位姿,這是它只有 125 Hz 而 RPP 有 >4000 Hz 的原因。
 
 ## 足式(四足 / 人形)
 - 浮動基座(floating base)— 把軀幹當成在空間中自由漂浮的剛體,腿掛在它下面。廣義座標是 `q = (基座 6 DOF, 關節 n 個)`。

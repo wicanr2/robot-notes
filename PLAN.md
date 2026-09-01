@@ -255,6 +255,15 @@ SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法�
 
 > 另記一個學生的判準值得留著:它讀完之後被要求用自己的話回答三個問題,「為什麼是二次型」答得完整、「K 從哪來」答得出來源但答不出每一步、「倒車為什麼好控制」只能複述而無法解釋機制。**答不出來的那兩題,精確對應到文中真正缺的兩塊**(矩陣微積分、頻域直覺)。比起請它列出「哪裡看不懂」,請它**複述**更能定位裂縫。
 
+| **R21** | 取樣式 MPC:MPPI 的完整推導與 Nav2 實作 | 起因是「ROS 2 有沒有官方的 LQR / MPC」這個提問。查證結論:**官方零 LQR**(`ros2_controllers` 十幾個 controller、`control_toolbox`、Nav2 的五個 plugin 都沒有),唯一與 MPC 相關的是 `nav2_mppi_controller`,而它是**取樣式**不是解 QP 的。於是在 `feedback-control-pid-lqr.md` 補上 §13(原 §13–16 順推為 §14–17):**Gibbs 變分原理自己推**(最小化 `E_q[S] + λ·KL(q‖p)`,把泛函湊成 `λ·KL(q‖q*) − λ log Z`,靠 KL 非負直接逼出 `q* ∝ e^{−S/λ}p`——指數權重不是設計選擇是推導結果,地位等同 §5 的 `u = −Kx`);重要性取樣讓算不出來的 `Z` 在分子分母對消,得到 softmax 權重;更新律的兩種等價寫法(論文的 `u ← u + Σw_kε_k` 與 Nav2 原始碼的 `u = Σw_k v_k`,因 `Σw_k = 1` 而等價);λ 溫度的兩個極端;**核心那一節**——整條推導裡 `S` 只出現在 `e^{−S/λ}`,從頭到尾沒有求導,所以代價可以是 costmap 查表、碰撞布林、if-else,而 LQR 的閉式解正是用「代價必須是二次型」換來的;Nav2 實際參數(原始碼級核對)與 11 個 critic;PID / LQR / MPPI 三者對「代價需要多少結構」的光譜對照。新增 3 張 SVG(`ctl-quadratic-vs-costmap` 二次碗 vs 真實代價地形、`ctl-mppi-mechanism` 七步流程 + 軌跡束、以及順手修準的局部最小標記) | ✅ 完成 |
+
+## R21 查證抓到的四件事
+
+1. **先 grep 自己的庫,答案就在裡面。** 要回答「Nav2 為什麼不做 LQR」時,第一步不是上網搜,而是 grep `docs/_refs/` ——那裡躺著 Nav2 維護者親寫的 survey **全文 PDF**。`pdftotext` 抽出來一 grep:**全文零次提及 LQR**。這個負面證據兩秒就拿到,而且比任何二手討論權威。它的 Table II(各 controller 的 Max. Frequency:MPPI 125 Hz、Graceful 1800 Hz、RPP >4000 Hz)與五類分法(reactive / predictive / geometric / machine-learning / control-law)也直接給出了「LQR 會落在哪一格、那格已經被誰佔住」的答案。
+2. **agent 的引文要回原文核對,因為格式標記會在轉述中丟失。** 研究 agent 正確找到了 navigation2#1710 裡 Macenski 對 LQR 的定性,但回報的純文字裡看不出**那一行帶刪除線**(`~LQR/iLQR/CiLQR …~ MPPI supersedes`)。刪除線正是「評估過、決定不做」與「還沒排到」的分野——用 `gh api` 讀原始 markdown 才看得到。
+3. **文件與原始碼不一致時,以原始碼為準,而且要主動去核對。** agent 自己誠實標了「參數預設值只是文件層級,建議另做原始碼級核對」。照做之後:預設值全部吻合(`batch_size` 1000、`time_steps` 56、`model_dt` 0.05、`temperature` 0.3、`gamma` 0.015),但**Savitzky-Golay 濾波器在文件裡不明顯、原始碼確實有呼叫**(`optimizer.cpp` 的 `savitskyGolayFilter`)。這種只有讀碼才看得到的東西,正是筆記該寫進去的。
+4. **拿不到原文時,能自己推的就自己推,不要引用沒核對過的式號。** 論文 PDF 抓不到(判定為掃描影像),agent 給的自由能式子是經 HTML 轉譯後的摘要,而且不同文獻的定義差一個 `−λ` 因子。處置是**自己重推一次 Gibbs 變分原理**——只用 KL 散度非負這一個性質,四行就推完,結論自洽且與文獻一致。正文標明這是本篇自推、未逐式核對原文,並註記那個因子差異不影響 `q*` 的形式。
+
 ## 後續形態輪次(待做)
 
 | 輪次 | 主題 | 內容 |

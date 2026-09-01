@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 432" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="mp-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker>
+    <marker id="mp-g" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#047857"/></marker>
+  </defs>
+  <rect width="880" height="432" fill="#ffffff"/>
+  <text x="440" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">MPPI 一個控制週期:撒點、評分、加權平均</text>
+  <text x="440" y="47" text-anchor="middle" font-size="12" fill="#6B7280">沒有梯度、沒有求解器、沒有收斂判斷——只用到代價的「數值」</text>
+
+  <!-- ===== 左:軌跡束視覺化 ===== -->
+  <text x="200" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">1000 條取樣軌跡(示意畫 9 條)</text>
+  <!-- 障礙物 -->
+  <rect x="200" y="185" width="52" height="46" rx="3" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="226" y="180" text-anchor="middle" font-size="10.5" font-weight="700" fill="#B91C1C">障礙</text>
+  <!-- 撞到的軌跡(高代價 → 權重≈0) -->
+  <g fill="none" stroke="#DC2626" stroke-width="1.5" opacity="0.75">
+    <path d="M90,240 Q160,205 275,200"/>
+    <path d="M90,240 Q160,215 275,215"/>
+    <path d="M90,240 Q160,225 275,228"/>
+  </g>
+  <!-- 上繞(低代價 → 權重高) -->
+  <g fill="none" stroke="#6B7280" stroke-width="1.5" opacity="0.8">
+    <path d="M90,240 Q160,150 275,140"/>
+    <path d="M90,240 Q160,165 275,158"/>
+    <path d="M90,240 Q160,180 275,172"/>
+  </g>
+  <!-- 下繞(中等) -->
+  <g fill="none" stroke="#9CA3AF" stroke-width="1.5" opacity="0.7">
+    <path d="M90,240 Q160,272 275,292"/>
+    <path d="M90,240 Q160,286 275,312"/>
+    <path d="M90,240 Q160,296 275,328"/>
+  </g>
+  <!-- 加權平均出來的 -->
+  <path d="M90,240 Q158,170 268,158" fill="none" stroke="#047857" stroke-width="3.4" marker-end="url(#mp-g)"/>
+  <circle cx="90" cy="240" r="7" fill="#1F2937"/>
+  <text x="76" y="262" text-anchor="end" font-size="11" fill="#374151">車</text>
+  <text x="286" y="152" font-size="11" font-weight="700" fill="#047857">加權平均的結果</text>
+  <text x="286" y="205" font-size="10.5" fill="#B91C1C">撞到 → 代價高</text>
+  <text x="286" y="219" font-size="10.5" fill="#B91C1C">→ 權重幾乎是 0</text>
+  <text x="286" y="316" font-size="10.5" fill="#6B7280">繞遠 → 代價中等</text>
+
+  <!-- 只送第一步 -->
+  <circle cx="120" cy="214" r="4.5" fill="#B45309"/>
+  <text x="118" y="292" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">只送出第一步</text>
+  <text x="118" y="307" text-anchor="middle" font-size="10" fill="#92400E">其餘平移一格</text>
+  <text x="118" y="321" text-anchor="middle" font-size="10" fill="#92400E">當下週期的起點</text>
+  <line x1="120" y1="276" x2="120" y2="224" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#mp-a)"/>
+
+  <!-- ===== 右:六步流程 ===== -->
+  <line x1="400" y1="62" x2="400" y2="400" stroke="#E5E7EB" stroke-width="1.4"/>
+  <g font-size="11.5" fill="#374151">
+    <rect x="428" y="70" width="424" height="34" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.4"/>
+    <text x="442" y="91" font-weight="700">① 取上週期的控制序列(已平移一格)當均值</text>
+
+    <rect x="428" y="112" width="424" height="34" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.4"/>
+    <text x="442" y="126" font-weight="700">② 撒 K 條高斯噪聲</text>
+    <text x="442" y="141" font-size="11" fill="#6B7280">v_k = u + ε_k,ε_k ~ N(0, Σ)　K = 1000</text>
+
+    <rect x="428" y="154" width="424" height="34" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.4"/>
+    <text x="442" y="168" font-weight="700">③ 各自用運動模型前向模擬 T 步</text>
+    <text x="442" y="183" font-size="11" fill="#6B7280">T = 56 步 × 0.05 s = 2.8 秒;共 56,000 個位姿</text>
+
+    <rect x="428" y="196" width="424" height="34" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="1.4"/>
+    <text x="442" y="210" font-weight="700">④ 11 個 critic 評分 → 每條一個數字 S_k</text>
+    <text x="442" y="225" font-size="11" fill="#6B7280">可以是查表、布林、if-else——不需要可微</text>
+
+    <rect x="428" y="238" width="424" height="42" rx="6" fill="#ECFDF5" stroke="#059669" stroke-width="1.9"/>
+    <text x="442" y="255" font-weight="700" fill="#047857">⑤ 減最小值 → softmax 得權重</text>
+    <text x="640" y="273" text-anchor="middle" font-size="12.5" font-weight="700" fill="#047857">w_k = e^(−(S_k−ρ)/λ) ⁄ Σ_j e^(−(S_j−ρ)/λ)</text>
+
+    <rect x="428" y="288" width="424" height="42" rx="6" fill="#ECFDF5" stroke="#059669" stroke-width="1.9"/>
+    <text x="442" y="305" font-weight="700" fill="#047857">⑥ 加權平均 = 新的控制序列</text>
+    <text x="640" y="323" text-anchor="middle" font-size="12.5" font-weight="700" fill="#047857">u_new = Σ_k w_k · v_k  =  u + Σ_k w_k · ε_k</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.6" marker-end="url(#mp-a)">
+    <line x1="640" y1="104" x2="640" y2="110"/><line x1="640" y1="146" x2="640" y2="152"/>
+    <line x1="640" y1="188" x2="640" y2="194"/><line x1="640" y1="230" x2="640" y2="236"/>
+    <line x1="640" y1="280" x2="640" y2="286"/>
+  </g>
+
+  <rect x="428" y="340" width="424" height="34" rx="6" fill="#FFFBEB" stroke="#B45309" stroke-width="1.5"/>
+  <text x="640" y="354" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">⑦ 9 點 Savitzky-Golay 平滑 → 施加運動學約束 → 送出第一步</text>
+  <text x="640" y="368" text-anchor="middle" font-size="10.5" fill="#92400E">Ackermann 就是在這裡夾 |ω| ≤ |v| / R_min</text>
+
+  <text x="440" y="398" text-anchor="middle" font-size="11.5" fill="#374151">整條流程裡,S_k 只出現在 e^(−S_k/λ) —— <tspan font-weight="700">從頭到尾沒有對代價求導</tspan></text>
+  <text x="440" y="416" text-anchor="middle" font-size="11" fill="#6B7280">這就是它能吃 costmap 查表值與碰撞布林值的全部原因</text>
+</svg>
