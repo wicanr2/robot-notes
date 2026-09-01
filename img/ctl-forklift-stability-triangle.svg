@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 436" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="st-r" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+    <marker id="st-o" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#B45309"/></marker>
+  </defs>
+  <rect width="880" height="436" fill="#ffffff"/>
+  <text x="440" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">穩定三角形:為什麼舉高之後轉彎必須更慢</text>
+  <text x="440" y="47" text-anchor="middle" font-size="12" fill="#6B7280">三輪平衡重式叉車只有三個接地點,合成重心必須留在它們圍成的三角形內</text>
+
+  <!-- ============ 左:俯視 ============ -->
+  <text x="215" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#374151">俯視:支撐三角形</text>
+  <text x="215" y="104" text-anchor="middle" font-size="11" fill="#374151">前兩輪(承載側,貨叉在此)</text>
+  <path d="M135,124 L295,124 L215,286 Z" fill="#ECFDF5" stroke="#059669" stroke-width="2.2"/>
+  <rect x="121" y="112" width="28" height="12" rx="2" fill="#374151"/>
+  <rect x="281" y="112" width="28" height="12" rx="2" fill="#374151"/>
+  <rect x="203" y="280" width="24" height="12" rx="2" fill="#374151"/>
+  <text x="215" y="310" text-anchor="middle" font-size="11" fill="#374151">後單輪(轉向)</text>
+
+  <!-- 重心 -->
+  <circle cx="215" cy="228" r="6" fill="none" stroke="#6B7280" stroke-width="2"/>
+  <text x="128" y="232" text-anchor="end" font-size="10.5" fill="#6B7280">空車重心</text>
+  <line x1="215" y1="222" x2="215" y2="184" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#st-r)"/>
+  <circle cx="215" cy="176" r="6.5" fill="#DC2626"/>
+  <text x="128" y="172" text-anchor="end" font-size="10.5" font-weight="700" fill="#DC2626">載貨後的合成重心</text>
+  <text x="128" y="187" text-anchor="end" font-size="10" fill="#DC2626">往貨叉端移</text>
+
+  <!-- 側向力 -->
+  <line x1="222" y1="176" x2="292" y2="176" stroke="#B45309" stroke-width="2.2" marker-end="url(#st-o)"/>
+  <text x="300" y="164" font-size="11" font-weight="700" fill="#92400E">轉彎的等效側向力</text>
+  <text x="300" y="180" font-size="10.5" fill="#92400E">把重心往三角形的</text>
+  <text x="300" y="195" font-size="10.5" fill="#92400E">一條邊推,越過就翻</text>
+  <line x1="255" y1="150" x2="277" y2="194" stroke="#B45309" stroke-width="2.4"/>
+  <text x="308" y="222" font-size="10.5" font-weight="700" fill="#92400E">← 傾覆軸就是這條邊</text>
+
+  <text x="215" y="336" text-anchor="middle" font-size="11" fill="#6B7280">是三角形不是矩形——後方只有一個接地點,</text>
+  <text x="215" y="352" text-anchor="middle" font-size="11" fill="#6B7280">往後兩角的方向餘裕比往正側面小得多</text>
+
+  <!-- ============ 右:後視 ============ -->
+  <text x="660" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#374151">後視:舉高把重心抬起來</text>
+  <text x="660" y="98" text-anchor="middle" font-size="10.5" fill="#6B7280">(從車尾往前看,對著上圖那條傾覆邊)</text>
+  <line x1="520" y1="300" x2="820" y2="300" stroke="#374151" stroke-width="2"/>
+  <rect x="580" y="228" width="160" height="60" rx="4" fill="#F9FAFB" stroke="#374151" stroke-width="1.8"/>
+  <circle cx="600" cy="294" r="10" fill="#374151"/>
+  <circle cx="720" cy="294" r="10" fill="#374151"/>
+  <!-- 門架與貨物 -->
+  <line x1="644" y1="228" x2="644" y2="128" stroke="#374151" stroke-width="2.5"/>
+  <line x1="676" y1="228" x2="676" y2="128" stroke="#374151" stroke-width="2.5"/>
+  <rect x="622" y="232" width="76" height="28" rx="2" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="622" y="134" width="76" height="30" rx="2" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
+  <line x1="710" y1="230" x2="710" y2="172" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#st-r)"/>
+  <text x="756" y="208" font-size="10.5" fill="#DC2626">舉高</text>
+
+  <!-- 重心低 / 高 -->
+  <circle cx="660" cy="274" r="6" fill="none" stroke="#6B7280" stroke-width="2"/>
+  <text x="572" y="278" text-anchor="end" font-size="10.5" fill="#6B7280">低位重心</text>
+  <circle cx="660" cy="186" r="6.5" fill="#DC2626"/>
+  <text x="572" y="190" text-anchor="end" font-size="10.5" font-weight="700" fill="#DC2626">高位重心</text>
+
+  <!-- h 與 d -->
+  <line x1="660" y1="194" x2="660" y2="298" stroke="#059669" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="650" y="214" text-anchor="end" font-size="14" font-weight="700" fill="#047857">h</text>
+  <text x="650" y="228" text-anchor="end" font-size="9.5" fill="#047857">重心離地高度</text>
+  <line x1="660" y1="304" x2="720" y2="304" stroke="#059669" stroke-width="2"/>
+  <line x1="660" y1="298" x2="660" y2="310" stroke="#059669" stroke-width="1.6"/>
+  <line x1="720" y1="298" x2="720" y2="310" stroke="#059669" stroke-width="1.6"/>
+  <text x="690" y="324" text-anchor="middle" font-size="14" font-weight="700" fill="#047857">d</text>
+  <text x="748" y="322" font-size="9.5" fill="#047857">重心到傾覆軸的水平距離</text>
+  <circle cx="720" cy="302" r="4.5" fill="#B45309"/>
+  <text x="726" y="348" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">傾覆軸</text>
+
+  <!-- 側向力 -->
+  <line x1="667" y1="186" x2="742" y2="186" stroke="#B45309" stroke-width="2.4" marker-end="url(#st-o)"/>
+  <text x="750" y="182" font-size="12" font-weight="700" fill="#92400E">m·a</text>
+  <text x="750" y="196" font-size="9.5" fill="#92400E">側向慣性力</text>
+
+  <line x1="440" y1="68" x2="440" y2="362" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <rect x="80" y="372" width="720" height="46" rx="7" fill="#FFFBEB" stroke="#B45309" stroke-width="1.7"/>
+  <text x="440" y="392" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400E">傾覆力矩 m·a·h 超過抵抗力矩 m·g·d 就翻 ⟹ a_max = g·d/h,而 a = v²/R ⟹ v_max = √(g·d·R/h)</text>
+  <text x="440" y="411" text-anchor="middle" font-size="11" fill="#92400E">質量 m 兩邊約掉——決定翻不翻的是幾何(d 與 h),不是載了多重;舉高讓 h 變兩倍,容許轉彎速度就降到 1/√2</text>
+</svg>
