@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 376" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="sg-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker></defs>
+  <rect width="860" height="376" fill="#ffffff"/>
+  <text x="430" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">Savitzky-Golay 與移動平均的差別:彎會不會被削掉</text>
+  <text x="430" y="47" text-anchor="middle" font-size="12" fill="#6B7280">同一段帶鋸齒的轉彎,兩種濾波器處理後的頂點</text>
+
+  <line x1="60" y1="250" x2="392" y2="250" stroke="#374151" stroke-width="1.5"/>
+  <line x1="60" y1="250" x2="60" y2="86" stroke="#374151" stroke-width="1.5"/>
+  <text x="52" y="94" text-anchor="end" font-size="11" fill="#6B7280">y</text>
+  <text x="398" y="266" font-size="11" fill="#6B7280">格點</text>
+  <path d="M60.0,354.0 L80.0,303.7 L100.0,246.3 L120.0,211.4 L140.0,169.4 L160.0,149.8 L180.0,123.2 L200.0,119.1 L220.0,107.8 L240.0,119.1 L260.0,123.2 L280.0,149.8 L300.0,169.4 L320.0,211.4 L340.0,246.3 L360.0,303.7 L380.0,354.0" fill="none" stroke="#9CA3AF" stroke-width="1.6"/>
+  <path d="M60.0,357.7 L80.0,300.0 L100.0,250.0 L120.0,207.7 L140.0,173.1 L160.0,146.2 L180.0,126.9 L200.0,115.4 L220.0,111.5 L240.0,115.4 L260.0,126.9 L280.0,146.2 L300.0,173.1 L320.0,207.7 L340.0,250.0 L360.0,300.0 L380.0,357.7" fill="none" stroke="#059669" stroke-width="2.6" stroke-dasharray="7 4"/>
+  <path d="M60.0,354.0 L80.0,303.7 L100.0,246.3 L120.0,222.5 L140.0,189.0 L160.0,161.0 L180.0,142.8 L200.0,130.2 L220.0,127.5 L240.0,130.2 L260.0,142.8 L280.0,161.0 L300.0,189.0 L320.0,222.5 L340.0,246.3 L360.0,303.7 L380.0,354.0" fill="none" stroke="#DC2626" stroke-width="2.4"/>
+  <path d="M60.0,354.0 L80.0,303.7 L100.0,246.3 L120.0,208.6 L140.0,172.2 L160.0,147.0 L180.0,126.0 L200.0,116.3 L220.0,110.7 L240.0,116.3 L260.0,126.0 L280.0,147.0 L300.0,172.2 L320.0,208.6 L340.0,246.3 L360.0,303.7 L380.0,354.0" fill="none" stroke="#1D4ED8" stroke-width="2.4"/>
+  <circle cx="220" cy="111.5" r="4" fill="#059669"/>
+  <circle cx="220" cy="127.5" r="4" fill="#DC2626"/>
+  <line x1="238" y1="111.5" x2="238" y2="127.5" stroke="#DC2626" stroke-width="1.6" marker-end="url(#sg-a)"/>
+  <text x="246" y="124" font-size="11" font-weight="700" fill="#DC2626">頂點被壓低 11.5%</text>
+  <text x="96" y="106" font-size="11" fill="#059669">真實的彎(虛線)</text>
+  <text x="96" y="122" font-size="11" font-weight="700" fill="#1D4ED8">SG:幾乎重合</text>
+  <text x="96" y="230" font-size="11" fill="#9CA3AF">原始:帶格點鋸齒</text>
+  <text x="226" y="286" text-anchor="middle" font-size="11.5" fill="#374151">兩者都把鋸齒磨掉了,但移動平均連「真實的彎」一起磨</text>
+
+  <line x1="420" y1="66" x2="420" y2="330" stroke="#E5E7EB" stroke-width="1.4"/>
+
+  <text x="640" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">為什麼:對各階形狀的響應</text>
+  <rect x="452" y="94" width="376" height="132" rx="7" fill="#F9FAFB" stroke="#374151" stroke-width="1.4"/>
+  <text x="466" y="114" font-size="11.5" font-weight="700" fill="#374151">輸入形狀</text>
+  <text x="646" y="114" font-size="11.5" font-weight="700" fill="#1D4ED8">SG(7,3)</text>
+  <text x="752" y="114" font-size="11.5" font-weight="700" fill="#DC2626">移動平均(7)</text>
+  <line x1="462" y1="122" x2="818" y2="122" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="466" y="141" font-size="11" fill="#374151">常數、直線</text><text x="666" y="141" font-size="11" fill="#047857">保留</text><text x="778" y="141" font-size="11" fill="#047857">保留</text>
+  <text x="466" y="162" font-size="11" font-weight="700" fill="#374151">二次(轉彎)</text><text x="666" y="162" font-size="11" font-weight="700" fill="#047857">保留</text><text x="778" y="162" font-size="11" font-weight="700" fill="#B91C1C">削掉</text>
+  <text x="466" y="183" font-size="11" font-weight="700" fill="#374151">三次</text><text x="666" y="183" font-size="11" font-weight="700" fill="#047857">保留</text><text x="778" y="183" font-size="11" font-weight="700" fill="#B91C1C">削掉</text>
+  <text x="466" y="204" font-size="11" fill="#374151">四次以上、高頻鋸齒</text><text x="666" y="204" font-size="11" fill="#B91C1C">削掉</text><text x="778" y="204" font-size="11" fill="#B91C1C">削掉</text>
+  <text x="640" y="220" text-anchor="middle" font-size="10" fill="#6B7280">(SG 保留到 poly_order 為止,預設 3)</text>
+
+  <rect x="452" y="238" width="376" height="46" rx="7" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.6"/>
+  <text x="640" y="256" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E40AF">SG 係數 = (−2, 3, 6, 7, 6, 3, −2) / 21</text>
+  <text x="640" y="273" text-anchor="middle" font-size="10.5" fill="#1E40AF">兩端是負的——正是這個「負權重」抵銷了移動平均會有的削平效應</text>
+
+  <text x="640" y="306" text-anchor="middle" font-size="11" fill="#374151">移動平均對 y = −x²/8 的中心偏差 = −(1/8)·(1/7)·Σk² = −0.5</text>
+  <text x="640" y="323" text-anchor="middle" font-size="10.5" fill="#6B7280">與圖上量到的 −0.517 吻合(差額來自殘餘噪聲)</text>
+</svg>

@@ -45,6 +45,8 @@
 | **Smac Hybrid-A\*** | **有運動學的車**(最小轉彎半徑、可否倒車) | 類車/Ackermann |
 | **Smac State Lattice** | 任意輪廓 + 預算的最小控制集 | 非圓形、任意尺寸車 |
 
+> **五個規劃器各自的搜尋策略、啟發式與代價式子,見 [Nav2 外掛演算法](nav2-plugin-algorithms.md#2-planner五個全域規劃器)**;平滑器(Simple / Constrained / Savitzky-Golay)與 AMCL 的數學也在同一篇。
+
 **為什麼 Hybrid-A\* 對車輛運動學重要?**(第一性原理)一般網格 A* 算出的路可能要求車「原地 90° 急轉」或走鋸齒——但真實車輛(尤其類車)**不能原地轉、有最小轉彎半徑**,這種路根本開不出來。Hybrid-A* 在搜尋時就把運動學約束(轉彎半徑、可否倒車)納入,產出的每一步都是車**實際做得到**的動作(kinematically feasible),控制器才跟得動。
 
 > 全域規劃器輸出的是折線,**轉角處曲率無限大、車走不了**。折線與控制器之間還有一個平滑階段——曲線怎麼選(Bézier / B-spline / clothoid)、曲率怎麼驗、速度怎麼沿曲率規劃,見[路徑平滑與軌跡生成](path-smoothing-and-trajectory.md)。
@@ -58,6 +60,8 @@
 | **MPPI**(Model Predictive Path Integral) | 對上條最優軌跡隨機擾動取樣、最佳化 | 最平滑、最省控制力,但最吃算力 |
 
 > 一句話選法:只要忠實跟線、算力有限 → RPP;要繞動態障礙、要穩 → DWB;要最平滑、算力夠 → MPPI。(DWB 航向最穩、MPPI 控制力最低、RPP 任務時間最短,屬比較研究的經驗結論,非絕對。)
+>
+> **每個控制器的數學式子、參數對應到公式哪一項,見 [Nav2 外掛演算法](nav2-plugin-algorithms.md#3-controller五個區域控制器)**——那篇也涵蓋 Graceful 與 Rotation Shim 這兩個本表沒列的。
 
 ## 5. 行為樹 + 恢復:為什麼不用寫死的狀態機
 

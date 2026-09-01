@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 408" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="hh-a" markerWidth="10" markerHeight="10" refX="6.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#374151"/></marker></defs>
+  <rect width="900" height="408" fill="#ffffff"/>
+  <text x="450" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">Hybrid-A* 的兩個啟發式:各放寬一個約束,再取大的</text>
+  <text x="450" y="47" text-anchor="middle" font-size="12" fill="#6B7280">放寬後的最優解必為原問題的下界,兩個下界取 max 仍是下界,但更緊</text>
+
+  <!-- 左:放寬運動學 -->
+  <rect x="36" y="72" width="252" height="200" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.8"/>
+  <text x="162" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E40AF">放寬「運動學」</text>
+  <text x="162" y="111" text-anchor="middle" font-size="10.5" fill="#1E40AF">車可以原地轉、任意方向走</text>
+  <rect x="120" y="150" width="42" height="52" rx="3" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+  <text x="141" y="180" text-anchor="middle" font-size="9.5" fill="#B91C1C">障礙</text>
+  <circle cx="70" cy="230" r="6" fill="#1F2937"/>
+  <circle cx="252" cy="132" r="6" fill="none" stroke="#1F2937" stroke-width="2"/>
+  <path d="M70,230 L110,214 L114,146 L172,138 L252,132" fill="none" stroke="#2563EB" stroke-width="2.6"/>
+  <text x="162" y="252" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">h_obstacle:繞得開,但轉角不合法</text>
+  <text x="162" y="266" text-anchor="middle" font-size="10" fill="#1E40AF">障礙物地圖的 DP 距離場</text>
+
+  <!-- 右:放寬障礙 -->
+  <rect x="324" y="72" width="252" height="200" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="450" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#047857">放寬「障礙物」</text>
+  <text x="450" y="111" text-anchor="middle" font-size="10.5" fill="#047857">地圖是空的,只管轉彎半徑</text>
+  <rect x="408" y="150" width="42" height="52" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="429" y="180" text-anchor="middle" font-size="9.5" fill="#9CA3AF">忽略</text>
+  <circle cx="358" cy="230" r="6" fill="#1F2937"/>
+  <circle cx="540" cy="132" r="6" fill="none" stroke="#1F2937" stroke-width="2"/>
+  <path d="M358,230 C398,230 400,150 440,142 C480,134 512,132 540,132" fill="none" stroke="#059669" stroke-width="2.6"/>
+  <text x="450" y="252" text-anchor="middle" font-size="11" font-weight="700" fill="#047857">h_distance:轉得過去,但穿牆</text>
+  <text x="450" y="266" text-anchor="middle" font-size="10" fill="#047857">Dubins(不倒車)/ Reeds-Shepp(可倒車)</text>
+
+  <!-- 右側:真實問題 -->
+  <rect x="612" y="72" width="252" height="200" rx="8" fill="#FFFBEB" stroke="#B45309" stroke-width="2"/>
+  <text x="738" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400E">真實問題:兩個都要滿足</text>
+  <text x="738" y="111" text-anchor="middle" font-size="10.5" fill="#92400E">既要繞開,又要轉得過去</text>
+  <rect x="696" y="150" width="42" height="52" rx="3" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+  <text x="717" y="180" text-anchor="middle" font-size="9.5" fill="#B91C1C">障礙</text>
+  <circle cx="646" cy="230" r="6" fill="#1F2937"/>
+  <circle cx="828" cy="132" r="6" fill="none" stroke="#1F2937" stroke-width="2"/>
+  <path d="M646,230 C676,232 682,206 686,182 C690,150 700,132 730,126 C770,118 800,126 828,132" fill="none" stroke="#B45309" stroke-width="3"/>
+  <text x="738" y="252" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">真實路徑一定比左右兩條都長</text>
+  <text x="738" y="266" text-anchor="middle" font-size="10" fill="#92400E">所以左右兩個都是它的下界</text>
+
+  <!-- 結論 -->
+  <g stroke="#374151" stroke-width="1.8" marker-end="url(#hh-a)">
+    <line x1="162" y1="278" x2="162" y2="298"/>
+    <line x1="450" y1="278" x2="450" y2="298"/>
+  </g>
+  <rect x="150" y="304" width="600" height="44" rx="8" fill="#F9FAFB" stroke="#374151" stroke-width="1.8"/>
+  <text x="450" y="323" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1F2937">h(n) = max( h_obstacle(n), h_distance(n) )</text>
+  <text x="450" y="340" text-anchor="middle" font-size="10.5" fill="#6B7280">兩個都是下界 ⟹ 取 max 仍是下界(A* 仍可採納),但比任一個都更緊</text>
+
+  <text x="450" y="368" text-anchor="middle" font-size="11.5" fill="#374151">啟發式越緊,A* 展開的節點越少——這就是它比 NavFn 還快的原因之一</text>
+  <text x="450" y="386" text-anchor="middle" font-size="11" fill="#6B7280">h_obstacle 在 costmap 沒變時可以快取重用,官方文件說能加速約 40 倍</text>
+</svg>

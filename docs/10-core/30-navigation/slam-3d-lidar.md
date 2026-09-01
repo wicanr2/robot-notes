@@ -179,7 +179,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 **License 提醒**:商用產品要留意 **GPL 系**(FAST-LIO2 / Point-LIO 為 GPL-2.0、MOLA 為 GPLv3)對衍生散布的義務;**MIT / BSD**(KISS-ICP、DLIO、GLIM、RTAB-Map、Open3D-SLAM)對商用最寬鬆。
 
-> 對照前面:KISS-ICP/MOLA 走 [§2.1 ICP](#21-iceiterative-closest-point最樸素也最脆弱)、hdl_graph_slam 走 [§2.2 NDT](#22-ndtnormal-distributions-transform用機率分布取代逐點對應)、FAST-LIO/LIO-SAM 走 [§2.3 LOAM 特徵 / §4 LIO 演進](#4-代表方法演進每代只記比上一代多解了什麼)、GLIM/MOLA/RTAB-Map 是完整的 [§5 後端 + loop closure](#5-迴路閉合--後端優化消除累積漂移) 框架。
+> 對照前面:KISS-ICP/MOLA 走 [§2.1 ICP](#21-icpiterative-closest-point-最樸素也最脆弱)、hdl_graph_slam 走 [§2.2 NDT](#22-ndtnormal-distributions-transform-用機率分布取代逐點對應)、FAST-LIO/LIO-SAM 走 [§2.3 LOAM 特徵 / §4 LIO 演進](#4-代表方法演進每代只記比上一代多解了什麼)、GLIM/MOLA/RTAB-Map 是完整的 [§5 後端 + loop closure](#5-迴路閉合--後端優化消除累積漂移) 框架。
 
 ---
 

@@ -66,6 +66,7 @@
 | 軟體背景、想補硬體 | [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-core/10-hardware/motors-and-foc.md) → [感測器](docs/10-core/10-hardware/sensors.md) |
 | 做下位機韌體 | [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) → [編碼器](docs/10-core/10-hardware/encoders.md) → [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) |
 | 做導航 | [SLAM](docs/10-core/30-navigation/slam-mapping.md) → [定位](docs/10-core/30-navigation/localization.md) → [路徑規劃](docs/10-core/30-navigation/path-planning.md) |
+| **要選 Nav2 的 planner / controller** | [Nav2 外掛演算法](docs/10-core/30-navigation/nav2-plugin-algorithms.md) — 十四個外掛的數學與選型判準 |
 | **做多車調度 / 路網交管** | [路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) → [室內 AMR 路網選型](docs/40-fleet/indoor-amr-roadnet-selection.md) → [OpenRMF](docs/40-fleet/open-rmf.md) → [VDA5050](docs/40-fleet/vda5050.md) |
 | 想做 AI 模擬(進階) | 先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
 | 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
@@ -113,6 +114,7 @@
 - [定位](docs/10-core/30-navigation/localization.md) — AMCL 粒子濾波、odometry、AprilTag 地標定位
 - [座標轉換與 TF](docs/10-core/30-navigation/kinematics-and-coordinate-transforms.md) — 為何分 map/odom、齊次變換、tf2 樹、REP-103/105
 - [路徑規劃與軌跡(Nav2)](docs/10-core/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
+- [Nav2 外掛演算法](docs/10-core/30-navigation/nav2-plugin-algorithms.md) — 五個 planner、五個 controller、三個 smoother 與 AMCL 逐一拆開:每個的數學核心是什麼、哪幾個參數真的會進到式子裡。含 Hybrid-A\* 雙啟發式為何取 max、純追蹤 κ=2y/L² 的推導、Graceful 的閉式控制律、Simple Smoother 就是那個目標函數的梯度下降、AMCL 兩種量測模型的參數落差
 - [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
 
 ### 20-forms 形態分支 — 換了形態,這幾層就得換
