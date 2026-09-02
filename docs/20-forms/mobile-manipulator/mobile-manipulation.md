@@ -215,7 +215,7 @@ Fetch 那一列值得單獨看一眼:它曾是研究界最常見的移動操作�
 - 零空間投影的兩篇奠基文獻:Whitney 1969(偽逆解瞬時 IK)、Liégeois 1977(疊加零空間分量優化次要目標),脈絡整理見 <https://mosesnah-shared.github.io/robotics_null_space_projection.html>
 - 可操作度:Yoshikawa, "Manipulability of Robotic Mechanisms", *IJRR* 4(2), 1985:<https://journals.sagepub.com/doi/10.1177/027836498500400201>
 - 傾覆穩定度量:Papadopoulos & Rey 的 Force-Angle(ICRA 1996 / *Vehicle System Dynamics* 2000)<https://www.researchgate.net/publication/250050066_The_Force-Angle_Measure_of_Tipover_Stability_Margin_for_Mobile_Manipulators>;Moosavian & Alipour 的 Moment-Height Stability(IROS 2006)<https://ieeexplore.ieee.org/document/4059314/>
-- 平台:TIAGo <https://pal-robotics.com/robot/tiago-pro/>、Ridgeback <https://clearpathrobotics.com/ridgeback-indoor-robot-platform/>、Stretch 3 <https://docs.hello-robot.com/0.3/hardware/hardware_guide_stretch_3/>、MC600 <https://www.automatedwarehouseonline.com/mc600-mobile-manipulator-combines-ur-cobot-with-mir-base/>、Spot Arm <https://support.bostondynamics.com/s/article/Spot-Arm-Specifications-151694>、Fetch 資產易主 <https://www.therobotreport.com/skild-acquires-fetch-robotics-assets-from-zebra-automation/>
+- 平台:TIAGo <https://pal-robotics.com/robot/tiago-pro/>、Ridgeback <https://clearpathrobotics.com/ridgeback-indoor-robot-platform/>、Stretch 3 <https://hello-robot.com/>、MC600 <https://www.automatedwarehouseonline.com/mc600-mobile-manipulator-combines-ur-cobot-with-mir-base/>、Spot Arm <https://support.bostondynamics.com/s/article/Spot-Arm-Specifications-151694>、Fetch 資產易主 <https://www.therobotreport.com/skild-acquires-fetch-robotics-assets-from-zebra-automation/>
 
 > **待查證**:ISO 10218:2025 的精確發布月日(來源之間有 1 月底 / 2 月 / 4 月生效三種說法,年份與第 3 版可確定);R15.08 Part 3 是否已正式發布;傾覆穩定度沒有任何 ISO / ANSI 標準明文強制特定公式——這是從「查不到」推論的,不是查到某條文明說。
 

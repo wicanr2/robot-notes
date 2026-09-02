@@ -338,6 +338,34 @@ c.scrollHeight - c.clientHeight > 1   →   這條公式有內容被裁,超出 N
 
 外部連結另外掃:抓 URL 時要分開處理 markdown 行內連結、`<...>` 自動連結與裸 URL,並剝掉尾隨的全形標點——不然 `<https://renode.io/>` 會被抓成 `https://renode.io/>` 而回報 404,一份乾淨的站看起來會像有上百條死連結。
 
+### 外部連結:掃完之後還壞著的
+
+510 條去重後的外部連結全掃過一遍。扣掉擷取假象(程式碼裡的 `RMF_WEB_HOST` 佔位、
+被吃掉結尾括號的維基連結)與擋機器人的回應(GitHub 429 限流、iso.org / sciencedirect /
+elifesciences 的 403/406、st.com 要瀏覽器標頭才給 200),**修掉的是這些**:
+
+| 原連結 | 現況 | 處置 |
+|---|---|---|
+| docs.nav2.org 的 14 個目標 | 整站改版:加版本前綴 + 路徑重組 | 逐一找到新頁、實測 200 後替換(22 處) |
+| `irapkaist/scancontext` | repo owner 改名 | 換 `gisbi-kim/scancontext`;順帶結案 §8 那條「repo 路徑待查證」 |
+| Isaac Sim RTX Lidar 文件 | 檔名去掉 `based` | 換 `isaacsim_sensors_rtx_lidar.html` |
+| Doyle 1978 的 Caltech PDF | 該站已移除 | 改用同一行本來就寫著的 DOI |
+| Stretch 3 硬體手冊 | 產品世代更新,整棵 `0.3/` 樹消失 | 退到 hello-robot.com;**沒有等價的 Stretch 3 頁可指** |
+
+**沒有修、確認是死的**(找不到等價來源,替換等於換掉論據,不是修連結):
+
+- `github.com/open-rmf/rmf/discussions/466` — 該 repo 的 Discussions 整個關掉了
+- `app.gazebosim.org/fuel` — 這條**本來就是刻意留著的**,`simulation-asset-sources.md` §「Fuel 深層路徑」正是在記錄它回 404
+- `optics.org/op/news/16/4/25`、`roboticscenter.ai/learn/...`、`nvidia.com/en-us/geforce/news/geforce-rtx-real-time-ray-tracing/`、
+  `mosesnah-shared.github.io/robotics_null_space_projection.html`、`blog.saphira.ai/...` — 文章下架,站台本身還在
+- `webstore.iec.ch/publication/22850`(IEC 61800-5-2)、`/63273`(IEC 60204-1)— IEC 改過編號,
+  同檔另一條 `/27412`(IEC 62368-1)仍有效
+- `agvnetwork.com/r15-08-safety-amr` — 連線逾時;`robotattractor.com` — TLS 憑證過期
+
+外部連結的維護成本跟站內連結不同:站內壞掉是自己的錯、修法唯一;
+站外壞掉多半是對方改版或下架,**能不能修取決於有沒有等價來源**,沒有就該老實留著標記,
+而不是隨手換一個看起來相關的頁面頂上——那會讓論據和來源對不上。
+
 ## 後續形態輪次(待做)
 
 | 輪次 | 主題 | 內容 |

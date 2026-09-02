@@ -100,7 +100,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 **3D 場景描述子(loop closure 怎麼認出舊地方)**:3D 點雲大、視角變化大,需要緊湊的全域描述子快速檢索候選回環。**Scan Context(2018)**把一幀點雲以感測器為中心,按**方位角(繞一圈分幾格)× 徑向距離(離中心多遠分幾格)**切成棋盤,每格取落在裡面的最高點高度,壓成一張小小的 2D 矩陣當「指紋」。巧妙處:**機器人原地轉一個角度,等於這張矩陣的「整列循環平移」**(欄不變、列繞圈)——所以比對兩張指紋時,把列對齊回去就能認出「同一個地方、只是面朝不同方向」,**對視角旋轉魯棒**且檢索快,是 3D loop closure 的事實標準之一。
 
-> 來源:[GTSAM](https://gtsam.org/)、g2o(Kümmerle ICRA 2011)[GitHub](https://github.com/RainerKuemmerle/g2o)、[Ceres](http://ceres-solver.org/);Scan Context IROS 2018 [GitHub](https://github.com/irapkaist/scancontext)。
+> 來源:[GTSAM](https://gtsam.org/)、g2o(Kümmerle ICRA 2011)[GitHub](https://github.com/RainerKuemmerle/g2o)、[Ceres](http://ceres-solver.org/);Scan Context IROS 2018 [GitHub](https://github.com/gisbi-kim/scancontext)。
 
 ---
 
@@ -189,8 +189,8 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 **LIO 演進**:LeGO-LOAM IROS 2018 [GitHub](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM);LIO-SAM IROS 2020 [arXiv 2007.00258](https://arxiv.org/abs/2007.00258) / [GitHub](https://github.com/TixiaoShan/LIO-SAM);FAST-LIO RA-L 2021 [arXiv 2010.08196](https://arxiv.org/abs/2010.08196);FAST-LIO2 T-RO 2022 [arXiv 2107.06829](https://arxiv.org/abs/2107.06829) / [GitHub](https://github.com/hku-mars/FAST_LIO) / [ikd-Tree](https://github.com/hku-mars/ikd-Tree);Faster-LIO RA-L 2022 [GitHub](https://github.com/gaoxiang12/faster-lio)。
 
-**後端 / 地圖**:Scan Context IROS 2018 [GitHub](https://github.com/irapkaist/scancontext);[GTSAM](https://gtsam.org/);g2o [GitHub](https://github.com/RainerKuemmerle/g2o);[Ceres](http://ceres-solver.org/);OctoMap 2013 [DOI 10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0)。
+**後端 / 地圖**:Scan Context IROS 2018 [GitHub](https://github.com/gisbi-kim/scancontext);[GTSAM](https://gtsam.org/);g2o [GitHub](https://github.com/RainerKuemmerle/g2o);[Ceres](http://ceres-solver.org/);OctoMap 2013 [DOI 10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0)。
 
 **ROS2 套件(§8)**:[KISS-ICP](https://github.com/PRBonn/kiss-icp)、[KISS-SLAM](https://github.com/PRBonn/kiss-slam)、[FAST-LIO(ROS2 branch)](https://github.com/hku-mars/FAST_LIO/tree/ROS2)、[Point-LIO](https://github.com/hku-mars/Point-LIO)、[DLIO(feature/ros2)](https://github.com/vectr-ucla/direct_lidar_inertial_odometry/tree/feature/ros2)、[LIO-SAM(ros2 branch)](https://github.com/TixiaoShan/LIO-SAM/tree/ros2)、[GLIM](https://github.com/koide3/glim) / [glim_ros2](https://github.com/koide3/glim_ros2)、[hdl_graph_slam](https://github.com/koide3/hdl_graph_slam)、[Open3D-SLAM](https://github.com/leggedrobotics/open3d_slam)、[MOLA(ROS Index)](https://index.ros.org/p/mola_lidar_odometry/)、[RTAB-Map(ROS Index)](https://index.ros.org/p/rtabmap_ros/)、[Cartographer(ROS Index)](https://index.ros.org/p/cartographer_ros/)。
 
-> 待查證:GitHub repo 路徑(`TixiaoShan/LIO-SAM`、`irapkaist/scancontext`)依搜尋與慣例推得,引用前建議點開確認 owner 未改名;Chen & Medioni point-to-plane 原始論文精確年份(1991 期刊 vs 1992 會議);§8 部分套件的 ROS2 確切 distro / branch 釋出狀態與 license(Point-LIO 的 GPL 版本、iG-LIO/LIORF 的 ROS2 狀態)會隨版本變動,以各 repo 與 ROS Index 即時頁面為準。
+> Scan Context 的 repo owner 已改成 `gisbi-kim`(原 `irapkaist` 路徑失效),`TixiaoShan/LIO-SAM` 仍有效——兩者都實際開過確認。待查證:Chen & Medioni point-to-plane 原始論文精確年份(1991 期刊 vs 1992 會議);§8 部分套件的 ROS2 確切 distro / branch 釋出狀態與 license(Point-LIO 的 GPL 版本、iG-LIO/LIORF 的 ROS2 狀態)會隨版本變動,以各 repo 與 ROS Index 即時頁面為準。

@@ -1063,7 +1063,7 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 - Kalman, R. E., "Contributions to the theory of optimal control," *Boletín de la Sociedad Matemática Mexicana*, vol. 5, no. 2, pp. 102–119, 1960. — LQR 與 Riccati 方程用於最佳控制的原始文獻。
 - Kalman, R. E., "[When Is a Linear Control System Optimal?](https://asmedigitalcollection.asme.org/fluidsengineering/article/86/1/51/392203/When-Is-a-Linear-Control-System-Optimal)," *ASME Journal of Basic Engineering*, vol. 86, no. 1, pp. 51–60, 1964. DOI: 10.1115/1.3653115 — Kalman 不等式(回歸差在所有頻率上 ≥ 1)的原始文獻,§6.3 單輸入裕度保證的出處。
 - Safonov, M. G., Athans, M., "Gain and phase margin for multiloop LQG regulators," *IEEE Transactions on Automatic Control*, vol. AC-22, pp. 173–179, 1977. — 多迴路(多輸入)情形的推廣。注意它處理的是**狀態回授**的 regulator;含估測器的 LQG 是下一條那個負面結果的對象,兩者不衝突。
-- Doyle, J. C., "[Guaranteed Margins for LQG Regulators](https://murray.cds.caltech.edu/images/murray.cds/b/b4/Guaranteed_margins_for_LQG_regulators_-_doyle.pdf)," *IEEE Transactions on Automatic Control*, vol. AC-23, pp. 756–757, 1978. DOI: 10.1109/TAC.1978.1101812 — 全文極短,摘要是有名的一句 "There are none.";§6.3 LQG 沒有裕度保證的出處。
+- Doyle, J. C., "[Guaranteed Margins for LQG Regulators](https://doi.org/10.1109/TAC.1978.1101812)," *IEEE Transactions on Automatic Control*, vol. AC-23, pp. 756–757, 1978. DOI: 10.1109/TAC.1978.1101812 — 全文極短,摘要是有名的一句 "There are none.";§6.3 LQG 沒有裕度保證的出處。
 
 **取樣式 MPC(MPPI)**
 
