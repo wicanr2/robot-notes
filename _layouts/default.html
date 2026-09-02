@@ -5,102 +5,174 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% if page.title and page.url != "/" %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
 <meta name="description" content="{{ site.description }}">
+
+{%- comment -%} ---- 從 _data/nav.yml 定位目前這一頁:章節、群組、上一篇/下一篇 ---- {%- endcomment -%}
+{%- assign cur_section = nil -%}{%- assign cur_group = nil -%}{%- assign cur_group_url = nil -%}{%- assign cur_title = nil -%}
+{%- assign flat_urls = "" -%}{%- assign flat_titles = "" -%}
+{%- for s in site.data.nav.sections -%}
+  {%- for p in s.pages -%}
+    {%- assign flat_urls = flat_urls | append: p.url | append: "|" -%}
+    {%- assign flat_titles = flat_titles | append: p.title | append: "|" -%}
+    {%- if p.url == page.url -%}
+      {%- assign cur_section = s -%}{%- assign cur_group = p.group -%}{%- assign cur_group_url = p.group_url -%}{%- assign cur_title = p.title -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if cur_section == nil -%}
+  {%- for s in site.data.nav.sections -%}
+    {%- if s.id != "" -%}
+      {%- assign frag = "/" | append: s.id | append: "/" -%}
+      {%- if page.url contains frag -%}{%- assign cur_section = s -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- assign urls = flat_urls | split: "|" -%}
+{%- assign titles = flat_titles | split: "|" -%}
+{%- assign idx = -1 -%}
+{%- for u in urls -%}{%- if u == page.url -%}{%- assign idx = forloop.index0 -%}{%- endif -%}{%- endfor -%}
+
 <style>
 :root{
-  --bg:#fcfcfb;            /* 紙面 */
-  --ink:#2a2a28;           /* 正文 */
-  --ink-2:#5c5c58;         /* 次要 */
-  --ink-3:#8a8a84;         /* 輔助 */
-  --rule:#e4e4df;          /* 細線 */
-  --rule-2:#c9c9c2;        /* 較明顯的線 */
-  --key:#1e6b52;           /* 關鍵路徑色(墨綠):連結、當前位置 */
-  --code-bg:#f4f4f1;
-  --code-border:#e0e0da;
+  /* 色彩語意固定,全站只有一個關鍵路徑色 */
+  --ground:#fcfcfb;        /* 紙面(中性偏白) */
+  --ground-2:#f4f4f3;      /* 程式碼、註的底 */
+  --ink:#1b1b1a;           /* 正文 */
+  --ink-2:#5a5a57;         /* 次要說明 */
+  --ink-3:#8a8a86;         /* 輔助資訊、頁邊註 */
+  --rule:#e3e3e0;          /* 細線 */
+  --rule-2:#c7c7c3;        /* 較明顯的線 */
+  --key:#a6300e;           /* 關鍵路徑:連結、當前位置 */
+  --key-soft:#f0e2dd;      /* 當前位置的底 */
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#191a19;
-    --ink:#d9d9d4;
-    --ink-2:#a6a6a0;
-    --ink-3:#7d7d77;
-    --rule:#33342f;
-    --rule-2:#4a4b45;
-    --key:#5fb894;
-    --code-bg:#222320;
-    --code-border:#383934;
+    --ground:#191a19; --ground-2:#222320;
+    --ink:#dcdcd7; --ink-2:#a4a49e; --ink-3:#7c7c77;
+    --rule:#33342f; --rule-2:#4a4b45;
+    --key:#e07a58; --key-soft:#33261f;
   }
   main img{background:#fff;padding:6px;border-radius:2px}
 }
+
 html{font-size:17px}
 body{
-  margin:0;background:var(--bg);color:var(--ink);
-  font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   line-height:1.95;letter-spacing:.01em;
   -webkit-text-size-adjust:100%;
 }
-header.site{
-  border-bottom:1px solid var(--rule);
-  padding:.85rem 1.2rem;
+/* 襯線只用在標題、頁邊註、引言——正文中文維持黑體,螢幕上好讀 */
+h1,h2,h3,h4,blockquote,.sidenote,.crumb-title{
+  font-family:"Iowan Old Style",Palatino,"Palatino Linotype","Noto Serif CJK TC","Noto Serif TC","Songti TC",PMingLiU,serif;
 }
-header.site .inner{max-width:50rem;margin:0 auto;display:flex;gap:1.4rem;align-items:baseline;flex-wrap:wrap}
-header.site a{color:var(--ink);text-decoration:none;font-weight:600}
-header.site a.repo{color:var(--ink-3);font-weight:400;font-size:.85rem;margin-left:auto}
-header.site a:hover{color:var(--key)}
-main{max-width:50rem;margin:0 auto;padding:1.6rem 1.2rem 4rem}
-footer.site{border-top:1px solid var(--rule);margin-top:2rem}
-footer.site .inner{max-width:50rem;margin:0 auto;padding:1rem 1.2rem 2.2rem;color:var(--ink-3);font-size:.82rem}
-footer.site a{color:var(--ink-3)}
 
+/* ---------- 頂部章節列 ---------- */
+header.site{border-bottom:1px solid var(--rule)}
+header.site .inner{
+  max-width:78rem;margin:0 auto;padding:.7rem 1.4rem;
+  display:flex;gap:1.1rem;align-items:baseline;flex-wrap:wrap;
+}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:660;margin-right:.4rem}
+header.site nav{display:flex;gap:1.05rem;flex-wrap:wrap;font-size:.88rem}
+header.site nav a{color:var(--ink-2);text-decoration:none}
+header.site nav a:hover{color:var(--key)}
+header.site nav a.on{color:var(--key);border-bottom:2px solid var(--key);padding-bottom:1px}
+header.site .repo{color:var(--ink-3);font-size:.82rem;margin-left:auto;text-decoration:none}
+
+/* ---------- 三欄:左導覽 / 內文 / 頁邊註 ---------- */
+.wrap{
+  max-width:78rem;margin:0 auto;padding:0 1.4rem;
+  display:grid;grid-template-columns:14rem minmax(0,46rem) 13rem;gap:0 2.5rem;
+}
+.rail{
+  grid-column:1;font-size:.85rem;line-height:1.75;
+  position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;
+  padding:1.9rem 0 2rem;border-right:1px solid var(--rule);
+  margin-right:-1.25rem;padding-right:1.25rem;
+}
+.rail h2{font-size:.72rem;letter-spacing:.1em;color:var(--ink-3);font-weight:600;
+  margin:0 0 .7rem;padding:0;border:none;text-transform:uppercase;font-family:inherit}
+.rail + .rail h2{margin-top:2rem}
+.rail ul{list-style:none;margin:0 0 1.4rem;padding:0}
+.rail li{margin:.34rem 0}
+.rail li.sub{padding-left:.85rem}
+.rail a{color:var(--ink-2);text-decoration:none;display:block}
+.rail a:hover{color:var(--key)}
+.rail a.on{color:var(--key);font-weight:600}
+.rail .grp{margin:1.1rem 0 .4rem;color:var(--ink-3);font-size:.78rem;letter-spacing:.04em}
+.rail .grp a{color:var(--ink-3);display:inline}
+.rail .toc a{color:var(--ink-3)}
+.rail .toc .h3{padding-left:.85rem;font-size:.82rem}
+.rail .toc a.on{color:var(--key)}
+
+main{grid-column:2;padding:1.9rem 0 4rem;min-width:0}
+
+/* ---------- 麵包屑與上下篇 ---------- */
+.crumb{font-size:.8rem;color:var(--ink-3);margin:0 0 1.6rem;line-height:1.7}
+.crumb a{color:var(--ink-3);text-decoration:none}
+.crumb a:hover{color:var(--key)}
+.crumb .sep{margin:0 .45rem;color:var(--rule-2)}
+.crumb-title{color:var(--ink-2)}
+.pager{
+  display:flex;justify-content:space-between;gap:2rem;
+  margin-top:4rem;padding-top:1.1rem;border-top:1px solid var(--rule-2);font-size:.88rem;
+}
+.pager a{display:block;max-width:20rem;text-decoration:none}
+.pager .dir{display:block;font-size:.74rem;letter-spacing:.08em;color:var(--ink-3);margin-bottom:.15rem}
+.pager .next{text-align:right;margin-left:auto}
+
+/* ---------- 頁邊註:短引言浮到右邊界,不打斷閱讀 ---------- */
+.sidenote{
+  float:right;clear:right;width:13rem;margin:.5rem -15.5rem .9rem 0;
+  font-size:.8rem;line-height:1.75;color:var(--ink-3);
+  border-top:1px solid var(--rule);padding-top:.5rem;
+}
+.sidenote p{margin:.5em 0}
+.sidenote p:first-child{margin-top:0}
+
+/* ---------- 內文 ---------- */
 a{color:var(--key);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
 
-h1,h2,h3,h4{line-height:1.5;color:var(--ink);font-weight:660}
-h1{font-size:1.65rem;margin:1rem 0 1.2rem;padding-bottom:.55rem;border-bottom:2px solid var(--rule-2)}
-h2{font-size:1.32rem;margin:3.2rem 0 1rem;padding-top:1.15rem;border-top:1px solid var(--rule)}
-h3{font-size:1.12rem;margin:2.4rem 0 .8rem}
+h1,h2,h3,h4{line-height:1.5;color:var(--ink);font-weight:600}
+h1{font-size:1.72rem;margin:.4rem 0 1.3rem;padding-bottom:.55rem;border-bottom:2px solid var(--rule-2)}
+h2{font-size:1.34rem;margin:3.2rem 0 1rem;padding-top:1.15rem;border-top:1px solid var(--rule)}
+h3{font-size:1.13rem;margin:2.4rem 0 .8rem}
 h4{font-size:1rem;margin:2rem 0 .7rem}
 
 p{margin:2em 0}
 li{margin:.55rem 0}
 ul,ol{padding-left:1.5em;margin:1.6em 0}
 li p{margin:.6em 0}
-
 strong{font-weight:660}
 hr{border:none;border-top:1px solid var(--rule);margin:3rem 0}
 
 blockquote{
   margin:1.8em 0;padding:.1em 1.1em;
-  border-left:2px solid var(--rule-2);
-  color:var(--ink-2);
+  border-left:2px solid var(--rule-2);color:var(--ink-2);
 }
 blockquote p{margin:1em 0}
 
 img{max-width:100%}
-img[width]{height:auto}   /* 帶 width 屬性的圖等比縮;帶 height 屬性的(README 產品照)保留指定高度 */
+img[width]{height:auto}   /* 帶 width 的圖等比縮;帶 height 的(README 產品照)保留指定高度 */
 
 table{
   display:block;max-width:100%;overflow-x:auto;
-  border-collapse:collapse;margin:1.8em 0;
-  font-size:.92rem;line-height:1.8;
+  border-collapse:collapse;margin:1.8em 0;font-size:.92rem;line-height:1.8;
 }
 th{
-  font-size:.8rem;letter-spacing:.06em;color:var(--ink-2);
-  font-weight:600;text-align:left;
-  border-bottom:1px solid var(--rule-2);
-  padding:.5rem .9rem .5rem 0;
+  font-size:.8rem;letter-spacing:.06em;color:var(--ink-2);font-weight:600;text-align:left;
+  border-bottom:1px solid var(--rule-2);padding:.5rem .9rem .5rem 0;
 }
 td{border-bottom:1px solid var(--rule);padding:.7rem .9rem .7rem 0;vertical-align:top}
 tr:last-child td{border-bottom:1px solid var(--rule-2)}
 
-code,pre,kbd{
-  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
-  font-variant-numeric:tabular-nums;
-}
-code{font-size:.86em;background:var(--code-bg);border:1px solid var(--code-border);border-radius:2px;padding:.08em .3em;margin:0 .12em}
+code,pre,kbd{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+code{font-size:.86em;background:var(--ground-2);border:1px solid var(--rule);border-radius:2px;padding:.08em .3em;margin:0 .12em}
 pre{line-height:1.7}
 pre code{background:none;border:none;padding:0;margin:0}
 div.highlighter-rouge,figure.highlight{
-  background:var(--code-bg);border:1px solid var(--code-border);border-radius:2px;
+  background:var(--ground-2);border:1px solid var(--rule);border-radius:2px;
   padding:.8rem 1rem;margin:1.8em 0;overflow-x:auto;
 }
 div.highlighter-rouge pre,figure.highlight pre{margin:0}
@@ -109,8 +181,35 @@ div.highlighter-rouge pre,figure.highlight pre{margin:0}
    下標、分母、根號的墨水會超出容器而被 overflow 裁掉 */
 mjx-container{line-height:normal}
 mjx-container[jax="CHTML"][display="true"]{
-  margin:1.4em 0;padding:.7em 0;line-height:normal;
-  overflow-x:auto;overflow-y:hidden}
+  margin:1.4em 0;padding:.7em 0;line-height:normal;overflow-x:auto;overflow-y:hidden}
+
+footer.site{border-top:1px solid var(--rule);margin-top:2rem}
+footer.site .inner{max-width:78rem;margin:0 auto;padding:1rem 1.4rem 2.2rem;color:var(--ink-3);font-size:.82rem}
+footer.site a{color:var(--ink-3)}
+
+/* ---------- 窄螢幕 ---------- */
+@media (max-width:1340px){
+  .wrap{grid-template-columns:14rem minmax(0,46rem);max-width:64rem}
+  .sidenote{float:none;width:auto;margin:1.8em 0;padding:.5rem 0 0 1.1rem;border-top:none;border-left:2px solid var(--rule)}
+}
+@media (max-width:1023px){
+  .wrap{display:block;max-width:46rem}
+  .rail{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--rule);
+    margin:0;padding:1rem 0;overflow:visible}
+  .rail ul{margin-bottom:.8rem}
+  .rail details summary{cursor:pointer;color:var(--ink-2);font-size:.85rem}
+  .rail .always{display:none}
+  main{padding-top:1.4rem}
+}
+@media (min-width:1024px){
+  .rail details{display:contents}
+  .rail summary{display:none}
+}
+@media print{
+  .rail,header.site,footer.site,.pager{display:none}
+  .wrap{display:block;max-width:none}
+  .sidenote{float:none;width:auto;margin:1.4em 0;border-left:2px solid #ccc;padding-left:1rem;border-top:none}
+}
 </style>
 <script>
 window.MathJax = {
@@ -129,20 +228,124 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.MathJax && MathJax.typesetPromise) { MathJax.typesetPromise(); }
     else { setTimeout(typesetWhenReady, 80); }
   })();
+
+  var main = document.querySelector("main");
+
+  /* 窄螢幕把導覽收起來:HTML 預設 open,沒有 JS 時至少是展開可用的 */
+  var railnav = document.getElementById("railnav");
+  if (railnav && window.matchMedia("(max-width:1023px)").matches) railnav.open = false;
+
+  /* 頁內目次:直接讀 kramdown 已經產好的 heading id */
+  var toc = document.getElementById("toc");
+  var heads = main.querySelectorAll("h2[id], h3[id]");
+  if (toc && heads.length > 2) {
+    var ul = document.createElement("ul");
+    heads.forEach(function (h) {
+      var li = document.createElement("li");
+      if (h.tagName === "H3") li.className = "h3";
+      var a = document.createElement("a");
+      a.href = "#" + h.id;
+      a.textContent = h.textContent.replace(/\s+$/, "");
+      li.appendChild(a); ul.appendChild(li);
+    });
+    toc.appendChild(ul);
+    toc.parentElement.hidden = false;
+
+    /* 捲動高亮:最後一個越過視窗上緣的標題就是「現在在讀的」 */
+    var links = Array.prototype.slice.call(ul.querySelectorAll("a"));
+    var mark = function () {
+      var y = window.scrollY + 100, cur = 0;
+      heads.forEach(function (h, i) { if (h.offsetTop <= y) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle("on", i === cur); });
+    };
+    var tick = false;
+    window.addEventListener("scroll", function () {
+      if (tick) return; tick = true;
+      requestAnimationFrame(function () { mark(); tick = false; });
+    }, {passive: true});
+    mark();
+  }
+
+  /* 頁邊註:短的、純文字的引言移到右邊界,長的留在正文 */
+  main.querySelectorAll(":scope > blockquote").forEach(function (bq) {
+    if (bq.querySelector("img, pre, table, ul, ol, h1, h2, h3, h4")) return;
+    if (bq.textContent.trim().length > 150) return;
+    bq.classList.add("sidenote");
+  });
 });
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
+
 <header class="site">
   <div class="inner">
-    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <nav>
+      {%- for s in site.data.nav.sections -%}
+        {%- if s.id != "" -%}
+      <a href="{{ s.pages[0].url | relative_url }}"{% if cur_section and cur_section.id == s.id %} class="on"{% endif %}>{{ s.short }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
     <a class="repo" href="https://github.com/{{ site.repository }}">GitHub ↗</a>
   </div>
 </header>
-<main>
-{{ content }}
-</main>
+
+<div class="wrap">
+
+  <div class="rail">
+    <details open id="railnav">
+      <summary>本章與本頁目次</summary>
+      {%- if cur_section -%}
+      <h2 class="always">{{ cur_section.short }}</h2>
+      <ul>
+        {%- assign shown_group = "" -%}
+        {%- for p in cur_section.pages -%}
+          {%- if p.group and p.group != shown_group -%}
+            {%- assign shown_group = p.group -%}
+            <li class="grp">{% if p.group_url %}<a href="{{ p.group_url | relative_url }}">{{ p.group }}</a>{% else %}{{ p.group }}{% endif %}</li>
+          {%- endif -%}
+        <li{% if p.depth == 1 %} class="sub"{% endif %}><a href="{{ p.url | relative_url }}"{% if p.url == page.url %} class="on"{% endif %}>{{ p.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+      <div hidden>
+        <h2>本頁</h2>
+        <div class="toc" id="toc"></div>
+      </div>
+    </details>
+  </div>
+
+  <main>
+    {%- if cur_section -%}
+    <p class="crumb">
+      <a href="{{ '/' | relative_url }}">robot-notes</a>
+      <span class="sep">/</span><a href="{{ cur_section.pages[0].url | relative_url }}">{{ cur_section.short }}</a>
+      {%- if cur_group %}<span class="sep">/</span>{% if cur_group_url %}<a href="{{ cur_group_url | relative_url }}">{{ cur_group }}</a>{% else %}{{ cur_group }}{% endif %}{% endif -%}
+      {%- if cur_title %}<span class="sep">/</span><span class="crumb-title">{{ cur_title }}</span>{% endif -%}
+    </p>
+    {%- endif -%}
+
+    {{ content }}
+
+    {%- if idx >= 0 -%}
+    <div class="pager">
+      {%- if idx > 0 -%}
+        {%- assign i = idx | minus: 1 -%}
+        <a class="prev" href="{{ urls[i] | relative_url }}"><span class="dir">← 上一篇</span>{{ titles[i] }}</a>
+      {%- endif -%}
+      {%- assign last = urls | size | minus: 2 -%}
+      {%- if idx <= last -%}
+        {%- assign j = idx | plus: 1 -%}
+        <a class="next" href="{{ urls[j] | relative_url }}"><span class="dir">下一篇 →</span>{{ titles[j] }}</a>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+  </main>
+
+</div>
+
 <footer class="site">
   <div class="inner"><a href="https://github.com/{{ site.repository }}">wicanr2/robot-notes</a> — 內容以 repo 內 markdown 為準,本站為閱讀版。</div>
 </footer>

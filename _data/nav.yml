@@ -1,0 +1,319 @@
+# 由 scripts/gen-nav.py 從 README.md 的文件索引產生,不要手改。
+sections:
+  - id: "00-overview"
+    title: "系統全貌"
+    short: "總覽"
+    pages:
+      - url: "/docs/00-overview/system-architecture.html"
+        title: "系統架構"
+        depth: 0
+  - id: "10-core"
+    title: "共通核心 — 換了形態,這幾層還在"
+    short: "核心"
+    pages:
+      - url: "/docs/10-core/"
+        title: "共通核心總覽"
+        depth: 0
+      - url: "/docs/10-core/10-hardware/motors-and-foc.html"
+        title: "馬達與 FOC 控制"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/encoders.html"
+        title: "編碼器"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/sensors.html"
+        title: "感測器"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/lidar-landscape.html"
+        title: "LiDAR 完整解析"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/communication-buses.html"
+        title: "通訊匯流排"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/digital-circuits.html"
+        title: "數位電路"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/10-hardware/power-and-safety.html"
+        title: "電源與安全"
+        depth: 0
+        group: "硬體"
+        group_url: "/docs/10-core/10-hardware/"
+      - url: "/docs/10-core/20-firmware/low-level-control.html"
+        title: "下位機運動控制"
+        depth: 0
+        group: "韌體"
+        group_url: "/docs/10-core/20-firmware/"
+      - url: "/docs/10-core/20-firmware/host-mcu-protocol.html"
+        title: "上下位機通訊協議"
+        depth: 0
+        group: "韌體"
+        group_url: "/docs/10-core/20-firmware/"
+      - url: "/docs/10-core/20-firmware/board-simulation-renode.html"
+        title: "主板模擬:Renode"
+        depth: 0
+        group: "韌體"
+        group_url: "/docs/10-core/20-firmware/"
+      - url: "/docs/10-core/20-firmware/stm32-rest-tls.html"
+        title: "STM32F4 上的 REST API + TLS 1.2"
+        depth: 0
+        group: "韌體"
+        group_url: "/docs/10-core/20-firmware/"
+      - url: "/docs/10-core/30-navigation/slam-mapping.html"
+        title: "SLAM 建圖"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/slam-3d-lidar.html"
+        title: "3D LiDAR SLAM 建圖"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/localization.html"
+        title: "定位"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/kinematics-and-coordinate-transforms.html"
+        title: "座標轉換與 TF"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/path-planning.html"
+        title: "路徑規劃與軌跡(Nav2)"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/nav2-plugin-algorithms.html"
+        title: "Nav2 外掛演算法"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/path-smoothing-and-trajectory.html"
+        title: "路徑平滑與軌跡生成"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
+  - id: "20-forms"
+    title: "形態分支 — 換了形態,這幾層就得換"
+    short: "形態"
+    pages:
+      - url: "/docs/20-forms/"
+        title: "形態分支總覽"
+        depth: 0
+      - url: "/docs/20-forms/wheeled-amr/"
+        title: "輪式 AMR"
+        depth: 0
+      - url: "/docs/20-forms/wheeled-amr/chassis-and-drivetrain.html"
+        title: "底盤與傳動"
+        depth: 1
+      - url: "/docs/20-forms/mobile-manipulator/"
+        title: "移動操作:搬運車 + 機械手臂"
+        depth: 0
+      - url: "/docs/20-forms/mobile-manipulator/arm-kinematics.html"
+        title: "手臂運動學"
+        depth: 1
+      - url: "/docs/20-forms/mobile-manipulator/mobile-manipulation.html"
+        title: "底盤與手臂的耦合"
+        depth: 1
+      - url: "/docs/20-forms/legged/"
+        title: "四足"
+        depth: 0
+      - url: "/docs/20-forms/legged/legged-fundamentals.html"
+        title: "足式的根本分岔"
+        depth: 1
+      - url: "/docs/20-forms/legged/gait-and-actuation.html"
+        title: "步態與致動"
+        depth: 1
+  - id: "40-fleet"
+    title: "多機調度"
+    short: "調度"
+    pages:
+      - url: "/docs/40-fleet/"
+        title: "調度總覽"
+        depth: 0
+      - url: "/docs/40-fleet/roadnet-and-traffic-control.html"
+        title: "路網模型與交通管制"
+        depth: 0
+        group: "路網與交管(先讀這兩篇)"
+      - url: "/docs/40-fleet/indoor-amr-roadnet-selection.html"
+        title: "室內 AMR 路網規劃選型"
+        depth: 0
+        group: "路網與交管(先讀這兩篇)"
+      - url: "/docs/40-fleet/open-rmf.html"
+        title: "OpenRMF:跨車隊調度"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/vda5050.html"
+        title: "VDA5050 協定"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/rmf-maps-and-traffic.html"
+        title: "Fleet 深入:API/圖資/座標/避塞車"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/slot-reservation-dispatch-strategies.html"
+        title: "目的點重複預定"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/proprietary-vs-ros2-arbitrary-start.html"
+        title: "私有系統案例:任意起點大迴轉"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/rmf-adapter-cookbook.html"
+        title: "實作小抄:adapter + 派任務"
+        depth: 0
+        group: "跨車隊協調"
+      - url: "/docs/40-fleet/ros2-dds-intro.html"
+        title: "ROS 2 的 DDS"
+        depth: 0
+        group: "底層通訊"
+      - url: "/docs/40-fleet/rmf-multi-container-deploy.html"
+        title: "RMF 多容器部署"
+        depth: 0
+        group: "底層通訊"
+      - url: "/docs/40-fleet/mqtt-tls-emqx.html"
+        title: "MQTT over TLS(EMQX)"
+        depth: 0
+        group: "底層通訊"
+      - url: "/docs/40-fleet/robot-wan-5g-satellite.html"
+        title: "機器人的廣域連線"
+        depth: 0
+        group: "底層通訊"
+  - id: "50-physical-ai"
+    title: "Physical AI(進階)"
+    short: "模擬"
+    pages:
+      - url: "/docs/50-physical-ai/"
+        title: "模擬總覽"
+        depth: 0
+      - url: "/docs/50-physical-ai/physical-ai-overview.html"
+        title: "Physical AI 總覽"
+        depth: 0
+      - url: "/docs/50-physical-ai/sensor-data-and-3d-reconstruction.html"
+        title: "感測器資料與 3D Gaussian 重建"
+        depth: 0
+      - url: "/docs/50-physical-ai/isaac-sim-isaac-lab-amr.html"
+        title: "用 Isaac Sim + Isaac Lab 模擬 AMR"
+        depth: 0
+      - url: "/docs/50-physical-ai/simulation-gazebo-ros2.html"
+        title: "用 Gazebo + ROS2 模擬 AMR"
+        depth: 0
+      - url: "/docs/50-physical-ai/gazebo-slam-warehouse.html"
+        title: "在 Gazebo 倉庫用 slam_toolbox 建圖"
+        depth: 0
+      - url: "/docs/50-physical-ai/gpu-lidar-how-it-works.html"
+        title: "gpu_lidar 怎麼運作(讀原始碼)"
+        depth: 0
+      - url: "/docs/50-physical-ai/sdf-3d-models.html"
+        title: "SDF 3D 模型檔:從零開始"
+        depth: 0
+      - url: "/docs/50-physical-ai/simulation-asset-sources.html"
+        title: "建 AMR 模擬世界:模型與場景哪裡來"
+        depth: 0
+      - url: "/docs/50-physical-ai/sim-to-real.html"
+        title: "Sim-to-real"
+        depth: 0
+      - url: "/docs/50-physical-ai/claude-physical-ai-workflow.html"
+        title: "用 Claude 完成 Physical AI 模擬"
+        depth: 0
+      - url: "/docs/50-physical-ai/project-forklift-rmf-gazebo.html"
+        title: "專案探討:Gazebo 叉車搬運(RMF+VDA5050)"
+        depth: 0
+  - id: "55-vlm-llm"
+    title: "VLM & LLM"
+    short: "VLM"
+    pages:
+      - url: "/docs/55-vlm-llm/"
+        title: "VLM 總覽"
+        depth: 0
+      - url: "/docs/55-vlm-llm/llm-vlm-for-robots.html"
+        title: "LLM 與 VLM 給機器人"
+        depth: 0
+      - url: "/docs/55-vlm-llm/local-llm-on-nvidia-gb10.html"
+        title: "在 NVIDIA GB10(DGX Spark)上架本地 LLM"
+        depth: 0
+  - id: "60-compliance"
+    title: "法規與認證"
+    short: "法規"
+    pages:
+      - url: "/docs/60-compliance/"
+        title: "法規與認證總覽"
+        depth: 0
+      - url: "/docs/60-compliance/battery-certification.html"
+        title: "電池認證法規"
+        depth: 0
+      - url: "/docs/60-compliance/semiconductor-amr-standards.html"
+        title: "半導體 fab AMR 規範"
+        depth: 0
+      - url: "/docs/60-compliance/pwc-semi-iso3691-certification.html"
+        title: "PwC、SEMI E187 與 ISO 3691 認證角色"
+        depth: 0
+  - id: "70-security"
+    title: "資安"
+    short: "資安"
+    pages:
+      - url: "/docs/70-security/"
+        title: "機器人通訊安全(總覽)"
+        depth: 0
+      - url: "/docs/70-security/sros2-dds-security.html"
+        title: "SROS2 / DDS-Security"
+        depth: 0
+      - url: "/docs/70-security/ota-firmware-signing.html"
+        title: "OTA 韌體簽章"
+        depth: 0
+      - url: "/docs/70-security/secure-boot.html"
+        title: "Secure boot"
+        depth: 0
+  - id: "90-foundations"
+    title: "數學與力學基礎"
+    short: "基礎"
+    pages:
+      - url: "/docs/90-foundations/gaussian-from-first-principles.html"
+        title: "高斯分布:第一性原理"
+        depth: 0
+      - url: "/docs/90-foundations/robot-dynamics.html"
+        title: "機器人動力學"
+        depth: 0
+      - url: "/docs/90-foundations/feedback-control-pid-lqr.html"
+        title: "回授控制:PID、LQR 與 MPPI"
+        depth: 0
+  - id: ""
+    title: "參考論文"
+    short: "參考論文"
+    pages:
+      - url: "/docs/_refs/nav2-survey.html"
+        title: "Nav2 導航全棧 survey 導讀"
+        depth: 0
+  - id: ""
+    title: "這個 repo 怎麼寫的"
+    short: "關於"
+    pages:
+      - url: "/PLAN.html"
+        title: "整理計畫與進度"
+        depth: 0
+      - url: "/CONTEXT.html"
+        title: "術語表"
+        depth: 0
+      - url: "/docs/_meta/lessons-learned.html"
+        title: "寫作慣例與 lessons learned"
+        depth: 0
+      - url: "/docs/_meta/github-actions-gz-sim-playbook.html"
+        title: "GitHub Actions × gz sim playbook"
+        depth: 0
+      - url: "/docs/section-map.html"
+        title: "舊版 28 章對照表"
+        depth: 0
+      - url: "/docs/_legacy/"
+        title: "舊版單檔整理"
+        depth: 0
