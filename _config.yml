@@ -21,10 +21,12 @@ titles_from_headings:
   strip_title: false
 
 # docs/ 底下的底線目錄預設會被 Jekyll 吃掉,明確放行
+# 底線目錄預設會被 Jekyll 吃掉。注意:include 比對的是「目錄名」,
+# 不是相對路徑——寫 docs/_legacy 不會生效,必須寫 _legacy。
 include:
-  - docs/_legacy
-  - docs/_meta
-  - docs/_refs
+  - _legacy
+  - _meta
+  - _refs
 
 exclude:
   - talk_record/
