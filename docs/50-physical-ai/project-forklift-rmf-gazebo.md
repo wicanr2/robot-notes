@@ -237,7 +237,7 @@ forklift_gz_sim/
 ## 13. 來源與現成素材
 
 - Gazebo:[DetachableJoint(api/sim/9)](https://gazebosim.org/api/sim/9/detachablejoints.html)、[detachable_joint.sdf 範例](https://github.com/gazebosim/gz-sim/blob/ign-gazebo5/examples/worlds/detachable_joint.sdf)、[Fuel 模型插入](https://gazebosim.org/docs/latest/fuel_insert/)
-- 控制/導航:[gz_ros2_control(Jazzy)](https://control.ros.org/jazzy/doc/gz_ros2_control/doc/index.html)、[Nav2 gz 感測器](https://docs.nav2.org/setup_guides/sensors/setup_sensors_gz.html)
+- 控制/導航:[gz_ros2_control(Jazzy)](https://control.ros.org/jazzy/doc/gz_ros2_control/doc/index.html)、[Nav2 gz 感測器](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/)
 - RMF:[PerformAction tutorial](https://osrf.github.io/ros2multirobotbook/integration_fleets_action_tutorial.html)、[rmf_simulation(Teleport plugins)](https://github.com/open-rmf/rmf_simulation)、[rmf_demos](https://github.com/open-rmf/rmf_demos)
 - VDA5050:[官方規格](https://github.com/VDA5050/VDA5050/blob/main/VDA5050_EN.md)
 - 現成倉儲:[aws-robomaker-small-warehouse-world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world)

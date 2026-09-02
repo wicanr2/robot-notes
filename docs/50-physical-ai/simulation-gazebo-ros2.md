@@ -69,7 +69,7 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 > 名詞:**tf**(transform)指 ROS 的座標轉換樹,描述各座標系(map/odom/base_link/雷射…)之間的相對位姿。
 
-來源:[gz_ros2_control 文件](https://control.ros.org/humble/doc/gz_ros2_control/doc/index.html)、[Setting Up Odometry - Gazebo(Nav2)](https://docs.nav2.org/setup_guides/odom/setup_odom_gz.html)
+來源:[gz_ros2_control 文件](https://control.ros.org/humble/doc/gz_ros2_control/doc/index.html)、[Setting Up Odometry - Gazebo(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/)
 
 ### (c) 怎麼感知:LiDAR / 相機 / IMU 感測器外掛
 
@@ -86,7 +86,7 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 > 名詞:**plugin / system**(系統外掛)— Gazebo 把功能模組化成可掛載的外掛,物理、感測、控制各是一個 system,在 SDF 裡用 `<plugin filename=...>` 掛進去。
 
-來源:[Gazebo Harmonic Sensors(官方)](https://gazebosim.org/docs/harmonic/sensors/)、[Setting Up Sensors - Gazebo(Nav2)](https://docs.nav2.org/setup_guides/sensors/setup_sensors_gz.html)
+來源:[Gazebo Harmonic Sensors(官方)](https://gazebosim.org/docs/harmonic/sensors/)、[Setting Up Sensors - Gazebo(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/)
 
 ### (d) 在哪裡跑:世界檔(world)
 
@@ -113,7 +113,7 @@ tf 樹由三方各補一段,合起來才完整:
 - **建圖階段**:跑 **slam_toolbox**(ROS 2 主流 2D SLAM 套件,也是 Nav2 官方支援之一)。它吃 `/scan` + `odom→base_link`,即時產生 `/map` 與 `map→odom` 修正,可以邊走邊建圖(Navigating while Mapping)。
 - **導航階段**:有了地圖後,改用 **AMCL**(粒子濾波定位)提供 `map→odom`;Nav2 依目標點規劃路徑、避開 costmap 上的障礙,持續發 `/cmd_vel`,Gazebo 把車開過去,新 `/scan` 又回饋進來——閉迴路成立。
 
-來源:[Setting Up Odometry - Gazebo(Nav2)](https://docs.nav2.org/setup_guides/odom/setup_odom_gz.html)、[Navigating while Mapping (SLAM)(Nav2)](https://docs.nav2.org/tutorials/docs/navigation2_with_slam.html)、[Mapping and Localization(Nav2)](https://docs.nav2.org/setup_guides/sensors/mapping_localization.html)
+來源:[Setting Up Odometry - Gazebo(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/)、[Navigating while Mapping (SLAM)(Nav2)](https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/)、[Mapping and Localization(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/mapping_localization/)
 
 ---
 
@@ -136,7 +136,7 @@ tf 樹由三方各補一段,合起來才完整:
 
 > 名詞:**ros_gz_bridge / parameter_bridge** — `ros_gz` 套件群裡負責 Gazebo Transport 與 ROS 2 之間雙向轉訊息的橋。`ros_gz` 還含 `ros_gz_sim`(啟動/生成工具)、`ros_gz_image`(影像單向高效傳輸)等。
 
-來源:[ros_gz README(套件職責)](https://github.com/gazebosim/ros_gz/blob/ros2/README.md)、[Setting Up Sensors - Gazebo(Nav2,橋接語法)](https://docs.nav2.org/setup_guides/sensors/setup_sensors_gz.html)
+來源:[ros_gz README(套件職責)](https://github.com/gazebosim/ros_gz/blob/ros2/README.md)、[Setting Up Sensors - Gazebo(Nav2,橋接語法)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/)
 
 ---
 
@@ -235,10 +235,10 @@ tf 樹由三方各補一段,合起來才完整:
 - Installing Gazebo with ROS(版本配對、安裝):https://gazebosim.org/docs/latest/ros_installation/
 - ros_gz README(相容矩陣、套件職責、bridge):https://github.com/gazebosim/ros_gz/blob/ros2/README.md
 - gz_ros2_control 文件:https://control.ros.org/humble/doc/gz_ros2_control/doc/index.html
-- Nav2 — Setting Up Odometry (Gazebo):https://docs.nav2.org/setup_guides/odom/setup_odom_gz.html
-- Nav2 — Setting Up Sensors (Gazebo,橋接語法):https://docs.nav2.org/setup_guides/sensors/setup_sensors_gz.html
-- Nav2 — Mapping and Localization:https://docs.nav2.org/setup_guides/sensors/mapping_localization.html
-- Nav2 — Navigating while Mapping (SLAM):https://docs.nav2.org/tutorials/docs/navigation2_with_slam.html
+- Nav2 — Setting Up Odometry (Gazebo):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/
+- Nav2 — Setting Up Sensors (Gazebo,橋接語法):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/
+- Nav2 — Mapping and Localization:https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/mapping_localization/
+- Nav2 — Navigating while Mapping (SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
 - Gazebo Harmonic Sensors(官方):https://gazebosim.org/docs/harmonic/sensors/
 - Gazebo Harmonic Binary Install(官方):https://gazebosim.org/docs/harmonic/install_ubuntu/
 - 模擬器比較(SVRC):https://www.roboticscenter.ai/learn/robot-simulation-software-comparison

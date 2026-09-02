@@ -132,4 +132,4 @@ p_map = R(90°) · (2.3, 0) + (4.0, 1.0)
 
 - [REP-103(座標慣例/單位)](https://www.ros.org/reps/rep-0103.html)、[REP-105(frame 命名/關係)](https://www.ros.org/reps/rep-0105.html)
 - [tf2 概念(ROS2)](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Tf2.html)、[tf2 and time](https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Learning-About-Tf2-And-Time-Py.html)
-- [Nav2 setup: transforms](https://docs.nav2.org/setup_guides/transformation/setup_transforms.html)
+- [Nav2 setup: transforms](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/transformation/setup_transforms/)

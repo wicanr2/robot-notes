@@ -131,7 +131,7 @@ tf 部分:gz 的 `OdometryPublisher` 會發 `odom→base_link`;用 `ros_gz_bridg
 ## 來源
 
 - slam_toolbox(Jazzy):https://docs.ros.org/en/jazzy/p/slam_toolbox/ ｜ repo:https://github.com/SteveMacenski/slam_toolbox
-- Nav2 — Navigating while Mapping(SLAM):https://docs.nav2.org/tutorials/docs/navigation2_with_slam.html
+- Nav2 — Navigating while Mapping(SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
 - gz gpu_lidar / 感測器:https://gazebosim.org/docs/harmonic/sensors/
 - ros_gz 橋接:https://github.com/gazebosim/ros_gz/blob/ros2/README.md
 - 實作素材:https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic

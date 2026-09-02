@@ -233,7 +233,7 @@ SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法�
 
 | **R18.1** | 套用 R18 專家 + 學生審查 | 專家抓到五處「詮釋句比數學多說半步」:**「C 不做功」是過強斷言**(θ̇ᵀCθ̇ 一般非零,為零的是它與 ½Ṁθ̇ 的組合→改成「能量帳上淨貢獻為零」,CONTEXT 同步改);**P3 的線性參數化指錯對象**(對 (m, c, ℐ_c) 不線性,線性的是 (m, m·c, 對連桿原點的 ℐ) 這組;補 base parameters 但書);質心「唯一選擇」加「對任意運動」限定(固定點特例也行);「非完整=不限制能到哪」限縮到差速車單約束例(一般要可控性論證);QDD「沒有平方放大」改成「只剩幾十倍」。Coriolis 圖右半 `2m·θ̇ᵢθ̇ⱼ` 量綱不是力→改 `2m·ṙ·θ̇ᵢ`。學生端 18 條:∂L/∂θ̇ 把 θ 與 θ̇ 當獨立引數 + τ 是廣義力放右邊(兩個最大裂縫)、P2 補「Mθ̈ 已用運動方程代換」與反對稱定義、帶約束完整方程 + λ 命名 + Aᵀλ 形狀從虛功原理接回、ω 是 3 維向量、q vs θ 符號交代、構型定義、Coriolis 圖與 2R 的對應註記、陀螺項 ω×ℐω 一句解釋、π 與圓周率消歧、hat 記號、正定⇒可逆白話、極點改白話、科氏/達朗貝爾/克里斯多福/自適應/李亞普諾夫/全身控制/摩擦錐/前饋當場翻譯、§8→§9 接橋;剛體動能圖改成「同一根棒兩種擺法」與正文對齊、單擺結論式字級加大 | ✅ 完成 |
 
-| **R19** | GitHub Pages 上線 | https://wicanr2.github.io/robot-notes/ 。`_config.yml` 用 GH Pages 白名單 plugin(optional-front-matter / readme-index / relative-links / default-layout / titles-from-headings)讓純 markdown repo 直接成站,`docs/_legacy`、`_meta`、`_refs` 底線目錄明確 `include` 否則被 Jekyll 吃掉;`_layouts/default.html` 單檔版面(層級靠細線與留白、關鍵色只有墨綠一個、表格細線無彩色表頭、中文行高 1.95、深色模式同一組語意變數換值)。數學式:kramdown 在 GH Pages 實際輸出裸 `\[...\]`,MathJax 3 的 displayMath delimiter 直接吃(另留 math/tex script 轉換 shim 當備援)。踩到一個:CSS `img{height:auto}` 會蓋掉 HTML 的 `height` 屬性,README 兩張 `height="180"` 產品照被撐成全寬——改成只對帶 `width` 屬性的圖做 `height:auto`。首頁與動力學頁(含 §2–§5 公式段)已實際 chrome 渲染核對 | ✅ 完成 |
+| **R19** | GitHub Pages 上線 | https://wicanr2.github.io/robot-notes/ 。`_config.yml` 用 GH Pages 白名單 plugin(optional-front-matter / readme-index / relative-links / default-layout / titles-from-headings)讓純 markdown repo 直接成站,`docs/_legacy`、`_meta`、`_refs` 底線目錄明確 `include` 否則被 Jekyll 吃掉;`_layouts/default.html` 單檔版面(層級靠細線與留白、關鍵色只有墨綠一個、表格細線無彩色表頭、中文行高 1.95、深色模式同一組語意變數換值)。數學式:kramdown 在 GH Pages 實際輸出裸 `\[...\]`,MathJax 3 的 displayMath delimiter 直接吃(另留 math/tex script 轉換 shim 當備援)。踩到一個:CSS `img{height:auto}` 會蓋掉 HTML 的 `height` 屬性,README 兩張 `height="180"` 產品照被撐成全寬——改成只對帶 `width` 屬性的圖做 `height:auto`。首頁與動力學頁(含 §2–§5 公式段)已實際 chrome 渲染核對。(這一輪的 `include` 寫法其實從未生效、關鍵色與版面已在 R23 換掉,見 R23) | ✅ 完成 |
 
 | **R20** | 回授控制:PID 與 LQR(叉車 / 搬運車) | `90-foundations/feedback-control-pid-lqr.md`,兩半各半。**Part A 數學**:從「開環要求映射完全已知且不變」推出回授的價值是「不需要準」;PID 三項逐項問「不加它缺什麼」,I 項給到**內模原理**這一層(常值擾動的生成模型是 1/s → 迴路必須有積分器;斜坡需要兩個,所以貨叉等速上升用 PID 會留固定落差)、反算式 anti-windup、微分踢與濾波微分、離散化三個會出事的細節;`xᵀQx + uᵀRu` **用 Taylor 展開逼出來**(前兩項被「目標點為零」與「原點是最小」強制歸零 → 最低階非零項就是二次項),R 為何必須嚴格正定、Q/R 只有比值有意義、Bryson 法則;`u = −Kx` 走**動態規劃 → HJB → 猜 V=xᵀPx → 對 u 求導**完整推出(不是假設的結構,是推導的結果),CARE 與 DARE 兩版都推;可控性(只算到 A^{n-1}B 是 Cayley–Hamilton)、Lyapunov 證閉迴路穩定(`V̇ = −(xᵀQx+uᵀRu)`,下降速率等於當下正在付的代價)、裕度保證與它的四個失效條件。**Part B 叉車**:舵輪 ICR 推 `ω = v·tanδ/L`、非完整約束;四層迴路(路徑追蹤 LQR / 轉向速度 PID / FOC PI / 貨叉位置環)與「什麼時候該從 PID 換成 LQR」的三條判準;標準 LQR **沒有積分器**在坡道會留穩態偏差 → LQI;橫向與航向誤差為何不能拆成兩個 PID(`B = [0, v/L]ᵀ` 的那個零);載重增益排程;LQR 的三個假設叉車違反三個 → MPC(並指出 LQR 是 MPC 的特例、MPC 終端代價的 P 就用 LQR 的 Riccati 解);可執行的 Python 算 K 與 C 的 MCU 實作。11 張 SVG,全部 chrome 量測邊界 + 抽三張渲染核對 | ✅ 完成 |
 
@@ -291,6 +291,7 @@ SVG 的「內容到底畫到哪」不能用抓 `y=`/`x=` 屬性的座標估法�
 2. **兩個 agent 給不同答案時,可能兩個都只對一半。** 查證 agent 抄 RPP 原始碼給 `ln(253)`,專家核對膨脹層給 `252`,而專家據此判定「文中誤植」。自己回頭讀兩邊原始碼才看到真相:**RPP 確實寫 `log(253.0f)`,而膨脹層的正向乘數確實是 `(INSCRIBED_INFLATED_OBSTACLE − 1) = 252`——是 Nav2 自己這兩處不一致。** 誤差量 `ln(253/252)/f`,`f=3` 時 1.3 mm,實務可忽略。但它比「改個常數」更值得寫:這個「從 costmap 值反推距離」的技巧把一個模組的實作常數硬寫進另一個模組,任何一邊改了公式形狀,另一邊都不會有編譯錯誤、不會有警告,只會安靜地算出偏掉的距離。**採信任一個 agent 的單邊結論,都會寫出不完整的東西。**
 
 | **R22.3** | Pages 上的數學渲染核對與修正 | 實際載入線上頁面驗證 MathJax,而不是只看本地 markdown。**數量與錯誤數都是乾淨的**(`feedback-control-pid-lqr` 58/58、`nav2-plugin-algorithms` 23/23 全部渲染,0 個 `<mjx-merror>`,正文 0 個殘留的 `\[` / `$$`),但**截圖看才發現公式的下沿被裁掉**——分數的分母、`θ_los` 這類下標只剩上半。成因是 `_layouts/default.html` 的 `mjx-container[display="true"]{overflow-y:hidden}` 配上 body 繼承的 `line-height:1.95`(CJK 排版用的):行高把 CHTML 的內部盒子撐開,墨水超出容器,再被 `overflow-y:hidden` 切掉。修法是讓 MathJax 容器 `line-height:normal` 不繼承內文行高,並補 `padding:.45em 0` 的上下餘裕。**這一修影響全站四篇有公式的文件** | ✅ 完成 |
+| **R23** | 站台版面改版與全站連結核對 | 依 `garden-skills` 的 `web-design-engineer` 流程選一套具名 recipe 再落地,選的是 **tufte-dataink**(資訊架構派):零裝飾、圖表直接標註、短註走頁邊。兩處按實際條件改:紙面用中性偏白而非 recipe 的暖奶油(使用者指定不要土黃),中文正文維持黑體、襯線只用在標題/引言/頁邊註(CJK 襯線 webfont 動輒數 MB,不值得為排版味道拉進來)。關鍵路徑色從墨綠換成磚紅 `#a6300e`,全站仍只有一個。導覽補四件:頂部章節列、左欄同章節清單 + 頁內目次(捲動高亮)、麵包屑、上下篇;資料來源是 `_data/nav.yml`,由 `scripts/gen-nav.py` 從 README 的「文件索引」產生——索引本來就已經是閱讀順序,再手抄一份只會兩邊不同步。頁邊註的判準寫死在 layout 的 JS:`main` 的直接子 `blockquote`、純文字、150 字以內才浮到右邊界,長的留在正文。**連結核對抓到一個從上線就存在的 bug**:`_config.yml` 的 `include:` 比對的是**目錄名**不是相對路徑,寫 `docs/_legacy` 一行都沒生效,`docs/_legacy`、`_meta`、`_refs` 三個目錄**從來沒有被發佈過**,全站 13 條連結(README 佔 4 條)在線上是 404。改成 `- _legacy` / `- _meta` / `- _refs` 後,82 頁、3105 條站內連結、232 張圖全數命中,孤兒頁 0 | ✅ 完成 |
 
 ## R22.3 的教訓:統計乾淨不等於畫面正確
 
@@ -320,6 +321,22 @@ c.scrollHeight - c.clientHeight > 1   →   這條公式有內容被裁,超出 N
 最終複驗四篇有公式的文件:`feedback-control-pid-lqr` 58 條、`nav2-plugin-algorithms` 23 條、`robot-dynamics` 22 條、`gaussian-from-first-principles` 5 條,合計 **108 條公式,0 被裁、0 渲染錯誤**。
 
 往後改 `_layouts/` 的 CSS,順序是:先跑這個量測,再截一張圖做最終確認。
+
+## R23 的教訓:掃 markdown 會同時給你假警報和漏報
+
+這一輪先用 python 掃 markdown 原始檔找壞連結,掃出 30 筆。逐項核對之後:
+
+| 掃出來的 | 實際 |
+|---|---|
+| 17 筆「連到 `README.md` 會變成 `README.html` 而 404」 | **全是假的**。`jekyll-relative-links` 是拿站上的頁面 URL 去解析的,`README.md` 會正確變成該目錄的 index |
+| 9 筆「anchor 不存在」 | **全是假的**。我自己寫的 slug 演算法跟 kramdown 不一致 |
+| 真正壞掉的 13 條 | **一條都沒掃到**——它們的目標檔案在 repo 裡確實存在,壞的是「這些檔案根本沒被發佈」 |
+
+假警報與漏報都來自同一件事:**掃的是輸入,不是產出**。連結對不對取決於 Jekyll 實際產生了哪些檔案、kramdown 實際寫了哪些 `id`,這兩件事都只在 `_site/` 裡才有答案。
+
+所以流程固定成:Docker 裡 `jekyll build`(約 3 秒)→ 掃 `_site` 的 `href`/`src` 與 `id` → 比對。順帶還能算出**孤兒頁**(沒有任何頁面連進去的檔案),那是掃原始檔算不出來的。
+
+外部連結另外掃:抓 URL 時要分開處理 markdown 行內連結、`<...>` 自動連結與裸 URL,並剝掉尾隨的全形標點——不然 `<https://renode.io/>` 會被抓成 `https://renode.io/>` 而回報 404,一份乾淨的站看起來會像有上百條死連結。
 
 ## 後續形態輪次(待做)
 

@@ -1070,7 +1070,7 @@ float pid_step(pid_t *c, float ref, float meas, float dt)
 - Williams, G., Drews, P., Goldfain, B., Rehg, J. M., Theodorou, E. A., "Aggressive driving with model predictive path integral control," *2016 IEEE ICRA*, pp. 1433–1440. DOI: 10.1109/ICRA.2016.7487277 — Nav2 的 survey 引用的 MPPI 出處(該版用 GPU)。
 - Williams, G., Aldrich, A., Theodorou, E. A., "Model Predictive Path Integral Control: From Theory to Parallel Computation," *Journal of Guidance, Control, and Dynamics*, vol. 40, pp. 344–357, 2017. DOI: 10.2514/1.G001921 — `nav2_mppi_controller` 的 README 引用的理論依據。
 - Williams, G. et al., "[Information Theoretic MPC for Model-Based Reinforcement Learning](https://arxiv.org/abs/1707.02342)" (arXiv:1707.02342) — 自由能與 KL 散度那條推導鏈的資訊論版本。
-- [`nav2_mppi_controller` 設定文件](https://docs.nav2.org/configuration/packages/configuring-mppic.html) 與[原始碼](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller) — §13.7 的參數與程式碼片段核對自後者。
+- [`nav2_mppi_controller` 設定文件](https://docs.nav2.org/rolling/configuration_and_development/configuration_guide/controller_plugins/mppi_controller/configuring_mppic/) 與[原始碼](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller) — §13.7 的參數與程式碼片段核對自後者。
 - [navigation2#1710 "Working list of algorithms to include"](https://github.com/ros-navigation/navigation2/issues/1710) — LQR 被劃掉、註明 `MPPI supersedes` 的原始紀錄。
 
 **實作與工具**

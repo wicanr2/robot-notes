@@ -130,7 +130,7 @@ nonholonomic 指「不能側移、只能沿車頭方向前後走」。任何舵�
 
 - 拓樸 vs 運動規劃分層:[Open-RMF](open-rmf.md)、[rmf_traffic](https://github.com/open-rmf/rmf_traffic)。
 - pose 吸附門檻與 `Lost`:[RobotUpdateHandle.hpp](https://github.com/open-rmf/rmf_ros2/blob/main/rmf_fleet_adapter/include/rmf_fleet_adapter/agv/RobotUpdateHandle.hpp)(`max_merge_waypoint_distance`=0.1 / `max_merge_lane_distance`=1.0)、[RobotContext.hpp](https://github.com/open-rmf/rmf_ros2/blob/main/rmf_fleet_adapter/src/rmf_fleet_adapter/agv/RobotContext.hpp)(`struct Lost` / `set_lost`)。
-- nonholonomic 規劃:[Nav2 Smac Hybrid-A*](https://docs.nav2.org/configuration/packages/smac/configuring-smac-hybrid.html)、[smac_planner README](https://github.com/ros-navigation/navigation2/blob/main/nav2_smac_planner/README.md)(`motion_model_for_search` Dubins/Reeds-Shepp、`minimum_turning_radius`=0.40、`reverse_penalty`=2.1)。
+- nonholonomic 規劃:[Nav2 Smac Hybrid-A*](https://docs.nav2.org/rolling/configuration_and_development/configuration_guide/planners_plugins/smac/smac_hybrid/configuring_smac_hybrid/)、[smac_planner README](https://github.com/ros-navigation/navigation2/blob/main/nav2_smac_planner/README.md)(`motion_model_for_search` Dubins/Reeds-Shepp、`minimum_turning_radius`=0.40、`reverse_penalty`=2.1)。
 - 叉車運動學:[路徑規劃與軌跡](../10-core/30-navigation/path-planning.md)、[座標轉換與 TF](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)。
 - Dubins / Reeds-Shepp 科普:[Reeds-Shepp 與 Dubins 曲線(機器人家園)](https://www.robotattractor.com/reeds-shepp-dubins/)。
 

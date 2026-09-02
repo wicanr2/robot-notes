@@ -94,6 +94,6 @@ Nav2 用**行為樹(Behavior Tree)**編排整個流程:規劃 → 跟隨 → 卡
 
 ## 7. 來源
 
-- [Nav2 Concepts](https://docs.nav2.org/concepts/index.html)、[Nav2 plugins](https://docs.nav2.org/plugins/)、[演算法選擇](https://docs.nav2.org/setup_guides/algorithm/select_algorithm.html)
-- [Smac Planner README](https://github.com/ros-navigation/navigation2/blob/main/nav2_smac_planner/README.md)、[Inflation Layer](https://docs.nav2.org/configuration/packages/costmap-plugins/inflation.html)
-- [Regulated Pure Pursuit](https://docs.nav2.org/configuration/packages/configuring-regulated-pp.html)、[Tuning(DWB/MPPI/RPP)](https://docs.nav2.org/tuning/index.html)、[行為樹走查](https://docs.nav2.org/behavior_trees/overview/detailed_behavior_tree_walkthrough.html)
+- [Nav2 Concepts](https://docs.nav2.org/rolling/getting_started/navigation_concepts/)、[Nav2 plugins](https://docs.nav2.org/rolling/configuration_and_development/navigation_plugins/)、[演算法選擇](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/navigation_plugins/setup_navigation_plugins/)
+- [Smac Planner README](https://github.com/ros-navigation/navigation2/blob/main/nav2_smac_planner/README.md)、[Inflation Layer](https://docs.nav2.org/rolling/configuration_and_development/configuration_guide/core_servers/costmap_2d/costmap_plugins/inflation/)
+- [Regulated Pure Pursuit](https://docs.nav2.org/rolling/configuration_and_development/configuration_guide/controller_plugins/configuring_regulated_pp/)、[Tuning(DWB/MPPI/RPP)](https://docs.nav2.org/rolling/configuration_and_development/tuning_guide/)、[行為樹走查](https://docs.nav2.org/rolling/getting_started/nav2_behavior_trees/detailed_behavior_tree_walkthrough/detailed_behavior_tree_walkthrough/)
