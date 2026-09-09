@@ -369,10 +369,11 @@ elifesciences 的 403/406、st.com 要瀏覽器標頭才給 200),**修掉的是�
 ## R24 新增:Nav2 只規劃、車上追蹤(2026-09-09)
 
 `docs/10-core/30-navigation/planner-plus-onboard-controller.md` + `img/nav2-planner-onboard-controller.svg`。
-來源是 TB3 Isaac 基準專案的兩份實驗紀錄與一份計畫(三輪叉車 MR1533 走 10 m 正方形:Nav2 六組對照純控制器;
-Nav2 只留 planner_server、車上 Go / C++ 60 Hz 控制器,PID / LQR / MPC 三條修正律)。
-數字都是單一模擬環境量的(Isaac Sim 6.0.1、真值位姿、空場地),頁內有標條件;Go / C++ 版與規劃器兩組實驗**尚未跑**,
-頁面寫的是設計與起始參數,跑完要回來補量測。已從 README 索引、30-navigation 總覽、path-planning §4、feedback-control §9.3 接連結。
+來源是 TB3 Isaac 基準專案的三份實驗紀錄與一份計畫(三輪叉車 MR1533 走 10 m 正方形:Nav2 六組、純 Python 控制器、
+Nav2 只留 planner_server + 車上 Go / C++ 60 Hz 控制器 PID / LQR / MPC × NavFn / Smac Hybrid-A*,P1~P5 全部跑完)。
+數字都是單一模擬環境量的(Isaac Sim 6.0.1、真值位姿、空場地),頁內標了條件與有效性威脅(P4、P5 各律各一輪)。
+已從 README 索引、30-navigation 總覽、path-planning §4、feedback-control §9.3 接連結。
+開放項目(零指令滑移、MPC 約束版、Smac 弧段 < 3 cm、定位誤差注入、nav2_core plugin)跑完再回來補。
 
 ## 後續形態輪次(待做)
 
