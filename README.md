@@ -73,6 +73,7 @@
 | **想比較不同形態** | [形態分支總覽](docs/20-forms/) — 一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪 |
 | 想知道力矩怎麼算(動力學) | [機器人動力學](docs/90-foundations/robot-dynamics.md) — 運動學什麼時候不夠用、M/C/N 三項從哪長出來、模型怎麼進控制器 |
 | **做叉車 / 搬運車的控制器** | [回授控制:PID、LQR 與 MPPI](docs/90-foundations/feedback-control-pid-lqr.md) — 哪一層該用 PID、哪一層該用 LQR,三條控制律都從第一性原理推起,後半整章落到叉車 |
+| **Nav2 跑出來的路歪、角落切太多** | [Nav2 只規劃、車上追蹤](docs/10-core/30-navigation/planner-plus-onboard-controller.md) — 差距從哪四層來、Nav2 只留規劃器的分工、三條修正律怎麼接
 | 要在搬運車上裝手臂 | [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) |
 | 想搞懂四足為什麼難 | [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md) |
 
@@ -116,6 +117,7 @@
 - [路徑規劃與軌跡(Nav2)](docs/10-core/30-navigation/path-planning.md) — 三層架構、costmap 膨脹、Hybrid-A*、DWB/MPPI/RPP、行為樹
 - [Nav2 外掛演算法](docs/10-core/30-navigation/nav2-plugin-algorithms.md) — 五個 planner、五個 controller、三個 smoother 與 AMCL 逐一拆開:每個的數學核心是什麼、哪幾個參數真的會進到式子裡。含 Hybrid-A\* 雙啟發式為何取 max、純追蹤 κ=2y/L² 的推導、Graceful 的閉式控制律、Simple Smoother 就是那個目標函數的梯度下降、AMCL 兩種量測模型的參數落差
 - [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md) — 從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
+- [Nav2 只規劃、車上追蹤](docs/10-core/30-navigation/planner-plus-onboard-controller.md) — 同一台三輪叉車走同一個 10 m 正方形,全套 Nav2 角落外擴 0.65 m、直線偏 0.16 m,直接寫控制器 1.4 cm / 1 mm:差距從目標容差、參考路徑、角落策略、資訊鏈路四層拆開;由此推出「Nav2 只留 planner_server,車上 Go / C++ 60 Hz 追蹤器」的分工,PID(Stanley)/ LQR(DARE)/ MPC(無約束閉式)三條修正律的式子與起始值,以及量到的數字
 
 ### 20-forms 形態分支 — 換了形態,這幾層就得換
 - [形態分支總覽](docs/20-forms/) — 四種形態在自由度、支撐面、運動學、控制核心、狀態估計、法規上的分岔點對照

@@ -104,6 +104,11 @@ sections:
         depth: 0
         group: "導航"
         group_url: "/docs/10-core/30-navigation/"
+      - url: "/docs/10-core/30-navigation/planner-plus-onboard-controller.html"
+        title: "Nav2 只規劃、車上追蹤"
+        depth: 0
+        group: "導航"
+        group_url: "/docs/10-core/30-navigation/"
   - id: "20-forms"
     title: "形態分支 — 換了形態,這幾層就得換"
     short: "形態"

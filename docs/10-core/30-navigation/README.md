@@ -10,6 +10,7 @@
 | 4 | [路徑規劃](path-planning.md) | Nav2 為什麼分三層;costmap 的 inflation 在解什麼 |
 | 5 | [路徑平滑與軌跡生成](path-smoothing-and-trajectory.md) | 折線的轉角曲率是無限大,車開不過去;G0–G3、Bézier、B-spline、速度規劃 |
 | 6 | [3D LiDAR SLAM](slam-3d-lidar.md) | 換成多線光達之後多了什麼、難在哪;**§4 與 §8 是選型時再回來查的表** |
+| 7 | [Nav2 只規劃、車上追蹤](planner-plus-onboard-controller.md) | 全套 Nav2 與直接寫控制器差一到兩個數量級,缺的是「參考軌跡 + 角落策略」那一層;Nav2 只留規劃器、車上 60 Hz PID / LQR / MPC 追蹤器 |
 
 > 第 2、3、6 篇反覆用到「最大化似然 ⟺ 最小化加權殘差平方和」——那一步的推導在[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和)。
 >
