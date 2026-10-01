@@ -7,6 +7,7 @@
 - **寫給誰** — 想把機器人從頭搞懂的人,尤其是寫軟體、但對硬體不熟的那種。名詞第一次出現就當場翻譯。
 - **規模** — 60+ 篇主題文件、190+ 張手繪示意圖,全部繁體中文,每篇都從「這東西要解決什麼根本問題」推起。
 - **完整度不均** — 輪式 AMR(送餐機器人、物流搬運車)是最早展開、覆蓋最完整的一條線;移動操作與四足剛起頭;人形還沒寫。進度見 [PLAN.md](PLAN.md)。
+- **工作歷程** — 近期文件整理與驗證紀錄見 [WORKLOG.md](WORKLOG.md)。
 
 <p align="center">
   <img src="img/bellabot.png" height="180" alt="Pudu BellaBot 送餐機器人">
@@ -129,6 +130,13 @@
 - [四足](docs/20-forms/legged/) — 讓輪式問題乾淨的三個前提被同時打掉
   - [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) — 浮動基座與欠致動、接觸讓系統變成混合系統、ZMP 與 capture point 各保證什麼、沒有輪子怎麼估狀態
   - [步態與致動](docs/20-forms/legged/gait-and-actuation.md) — duty factor 的門檻為什麼是 1/n 而不是固定的 0.5、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
+
+### 30-products 產品專章
+
+- [產品總覽](docs/30-products/) — 按實際產品整理整車硬體、控制板、車載電腦與安裝擴充
+  - [Husarion Panther](docs/30-products/husarion-panther.md) — 官方方塊圖、電腦配置截圖、ROS／CAN 控制分工、安裝導軌與上裝急停
+  - [Husarion ROSbot XL](docs/30-products/husarion-rosbot-xl.md) — 官方方塊圖、電腦配置截圖、STM32／Ethernet 控制、安裝板與擴充供電
+  - [Panther 與 ROSbot XL 控制架構 SWOT](docs/30-products/husarion-control-architecture-swot.md) — 專責底盤電腦＋CAN 驅動器與車載電腦＋Ethernet＋STM32 的開發、故障及維護差異
 
 ### 40-fleet 多機調度
 

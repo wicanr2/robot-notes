@@ -140,6 +140,22 @@ sections:
       - url: "/docs/20-forms/legged/gait-and-actuation.html"
         title: "步態與致動"
         depth: 1
+  - id: "30-products"
+    title: "產品專章"
+    short: "產品"
+    pages:
+      - url: "/docs/30-products/"
+        title: "產品總覽"
+        depth: 0
+      - url: "/docs/30-products/husarion-panther.html"
+        title: "Husarion Panther"
+        depth: 1
+      - url: "/docs/30-products/husarion-rosbot-xl.html"
+        title: "Husarion ROSbot XL"
+        depth: 1
+      - url: "/docs/30-products/husarion-control-architecture-swot.html"
+        title: "Panther 與 ROSbot XL 控制架構 SWOT"
+        depth: 1
   - id: "40-fleet"
     title: "多機調度"
     short: "調度"

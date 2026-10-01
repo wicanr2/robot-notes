@@ -1,0 +1,48 @@
+{
+  "captured_at": "2026-10-01T06:49:55.886Z",
+  "browser": "Chrome/131.0.6778.204",
+  "records": [
+    {
+      "filename": "husarion-panther-computers.png",
+      "source": "https://husarion.com/manuals/panther/panther-options/#user-computers",
+      "kind": "official-web-section-screenshot",
+      "sha256": "5631cf8a8efeefa1e1d550c1505c5474a0ac3b4b364f9346eb35599243b5300a",
+      "bytes": 481760
+    },
+    {
+      "filename": "husarion-rosbot-xl-computers.png",
+      "source": "https://husarion.com/manuals/rosbot-xl/rosbot-xl-options/#basic-package",
+      "kind": "official-web-section-screenshot",
+      "sha256": "ccd1932c0676d0bc5684f95c11eb68a531bcd629bb9bd1602d79f3c825ee56ac",
+      "bytes": 470393
+    },
+    {
+      "filename": "husarion-panther-block-diagram-original.png",
+      "source": "https://husarion.com/assets/images/block_diagram_pth12.drawio-f811417baa75d3e498fabd6daebd72dd.png",
+      "manual": "https://husarion.com/manuals/panther/#block-diagram",
+      "kind": "official-original-diagram",
+      "alt": "",
+      "sha256": "e38877d160518261a915a874b225b2e252c4849addf4cbae22bb918ac5ce78bc",
+      "bytes": 437770
+    },
+    {
+      "filename": "husarion-panther-block-diagram.png",
+      "source": "https://husarion.com/assets/images/block_diagram_pth12.drawio-f811417baa75d3e498fabd6daebd72dd.png",
+      "manual": "https://husarion.com/manuals/panther/#block-diagram",
+      "kind": "official-diagram-browser-screenshot",
+      "alt": "",
+      "background": "#111827",
+      "sha256": "9b1bf7b7af113afb23a394a269dc50423ca946d5c458afced87d2c115f69aae5",
+      "bytes": 269443
+    },
+    {
+      "filename": "husarion-rosbot-xl-block-diagram.png",
+      "source": "https://husarion.com/assets/images/RbXL_architecture-473bd224e1d17b0896c676a6600f1564.png",
+      "manual": "https://husarion.com/manuals/rosbot-xl/#block-diagram",
+      "kind": "official-original-diagram",
+      "alt": "Architecture diagram",
+      "sha256": "be86268442fec582d0b5c94ecc9d5f20e29a042f8997946aa388eb869144c221",
+      "bytes": 90858
+    }
+  ]
+}

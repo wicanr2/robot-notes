@@ -21,7 +21,7 @@ ITEM_RE    = re.compile(r'^(\s*)-\s+\[([^\]]+)\]\(([^)]+)\)')
 
 # 章節在頂部導覽列上的短標籤(README 的標題太長,放不下)
 SHORT = {
-    "00-overview": "總覽", "10-core": "核心", "20-forms": "形態",
+    "00-overview": "總覽", "10-core": "核心", "20-forms": "形態", "30-products": "產品",
     "40-fleet": "調度", "50-physical-ai": "模擬", "55-vlm-llm": "VLM",
     "60-compliance": "法規", "70-security": "資安", "90-foundations": "基礎",
 }
