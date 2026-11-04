@@ -28,6 +28,6 @@
 - 圖片：20 張 `nav2-*`、`ctl-*` 與 4 張 Husarion 圖重繪成 `img/*.webp`，共 2.44 MiB。Husarion 兩張規格圖只重繪規格表，產品照與長段英文不重繪。原始 SVG 與官方 PNG 都留在 `img/`。
 - 圖片驗證：獨立 agent 逐條比對文字清單與完整參考圖；最後未通過的兩張重新生成後，由主迴圈放大確認。有比例意義的 8 張在圖下標示示意並連回 SVG。幾何只有目測估讀，沒有程式量測。
 - 重做紀錄：第一版參考圖被瀏覽器視窗裁切，20 張全部重新生成，原因與修法見 `PLAN.md` R26。
-- 部署準備：新增 `Gemfile`、`Gemfile.lock`、`.ruby-version`，以 Cloudflare 預設的 Ruby 3.4.4 在 Docker 內實測建置。`_config.yml` 與 `.gitignore` 排除 `slam/`。設定見 [Cloudflare Pages 部署](docs/_meta/deploy-cloudflare.md)。
+- 部署：新增 `Gemfile`、`Gemfile.lock`、`.ruby-version`、`404.html`，以 Git integration 部署到 <https://robot-notes.pages.dev>。`_config.yml` 與 `.gitignore` 排除 `slam/`。第一次建置因語系失敗，修正後成功。設定見 [Cloudflare Pages 部署](docs/_meta/deploy-cloudflare.md)。
 - 映像：這輪在主機新增 `ruby:3.3-bookworm` 與 `ruby:3.4.4-bookworm` 兩個映像，容器都用 `--rm`，沒有清理任何映像。
 - 官方圖：五個官方 Husarion PNG 的轉載授權未查到，使用者決定保留在站上。
