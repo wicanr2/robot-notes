@@ -1,6 +1,6 @@
 # 在 STM32F4 上設計 REST API + TLS 1.2
 
-把一顆 STM32F4 當成網路節點,對外開一個 **REST API**(配置、監控、下指令),而且要用 **TLS 1.2** 把連線加密——這在 IoT 設備、車載子系統很常見。難點不在「寫得出 HTTP」,而在 **TLS 的運算與記憶體需求,撞上 MCU 很小的資源**。這篇從第一性原理拆這個矛盾,並標出每個選型的官方出處。
+把一顆 STM32F4 當成網路節點,對外開一個 **REST API**(配置、監控、下指令),而且要用 **TLS 1.2** 把連線加密。這在 IoT 設備、車載子系統很常見。「寫得出 HTTP」不難,難的是 **TLS 的運算與記憶體需求,撞上 MCU 很小的資源**。這篇從第一性原理拆這個矛盾,並標出每個選型的官方出處。
 
 > 前置:[上下位機通訊協議](host-mcu-protocol.md)、[通訊匯流排](../10-hardware/communication-buses.md)。
 
@@ -12,9 +12,9 @@
 
 由下而上,每層用什麼、出處:
 
-- **TCP/IP:[lwIP](https://www.nongnu.org/lwip/)** — 嵌入式的輕量 TCP/IP stack,MCU 上的事實標準。
-- **TLS:[mbedTLS](https://www.trustedfirmware.org/projects/mbed-tls/)** — 專為嵌入式設計的 TLS 函式庫,支援 TLS 1.2(現由 TrustedFirmware 維護)。
-- **接合層:lwIP 的 [altcp_tls](https://www.nongnu.org/lwip/2_1_x/group__altcp__tls.html)** — 「application-layer TCP + TLS」抽象,開 `LWIP_ALTCP_TLS_MBEDTLS` 就把 TLS 接到 mbedTLS 後端,做出 HTTPS。
+- **TCP/IP:[lwIP](https://www.nongnu.org/lwip/)**:嵌入式的輕量 TCP/IP stack,MCU 上的事實標準。
+- **TLS:[mbedTLS](https://www.trustedfirmware.org/projects/mbed-tls/)**:專為嵌入式設計的 TLS 函式庫,支援 TLS 1.2(現由 TrustedFirmware 維護)。
+- **接合層:lwIP 的 [altcp_tls](https://www.nongnu.org/lwip/2_1_x/group__altcp__tls.html)**:「application-layer TCP + TLS」抽象,開 `LWIP_ALTCP_TLS_MBEDTLS` 就把 TLS 接到 mbedTLS 後端,做出 HTTPS。
 - **ST 的現成支援**:STM32CubeF4 本體就內含 lwIP 與 mbedTLS 兩個 middleware,附範例([UM1730](https://www.st.com/resource/en/user_manual/um1730-getting-started-with-stm32cubef4-for-stm32f4-series-mcus-stmicroelectronics.pdf)、[stm32-mw-mbedtls](https://github.com/STMicroelectronics/stm32-mw-mbedtls))。
 - **REST 層**:自己在 HTTPS 之上做 method + path routing + JSON 解析(輕量 parser 如 jsmn)。
 
@@ -22,9 +22,9 @@
 
 **① RAM 是第一道牆。** mbedTLS 一條 TLS 連線約 **23 KB 以上**,大頭是預設 16 KB 的收 / 發 buffer([footprint 文件](https://mbed-tls.readthedocs.io/en/latest/kb/how-to/reduce-polarssl-memory-and-storage-footprint/))。STM32F407 只有 192 KB RAM,**這很緊**。省法:用 `max_fragment_length` 把 buffer 砍到 <1 KB、關 `MBEDTLS_SSL_KEEP_PEER_CERTIFICATE`、選小曲線 ECC、**限制並發連線數(1–2 條就好)**。
 
-**② 加密很吃 CPU,而且型號決定能不能硬體加速。** TLS handshake 的 ECDHE / RSA 運算很重,168 MHz **純軟體**算可能要數百 ms 到秒級。關鍵:**STM32F405 / F407 沒有 CRYP 硬體加速器**——有 CRYP/HASH 的是 **F415 / F417 / F437 / F439**,而且 **AES-GCM / CCM 要 F437 / F439**(F41x 只到 AES-CBC/CTR)([F407/417 產品頁](https://www.st.com/en/microcontrollers-microprocessors/stm32f407-417.html)、[UM1924 crypto library](https://www.st.com/resource/en/user_manual/dm00215061-stm32-crypto-library-stmicroelectronics.pdf))。要硬體加速,就選帶 crypto 的型號,並用 ST 的 mbedTLS `*_ALT` port 把 CRYP/HASH 接進去([stm32-mw-mbedtls](https://github.com/STMicroelectronics/stm32-mw-mbedtls))。
+**② 加密很吃 CPU,而且型號決定能不能硬體加速。** TLS handshake 的 ECDHE / RSA 運算很重,168 MHz **純軟體**算可能要數百 ms 到秒級。**STM32F405 / F407 沒有 CRYP 硬體加速器**。有 CRYP/HASH 的是 **F415 / F417 / F437 / F439**,而且 **AES-GCM / CCM 要 F437 / F439**(F41x 只到 AES-CBC/CTR)([F407/417 產品頁](https://www.st.com/en/microcontrollers-microprocessors/stm32f407-417.html)、[UM1924 crypto library](https://www.st.com/resource/en/user_manual/dm00215061-stm32-crypto-library-stmicroelectronics.pdf))。要硬體加速,就選帶 crypto 的型號,並用 ST 的 mbedTLS `*_ALT` port 把 CRYP/HASH 接進去([stm32-mw-mbedtls](https://github.com/STMicroelectronics/stm32-mw-mbedtls))。
 
-**③ 亂數一定用硬體 RNG。** TLS 的安全性建立在好的亂數上(金鑰、nonce)。STM32F4 內建硬體 TRNG,接成 mbedTLS 的 entropy source——**絕對不要用 `rand()` 或時間當種子**(會讓 TLS 形同虛設)。ST 還有 AN 用 NIST 測試套件驗證其品質([RNG validation AN](https://www.st.com/resource/en/application_note/dm00073853-stm32-microcontroller-random-number-generation-validation-using-the-nist-statistical-test-suite-stmicroelectronics.pdf))。
+**③ 亂數一定用硬體 RNG。** TLS 的安全性建立在好的亂數上(金鑰、nonce)。STM32F4 內建硬體 TRNG,接成 mbedTLS 的 entropy source。**絕對不要用 `rand()` 或時間當種子**(會讓 TLS 形同虛設)。ST 還有 AN 用 NIST 測試套件驗證其品質([RNG validation AN](https://www.st.com/resource/en/application_note/dm00073853-stm32-microcontroller-random-number-generation-validation-using-the-nist-statistical-test-suite-stmicroelectronics.pdf))。
 
 **④ cipher suite 砍到夠用 + 憑證要保護。** 鎖 **TLS 1.2 起跳**(`min_version`)、停用弱 suite;選 **ECDHE + AES-GCM**(F41x 只能到 AES-CBC),ECC(P-256 / Curve25519)比 RSA 省 RAM 又快。server 私鑰存 Flash,**開讀保護(RDP)** 防讀取;用 session resumption 省掉重複 handshake。
 
@@ -65,7 +65,7 @@ void on_https_request(Request r) {        // r 已過 TLS 解密
 }
 ```
 
-一筆 HTTPS 請求從進來到回應的流程是這樣——handshake 是一次性大開銷,之後每筆只走「解密 → route → handler → 加密」:
+一筆 HTTPS 請求從進來到回應的流程是這樣:handshake 是一次性大開銷,之後每筆只走「解密 → route → handler → 加密」:
 
 <p align="center"><img src="../../../img/stm32-https-flow.svg" width="720" alt="STM32 處理 HTTPS 請求流程:① TLS 1.2 handshake(mbedTLS,硬體 RNG/ECDHE/CRYP,最吃 RAM/CPU)→ ② 加密 request 進來、mbedTLS 解密成明文 HTTP → ③ parse+route+handler 產生 JSON → ④ mbedTLS 加密回應"></p>
 

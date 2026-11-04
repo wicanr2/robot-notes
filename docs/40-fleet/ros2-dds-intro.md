@@ -20,17 +20,17 @@ ROS 2 程式是拆成很多**節點(node)**的:一個讀 LiDAR、一個跑定位
 
 ## 3. 去中心化:ROS 2 沒有中央 master
 
-這是 DDS 帶來最大的改變。**ROS 1 有一個中央 `roscore`(master)**,所有節點先去它那裡登記,才找得到彼此——master 一掛,大家就互相失聯(單點故障)。**ROS 2 靠 DDS 去中心化**:節點上線後自動「廣播找人」,彼此直接發現、直接傳,沒有中央節點。
+這是 DDS 帶來最大的改變。**ROS 1 有一個中央 `roscore`(master)**,所有節點先去它那裡登記,才找得到彼此。master 一掛,大家就互相失聯(單點故障)。**ROS 2 靠 DDS 去中心化**:節點上線後自動「廣播找人」,彼此直接發現、直接傳,沒有中央節點。
 
 <p align="center"><img src="../../img/ros1-vs-ros2-discovery.svg" width="720" alt="ROS1 所有節點連中央 roscore(單點故障)vs ROS2 用 DDS 去中心化、節點自動發現彼此互聯、無單點"></p>
 
-好處:沒有單點故障、開關節點更自由。代價:這個「自動發現」靠**多播(multicast)**,而多播**跨網段或走 docker 預設 bridge network 容易不通**——這就是 [多容器部署篇](rmf-multi-container-deploy.md) 要處理的事。
+好處:沒有單點故障、開關節點更自由。代價:這個「自動發現」靠**多播(multicast)**,而多播**跨網段或走 docker 預設 bridge network 容易不通**。這就是 [多容器部署篇](rmf-multi-container-deploy.md) 要處理的事。
 
 ## 4. 你會碰到的幾個詞
 
 | 詞 | 一句話 |
 |---|---|
-| **topic + pub/sub** | 節點不直接點對點呼叫,而是「發布到一個 topic、誰想要誰訂閱」;DDS 天生就是這種資料導向的發布/訂閱 |
+| **topic + pub/sub** | 節點「發布到一個 topic、誰想要誰訂閱」,不用直接點對點呼叫;DDS 天生就是這種資料導向的發布/訂閱 |
 | **discovery(發現)** | 節點上線自動找到同網路、同 domain 的其他節點,不需中央登記 |
 | **QoS(服務品質)** | 每條 topic 可設可靠度等級:命令用 **reliable**(保證送到)、高頻感測資料用 **best-effort**(掉幾筆沒差、要的是最新)([QoS 設定](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Quality-of-Service-Settings.html)) |
 | **`ROS_DOMAIN_ID`** | DDS 的邏輯隔離:同值的節點才在同一個邏輯網路、才看得到彼此(預設 0)([Domain ID](https://docs.ros.org/en/foxy/Concepts/About-Domain-ID.html)) |
@@ -39,10 +39,10 @@ ROS 2 程式是拆成很多**節點(node)**的:一個讀 LiDAR、一個跑定位
 ## 5. 對機器人與部署的意義
 
 - **無單點故障**:不會因為一個「中央大腦」掛掉就全死,對要長時間穩定跑的機器人很重要。
-- **QoS 分級**:LiDAR 點雲用 best-effort(高頻、要新)、急停/命令用 reliable(一定要送到)——這是 DDS 給的旋鈕。
-- **同一套機制跨進程 / 容器 / 主機**:節點在同進程、不同容器、還是不同主機,通訊方式一致;這讓 [多容器部署](rmf-multi-container-deploy.md)(adapter 一容器、core 一容器)變得自然——只要把「發現」這關打通(host network 或 discovery server)。
+- **QoS 分級**:LiDAR 點雲用 best-effort(高頻、要新)、急停/命令用 reliable(一定要送到)。這是 DDS 給的旋鈕。
+- **同一套機制跨進程 / 容器 / 主機**:節點在同進程、不同容器、還是不同主機,通訊方式一致;這讓 [多容器部署](rmf-multi-container-deploy.md)(adapter 一容器、core 一容器)變得自然,只要把「發現」這關打通(host network 或 discovery server)。
 
-一句話:**DDS 是 ROS 2 的「神經系統」**——去中心化、自動發現、可調 QoS;搞懂它,才知道為什麼多容器部署要設 `ROS_DOMAIN_ID`、統一 RMW、處理多播。
+**DDS 是 ROS 2 的「神經系統」**:去中心化、自動發現、可調 QoS;搞懂它,才知道為什麼多容器部署要設 `ROS_DOMAIN_ID`、統一 RMW、處理多播。
 
 ## 附:DDS 底層在做什麼(概念 pseudo-code)
 
@@ -99,7 +99,7 @@ def on_acknack(writer, nack):
 
 1. **別自己造(最重要)**:上面只是讓你看懂機制。真實 RTPS 的 QoS、分片、計時、安全層細節極多,生產一律用 Fast DDS / CycloneDDS。
 2. **多播是發現的命脈**:`announce` 走多播,**跨網段 / docker bridge / 防火牆擋多播就發現失敗**(節點起得來卻互相看不到)→ 改用 discovery server / unicast peers(見 [多容器部署](rmf-multi-container-deploy.md))。
-3. **QoS 不相容就配不上**:`qos_compatible` 沒過(reliability、durability… 不匹配),writer/reader 就 match 不起來——**沒資料也不報錯**,新手最常卡這。
+3. **QoS 不相容就配不上**:`qos_compatible` 沒過(reliability、durability… 不匹配),writer/reader 就 match 不起來。**沒資料也不報錯**,新手最常卡這。
 4. **序列化要跨平台一致**:用 CDR、統一位元組序、型別 / IDL 對齊;不能各送各的格式,否則對端解不開。
 5. **UDP 有 MTU 上限**:資料大於一個封包要分片重組(RTPS fragmentation),別假設一筆送得完。
 6. **reliable 不是免費**:`history` buffer 吃記憶體、重傳增延遲。高頻又容得了丟幾筆的(LiDAR、影像)用 best-effort,命令 / 狀態才用 reliable。
@@ -113,14 +113,14 @@ def on_acknack(writer, nack):
 
 每個維度都是坑,合起來就是「為什麼別自造」。務實做法:
 
-- **選現成,別重寫**:功能最全用 **Fast DDS**;要輕量、確定性好用 **CycloneDDS**(RMF 官方範本就用它)。RTPS 是 OMG 的線協定標準,照規範實作才能跨 vendor 互通——光這點就是巨大工程。
-- **9 成的「強健」其實是設對 QoS**:把 `reliability` / `durability` / `history` / `deadline` / `liveliness` 配對你的場景(命令 reliable、感測 best-effort、晚加入 transient_local、要偵測掉線設 liveliness…),比重寫傳輸層划算太多。QoS 不相容配不上、history buffer 設太大 OOM——這些「強健問題」多半是**設定問題**,不是要你自己寫 DDS。
+- **選現成,別重寫**:功能最全用 **Fast DDS**;要輕量、確定性好用 **CycloneDDS**(RMF 官方範本就用它)。RTPS 是 OMG 的線協定標準,照規範實作才能跨 vendor 互通。光這點就是巨大工程。
+- **9 成的「強健」其實是設對 QoS**:把 `reliability` / `durability` / `history` / `deadline` / `liveliness` 配對你的場景(命令 reliable、感測 best-effort、晚加入 transient_local、要偵測掉線設 liveliness…),比重寫傳輸層划算太多。QoS 不相容配不上、history buffer 設太大 OOM,這些「強健問題」多半是**設定問題**,用不著你自己寫 DDS。
 - **打通 discovery**:跨容器 / 網段別硬靠多播,用 discovery server 或 unicast peers(見 [多容器部署](rmf-multi-container-deploy.md))。
 - **真要客製**:基於開源 DDS(Fast DDS / Cyclone 都開源)改,別從零開始。
 
-一句話:**「做一個強健的 DDS」99% 不該是「自己寫一個」,而是「選對 DDS + 設對 QoS + 打通網路」**。
+**「做一個強健的 DDS」99% 不該「自己寫一個」,該做的是「選對 DDS + 設對 QoS + 打通網路」**。
 
-> **延伸**:「既然 DDS 這麼複雜,能不能請 AI 直接寫一個更好的?」這個問題本身很能說明工程軟體的難處在哪——拆解另開一篇:[LLM 能不能重寫一套 DDS](../_meta/llm-rewrite-dds-thought-experiment.md)。
+> **延伸**:「既然 DDS 這麼複雜,能不能請 AI 直接寫一個更好的?」這個問題本身很能說明工程軟體的難處在哪。拆解另開一篇:[LLM 能不能重寫一套 DDS](../_meta/llm-rewrite-dds-thought-experiment.md)。
 
 ## 來源
 

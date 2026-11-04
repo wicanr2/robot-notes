@@ -1,6 +1,6 @@
 # SROS2 / DDS-Security:幫 ROS2 節點間通訊加上認證 + 加密 + 授權
 
-[資安總覽](README.md) 裡最該先補的洞,就是 **ROS2 DDS 預設明文裸奔**——同網路誰都能訂閱 topic、甚至注入 `/cmd_vel` 控車。補它的標準做法是 **SROS2**(Secure ROS 2),它建在 **DDS-Security** 上,一次把三件套(認證、加密、授權)加到節點間通訊。
+[資安總覽](README.md) 裡最該先補的洞,就是 **ROS2 DDS 預設明文裸奔**。同網路誰都能訂閱 topic、甚至注入 `/cmd_vel` 控車。補它的標準做法是 **SROS2**(Secure ROS 2),它建在 **DDS-Security** 上,一次把三件套(認證、加密、授權)加到節點間通訊。
 
 > 前置:[ROS2 的 DDS](../40-fleet/ros2-dds-intro.md)(先懂 DDS 與「DOMAIN_ID 只是隔離不是安全」)。
 
@@ -10,11 +10,11 @@
 
 [DDS](../40-fleet/ros2-dds-intro.md) 預設明文 + 自動發現,任何同 domain 的節點都能收發。**DDS-Security 是 OMG 的規範**,定義 5 個 SPI(Service Plugin Interface);ROS2 用其中前三個:
 
-- **authentication(認證)**:PKI 雙向——每個身分用 CA 簽的 X.509 憑證互相驗證,冒充不了。
+- **authentication(認證)**:PKI 雙向認證,每個身分用 CA 簽的 X.509 憑證互相驗證,冒充不了。
 - **cryptographic(加密)**:通道加密,封包別人看不到、不能竄改。
 - **access control(授權)**:限制每個身分只能 pub/sub 指定的 topic。
 
-`ROS_DOMAIN_ID`、VLAN 只是隔離;這套才是真正的「認證 + 加密 + 授權」。
+`ROS_DOMAIN_ID`、VLAN 只提供隔離;這套則提供「認證 + 加密 + 授權」。
 
 ## 2. 怎麼設定
 
@@ -51,15 +51,15 @@ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker
 
 設定產出兩種 XML,**都必須由 keystore 的 CA 簽章**(簽完是 `.p7s`(PKCS#7 簽章格式:把原始內容與簽章包在一起的標準容器)):
 
-- **`governance.p7s`(domain 級)**:整個 domain 的策略——要不要加密、要不要認證、未授權的 topic 如何處理。
+- **`governance.p7s`(domain 級)**:整個 domain 的策略,包括要不要加密、要不要認證、未授權的 topic 如何處理。
 - **`permissions.p7s`(節點級)**:這個身分能 pub / sub / 哪些 topic。**最小權限**就靠它(例如一台 AMR 的節點只能發自己的 `/odom`、收自己的 `/cmd_vel`)。
 
 ## 4. 注意事項
 
 - **RMW 要支援**:`rmw_fastrtps_cpp`(Fast DDS,Humble 起的預設)是官方安全教學的 backend;CycloneDDS 也有 DDS-Security 實作,但在 ROS 安全主線著墨較少,啟用細節要另查。
-- **Strategy 一定設 `Enforce`**:預設的 Permissive 找不到安全檔會以**無安全**模式啟動——等於沒開,容易誤以為安全了。
+- **Strategy 一定設 `Enforce`**:預設的 Permissive 找不到安全檔會以**無安全**模式啟動。這樣等於沒開,容易誤以為安全了。
 - **效能成本**:handshake(認證)+ 對稱加密有開銷;節點多、訊息高頻時要實測。
-- **運維才是真門檻**:CA 管理、每個 enclave 的憑證簽發 / 輪換 / 撤銷——**這正是「技術成熟但常沒人開」的主因**。導入前要先想清楚憑證生命週期怎麼管。
+- **導入的門檻在運維**:CA 管理、每個 enclave 的憑證簽發 / 輪換 / 撤銷,**這正是「技術成熟但常沒人開」的主因**。導入前要先想清楚憑證生命週期怎麼管。
 - **enclave 粒度**:可以每節點一個、或一台機器人(一個 context)共用一個 enclave;粒度細=權限精準但管理多,要取捨。
 
 ## 來源

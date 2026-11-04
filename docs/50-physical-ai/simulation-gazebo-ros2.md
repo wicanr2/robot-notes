@@ -1,6 +1,6 @@
 # 用 Gazebo + ROS 2 模擬室內差速 AMR
 
-一句話定位:在電腦裡用 **Gazebo**(開源機器人物理模擬器)蓋一個虛擬餐廳,放進一台差速送餐機器人,讓它產生跟真車一樣的感測器訊號(雷射、里程、姿態),再接上 **Nav2**(ROS 2 的導航軟體堆疊)跑 SLAM 與自主導航——整套不碰真硬體就能驗證導航邏輯。
+在電腦裡用 **Gazebo**(開源機器人物理模擬器)蓋一個虛擬餐廳,放進一台差速送餐機器人,讓它產生跟真車一樣的感測器訊號(雷射、里程、姿態),再接上 **Nav2**(ROS 2 的導航軟體堆疊)跑 SLAM 與自主導航。整套不碰真硬體就能驗證導航邏輯。
 
 > 延伸閱讀:[Physical AI 總覽](./physical-ai-overview.md)、[導航運動學與座標轉換](../10-core/30-navigation/kinematics-and-coordinate-transforms.md)、[SLAM 建圖](../10-core/30-navigation/slam-mapping.md)、[定位](../10-core/30-navigation/localization.md)
 
@@ -12,8 +12,8 @@
 
 這是新手最常踩的坑。同一個品牌「Gazebo」前後是**兩套完全不同的軟體**:
 
-- **Gazebo Classic**(舊的,版本號到 Gazebo 11)— 已於 **2025-01-31 正式 end-of-life(EOL,停止維護)**。教學文章裡看到 `gazebo_ros`、`spawn_entity.py`、`<gazebo>` 標籤配 Gazebo 9/11 的,多半是這套舊的,新專案不要再用。
-- **新 Gazebo**(現在官方就叫 **Gazebo**,執行檔 `gz sim`)— 前身叫 **Ignition / Ignition Gazebo**,2022 年改名回 Gazebo。版本用英文字母順序命名:**Fortress → Garden → Harmonic → Ionic → Jetty…**,套件名與指令都是 `gz-*`、`gz sim`。
+- **Gazebo Classic**(舊的,版本號到 Gazebo 11),已於 **2025-01-31 正式 end-of-life(EOL,停止維護)**。教學文章裡看到 `gazebo_ros`、`spawn_entity.py`、`<gazebo>` 標籤配 Gazebo 9/11 的,多半是這套舊的,新專案不要再用。
+- **新 Gazebo**(現在官方就叫 **Gazebo**,執行檔 `gz sim`),前身叫 **Ignition / Ignition Gazebo**,2022 年改名回 Gazebo。版本用英文字母順序命名:**Fortress → Garden → Harmonic → Ionic → Jetty…**,套件名與指令都是 `gz-*`、`gz sim`。
 
 命名為什麼亂:一個品牌名(Gazebo)被「舊架構(Classic)」和「新架構(原 Ignition)」共用過,中間還改名兩次(Gazebo→Ignition→Gazebo)。判斷手上是哪套,看**指令**最快:`gazebo` 是 Classic、`gz sim` 是新版。
 
@@ -52,8 +52,8 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 ### (a) 機器人描述:URDF / SDF
 
-- **URDF**(Unified Robot Description Format)— ROS 慣用的機器人描述格式(XML),描述連桿(link)、關節(joint)、外型、慣性。
-- **SDF**(Simulation Description Format)— Gazebo 原生格式,除了機器人本身,還能描述世界、物理、感測器、外掛(plugin)。
+- **URDF**(Unified Robot Description Format)是 ROS 慣用的機器人描述格式(XML),描述連桿(link)、關節(joint)、外型、慣性。
+- **SDF**(Simulation Description Format)是 Gazebo 原生格式,除了機器人本身,還能描述世界、物理、感測器、外掛(plugin)。
 
 實務上機器人本體寫 URDF(ROS 端的 robot_state_publisher 也要吃它),在 URDF 裡用 `<gazebo>` 區塊補上 Gazebo 專屬設定;Gazebo 載入時會把 URDF 轉成 SDF。差速車最少要有:底盤 link、左右驅動輪 joint(continuous)、一個萬向輪。
 
@@ -84,7 +84,7 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 世界檔本身也要掛幾個基礎系統外掛才動得起來:`gz-sim-physics-system`(物理)、`gz-sim-scene-broadcaster-system`(場景廣播)、`gz-sim-sensors-system`(感測渲染)。
 
-> 名詞:**plugin / system**(系統外掛)— Gazebo 把功能模組化成可掛載的外掛,物理、感測、控制各是一個 system,在 SDF 裡用 `<plugin filename=...>` 掛進去。
+> 名詞:**plugin / system**(系統外掛):Gazebo 把功能模組化成可掛載的外掛,物理、感測、控制各是一個 system,在 SDF 裡用 `<plugin filename=...>` 掛進去。
 
 來源:[Gazebo Harmonic Sensors(官方)](https://gazebosim.org/docs/harmonic/sensors/)、[Setting Up Sensors - Gazebo(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/)
 
@@ -96,7 +96,7 @@ sudo apt-get install ros-${ROS_DISTRO}-ros-gz   # ROS_DISTRO 換成 humble / jaz
 
 ## 3. 跟 Nav2 串接:sim → Nav2 閉迴路
 
-核心觀念:**Gazebo 不知道 Nav2 存在,Nav2 也不知道 Gazebo 存在**。它們只透過幾個標準 ROS topic 與 tf 對話,中間靠 `ros_gz_bridge` 翻譯。把 Gazebo 換成真車(同樣發 `/scan /odom /tf`、收 `/cmd_vel`),Nav2 那側完全不用改——這正是模擬的價值。
+**Gazebo 不知道 Nav2 存在,Nav2 也不知道 Gazebo 存在**。它們只透過幾個標準 ROS topic 與 tf 對話,中間靠 `ros_gz_bridge` 翻譯。把 Gazebo 換成真車(同樣發 `/scan /odom /tf`、收 `/cmd_vel`),Nav2 那側完全不用改。模擬的價值就在這裡。
 
 資料流(閉迴路):
 
@@ -111,7 +111,7 @@ tf 樹由三方各補一段,合起來才完整:
 | **slam_toolbox**(建圖時)/ AMCL(已知地圖時) | `map → odom` | 把里程漂移修正回全域地圖座標 |
 
 - **建圖階段**:跑 **slam_toolbox**(ROS 2 主流 2D SLAM 套件,也是 Nav2 官方支援之一)。它吃 `/scan` + `odom→base_link`,即時產生 `/map` 與 `map→odom` 修正,可以邊走邊建圖(Navigating while Mapping)。
-- **導航階段**:有了地圖後,改用 **AMCL**(粒子濾波定位)提供 `map→odom`;Nav2 依目標點規劃路徑、避開 costmap 上的障礙,持續發 `/cmd_vel`,Gazebo 把車開過去,新 `/scan` 又回饋進來——閉迴路成立。
+- **導航階段**:有了地圖後,改用 **AMCL**(粒子濾波定位)提供 `map→odom`;Nav2 依目標點規劃路徑、避開 costmap 上的障礙,持續發 `/cmd_vel`,Gazebo 把車開過去,新 `/scan` 又回饋進來,閉迴路成立。
 
 來源:[Setting Up Odometry - Gazebo(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/)、[Navigating while Mapping (SLAM)(Nav2)](https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/)、[Mapping and Localization(Nav2)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/mapping_localization/)
 
@@ -134,7 +134,7 @@ tf 樹由三方各補一段,合起來才完整:
 5. **controller_manager + spawner**:載入 `diff_drive_controller` 與 `joint_state_broadcaster`。
 6. **slam_toolbox 或 Nav2**:依「建圖」或「導航」階段擇一啟動,通常各自一份 launch,再用一個上層 launch 組合。
 
-> 名詞:**ros_gz_bridge / parameter_bridge** — `ros_gz` 套件群裡負責 Gazebo Transport 與 ROS 2 之間雙向轉訊息的橋。`ros_gz` 還含 `ros_gz_sim`(啟動/生成工具)、`ros_gz_image`(影像單向高效傳輸)等。
+> 名詞:**ros_gz_bridge / parameter_bridge** 是 `ros_gz` 套件群裡負責 Gazebo Transport 與 ROS 2 之間雙向轉訊息的橋。`ros_gz` 還含 `ros_gz_sim`(啟動/生成工具)、`ros_gz_image`(影像單向高效傳輸)等。
 
 來源:[ros_gz README(套件職責)](https://github.com/gazebosim/ros_gz/blob/ros2/README.md)、[Setting Up Sensors - Gazebo(Nav2,橋接語法)](https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/)
 
@@ -142,7 +142,7 @@ tf 樹由三方各補一段,合起來才完整:
 
 ## 5. Gazebo 的定位 vs Isaac Sim:各適合什麼
 
-兩者不是取代關係,是**不同階段、不同目的**的工具。
+兩者分別是**不同階段、不同目的**的工具,彼此沒有取代關係。
 
 | 面向 | **Gazebo (gz sim)** | **NVIDIA Isaac Sim** |
 |---|---|---|
@@ -169,7 +169,7 @@ tf 樹由三方各補一段,合起來才完整:
 
 - **作業系統**:Gazebo Harmonic 官方 binary 提供 **Ubuntu 22.04(Jammy)** 與 **24.04(Noble)**。Windows 走 WSL2 + Ubuntu;原生 Windows/macOS 支援有限,以官方最新為準。
 - **安裝**:加 OSRF apt 來源後 `sudo apt install gz-harmonic`(只裝模擬器),或 `sudo apt install ros-${ROS_DISTRO}-ros-gz`(連 ROS 橋接一起裝,**做 ROS 專案用這個**)。
-- **GPU**:跑模擬**不強制要獨顯**——感測器渲染走 OpenGL,內顯也能動;有獨顯則畫面/感測渲染更順。要完全無 GPU 環境(如 CI、伺服器)可開 **headless 模式**(不開 GUI),省資源也不需強 OpenGL 支援。
+- **GPU**:跑模擬**不強制要獨顯**。感測器渲染走 OpenGL,內顯也能動;有獨顯則畫面/感測渲染更順。要完全無 GPU 環境(如 CI、伺服器)可開 **headless 模式**(不開 GUI),省資源也不需強 OpenGL 支援。
 - **記憶體**:用 binary 安裝吃得不多;**從原始碼編譯**才重,官方提到編譯可能用到 ~16GB RAM,可用 `CMAKE_BUILD_PARALLEL_LEVEL=1` 降低佔用。一般人裝 binary 即可,不必自編。
 
 > 對照:這份「內顯可跑、headless 可上 CI」正是 Gazebo 相對 Isaac Sim(需較強 NVIDIA GPU)的入門優勢。
@@ -186,7 +186,7 @@ tf 樹由三方各補一段,合起來才完整:
 
 ### 為什麼 Classic 的 `.world` 不能直接在 gz sim 跑
 
-關鍵認知:**卡住的不是幾何**。倉庫 9 成是靜態 mesh(地板、牆、貨架),mesh(Collada/OBJ/STL)兩套 Gazebo 通用。真正不相容的是三件機械性的事:
+**卡住的地方不在幾何**。倉庫 9 成是靜態 mesh(地板、牆、貨架),mesh(Collada/OBJ/STL)兩套 Gazebo 通用。不相容的是三件機械性的事:
 
 | 卡點 | Classic | 新 gz sim | 
 |---|---|---|
@@ -200,9 +200,9 @@ tf 樹由三方各補一段,合起來才完整:
 
 把檔案改完不等於對。用 `gz sdf` 與嚴格 XML 解析器一驗,跳出幾個一開始沒料到的:
 
-1. **`<physics>` 的 `type` 是 SDFormat 必填屬性**。新版 gz sim 的物理引擎其實是由 `gz-sim-physics-system` plugin 決定(預設 dartsim),於是直覺會想把 Classic 的 `type="ode"` 拿掉——結果 SDFormat 直接報錯(缺必填屬性)。正解是**保留 `type` 字串**(留 `ode` 即可),引擎選擇交給 plugin。
-2. **慣性張量要過三角不等式**。AWS 的 GroundB(地板)、RoofB(屋頂)原始 inertia 其實是壞的(`ixx+izz < iyy`),Classic 不檢查、新版 sdformat 直接 Error。這兩個是 static 裝飾物,慣性根本不影響模擬,改成合法值即可——但**沒有驗證就不會發現原始資料是錯的**。
-3. **XML 註解裡不能有 `--`(雙連字號)**。在註解寫了 `--physics-engine`,`gz sdf` 用的 tinyxml2 容忍,但嚴格的解析器(Python expat)直接拒——這是 XML 規格,不是 bug。寫中文註解時很容易不小心帶到。
+1. **`<physics>` 的 `type` 是 SDFormat 必填屬性**。新版 gz sim 的物理引擎其實是由 `gz-sim-physics-system` plugin 決定(預設 dartsim),於是直覺會想把 Classic 的 `type="ode"` 拿掉,結果 SDFormat 直接報錯(缺必填屬性)。正解是**保留 `type` 字串**(留 `ode` 即可),引擎選擇交給 plugin。
+2. **慣性張量要過三角不等式**。AWS 的 GroundB(地板)、RoofB(屋頂)原始 inertia 其實是壞的(`ixx+izz < iyy`),Classic 不檢查、新版 sdformat 直接 Error。這兩個是 static 裝飾物,慣性根本不影響模擬,改成合法值即可,但**沒有驗證就不會發現原始資料是錯的**。
+3. **XML 註解裡不能有 `--`(雙連字號)**。在註解寫了 `--physics-engine`,`gz sdf` 用的 tinyxml2 容忍,但嚴格的解析器(Python expat)直接拒。這是 XML 規格,不是 bug。寫中文註解時很容易不小心帶到。
 
 > 這三個都是「Classic 容忍、新版較嚴」的典型:遷移的工作量常常不在搬幾何,而在補上新版才會檢查的正確性。
 
@@ -214,7 +214,7 @@ tf 樹由三方各補一段,合起來才完整:
   - `gz sdf -k <model.sdf>` 逐一驗模型結構(就是它抓出上面的慣性錯)。
   - world 用嚴格 XML 解析器驗良構(抓出 `--` 那種)。
   - 另外檢查 world 裡每個 `model://NAME` 都對應得到 `models/NAME/` 目錄。
-- **真正載入**:只有 `gz sim` 能解析 `model://`(它在執行期靠 `GZ_SIM_RESOURCE_PATH` + Fuel 註冊 findFile callback);獨立的 `gz sdf` 工具沒這個 callback,會報 `callback is empty`,**所以 world 的 include 解析驗證只能交給 `gz sim`**,headless 跑幾百個 iteration 即可。
+- **實際載入**:只有 `gz sim` 能解析 `model://`(它在執行期靠 `GZ_SIM_RESOURCE_PATH` + Fuel 註冊 findFile callback);獨立的 `gz sdf` 工具沒這個 callback,會報 `callback is empty`,**所以 world 的 include 解析驗證只能交給 `gz sim`**,headless 跑幾百個 iteration 即可。
 
 本機 CPU 吃緊時,把這兩層丟上 **GitHub Actions**:runner 裝 Gazebo Harmonic,push 後自動跑靜態驗證 + `gz sim` headless 載入(用 xvfb 軟體渲染)。改一行 push 一次,綠燈才算數,完全不占你本機資源。設定見 model repo 的 [`.github/workflows/validate.yml`](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic/blob/main/.github/workflows/validate.yml) 與 [`MIGRATION.md`](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic/blob/main/MIGRATION.md)。
 
@@ -222,11 +222,11 @@ tf 樹由三方各補一段,合起來才完整:
 
 ### 想在 CI 裡驗證這些改動
 
-搬完之後總要有人確認沒搬壞,而免費 CI runner 沒有 GPU——這件事的完整處方(靜態驗證、headless 載入、純物理跑軌跡、真的要出圖時的 EGL/llvmpipe 設定)整理在另一篇:
+搬完之後總要有人確認沒搬壞,而免費 CI runner 沒有 GPU。這件事的完整處方(靜態驗證、headless 載入、純物理跑軌跡、真的要出圖時的 EGL/llvmpipe 設定)整理在另一篇:
 
 **→ [GitHub Actions 跑 gz sim 的 playbook](../_meta/github-actions-gz-sim-playbook.md)**
 
-一句話帶走:**先問「這一關需不需要 render」**。不需要 render 的檢查又快又穩(SDF 靜態解析、world 載入、逐步位姿記錄再用 matplotlib 畫成軌跡圖),需要 render 的那些在免費 runner 上會掉到軟體光柵器,慢到只跑得動 4% 真實時間。
+**先問「這一關需不需要 render」**。不需要 render 的檢查又快又穩(SDF 靜態解析、world 載入、逐步位姿記錄再用 matplotlib 畫成軌跡圖),需要 render 的那些在免費 runner 上會掉到軟體光柵器,慢到只跑得動 4% 真實時間。
 
 ## 參考來源(實際查證)
 
@@ -235,10 +235,10 @@ tf 樹由三方各補一段,合起來才完整:
 - Installing Gazebo with ROS(版本配對、安裝):https://gazebosim.org/docs/latest/ros_installation/
 - ros_gz README(相容矩陣、套件職責、bridge):https://github.com/gazebosim/ros_gz/blob/ros2/README.md
 - gz_ros2_control 文件:https://control.ros.org/humble/doc/gz_ros2_control/doc/index.html
-- Nav2 — Setting Up Odometry (Gazebo):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/
-- Nav2 — Setting Up Sensors (Gazebo,橋接語法):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/
-- Nav2 — Mapping and Localization:https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/mapping_localization/
-- Nav2 — Navigating while Mapping (SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
+- Nav2:Setting Up Odometry (Gazebo):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/odom/setup_odom/
+- Nav2:Setting Up Sensors (Gazebo,橋接語法):https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/setup_sensors/
+- Nav2:Mapping and Localization:https://docs.nav2.org/rolling/configuration_and_development/first_time_robot_setup_guide/sensors/mapping_localization/
+- Nav2:Navigating while Mapping (SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
 - Gazebo Harmonic Sensors(官方):https://gazebosim.org/docs/harmonic/sensors/
 - Gazebo Harmonic Binary Install(官方):https://gazebosim.org/docs/harmonic/install_ubuntu/
 - 模擬器比較(SVRC):https://www.roboticscenter.ai/learn/robot-simulation-software-comparison

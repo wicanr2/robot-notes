@@ -19,7 +19,7 @@
 2. 派發層把這個點設成第一條路徑的 `startX/startY`,要車「先回到這個起點,再沿路線走」。
 3. 車從當前位置到這個起點的這段「接駁」,**直接沿用了第一條路徑的速度** `vel`。
 
-關鍵就在第 3 步。看一段簡化的路徑定義:
+接駁段沿用速度的問題出在第 3 步。看一段簡化的路徑定義:
 
 ```json
 {
@@ -65,7 +65,7 @@ forward = (xₜ − xᵣ)·cos θᵣ + (yₜ − yᵣ)·sin θᵣ
 
 代案例:車頭朝 +X,所以 `θᵣ ≈ startTheta ≈ 0.008 ≈ 0`,`sin` 項可忽略,投影退化成只看 X 差:`forward ≈ (−9.527 −(−8.549))·cos 0 ≈ −0.978 < 0` → 應倒車。系統卻給了 `+0.5`,方向剛好相反,大迴轉是這個符號錯誤的必然結果。
 
-重點不在這條公式,而在**它需要的輸入(車的即時 pose),只有車端當下掌握**。私有系統的做法是把 `vel` 連同路徑幾何一起**寫死在靜態路網定義裡**,接駁段直接**沿用**這個符號,沒有依車當下的 pose 重算一次。於是「該前進還倒車」這個本該看即時朝向的決定,被一個規劃階段就固定的數值取代了。這是責任錯置,不是運動學限制。
+這條公式要留意的是**它需要的輸入(車的即時 pose),只有車端當下掌握**。私有系統的做法是把 `vel` 連同路徑幾何一起**寫死在靜態路網定義裡**,接駁段直接**沿用**這個符號,沒有依車當下的 pose 重算一次。於是「該前進還倒車」這個本該看即時朝向的決定,被一個規劃階段就固定的數值取代了。這是責任錯置,運動學限制並沒有造成這個問題。
 
 <p align="center"><img src="../../img/turnaround-layer-ownership.svg" width="720" alt="責任分層:派發層只該給拓樸目標『去哪個點』,速度方向『怎麼去』該由車端依即時 pose 決定"></p>
 
@@ -78,24 +78,24 @@ forward = (xₜ − xᵣ)·cos θᵣ + (yₜ − yᵣ)·sin θᵣ
 | 拓樸分配層 | 接回哪個 waypoint / 哪條 lane | `rmf_traffic` + fleet adapter 的 **lane merge**(把車對到最近的路網線) | 不碰。只給「去 W 點」 |
 | 運動規劃層 | 從當前 pose 怎麼開過去(前進/倒車、轉彎半徑、軌跡) | **車端 Nav2**(controller / planner) | **這層的權責**,內建車輛運動學 |
 
-RMF 給車的是**拓樸目標**(「去這個 waypoint」),它**不生成軌跡、不指定速度符號**。「現在該前進還倒車」是車端 Nav2 拿著即時 pose 自己算的。Open-RMF 的 fleet adapter 還有一組距離門檻,把車回報的 pose **吸附**到 nav graph 上最近的 waypoint / lane:`RobotUpdateHandle::update_position()` 的 `max_merge_waypoint_distance`(預設 0.1 m)與 `max_merge_lane_distance`(預設 1.0 m)。注意這是 C++ 函式參數,不是 `config.yaml` 的鍵。車偏離 nav graph 太遠、併不回任何 waypoint / lane 時,RMF 會把它標成 `Lost`(`RobotContext::set_lost()`,並掛一張回報 ticket);這不是狀態機列舉的一格,而是一個 optional 標記。這套「吸附門檻 + `Lost` 標記」正是私有系統缺的那個「車在不在軌道上」旗標。
+RMF 給車的是**拓樸目標**(「去這個 waypoint」),它**不生成軌跡、不指定速度符號**。「現在該前進還倒車」是車端 Nav2 拿著即時 pose 自己算的。Open-RMF 的 fleet adapter 還有一組距離門檻,把車回報的 pose **吸附**到 nav graph 上最近的 waypoint / lane:`RobotUpdateHandle::update_position()` 的 `max_merge_waypoint_distance`(預設 0.1 m)與 `max_merge_lane_distance`(預設 1.0 m)。注意這是 C++ 函式參數,不是 `config.yaml` 的鍵。車偏離 nav graph 太遠、併不回任何 waypoint / lane 時,RMF 會把它標成 `Lost`(`RobotContext::set_lost()`,並掛一張回報 ticket);這是一個 optional 標記,不屬於狀態機列舉。這套「吸附門檻 + `Lost` 標記」正是私有系統缺的那個「車在不在軌道上」旗標。
 
-換句話說,案例那個 bug 在 RMF 架構下**沒有容身的層**:沒有任何一層會去做「用固定 `vel=+0.5` 追一個座標」這件事,因為速度符號根本不在派發側被決定。
+RMF 架構下**沒有一層會引入**案例那個 bug:沒有任何一層會去做「用固定 `vel=+0.5` 追一個座標」這件事,因為派發側根本不決定速度符號。
 
 ## 4. 那 ROS2 會不會也大迴轉
 
 要分兩種「迴轉」,結論不同:
 
-**(a) nonholonomic 運動學的必然迴轉 — 會有,但被壓到最小。**
+**(a) nonholonomic 運動學的必然迴轉:會有,但被壓到最小。**
 nonholonomic 指「不能側移、只能沿車頭方向前後走」。任何舵輪 / Ackermann(像汽車那樣靠轉向輪打角)車從任意朝向接目標,因為有最小轉彎半徑,一定會有一段迴轉。但這台叉車的舵輪可轉到接近 ±90°,最小轉彎半徑很小,甚至能繞牙叉端兩輪做近似原地掉頭。所以它本來就**有能力**小半徑接回,不該被迫走大圈。
 
-**(b) 案例這種「前進追後方點」的病態大迴轉 — 結構上不會。** 因為:
+**(b) 案例這種「前進追後方點」的病態大迴轉:結構上不會。** 因為:
 
 1. Nav2 是 free-space(自由空間,不限定走在路網線上)規劃,在 costmap(把障礙與可走區畫成成本格的地圖)上算路徑;目標在後方就直接規劃倒車或最短可行路徑,不被「沿用前段速度符號」綁死。
-2. 倒車與否主要在 **planner 階段**決定。Nav2 的 Smac Hybrid-A* 規劃器(Smac Hybrid-A* / Dubins / Reeds-Shepp 三個詞見[文末名詞解釋](#名詞解釋smac-hybrid-a--dubins--reeds-shepp))有 `motion_model_for_search`:選 Dubins 只准前進,選 **Reeds-Shepp 則允許倒車**;再配合 `minimum_turning_radius` 與 `reverse_penalty`(倒車代價,預設 2.1,只在 Reeds-Shepp 下生效),規劃出「倒一小段」而不是「前進繞一大圈」的路徑;controller(如 RPP / MPPI)再去追隨這條路徑、輸出帶符號的速度。
+2. 倒車與否主要在 **planner 階段**決定。Nav2 的 Smac Hybrid-A* 規劃器(Smac Hybrid-A* / Dubins / Reeds-Shepp 三個詞見[文末名詞解釋](#名詞解釋smac-hybrid-a--dubins--reeds-shepp))有 `motion_model_for_search`:選 Dubins 只准前進,選 **Reeds-Shepp 則允許倒車**;再配合 `minimum_turning_radius` 與 `reverse_penalty`(倒車代價,預設 2.1,只在 Reeds-Shepp 下生效),規劃出「倒一小段」的路徑,避開「前進繞一大圈」。controller(如 RPP / MPPI)再去追隨這條路徑、輸出帶符號的速度。
 3. RMF 只給拓樸目標、不給軌跡,責任分層乾淨。
 
-但有前提:**Nav2 的運動學模型要配對**(`minimum_turning_radius`、motion model、允許倒車)。拿差速車的設定去開舵輪車、或沒開倒車,一樣會出怪軌跡。所以 ROS2 不是「天生免疫」,而是**把這個決策放對了層,且 controller 本身懂運動學**。
+但有前提:**Nav2 的運動學模型要配對**(`minimum_turning_radius`、motion model、允許倒車)。拿差速車的設定去開舵輪車、或沒開倒車,一樣會出怪軌跡。所以 ROS2 要靠**把這個決策放對了層,且 controller 本身懂運動學**,並非「天生免疫」。
 
 <p align="center"><img src="../../img/turnaround-forward-vs-reverse.svg" width="720" alt="同一個後方目標:固定前進速度繞大圈 vs Reeds-Shepp 允許倒車直接退到位"></p>
 
@@ -116,11 +116,11 @@ nonholonomic 指「不能側移、只能沿車頭方向前後走」。任何舵�
 1. 用第 2 節的 `forward` 投影判斷起點在車身的前後。
 2. 落在牙叉端(`forward < 0`)→ `vel` 給負,直接倒退過去。
 3. 落在舵輪端(`forward > 0`)→ `vel` 給正。
-4. 橫向偏移大 → 交給車端用舵輪大轉角做小半徑接近,而不是固定速度硬追。
+4. 橫向偏移大 → 交給車端用舵輪大轉角做小半徑接近,不要用固定速度硬追。
 
 案例就屬於第 2 種,倒車一小段結案。
 
-這也把現場「需要派發層與車端一起討論」收斂成一句明確命題:**速度方向(`vel` 正負)的決定權,從派發層下放到車端**;派發層只給「去哪個點」,車端依即時 pose 決定「怎麼去」。這條界線,正是 ROS2/RMF 預設就畫好的那一條。
+現場「需要派發層與車端一起討論」的事可以說得更具體:**速度方向(`vel` 正負)的決定權,從派發層下放到車端**;派發層只給「去哪個點」,車端依即時 pose 決定「怎麼去」。ROS2/RMF 預設就按這條界線分工。
 
 ## 7. 待實測
 
@@ -147,17 +147,17 @@ nonholonomic 指「不能側移、只能沿車頭方向前後走」。任何舵�
 1990 年 Reeds 與 Shepp 把 Dubins 放寬:**允許倒車**。同樣求最小轉彎半徑的車從起點 pose 到終點 pose 的最短路徑,但可以前進與倒退交替。候選樣式從 6 種增為 **46 種**(原論文列 48 種,後人證明其中 2 種不會是最短),從中挑最短。倒車帶來兩個結果:
 
 - 路徑會出現**換向點(cusp)**:車停下、由前進切成倒退(或反過來)的那個尖點。
-- 路徑**通常比 Dubins 短**,目標在車後方時尤其明顯——Dubins 只能往前繞一大圈,Reeds-Shepp 直接倒車過去。
+- 路徑**通常比 Dubins 短**,目標在車後方時尤其明顯:Dubins 只能往前繞一大圈,Reeds-Shepp 直接倒車過去。
 
-還有一個值得記的性質:**只要起點到終點之間存在任何一條無碰撞路徑,就一定存在一條無碰撞的 Reeds-Shepp 曲線**;Dubins 沒有這個保證。這是運動規劃偏好 Reeds-Shepp 的根本原因之一。本文案例的「該倒車卻前進」,本質就是被限制在 Dubins 的世界、而非 Reeds-Shepp。
+Reeds-Shepp 還有一個性質:**只要起點到終點之間存在任何一條無碰撞路徑,就一定存在一條無碰撞的 Reeds-Shepp 曲線**;Dubins 沒有這個保證。這是運動規劃偏好 Reeds-Shepp 的主要原因之一。本文案例的「該倒車卻前進」,就是被限制在 Dubins 的世界、而非 Reeds-Shepp。
 
 <p align="center"><img src="../../img/dubins-vs-reeds-shepp.svg" width="720" alt="Dubins 只前進、用弧-直-弧到目標需繞遠;Reeds-Shepp 允許倒車與 cusp 換向,通常更短"></p>
 
 ### Smac Hybrid-A*
 
-Nav2 內建的路徑規劃器(planner,套件 `nav2_smac_planner`)。一般的 A* 在格子地圖上找路,節點是離散格子,算出來是折線,**沒考慮車的運動學**——可能要求車原地急轉或走出方向盤打不出來的彎,車根本開不出來。Hybrid-A*(源自 2008 年前後的 DARPA 無人車研究)改成在**連續狀態 (x, y, θ)** 上搜尋:每往前展開一步,都用車的運動模型(就是上面 Dubins 或 Reeds-Shepp 的一小段)生成,所以搜出來的路徑**車一定開得出來**(滿足最小轉彎半徑,可選含不含倒車)。
+Nav2 內建的路徑規劃器(planner,套件 `nav2_smac_planner`)。一般的 A* 在格子地圖上找路,節點是離散格子,算出來是折線,**沒考慮車的運動學**。這可能要求車原地急轉或走出方向盤打不出來的彎,車根本開不出來。Hybrid-A*(源自 2008 年前後的 DARPA 無人車研究)改成在**連續狀態 (x, y, θ)** 上搜尋:每往前展開一步,都用車的運動模型(就是上面 Dubins 或 Reeds-Shepp 的一小段)生成,所以搜出來的路徑**車一定開得出來**(滿足最小轉彎半徑,可選含不含倒車)。
 
-Dubins / Reeds-Shepp 在這裡有**雙重角色**:既是每一步展開用的運動模型,它們的**路徑長度**也被拿來當搜尋的**啟發函數(heuristic)**——估「忽略障礙、單看運動學,從這裡到目標還要多遠」,引導 Hybrid-A*(或 RRT*)更快收斂。
+Dubins / Reeds-Shepp 在這裡有**雙重角色**:既是每一步展開用的運動模型,它們的**路徑長度**也被拿來當搜尋的**啟發函數(heuristic)**,估「忽略障礙、單看運動學,從這裡到目標還要多遠」,引導 Hybrid-A*(或 RRT*)更快收斂。
 
 把三者串起來:**Hybrid-A* 是搜尋框架,Dubins / Reeds-Shepp 是它每一步的運動模型、也是它的運動學啟發式**。Nav2 的 `motion_model_for_search` 選哪一個,就決定了規劃時准不准倒車,正是 §4 那個「會不會被迫大迴轉」的開關。
 

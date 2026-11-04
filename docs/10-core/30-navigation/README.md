@@ -5,13 +5,13 @@
 | # | 篇 | 一句話 |
 |---|---|---|
 | 1 | [運動學與座標轉換](kinematics-and-coordinate-transforms.md) | 全篇的共同語言:REP-103 軸向、roll/pitch/yaw、map / odom / base_link 為什麼要分層 |
-| 2 | [SLAM 建圖](slam-mapping.md) | 「要定位需地圖、要建圖需定位」這個雞生蛋怎麼解;迴圈閉合為什麼是真正的難點 |
+| 2 | [SLAM 建圖](slam-mapping.md) | 「要定位需地圖、要建圖需定位」這個雞生蛋怎麼解;迴圈閉合到底難在哪裡 |
 | 3 | [定位](localization.md) | AMCL 為什麼用一堆粒子而不是一個高斯;地標與 AprilTag 怎麼補 |
 | 4 | [路徑規劃](path-planning.md) | Nav2 為什麼分三層;costmap 的 inflation 在解什麼 |
 | 5 | [路徑平滑與軌跡生成](path-smoothing-and-trajectory.md) | 折線的轉角曲率是無限大,車開不過去;G0–G3、Bézier、B-spline、速度規劃 |
 | 6 | [3D LiDAR SLAM](slam-3d-lidar.md) | 換成多線光達之後多了什麼、難在哪;**§4 與 §8 是選型時再回來查的表** |
 | 7 | [Nav2 只規劃、車上追蹤](planner-plus-onboard-controller.md) | 全套 Nav2 與直接寫控制器差一到兩個數量級,缺的是「參考軌跡 + 角落策略」那一層;Nav2 只留規劃器、車上 60 Hz PID / LQR / MPC 追蹤器 |
 
-> 第 2、3、6 篇反覆用到「最大化似然 ⟺ 最小化加權殘差平方和」——那一步的推導在[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和)。
+> 第 2、3、6 篇反覆用到「最大化似然 ⟺ 最小化加權殘差平方和」,那一步的推導在[高斯第一性原理](../../90-foundations/gaussian-from-first-principles.md#補一條為什麼配得好不好總是變成平方和)。
 >
 > 這一層講「該往哪走」,[硬體](../10-hardware/)講「東西是什麼」,[韌體](../20-firmware/)講「怎麼指揮它」。多台車之間怎麼協調在[多機調度](../../40-fleet/)。

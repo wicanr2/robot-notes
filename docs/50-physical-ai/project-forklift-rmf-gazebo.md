@@ -26,7 +26,7 @@
 
 ## 3. 三個關鍵設計決策(會卡很久的岔路)
 
-做這個 demo,最該先想清楚的是三個「走哪條路」的決策——選錯會在實作中卡很久:
+做這個 demo,最該先想清楚的是三個「走哪條路」的決策,選錯會在實作中卡很久:
 
 | 決策 | 選項 A(簡單,先選) | 選項 B(真實,後換) | 為什麼這樣選 |
 |---|---|---|---|
@@ -47,7 +47,7 @@
 
 **對模擬的意義(務必誠實)**:
 - reach truck 的「單一驅動轉向輪 + 從動輪」運動學是**三輪車 (tricycle)**,對應 gz 的 **`gz::sim::systems::TricycleSteering`**,**不是** `DiffDrive`。
-- 三輪平衡重式的「雙前驅 + 後主動轉向」也**不是純差速**;用 `gz::sim::systems::DiffDrive`(`DiffDrive`)模擬時,等於**把後主動轉向輪簡化成被動腳輪**——這是為了最快接通 Nav2 的近似,代價是原地旋轉能力、轉彎軌跡與真車不同。
+- 三輪平衡重式的「雙前驅 + 後主動轉向」也**不是純差速**;用 `gz::sim::systems::DiffDrive`(`DiffDrive`)模擬時,等於**把後主動轉向輪簡化成被動腳輪**。這是為了最快接通 Nav2 的近似,代價是原地旋轉能力、轉彎軌跡與真車不同。
 - 要擬真就換 `TricycleSteering`,Nav2 端改用支援非完整約束的 planner/controller(Hybrid-A* + 對應 controller)。(`AckermannSteering` 是汽車式「兩前輪幾何連動轉向」,叉車一般用不到,列出僅為對照。)
 
 ## 4. 模型怎麼準備
@@ -56,13 +56,13 @@
 
 <p align="center"><img src="../../img/forklift-urdf-structure.svg" width="660" alt="叉車 URDF:base_link 差速底盤 → mast_link → prismatic 升降 → fork_carriage_link"></p>
 
-關鍵是「升降 = `prismatic`(滑動)關節」:`base_link --fixed--> mast_link --prismatic(Z 軸)--> fork_carriage_link --fixed--> 貨叉`。底盤掛 DiffDrive plugin(出 `/odom`、tf)、gpu_lidar(`/scan`)、imu;升降關節用 ros2_control 的 `JointTrajectoryController` 控位置。**`fork_carriage_link` 是取放的關鍵 link**——當 DetachableJoint 的 `parent_link`。
+升降用 `prismatic`(滑動)關節:`base_link --fixed--> mast_link --prismatic(Z 軸)--> fork_carriage_link --fixed--> 貨叉`。底盤掛 DiffDrive plugin(出 `/odom`、tf)、gpu_lidar(`/scan`)、imu;升降關節用 ros2_control 的 `JointTrajectoryController` 控位置。**`fork_carriage_link` 是取放時的關鍵 link**:當 DetachableJoint 的 `parent_link`。
 
-`base_link` 是整台車的 tf 根:所有感測器、輪子、mast 的位姿都相對它定義,Nav2 的 footprint 也以它為原點。但 **`base_link` 原點通常不在車身幾何中心**——慣例放在「驅動軸附近、貼地投影處」,牙叉再往 +x 伸出去,於是車身範圍是**前長後短的非對稱長方形**。對照模型看一次最清楚:
+`base_link` 是整台車的 tf 根:所有感測器、輪子、mast 的位姿都相對它定義,Nav2 的 footprint 也以它為原點。但 **`base_link` 原點通常不在車身幾何中心**,慣例放在「驅動軸附近、貼地投影處」,牙叉再往 +x 伸出去,於是車身範圍是**前長後短的非對稱長方形**。對照模型看一次最清楚:
 
 <p align="center"><img src="../../img/forklift-base-link-extent.svg" width="720" alt="base_link 原點在叉車模型的位置與外型範圍:俯視顯示 footprint 前+0.9/後-0.5/±0.4、輪距0.6、base_link 在驅動軸貼地處;側視顯示輪徑0.1、mast、fork_carriage 升降行程0~1.5m"></p>
 
-這也是為什麼後面 Nav2 的 footprint 寫成 `[[0.9,0.4],[0.9,-0.4],[-0.5,-0.4],[-0.5,0.4]]`(見 §19 導航):**前緣 +0.9 m 一路到牙叉尖、後緣只有 −0.5 m**,左右各 0.4 m。原點在 `base_link`,這串數字就是上圖的範圍——感測器外參、輪子位置、footprint 全都從這個原點量起。
+這也是為什麼後面 Nav2 的 footprint 寫成 `[[0.9,0.4],[0.9,-0.4],[-0.5,-0.4],[-0.5,0.4]]`(見 §19 導航):**前緣 +0.9 m 一路到牙叉尖、後緣只有 −0.5 m**,左右各 0.4 m。原點在 `base_link`,這串數字就是上圖的範圍。感測器外參、輪子位置、footprint 全都從這個原點量起。
 
 ### 4.2 棧板、貨架、倉儲場景
 
@@ -96,7 +96,7 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 ### 5.3 關節限制與致動力
 
-- **prismatic 升降關節**:`<limit>` 要設 `lower/upper`(行程,如 0~1.5m)、`effort`(最大力,**要 ≥ (fork carriage 質量 + 載重質量)×g + 餘裕**——這個關節只升降貨叉托架與其上的貨,不是整台車,別把車體質量算進去)、`velocity`(升降速度上限)。
+- **prismatic 升降關節**:`<limit>` 要設 `lower/upper`(行程,如 0~1.5m)、`effort`(最大力,**要 ≥ (fork carriage 質量 + 載重質量)×g + 餘裕**。這個關節只升降貨叉托架與其上的貨,不升降整台車,別把車體質量算進去)、`velocity`(升降速度上限)。
 - effort 設太小 → 升不起棧板;設無限大 → 升降瞬間衝擊、物理不穩。給一個物理合理值。
 
 ### 5.4 物理引擎步長與求解器
@@ -108,13 +108,13 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 ### 5.5 DetachableJoint 的物理前提(取放專屬)
 
 - 運動拓樸必須**樹狀(不可成環)**。
-- **初始狀態父/子 model 不可有碰撞**,否則 joint 建不起來——所以「對位後才升叉、升到位才 attach」的時機要控好。
+- **初始狀態父/子 model 不可有碰撞**,否則 joint 建不起來。所以「對位後才升叉、升到位才 attach」的時機要控好。
 - 分離後父子若會互撞,父 model 要設 `<self_collide>true</self_collide>`。
-- **接觸中不支援 reattach**——attach/detach 的時機要避開正在碰撞的瞬間。
+- **接觸中不支援 reattach**,attach/detach 的時機要避開正在碰撞的瞬間。
 
 ## 6. 地面異常:給模擬加「壓力測試」
 
-平地上一切正常的系統,不代表它穩。**地面異常說穿了,就是專門用來逼出感測缺陷的測試夾具**——沒有異常,你永遠不知道 odom 會不會漂、IMU 接不接得到、定位扛不扛得住。在 gz 裡擺幾種異常:
+平地上一切正常的系統,不代表它穩。**地面異常說穿了,就是專門用來逼出感測缺陷的測試夾具**。沒有異常,你永遠不知道 odom 會不會漂、IMU 接不接得到、定位扛不扛得住。在 gz 裡擺幾種異常:
 
 | 異常 | 怎麼建 | 逼出什麼缺陷 |
 |---|---|---|
@@ -130,33 +130,33 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 
 ### 6.1 摩擦係數怎麼變成 odom 漂移(為什麼這是最有效的壓力測試)
 
-上表第一列的「低摩擦區」值得單獨拆開,因為它是**唯一一個能用五行算式從物理參數一路推到感測缺陷**的例子——搞懂這條,其他幾種異常的道理都一樣。
+上表第一列的「低摩擦區」值得單獨拆開,因為它是**唯一一個能用五行算式從物理參數一路推到感測缺陷**的例子。搞懂這條,其他幾種異常的道理都一樣。
 
 模擬器每一步都在「輪子↔地面」的接觸點解下面這幾條,再積分出位移:
 
-1. **法向力 `N`**——輪子壓在地上的力(約等於分到這顆輪的車重)。
+1. **法向力 `N`**:輪子壓在地上的力(約等於分到這顆輪的車重)。
 2. **地面能給的最大牽引力**(庫倫摩擦上限):`F_牽引(上限) = μ × N`。
 3. **抓不抓得住**:輪子要前進需要切向牽引力 `F_t`。`F_t ≤ μN` → 抓住地、正常前進;`F_t > μN` → **多出來的傳不出去,牽引力卡在 `μN`,輪子開始打滑空轉**。
-4. **`slip` 參數**(ODE 的「力相依滑移」):就算還在摩擦上限內,接觸點仍容許一點滑移,滑移速度正比於切向力——`v_滑移 = slip × F_t`,slip 越大、同樣的力滑得越多。
-5. **車身前進**:把牽引力減掉阻力,套牛頓第二定律積分——`a = (F_牽引 − F_阻力) / m`,`v = ∫ a·dt`。
+4. **`slip` 參數**(ODE 的「力相依滑移」):就算還在摩擦上限內,接觸點仍容許一點滑移。滑移速度正比於切向力:`v_滑移 = slip × F_t`,slip 越大、同樣的力滑得越多。
+5. **車身前進**:把牽引力減掉阻力,套牛頓第二定律積分:`a = (F_牽引 − F_阻力) / m`,`v = ∫ a·dt`。
 
 把 `μ` 壓到 **0.05**(一般地面是 0.6–1.0)再配上高 `slip`:`μN` 一下就被超過、`v_滑移` 又大 → **輪子轉得飛快,車卻幾乎沒前進**。
 
-而輪式 odometry 是拿「輪子轉了多少」乘輪徑回推位移的——它沒有辦法知道輪子在空轉。於是它**以為車走了一大段**。
+而輪式 odometry 是拿「輪子轉了多少」乘輪徑回推位移的,它沒有辦法知道輪子在空轉。於是它**以為車走了一大段**。
 
-> **這就是漂移的來源:「輪子轉動量」與「實際位移」的落差。** 也是為什麼 §7 堅持 odom 要走 `DiffDrive` plugin 而不是直接讀模擬器的真值——讀真值就沒有這個落差,壓力測試也就測不到任何東西。
+> **這就是漂移的來源:「輪子轉動量」與「實際位移」的落差。** 也是為什麼 §7 堅持 odom 要走 `DiffDrive` plugin,不能直接讀模擬器的真值。讀真值就沒有這個落差,壓力測試也就測不到任何東西。
 
 ## 7. 感測器與物理整合:讓異常「反映得出來」
 
-地面異常擺好了,但**如果感測器讀的是「理想真值」,異常就完全看不到**。關鍵在這:**感測器必須讀模擬的物理量**,異常才會反映成 odom 漂移、IMU 尖峰、雷射量測變化——這才有訓練/測試的意義。
+地面異常擺好了,但**如果感測器讀的是「理想真值」,異常就完全看不到**。**感測器必須讀模擬的物理量**,異常才會反映成 odom 漂移、IMU 尖峰、雷射量測變化,這樣才有訓練/測試的意義。
 
 <p align="center"><img src="../../img/sensor-physics-integration.svg" width="700" alt="感測器讀模擬物理:低摩擦→輪式odom漂、過坎→IMU尖峰、LiDAR打collision;EKF融合odom+IMU、AMCL用LiDAR修漂"></p>
 
 三個關鍵接法:
 
-- **odom 一定要用「輪式」不能用真值**:gz 有兩個 plugin——`DiffDrive`(讀**輪關節轉動量**積分,**會反映打滑/坡度** → 會漂)vs `OdometryPublisher`(直接讀車的**真實世界位姿** → 不漂)。**要看到異常造成 odom 漂移,就必須用 `DiffDrive` 的輪式 odom**;`OdometryPublisher` 的真值只拿來當**驗收基準**(算漂移量 = 輪式 odom − 真值)。
+- **odom 一定要用「輪式」不能用真值**:gz 有兩個 plugin:`DiffDrive`(讀**輪關節轉動量**積分,**會反映打滑/坡度** → 會漂)vs `OdometryPublisher`(直接讀車的**真實世界位姿** → 不漂)。**要看到異常造成 odom 漂移,就必須用 `DiffDrive` 的輪式 odom**;`OdometryPublisher` 的真值只拿來當**驗收基準**(算漂移量 = 輪式 odom − 真值)。
 - **IMU / LiDAR 讀物理**:`gz-sim-imu-system` 讀模擬的角速度/加速度(過坎、傾斜出尖峰);`gpu_lidar` 的光線打在 world 的碰撞/視覺幾何上(斜坡會量到不同高度)。兩者都該掛 **noise model**(`<noise type="gaussian">` 設 `stddev`、`bias_*`)讓它更像真感測器,而不是完美量測。
-- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**本設計讓 EKF 只融 odom+IMU、不吃 LiDAR**(EKF 技術上可吃 LiDAR 衍生 pose,這裡是分工選擇),AMCL 獨立發 map→odom——正好對應 [座標篇](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-core/10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../10-core/30-navigation/localization.md)。
+- **融合 = robot_localization EKF + AMCL**:EKF 融合「會漂的輪式 odom(信任其 `vx`)+ IMU(信任其 `ω_yaw`、去重力後的 `a`)」→ 發布平滑的 `odom→base_link`,抑制短期漂移;AMCL 用 LiDAR 對 static map 重定位 → 發布 `map→odom` 修長期漂(離散跳變)。**本設計讓 EKF 只融 odom+IMU、不吃 LiDAR**(EKF 技術上可吃 LiDAR 衍生 pose,這裡是分工選擇),AMCL 獨立發 map→odom,正好對應 [座標篇](../10-core/30-navigation/kinematics-and-coordinate-transforms.md) 的 TF 兩層、[感測器 §3.3](../10-core/10-hardware/sensors.md)「距離信 encoder、角度信陀螺儀」、[定位 §27](../10-core/30-navigation/localization.md)。
 - **時間要對齊**:所有 ROS 2 節點 `use_sim_time:=true` 吃 gz 的 `/clock`(單向橋 `rosgraph_msgs/Clock`),否則 tf/感測時間源混用會報錯。
 
 ## 8. Worklist:按相依順序排的里程碑
@@ -176,7 +176,7 @@ Ixx = m(b² + c²)/12     Iyy = m(a² + c²)/12     Izz = m(a² + b²)/12
 | **M8(選)VDA5050** | pick/drop 對映 VDA5050 action(HARD)+ connector | 經 VDA5050 order/state 走完同一趟 |
 | **M9(選)多車協商** | 加第二台叉車,rmf_traffic 協商 | 兩車不死鎖、會互讓 |
 
-> 為什麼是這個順序?**M0–M2 驗證「物理與致動」,M3–M4 驗證「感知會反映異常、融合能抑制」,M5 驗證「導航」,M6 驗證「操作」,M7+ 才疊「調度」**。每層獨立可驗收,壞了能單獨定位——比「全接起來一起 debug」省十倍時間。M3/M4 刻意排在導航之前:**先確認 odom 會漂、IMU 接得到、EKF 壓得下,再讓 Nav2 站在這之上**,否則導航爛了分不清是規劃問題還是感測問題。
+> 為什麼是這個順序?**M0–M2 驗證「物理與致動」,M3–M4 驗證「感知會反映異常、融合能抑制」,M5 驗證「導航」,M6 驗證「操作」,M7+ 才疊「調度」**。每層獨立可驗收,壞了能單獨定位,比「全接起來一起 debug」省十倍時間。M3/M4 刻意排在導航之前:**先確認 odom 會漂、IMU 接得到、EKF 壓得下,再讓 Nav2 站在這之上**,否則導航爛了分不清是規劃問題還是感測問題。
 
 ## 9. 給其他 agent 執行的規劃骨架
 
@@ -216,11 +216,11 @@ forklift_gz_sim/
 
 **派工給 agent 的紀律**(對齊本專案工作守則):每個 agent 認領一個里程碑(§8 一列),產出該列的 artifact,並**自己用該列的 pass/fail 訊號驗收**;驗收用 `ros2 topic echo` / `ros2 bag record` + 離線比對腳本(例:錄 `/odom` 與真值 pose,算漂移量;抓 `/imu` 的 `a_z` 尖峰;Nav2 到點誤差)。**有界執行**:做不到就誠實標受阻,不要硬湊綠燈。
 
-**headless 跑法(CI / agent 環境)**:`gz sim -s -r --headless-rendering <world>.sdf`(`-s` server-only、`-r` 載入即跑、`--headless-rendering` 走 EGL 供 gpu_lidar)。**gpu_lidar 在無 GPU/EGL 時會直接拿不到資料**(不只是變慢);無 GPU 環境是否能改用 CPU ray-based lidar、Harmonic 的支援度待實測(列入 §12 待查證)。記得設 `GZ_SIM_RESOURCE_PATH` / `GZ_SIM_PLUGIN_PATH`,否則 `<include>` 的模型找不到。
+**headless 跑法(CI / agent 環境)**:`gz sim -s -r --headless-rendering <world>.sdf`(`-s` server-only、`-r` 載入即跑、`--headless-rendering` 走 EGL 供 gpu_lidar)。**gpu_lidar 在無 GPU/EGL 時會直接拿不到資料**(別以為只會變慢);無 GPU 環境是否能改用 CPU ray-based lidar、Harmonic 的支援度待實測(列入 §12 待查證)。記得設 `GZ_SIM_RESOURCE_PATH` / `GZ_SIM_PLUGIN_PATH`,否則 `<include>` 的模型找不到。
 
 ## 10. RMF 整合與 VDA5050 對映
 
-- **取放怎麼讓 RMF 表達**:兩條路——(A) RMF 內建 **Delivery Task + Teleport Dispenser/Ingestor**(在 A 放 Dispenser、B 放 Ingestor,瞬移取放,最省力,RMF demo 就這樣);(B) 自訂 **PerformAction**(fleet adapter 用 `add_performable_action("pick"/"drop", ...)` 宣告、`config.yaml` 的 `actions: [pick, drop]`、`execute_action` callback 內實際驅動升叉 + DetachableJoint,完成呼叫 `execution.finished()`)。
+- **取放怎麼讓 RMF 表達**:兩條路:(A) RMF 內建 **Delivery Task + Teleport Dispenser/Ingestor**(在 A 放 Dispenser、B 放 Ingestor,瞬移取放,最省力,RMF demo 就這樣);(B) 自訂 **PerformAction**(fleet adapter 用 `add_performable_action("pick"/"drop", ...)` 宣告、`config.yaml` 的 `actions: [pick, drop]`、`execute_action` callback 內實際驅動升叉 + DetachableJoint,完成呼叫 `execution.finished()`)。
 - **nav graph**:用 traffic-editor 畫 waypoint/lane,貨架前的 waypoint 標上 dispenser/ingestor 名稱或 dock 名。
 - **VDA5050 對映**:叉車的「叉起/放下」= VDA5050 order 某 node 上的 **action**,`actionType: pick/drop`、`blockingType: HARD`(停車作業)、`actionParameters` 帶 `loadType: EPAL`。RMF 端要接需經 VDA5050 connector(`tum-fml/vda5050_connector`、`inorbit-ai/ros_amr_interop` 等),官方 RMF-as-VDA5050-master adapter 仍非現成(見 [open-rmf §7 現況](../40-fleet/open-rmf.md#7-現況哪些是現成的哪些還在路上))。
 
@@ -230,7 +230,7 @@ forklift_gz_sim/
 
 ## 12. 風險與待查證
 
-- **取放的時機控制**是最容易卡的:DetachableJoint 要求 attach 前父子不碰撞、接觸中不能 reattach——「對位→升叉→attach」的觸發條件要自己用位置/contact 判斷。MVP 想避開可先用 Teleport 瞬移。
+- **取放的時機控制**是最容易卡的:DetachableJoint 要求 attach 前父子不碰撞、接觸中不能 reattach。「對位→升叉→attach」的觸發條件要自己用位置/contact 判斷。MVP 想避開可先用 Teleport 瞬移。
 - **物理不穩**多源於 inertia 亂填、μ 太低、步長太大(見 §5);先排除這三個。
 - **待查證**:① Harmonic `DetachableJoint` 的 attach topic 是否支援 runtime 動態指定任意 child(官方偏向「reattach 同一 child」);② Fuel 上現成 forklift/EPAL/rack 模型清單;③ RMF↔VDA5050 維護中的橋接 repo;④ RMF PerformAction 任務 JSON schema;⑤ Jazzy 的 cmd_vel 是 `Twist` 還是 `TwistStamped`;⑥ 無 GPU 環境 gz Harmonic 是否提供可用的 CPU ray-based lidar(gpu_lidar 需 GPU/EGL)。動手前逐一確認。
 
@@ -244,9 +244,9 @@ forklift_gz_sim/
 
 ## 14. 附錄:起手式片段(骨架,需驗證再用)
 
-> **這一節是給 agent(或你自己)照抄的骨架,佔全篇約一半篇幅。理解這個專案讀完 §1–§13 就夠了。** 真的要動手時再回來,並且**每一段都要自己驗證過**——下面的片段沒有全部實跑過。
+> **這一節是給 agent(或你自己)照抄的骨架,佔全篇約一半篇幅。理解這個專案讀完 §1–§13 就夠了。** 真的要動手時再回來,並且**每一段都要自己驗證過**,下面的片段沒有全部實跑過。
 
-以下是最容易做錯、最核心的幾段,給 agent 當起點。**都是骨架——版本/欄位以官方為準,貼上後一定要在 gz 跑過驗證,別當成保證可動的最終答案**(呼應前面說的:先建回饋迴路驗它,不靠貼來的 code 自說自話)。
+這幾段是實作的重點,也最容易做錯,給 agent 當起點。**都是骨架,版本/欄位以官方為準,貼上後一定要在 gz 跑過驗證,別當成保證可動的最終答案**(呼應前面說的:先建回饋迴路驗它,不靠貼來的 code 自說自話)。
 
 ### 14.1 world 必備 system plugins(沒掛感測器不會動)
 
@@ -287,7 +287,7 @@ forklift_gz_sim/
 
 **上面這些 tag 在 Gazebo 裡做什麼**(給看不懂 XML 的對照):
 
-先看三塊異常**共通的骨架**——每塊都是一個 `<model>`,裡面包一個 `<link>`(實體),link 又分兩種身份(同 [SDF 模型篇](sdf-3d-models.md)):
+先看三塊異常**共通的骨架**:每塊都是一個 `<model>`,裡面包一個 `<link>`(實體),link 又分兩種身份(同 [SDF 模型篇](sdf-3d-models.md)):
 
 - `<static>true</static>`:這東西**固定在世界、不會被推動**(地面異常本來就該釘住)。
 - `<collision>`:給物理引擎算「撞到沒、摩擦多少」的形狀;`<visual>`:給畫面顯示的形狀。這裡兩者都用 `<box><size>長 寬 高</size>`(單位公尺)。
@@ -304,7 +304,7 @@ forklift_gz_sim/
 | `<mu2>` | 次方向(垂直於 mu 那個方向)的摩擦係數,通常設一樣 |
 | `<slip1>` / `<slip2>` | 兩個方向的「力相依滑移量」,**值越大,輪子越容易打滑空轉** |
 
-**為什麼這樣設就會逼出 odom 漂移**:把 `mu` 壓到 0.05、`slip` 調高,等於地面幾乎抓不住輪子。車一給扭矩,輪子空轉、車身卻沒前進多少;但輪式 odom 是「照輪子轉了多少」去積分位置的,於是它**以為走了很遠**——這個「輪子轉動量 vs 實際位移」的落差,就是位置漂移的來源(對照 §7 為何 odom 要用 `DiffDrive` 而非真值)。
+**為什麼這樣設就會逼出 odom 漂移**:把 `mu` 壓到 0.05、`slip` 調高,等於地面幾乎抓不住輪子。車一給扭矩,輪子空轉、車身卻沒前進多少;但輪式 odom 是「照輪子轉了多少」去積分位置的,於是它**以為走了很遠**。這個「輪子轉動量 vs 實際位移」的落差,就是位置漂移的來源(對照 §7 為何 odom 要用 `DiffDrive` 而非真值)。
 
 **坡與凸塊靠 pose / size 做出來**,不需要摩擦設定:
 
@@ -327,7 +327,7 @@ Izz = 20·(1.2²+0.8²)/12  = 3.467   (單位 kg·m²)
   <inertia><ixx>1.104</ixx><iyy>2.438</iyy><izz>3.467</izz>
            <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
 ```
-數量級落在 ~1–3,和「20kg、約 1m」一致——這就是「inertia 要和質量尺寸相符」的具體長相。
+數量級落在 ~1–3,和「20kg、約 1m」一致,這就是「inertia 要和質量尺寸相符」的具體長相。
 
 ### 14.4 底盤 DiffDrive + 感測器 + 升降 ros2_control(URDF/SDF 內 `<gazebo>`)
 
@@ -387,7 +387,7 @@ ekf_filter_node:
     imu0_remove_gravitational_acceleration: true
 ```
 
-15 維順序:`[x,y,z, roll,pitch,yaw, vx,vy,vz, vroll,vpitch,vyaw, ax,ay,az]`——輪式 odom 信線速度 `vx`(打滑會讓位置漂、但短期速度仍可用)、IMU 信 `vyaw` 與去重力後 `ax`(陀螺儀不受打滑影響)。
+15 維順序:`[x,y,z, roll,pitch,yaw, vx,vy,vz, vroll,vpitch,vyaw, ax,ay,az]`。輪式 odom 信線速度 `vx`(打滑會讓位置漂、但短期速度仍可用)、IMU 信 `vyaw` 與去重力後 `ax`(陀螺儀不受打滑影響)。
 
 ### 14.6 headless 啟動
 

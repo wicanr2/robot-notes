@@ -9,19 +9,19 @@
 
 ## 1. 核心問題:框架沒變,但維度爆炸
 
-SLAM 的本質不變:**同時估計機器人軌跡與環境地圖**。3D 真正改變的是狀態維度與觀測形態:
+SLAM 要做的事不變:**同時估計機器人軌跡與環境地圖**。換成 3D 後,狀態維度與觀測形態都變了:
 
-- **位姿從 3-DoF `(x, y, θ)` 變 6-DoF `(x, y, z, roll, pitch, yaw)`**。平地機器人近似 3-DoF,但上下坡、顛簸、無人機就得全 6-DoF。麻煩的是**旋轉不能像 `(x,y,z)` 那樣直接相加**:繞 X 轉 90° 再繞 Y 轉 90°,跟反過來的結果不同,角度還有 360° 環繞。數學上 3D 旋轉構成一個叫 **SO(3) 的彎曲空間(流形)**,優化得在這個彎曲面上「小步前進」,不能當平地向量硬加——後面 iEKF、GTSAM 都要處理這件事。
-- **觀測從「一圈 2D 輪廓」變「一片 3D 點雲」**。2D 一幀幾百點;3D(16/32/64/128 線)一幀數萬至數十萬點,而且有掃描期間的**運動畸變(motion distortion / skew)**——機器人在一幀(以 10Hz 機械式 LiDAR 為例約 0.1 秒)內移動了,幀內早採跟晚採的點不在同一參考系。2D 低速常忽略,3D 高速不處理會嚴重歪斜。
+- **位姿從 3-DoF `(x, y, θ)` 變 6-DoF `(x, y, z, roll, pitch, yaw)`**。平地機器人近似 3-DoF,但上下坡、顛簸、無人機就得全 6-DoF。麻煩的是**旋轉不能像 `(x,y,z)` 那樣直接相加**:繞 X 轉 90° 再繞 Y 轉 90°,跟反過來的結果不同,角度還有 360° 環繞。數學上 3D 旋轉構成一個叫 **SO(3) 的彎曲空間(流形)**,優化得在這個彎曲面上「小步前進」,不能當平地向量硬加。後面 iEKF、GTSAM 都要處理這件事。
+- **觀測從「一圈 2D 輪廓」變「一片 3D 點雲」**。2D 一幀幾百點;3D(16/32/64/128 線)一幀數萬至數十萬點,而且有掃描期間的**運動畸變(motion distortion / skew)**。機器人在一幀(以 10Hz 機械式 LiDAR 為例約 0.1 秒)內移動了,幀內早採跟晚採的點不在同一參考系。2D 低速常忽略,3D 高速不處理會嚴重歪斜。
 - **地圖從 2D 占據柵格變 3D 表示**(點雲 / 體素 / octree),記憶體與運算量高 1~2 個量級。
 
-一句話:**前端里程計 + 後端優化 + loop closure 的框架跟 2D 同構,但「點雲配準」這個地基的演算法、和「地圖怎麼存」,都因維度爆炸而需要全新工具。** 後面所有創新(ikd-tree、iVox、iEKF)都是為了「在 3D 維度爆炸下還能即時」。
+**前端里程計 + 後端優化 + loop closure 的框架跟 2D 同構,但「點雲配準」這個地基的演算法、和「地圖怎麼存」,都因維度爆炸而需要全新工具。** 後面所有創新(ikd-tree、iVox、iEKF)都是為了「在 3D 維度爆炸下還能即時」。
 
 ---
 
 ## 2. 點雲配準(Registration):3D SLAM 的地基
 
-2D 的 scan matching 其實就是 2D 配準。3D 配準是同一件事——**找一個剛體變換 `T`,把當前點雲對齊到參考(前一幀 / 地圖)**(`T ∈ SE(3)`,就是 SO(3) 旋轉再加一個平移,合起來描述一次完整的剛體移動)——但點多、無天然柵格、對初值更敏感。三條主流路線:
+2D 的 scan matching 其實就是 2D 配準。3D 配準是同一件事:**找一個剛體變換 `T`,把當前點雲對齊到參考(前一幀 / 地圖)**(`T ∈ SE(3)`,就是 SO(3) 旋轉再加一個平移,合起來描述一次完整的剛體移動)。但點多、無天然柵格、對初值更敏感。三條主流路線:
 
 <p align="center"><img src="../../../img/lidar-registration.svg" width="740" alt="點雲配準三路線:ICP 逐點最近鄰對應(point-to-point vs point-to-plane 殘差)、NDT 用體素高斯分布、LOAM 抽邊緣點與平面點特徵"></p>
 
@@ -32,7 +32,7 @@ SLAM 的本質不變:**同時估計機器人軌跡與環境地圖**。3D 真正�
 殘差有兩種度量,是 ICP 的關鍵分支:
 
 - **point-to-point**:殘差 = 對應兩點的歐氏距離。有閉式解(SVD),但收斂慢。
-- **point-to-plane**:殘差 = source 點到 target 點**切平面**的距離(沿法向量投影)。更符合「LiDAR 量到的是表面」的物理——只罰垂直於表面的誤差、允許點沿平面滑動,**收斂更快更準**。3D LiDAR SLAM 幾乎都用它或其變形。
+- **point-to-plane**:殘差 = source 點到 target 點**切平面**的距離(沿法向量投影)。更符合「LiDAR 量到的是表面」的物理:只罰垂直於表面的誤差、允許點沿平面滑動,**收斂更快更準**。3D LiDAR SLAM 幾乎都用它或其變形。
 
 **弱點(為什麼 ICP 不夠)**:需要好初值(最近點假設兩雲已大致對齊,初值差就配錯);代價函數非凸、**易陷局部最小**(長走廊、對稱場景尤其嚴重);每輪對數萬點做最近鄰搜尋、**慢**。
 
@@ -42,9 +42,9 @@ SLAM 的本質不變:**同時估計機器人軌跡與環境地圖**。3D 真正�
 
 ### 2.3 特徵法:LOAM 的「邊緣點 + 平面點」— 為什麼又快又穩
 
-LOAM(Zhang & Singh, 2014)的洞見:**不必用全部點,只挑幾何上資訊量高、可重複辨識的少數特徵點**。方法是對每個點算**局部平滑度(曲率)** `c`——白話講就是「這個點周圍的鄰居有多不平」:`c` 大 → 周圍幾何彎折劇烈 → **邊緣 / 角點**(柱子、牆角);`c` 小 → 周圍平坦 → **平面點**(地面、牆面)。
+LOAM(Zhang & Singh, 2014)的洞見:**不必用全部點,只挑幾何上資訊量高、可重複辨識的少數特徵點**。方法是對每個點算**局部平滑度(曲率)** `c`,白話講就是「這個點周圍的鄰居有多不平」:`c` 大 → 周圍幾何彎折劇烈 → **邊緣 / 角點**(柱子、牆角);`c` 小 → 周圍平坦 → **平面點**(地面、牆面)。
 
-配準時對應地用兩種殘差:邊緣點算到參考**邊緣線**的距離(point-to-line),平面點算到參考**平面**的距離(point-to-plane)。**快**——特徵點只佔原始點雲一小部分,優化點數降一兩個量級;**穩**——邊緣 / 平面是場景中幾何明確、跨幀可重複觀測的結構,比「隨便挑最近點」可靠得多。
+配準時對應地用兩種殘差:邊緣點算到參考**邊緣線**的距離(point-to-line),平面點算到參考**平面**的距離(point-to-plane)。**快**:特徵點只佔原始點雲一小部分,優化點數降一兩個量級;**穩**:邊緣 / 平面是場景中幾何明確、跨幀可重複觀測的結構,比「隨便挑最近點」可靠得多。
 
 > 來源:Besl & McKay 1992 [DOI](https://doi.org/10.1109/34.121791);Generalized-ICP(Segal 2009)[PDF](https://www.robots.ox.ac.uk/~avsegal/resources/papers/Generalized_ICP.pdf);NDT(Biber & Straßer 2003)[Wikipedia](https://en.wikipedia.org/wiki/Normal_distributions_transform);LOAM RSS 2014 [CMU RI](https://www.ri.cmu.edu/publications/loam-lidar-odometry-and-mapping-in-real-time/) / 期刊版 [Springer DOI](https://doi.org/10.1007/s10514-016-9548-2)。
 
@@ -61,7 +61,7 @@ LOAM(Zhang & Singh, 2014)的洞見:**不必用全部點,只挑幾何上資訊量
 - **scan-to-scan**:當前幀配準到**上一幀**。快,但誤差直接累積、漂移快。
 - **scan-to-map**:當前幀配準到**已累積的局部地圖**。約束強、更準、漂移慢,但配準更貴。
 
-LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時里程計、低頻(~1Hz)scan-to-map 精修並維護地圖——「快但糙」餵「慢但準」,這就是名字 odometry + mapping 的由來。
+LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時里程計、低頻(~1Hz)scan-to-map 精修並維護地圖。「快但糙」餵「慢但準」,這就是名字 odometry + mapping 的由來。
 
 ### 3.2 為什麼要融 IMU(LIO,LiDAR-Inertial Odometry)
 
@@ -69,7 +69,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 1. **去畸變(de-skew)**:IMU 高頻(數百~上千 Hz)積分出一幀掃描期間的連續運動,把幀內每個點補償回同一時刻 → 消除運動畸變。這是 LIO 最基本的價值。
 2. **快速運動 / 劇烈旋轉**:LiDAR 幀率低,兩幀間高速轉動會讓配準初值極差;IMU 提供高頻運動先驗當初值,把配準從「猜」變「微調」。
-3. **退化場景**:長走廊、隧道、空曠平面——幾何約束在某些方向消失(沿走廊滑動,點雲長一樣),IMU 的慣性約束在這些方向頂住,避免崩解。
+3. **退化場景**:長走廊、隧道、空曠平面的幾何約束在某些方向消失(沿走廊滑動,點雲長一樣),IMU 的慣性約束在這些方向頂住,避免崩解。
 
 **緊耦合 vs 鬆耦合**:鬆耦合是 LiDAR、IMU 各算一個位姿、事後用 EKF 融合,簡單但 LiDAR 退化時它輸出已經錯了;緊耦合把 LiDAR 的**原始殘差**和 IMU 的**原始量測**放進**同一個**狀態估計聯合求解,退化方向上 IMU 直接補進去,更穩更準。**現代主流 LIO 都是緊耦合。**
 
@@ -84,7 +84,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 - **LOAM(2014)**:奠基。邊緣+平面特徵、point-to-line/plane 配準、odometry+mapping 雙執行緒。低漂移、嵌入式可跑,長期居 KITTI 里程計榜首,後續幾乎都從它分支。
 - **LeGO-LOAM(2018)**:針對水平裝設的地面車最佳化。加**地面分割**、點雲分群去噪、兩步優化(先用地面點解 `z/roll/pitch`、再用邊緣點解 `x/y/yaw`)、內建 loop closure(GTSAM)。更輕量。
 - **LIO-SAM(2020)**:升級成**緊耦合 LiDAR-慣性**,建在 factor graph(GTSAM/iSAM2)上。用 **IMU 預積分**(預先把兩個關鍵幀之間的幾百筆 IMU 量測壓成「一個等效約束」,優化時不必每筆重算、省很多時間)去畸變並提供初值;LiDAR 里程計、IMU、GPS、loop closure 因子統一進一張圖,用關鍵幀滑動視窗而非全域配準,即時性大增。
-- **FAST-LIO(2021)**:緊耦合 **iterated EKF(iEKF)**。EKF(擴展卡爾曼濾波)是「預測 + 量測修正」反覆估狀態的標準濾波器(數學底見[高斯篇](../../90-foundations/gaussian-from-first-principles.md));`iterated` 指每次更新內部再多迭代幾輪、對非線性更準。最大貢獻是**新的卡爾曼增益公式,把運算量從「隨量測點數」降成「隨狀態維度」**——LiDAR 一幀上千個量測點,原本卡爾曼增益要對「上千」那麼大的矩陣求逆,改寫後只需對狀態維度(十幾維)求逆,機載電腦上一次更新 <25ms。
+- **FAST-LIO(2021)**:緊耦合 **iterated EKF(iEKF)**。EKF(擴展卡爾曼濾波)是「預測 + 量測修正」反覆估狀態的標準濾波器(數學底見[高斯篇](../../90-foundations/gaussian-from-first-principles.md));`iterated` 指每次更新內部再多迭代幾輪、對非線性更準。最大貢獻是**新的卡爾曼增益公式,把運算量從「隨量測點數」降成「隨狀態維度」**。LiDAR 一幀上千個量測點,原本卡爾曼增益要對「上千」那麼大的矩陣求逆,改寫後只需對狀態維度(十幾維)求逆,機載電腦上一次更新 <25ms。
 - **FAST-LIO2(2022)**:① **直接用原始點**配 scan-to-map(不抽特徵、不丟資訊,對各種 LiDAR 更通用);② **ikd-tree**(增量式 k-d tree,支援動態插入/刪除/再平衡),邊建圖邊維護最近鄰結構,達 100Hz+。
 - **Faster-LIO(2022)**:把 ikd-tree 換成 **iVox(增量稀疏體素)**,用雜湊體素 + 近似 k-NN 換速度,固態 LiDAR 可達 1000–2000Hz。
 
@@ -94,11 +94,11 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 ## 5. 迴路閉合 + 後端優化:消除累積漂移
 
-2D 篇已講透 pose graph 全圖優化「按信心(資訊矩陣)加權攤回」的原理——**3D 完全沿用同一套加權最小二乘**,只是節點變 6-DoF、邊的協方差是 6×6。這裡補 3D 特有的兩件事。
+2D 篇已講透 pose graph 全圖優化「按信心(資訊矩陣)加權攤回」的原理。**3D 完全沿用同一套加權最小二乘**,只是節點變 6-DoF、邊的協方差是 6×6。這裡補 3D 特有的兩件事。
 
-**後端優化器(2D/3D 共用)**:把 pose graph(節點=歷史關鍵幀位姿,邊=里程計 + loop closure 約束)解成非線性最小二乘。三大現成函式庫:**GTSAM**(因子圖 + iSAM2 增量求解,最適合線上 SLAM,LIO-SAM 用它)、**g2o**(老牌通用圖優化)、**Ceres**(Google 通用最小二乘,Cartographer 用它)。一句話對照:**前端配準**解「這一兩幀怎麼對齊」的局部問題;**後端 pose graph**解「整條軌跡幾百個位姿怎麼全局一致」,loop closure 是撐起後端的那條跨時約束。
+**後端優化器(2D/3D 共用)**:把 pose graph(節點=歷史關鍵幀位姿,邊=里程計 + loop closure 約束)解成非線性最小二乘。三大現成函式庫:**GTSAM**(因子圖 + iSAM2 增量求解,最適合線上 SLAM,LIO-SAM 用它)、**g2o**(老牌通用圖優化)、**Ceres**(Google 通用最小二乘,Cartographer 用它)。**前端配準**解「這一兩幀怎麼對齊」的局部問題;**後端 pose graph**解「整條軌跡幾百個位姿怎麼全局一致」,loop closure 是撐起後端的那條跨時約束。
 
-**3D 場景描述子(loop closure 怎麼認出舊地方)**:3D 點雲大、視角變化大,需要緊湊的全域描述子快速檢索候選回環。**Scan Context(2018)**把一幀點雲以感測器為中心,按**方位角(繞一圈分幾格)× 徑向距離(離中心多遠分幾格)**切成棋盤,每格取落在裡面的最高點高度,壓成一張小小的 2D 矩陣當「指紋」。巧妙處:**機器人原地轉一個角度,等於這張矩陣的「整列循環平移」**(欄不變、列繞圈)——所以比對兩張指紋時,把列對齊回去就能認出「同一個地方、只是面朝不同方向」,**對視角旋轉魯棒**且檢索快,是 3D loop closure 的事實標準之一。
+**3D 場景描述子(loop closure 怎麼認出舊地方)**:3D 點雲大、視角變化大,需要緊湊的全域描述子快速檢索候選回環。**Scan Context(2018)**把一幀點雲以感測器為中心,按**方位角(繞一圈分幾格)× 徑向距離(離中心多遠分幾格)**切成棋盤,每格取落在裡面的最高點高度,壓成一張小小的 2D 矩陣當「指紋」。巧妙處:**機器人原地轉一個角度,等於這張矩陣的「整列循環平移」**(欄不變、列繞圈)。所以比對兩張指紋時,把列對齊回去就能認出「同一個地方、只是面朝不同方向」,**對視角旋轉魯棒**且檢索快,是 3D loop closure 的事實標準之一。
 
 > 來源:[GTSAM](https://gtsam.org/)、g2o(Kümmerle ICRA 2011)[GitHub](https://github.com/RainerKuemmerle/g2o)、[Ceres](http://ceres-solver.org/);Scan Context IROS 2018 [GitHub](https://github.com/gisbi-kim/scancontext)。
 
@@ -143,7 +143,7 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 > **這節是套件與工具的盤點,初讀可以跳過**,真的要選型時再回來。
 
-前面講的是**方法家族**(ICP / NDT / LOAM / LIO);實務上你要的是「ROS2 裝得起來、跑得動」的套件。先點一個最常踩的坑:**很多知名 LIO 的官方 repo 主分支其實是 ROS1,ROS2 放在獨立 branch**(FAST-LIO 的 `ROS2`、DLIO 的 `feature/ros2`、LIO-SAM 的 `ros2`)——不是 `apt install` 一行就有的正式 release,得自己 clone 那條 branch 來 build。反而真正「原生 first-class、ROS Index / apt 直接裝」的是另一批:KISS-ICP、MOLA、RTAB-Map、GLIM。
+前面講的是**方法家族**(ICP / NDT / LOAM / LIO);實務上你要的是「ROS2 裝得起來、跑得動」的套件。先點一個最常踩的坑:**很多知名 LIO 的官方 repo 主分支其實是 ROS1,ROS2 放在獨立 branch**(FAST-LIO 的 `ROS2`、DLIO 的 `feature/ros2`、LIO-SAM 的 `ros2`)。這些並非 `apt install` 一行就有的正式 release,得自己 clone 那條 branch 來 build。「原生 first-class、ROS Index / apt 直接裝」的則是另一批:KISS-ICP、MOLA、RTAB-Map、GLIM。
 
 <p align="center"><img src="../../../img/ros2-3d-slam-map.svg" width="780" alt="ROS2 3D SLAM 套件地圖:依方法分純LiDAR里程計/LIO/完整SLAM框架三類,並用顏色標 ROS2 成熟度(原生apt可裝/官方branch需自build/需社群移植)"></p>
 
@@ -193,4 +193,4 @@ LOAM 的經典設計用**兩個執行緒**:高頻(~10Hz)scan-to-scan 出即時�
 
 **ROS2 套件(§8)**:[KISS-ICP](https://github.com/PRBonn/kiss-icp)、[KISS-SLAM](https://github.com/PRBonn/kiss-slam)、[FAST-LIO(ROS2 branch)](https://github.com/hku-mars/FAST_LIO/tree/ROS2)、[Point-LIO](https://github.com/hku-mars/Point-LIO)、[DLIO(feature/ros2)](https://github.com/vectr-ucla/direct_lidar_inertial_odometry/tree/feature/ros2)、[LIO-SAM(ros2 branch)](https://github.com/TixiaoShan/LIO-SAM/tree/ros2)、[GLIM](https://github.com/koide3/glim) / [glim_ros2](https://github.com/koide3/glim_ros2)、[hdl_graph_slam](https://github.com/koide3/hdl_graph_slam)、[Open3D-SLAM](https://github.com/leggedrobotics/open3d_slam)、[MOLA(ROS Index)](https://index.ros.org/p/mola_lidar_odometry/)、[RTAB-Map(ROS Index)](https://index.ros.org/p/rtabmap_ros/)、[Cartographer(ROS Index)](https://index.ros.org/p/cartographer_ros/)。
 
-> Scan Context 的 repo owner 已改成 `gisbi-kim`(原 `irapkaist` 路徑失效),`TixiaoShan/LIO-SAM` 仍有效——兩者都實際開過確認。待查證:Chen & Medioni point-to-plane 原始論文精確年份(1991 期刊 vs 1992 會議);§8 部分套件的 ROS2 確切 distro / branch 釋出狀態與 license(Point-LIO 的 GPL 版本、iG-LIO/LIORF 的 ROS2 狀態)會隨版本變動,以各 repo 與 ROS Index 即時頁面為準。
+> Scan Context 的 repo owner 已改成 `gisbi-kim`(原 `irapkaist` 路徑失效),`TixiaoShan/LIO-SAM` 仍有效,兩者都實際開過確認。待查證:Chen & Medioni point-to-plane 原始論文精確年份(1991 期刊 vs 1992 會議);§8 部分套件的 ROS2 確切 distro / branch 釋出狀態與 license(Point-LIO 的 GPL 版本、iG-LIO/LIORF 的 ROS2 狀態)會隨版本變動,以各 repo 與 ROS Index 即時頁面為準。

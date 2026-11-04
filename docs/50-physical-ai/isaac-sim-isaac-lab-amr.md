@@ -3,8 +3,8 @@
 整理 NVIDIA 官方資料,聚焦「室內自主移動機器人 / 差速 AMR」場景下,如何用 Isaac Sim 與 Isaac Lab 做機器人模擬、ROS2 串接與強化學習訓練。
 
 > **名詞速記**
-> - **AMR(Autonomous Mobile Robot)** — 自主移動機器人,能自行規劃路徑、避障的輪式機器人(送餐機、倉儲搬運車屬於此類)。
-> - **差速驅動(differential drive)** — 兩個獨立驅動輪靠左右輪速差來轉向的底盤,本筆記的目標機型。
+> - **AMR(Autonomous Mobile Robot)**:自主移動機器人,能自行規劃路徑、避障的輪式機器人(送餐機、倉儲搬運車屬於此類)。
+> - **差速驅動(differential drive)**:兩個獨立驅動輪靠左右輪速差來轉向的底盤,本筆記的目標機型。
 > - 版本資訊以本文標示日期(SIGGRAPH 2025 GA)為準,實際開發請以官方最新版為準。
 
 ---
@@ -22,7 +22,7 @@
 
 <p align="center"><img src="../../img/pai-isaac-stack.svg" width="820" alt="左側四層堆疊:OpenUSD 資料格式在最底,往上是 Omniverse 模擬平台、Isaac Sim 機器人模擬器、Isaac Lab 學習框架;右側官方工作流三步循環:Isaac Sim 組機器人→Isaac Lab 訓練→回 Isaac Sim 評估"></p>
 
-這張圖的右半邊值得多看一眼:兩個工具不是「二選一」,而是**輪流上場**。模型與場景的組裝在 Isaac Sim 做,訓練搬到 Isaac Lab,訓完的 policy 再回 Isaac Sim 評估——評估不過就回頭改設計或換 reward,再繞一圈。
+這張圖的右半邊畫出兩個工具怎麼**輪流上場**,不用「二選一」。模型與場景的組裝在 Isaac Sim 做,訓練搬到 Isaac Lab,訓完的 policy 再回 Isaac Sim 評估。評估不過就回頭改設計或換 reward,再繞一圈。
 
 - **Isaac Sim** = 模擬器。負責把世界「跑起來」:算繪畫面、跑 PhysX 物理、模擬相機 / LiDAR / IMU、跟 ROS2 對接。
 - **Isaac Lab** = 學習框架。在 Isaac Sim 之上,提供定義 RL 環境(reward / observation / action)、大規模平行訓練、輸出 policy 的工具。它繼承 Isaac Sim 的能力,並加上 RL 研究專屬功能,如致動器動態(actuator dynamics)、程序化地形生成、人類示範資料收集。
@@ -55,16 +55,16 @@
 
 Isaac Sim 提供機器人常用感測器的模擬:
 
-- **相機(RGB / 深度)** — 可輸出 RGB、深度圖,供導航與感知用。
-- **LiDAR(光達)** — Isaac Sim 5.0 起以 **RTX 感測器**模擬,並有 **OmniSensor USD schema** 把感測器定義進 USD;可輸出點雲,室內 AMR 常用 2D LaserScan。
-- **IMU(慣性測量單元)** — 輸出加速度與角速度,供里程計 / 定位融合。
+- **相機(RGB / 深度)**:可輸出 RGB、深度圖,供導航與感知用。
+- **LiDAR(光達)**:Isaac Sim 5.0 起以 **RTX 感測器**模擬,並有 **OmniSensor USD schema** 把感測器定義進 USD;可輸出點雲,室內 AMR 常用 2D LaserScan。
+- **IMU(慣性測量單元)**:輸出加速度與角速度,供里程計 / 定位融合。
 
 ### 2.3 加物理(差速驅動)
 
 物理由 Omniverse 內建的 **PhysX** 解算。差速底盤的驅動鏈,在 Isaac Sim 裡用 **OmniGraph Action Graph**(視覺化的節點式運算圖)串起來,核心兩個節點:
 
-- **Differential Controller** — 把「車體速度(前進速度 + Z 軸旋轉速度)」換算成左右兩輪的輪速。
-- **Articulation Controller** — 把輪速命令送進關節驅動(joint drives),真正驅動輪子轉。
+- **Differential Controller**:把「車體速度(前進速度 + Z 軸旋轉速度)」換算成左右兩輪的輪速。
+- **Articulation Controller**:把輪速命令送進關節驅動(joint drives),讓輪子轉起來。
 
 ---
 
@@ -89,20 +89,20 @@ ROS2 環境須在啟動 Isaac Sim 前先 source,讓 bridge 載入系統的 ROS2 
 
 **Isaac Sim 對外 subscribe(接收外部命令):**
 
-- `/cmd_vel`(`geometry_msgs/Twist`) — 速度命令。Nav2 算出來的 `cmd_vel` 進到 Isaac Sim,經 **ROS2 Subscribe Twist 節點 → Differential Controller → Articulation Controller**,驅動模擬車輪。
+- `/cmd_vel`(`geometry_msgs/Twist`):速度命令。Nav2 算出來的 `cmd_vel` 進到 Isaac Sim,經 **ROS2 Subscribe Twist 節點 → Differential Controller → Articulation Controller**,驅動模擬車輪。
 
 這些 publish/subscribe 都在 OmniGraph Action Graph 裡用對應節點(transform tree publisher、odometry publisher、joint state publisher 等)搭出來。
 
 <p align="center"><img src="../../img/pai-isaac-ros2-nav2.svg" width="820" alt="Isaac Sim 與 Nav2 的雙向資料流:模擬器 publish /scan、/point_cloud、/odom、/tf、/map、/clock 給 Nav2;Nav2 回傳 /cmd_vel 進到 Twist Subscribe 節點,經 Differential Controller、Articulation Controller 驅動輪子"></p>
 
-兩個方向合起來就是一個閉環:感測資料出去、速度命令回來、車動了、感測資料再出去。值得注意的是右邊那塊——**Nav2 完全不知道自己接的是模擬器還是真車**。這個「分不出來」不是巧合,而是刻意的:因為分不出來,同一份 Nav2 設定才能原封不動搬上實車,於是 [sim-to-real](sim-to-real.md) 那邊列的「模擬與實車軟體棧不一致」整類落差就不會發生。
+兩個方向合起來就是一個閉環:感測資料出去、速度命令回來、車動了、感測資料再出去。右邊那塊的 **Nav2 完全不知道自己接的是模擬器還是真車**。這個「分不出來」是刻意的設計,並非巧合。因為分不出來,同一份 Nav2 設定才能原封不動搬上實車,於是 [sim-to-real](sim-to-real.md) 那邊列的「模擬與實車軟體棧不一致」整類落差就不會發生。
 
 ### 樣板機器人與套件
 
 Isaac Sim 內附可直接跑 Nav2 的樣板:
 
-- **Nova Carter** — 含 RTX LiDAR、Hawk 相機、差速驅動的行動機器人。
-- **iw.hub** — 倉儲導航平台。
+- **Nova Carter**:含 RTX LiDAR、Hawk 相機、差速驅動的行動機器人。
+- **iw.hub**:倉儲導航平台。
 - ROS2 套件:`carter_navigation`(launch、導航參數、機器人模型)、`isaac_ros_navigation_goal`(程式化送導航目標)。
 
 ---
@@ -110,13 +110,13 @@ Isaac Sim 內附可直接跑 Nav2 的樣板:
 ## 4. 強化學習訓練迴圈(Isaac Lab)
 
 > **先釘住五個 RL 詞**,不然這一節會全是黑話:
-> - **policy(策略)**——一個函式,吃「現在看到什麼」吐「現在該做什麼」。訓練出來的模型就是它。
-> - **observation(觀測)**——這一步餵給 policy 的東西(光達、關節角、目標方位…)。不等於環境的全部真實狀態。
-> - **action(動作)**——policy 能下的指令(輪速、關節力矩…)。
-> - **reward(回報)**——這一步做得好不好的分數。訓練就是在調 policy 讓累積分數最高。
-> - **episode(回合)**——一次從重置到結束(達標、翻車或超時)的完整過程。
+> - **policy(策略)**:一個函式,吃「現在看到什麼」吐「現在該做什麼」。訓練出來的模型就是它。
+> - **observation(觀測)**:這一步餵給 policy 的東西(光達、關節角、目標方位…)。不等於環境的全部真實狀態。
+> - **action(動作)**:policy 能下的指令(輪速、關節力矩…)。
+> - **reward(回報)**:這一步做得好不好的分數。訓練就是在調 policy 讓累積分數最高。
+> - **episode(回合)**:一次從重置到結束(達標、翻車或超時)的完整過程。
 
-Isaac Lab 把 RL 任務建模成 **MDP(Markov Decision Process,馬可夫決策過程——「下一步只跟現在的狀態與動作有關,跟怎麼走到現在的無關」這個假設)**:環境提供當前 observation,agent 給出 action,環境回傳下一個 state、reward、done 旗標與 episode 資訊。
+Isaac Lab 把 RL 任務建模成 **MDP(Markov Decision Process,馬可夫決策過程,「下一步只跟現在的狀態與動作有關,跟怎麼走到現在的無關」這個假設)**:環境提供當前 observation,agent 給出 action,環境回傳下一個 state、reward、done 旗標與 episode 資訊。
 
 ### 定義環境的兩種寫法
 
@@ -127,10 +127,10 @@ Isaac Lab 把 RL 任務建模成 **MDP(Markov Decision Process,馬可夫決策�
 
 核心管理器:
 
-- **Observation Manager** — 算出 agent 的觀測,輸出 PyTorch tensor(可含隨機化)。
-- **Action Manager** — 把 policy 輸出對應到機器人控制輸入(關節位置 / 速度等)。對差速 AMR,action 通常映射到左右輪速或車體 v/ω。
-- **Reward Manager** — 用 `RewardTermCfg` 設定各 reward term(計算函式 + 權重),加總成 reward。對 AMR 常見 reward:朝目標前進、避免碰撞、行進平順等。
-- **Event Manager** — 處理隨機化 / domain randomization。
+- **Observation Manager**:算出 agent 的觀測,輸出 PyTorch tensor(可含隨機化)。
+- **Action Manager**:把 policy 輸出對應到機器人控制輸入(關節位置 / 速度等)。對差速 AMR,action 通常映射到左右輪速或車體 v/ω。
+- **Reward Manager**:用 `RewardTermCfg` 設定各 reward term(計算函式 + 權重),加總成 reward。對 AMR 常見 reward:朝目標前進、避免碰撞、行進平順等。
+- **Event Manager**:處理隨機化 / domain randomization。
 
 ### 大規模平行化
 
@@ -148,8 +148,8 @@ Isaac Lab 支援**向量化環境(vectorized environments)**:用 `num_envs` 指�
 
 **Omniverse Replicator** = Isaac Sim 內的合成資料生成(SDG, Synthetic Data Generation)框架,用 `omni.replicator` 擴充。室內 AMR 常用它生成感知模型的訓練資料。
 
-- **Domain Randomization(領域隨機化)** — Replicator 最重要能力之一:隨機化資產、材質、光照、相機位置等,讓訓出來的模型對真實世界變異更穩健。
-- **標註(annotation)** — 算繪與資料生成時自動標註:對 3D 資產做語意標籤(Semantic Schema Editor 提供 UI 套標籤),Visualizer 可視化語意標籤與 2D/3D bounding box、normal、depth 等多種 annotation。
+- **Domain Randomization(領域隨機化)**:Replicator 的主要功能之一,能隨機化資產、材質、光照、相機位置等,讓訓出來的模型對真實世界變異更穩健。
+- **標註(annotation)**:算繪與資料生成時自動標註:對 3D 資產做語意標籤(Semantic Schema Editor 提供 UI 套標籤),Visualizer 可視化語意標籤與 2D/3D bounding box、normal、depth 等多種 annotation。
 - 涵蓋 2D/3D 多種感測器模態,搭配 annotator + writer 輸出資料集。
 - Isaac Sim 5.0 另加 MobilityGen、針對 NVIDIA Cosmos Transfer 最佳化的 Replicator writer、大規模環境的 Action/Event 資料生成。
 

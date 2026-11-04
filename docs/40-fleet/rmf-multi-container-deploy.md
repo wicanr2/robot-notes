@@ -1,6 +1,6 @@
 # RMF 多容器部署:adapter 一個容器、core 一個容器,怎麼接起來
 
-[OpenRMF 篇](open-rmf.md) 講為什麼、[實作小抄](rmf-adapter-cookbook.md) 講 adapter 怎麼寫,這篇補最後一塊:**怎麼把它部署起來**。常見的問題是「能不能 adapter 一個 docker、RMF core 另一個 docker」——可以,這正是 ROS 2 / RMF 的標準分散式部署形態;官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template) 也提供容器化範本(現以 Helm chart 為主,另含 `devel/docker-compose-local.yaml` 範例)。
+[OpenRMF 篇](open-rmf.md) 講為什麼、[實作小抄](rmf-adapter-cookbook.md) 講 adapter 怎麼寫,這篇補最後一塊:**怎麼把它部署起來**。常見的問題是「能不能 adapter 一個 docker、RMF core 另一個 docker」。可以,這正是 ROS 2 / RMF 的標準分散式部署形態;官方 [`rmf_deployment_template`](https://github.com/open-rmf/rmf_deployment_template) 也提供容器化範本(現以 Helm chart 為主,另含 `devel/docker-compose-local.yaml` 範例)。
 
 > 前置:[OpenRMF](open-rmf.md)、[ROS 2 的 DDS](ros2-dds-intro.md)(不熟 DDS 先看這篇)、[實作小抄](rmf-adapter-cookbook.md)。
 
@@ -8,7 +8,7 @@
 
 ## 1. 為什麼能分容器(第一性原理)
 
-RMF 整套是**一堆 ROS 2 節點**(`rmf_traffic`、`rmf_task`、各 `fleet_adapter`、`rmf-web`…),它們之間**不是函式呼叫,是透過 DDS 互通**(ROS 2 的底層中介)。而 DDS 本來就設計成**跨進程、跨容器、跨主機**都能通。所以把元件切到不同容器,對 RMF 不是 hack,是它分散式架構的自然延伸——fleet adapter 本身就是一個獨立 ROS 2 節點([rmf_demos_fleet_adapter](https://docs.ros.org/en/humble/p/rmf_demos_fleet_adapter/)),可單獨容器化;`rmf_demos` 官方也支援在容器內 headless 跑([rmf_demos](https://github.com/open-rmf/rmf_demos))。
+RMF 整套是**一堆 ROS 2 節點**(`rmf_traffic`、`rmf_task`、各 `fleet_adapter`、`rmf-web`…),它們之間**不用函式呼叫,透過 DDS 互通**(ROS 2 的底層中介)。而 DDS 本來就設計成**跨進程、跨容器、跨主機**都能通。所以把元件切到不同容器,對 RMF 來說是它分散式架構的自然延伸,算不上 hack。fleet adapter 本身就是一個獨立 ROS 2 節點([rmf_demos_fleet_adapter](https://docs.ros.org/en/humble/p/rmf_demos_fleet_adapter/)),可單獨容器化;`rmf_demos` 官方也支援在容器內 headless 跑([rmf_demos](https://github.com/open-rmf/rmf_demos))。
 
 <p align="center"><img src="../../img/rmf-multi-container.svg" width="740" alt="RMF 多容器:同主機上 RMF core / VDA5050 adapter / rmf-web 各一容器掛 DDS 匯流排(同 domain、同 RMW),MQTT broker 容器接外部 VDA5050 車隊,rmf-web 對外提供 REST"></p>
 
@@ -67,7 +67,7 @@ services:
 ## 4. 取捨(誠實標)
 
 - **`network_mode: host` 犧牲網路隔離**:容器直接用主機網路、`ports` 對映也失效。開發 / 單機部署最省事;多租戶或要網段隔離的生產環境要改走 Discovery Server。
-- **bridge network 是新手第一個坑**:不設 host 又沒設 discovery server,會卡在「兩容器各自起得來、但互相看不到對方 topic」——因為多播 discovery 被 bridge 擋掉。
+- **bridge network 是新手第一個坑**:不設 host 又沒設 discovery server,會卡在「兩容器各自起得來、但互相看不到對方 topic」,因為多播 discovery 被 bridge 擋掉。
 - **跨容器多一層網路**:RMF 派工/協商是秒級,可接受;但硬即時的東西(下位機控制環)不該這樣拆,留在車端。
 
 ## 來源

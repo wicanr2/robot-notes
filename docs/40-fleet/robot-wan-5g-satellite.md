@@ -1,6 +1,6 @@
 # 機器人的廣域連線:5G / 6G / 衛星 Direct-to-Device
 
-機器人一旦走出本地 Wi-Fi 範圍(戶外 AMR、無人機、偏遠巡檢、海事),就得靠**廣域連線**回連雲端或車隊調度。這是一條從「廠區 5G」到「衛星直連」的光譜——成熟、低延遲的一端做即時控制,新興、高延遲的一端補「沒有地面網路」的洞。
+機器人一旦走出本地 Wi-Fi 範圍(戶外 AMR、無人機、偏遠巡檢、海事),就得靠**廣域連線**回連雲端或車隊調度。這是一條從「廠區 5G」到「衛星直連」的光譜。成熟、低延遲的一端做即時控制,新興、高延遲的一端補「沒有地面網路」的洞。
 
 > 相關:[OpenRMF](open-rmf.md)(車隊/雲端)、[資安總覽](../70-security/README.md)(對外連線要加密)。
 
@@ -10,7 +10,7 @@
 
 <p align="center"><sub>一張圖看懂:地面 5G(綠/藍)做即時控制,衛星 D2D(橘)補沒有地面網路的洞,6G 願景把兩者整合。圖示積木採 Lucide(ISC 授權)重繪。</sub></p>
 
-下面把這張圖的四層拆開,逐層講「在解什麼、用什麼技術、現實限制」:
+這張圖分成四層,每層說明「在解什麼、用什麼技術、現實限制」:
 
 <p align="center"><img src="../../img/robot-wan-connectivity.svg" width="760" alt="機器人廣域連線四層:①廠區 Private 5G/WiFi(URLLC 低延遲,即時控制)②戶外公網5G+VPN(回連雲端)③偏遠衛星 Direct-to-Device(3GPP NTN,目前先 IoT/簡訊/緊急)④未來6G NTN(ITU IMT-2030,太空-空中-地面一體)"></p>
 
@@ -34,14 +34,14 @@
 
 **Private 5G(企業私有 5G)** 在工廠 / 倉儲 AMR 明確成形:相較 Wi-Fi,換手更少、延遲更穩、覆蓋更省設備;已見於 Ford、Toyota、Tesla 等廠,Nokia 為 Hyundai 廠協調數百台 AMR([Ericsson 案例](https://www.ericsson.com/en/industries/warehousing-and-logistics))。
 
-一個講得比較具體的案例是 **Ericsson × 韓國 CJ Logistics 物流倉**:把原本 300 個 Wi-Fi AP(無線基地台)換成 **22 個 5G radio dot(室內小型天線)**,整個倉庫當成「一個訊號細胞(single cell)」運作——AMR / AGV 車隊在裡面全速跑、不再因為跨 AP 換手而斷線或減速;Ericsson 揭露的數字是生產力 +20%、資本支出 −15%([Ericsson CJ Logistics 案例](https://www.ericsson.com/en/cases/2023/transforming-warehouse-operations))。「換手少」對機器人為什麼重要:Wi-Fi 跨 AP 切換的瞬間會掉封包,正在跑的車就可能頓一下;5G 單一細胞把這個切換點消掉了。*(注:這類「省幾個 AP、提升幾 %」是廠商揭露的數字,看的時候要意識到來源。)*
+一個講得比較具體的案例是 **Ericsson × 韓國 CJ Logistics 物流倉**:把原本 300 個 Wi-Fi AP(無線基地台)換成 **22 個 5G radio dot(室內小型天線)**,整個倉庫當成「一個訊號細胞(single cell)」運作。AMR / AGV 車隊在裡面全速跑、不再因為跨 AP 換手而斷線或減速;Ericsson 揭露的數字是生產力 +20%、資本支出 −15%([Ericsson CJ Logistics 案例](https://www.ericsson.com/en/cases/2023/transforming-warehouse-operations))。「換手少」對機器人為什麼重要:Wi-Fi 跨 AP 切換的瞬間會掉封包,正在跑的車就可能頓一下;5G 單一細胞把這個切換點消掉了。*(注:這類「省幾個 AP、提升幾 %」是廠商揭露的數字,看的時候要意識到來源。)*
 
 ## 3. 安全回連:VPN over cellular / Private APN
 
 走**公網** cellular 回連控制中心,流量會經過電信與網際網路,動態 IP 又暴露在公網。兩種常見做法:
 
 - **VPN(WireGuard / IPsec)**:在機器人與閘道間建端到端加密通道;mobile VPN 還能讓機器人在不同網路間漫遊而 session 不中斷([IoT VPN](https://telnyx.com/resources/iot-security-vpn))。
-- **Private APN / 固定 IP SIM**:靠電信專網層把流量導進企業私網、指派私有 IP,不暴露公網——是「不靠應用層 VPN、靠電信層隔離」的替代或互補。
+- **Private APN / 固定 IP SIM**:靠電信專網層把流量導進企業私網、指派私有 IP,不暴露公網。這是「不靠應用層 VPN、靠電信層隔離」的替代或互補。
 
 這對應 [資安總覽](../70-security/README.md) 的「對外 / 雲端連線要加密 + 認證」。
 
@@ -55,15 +55,15 @@
 
 | 玩家 | 做到什麼 |
 |---|---|
-| **Apple × Globalstar** | iPhone 14 起的[緊急 SOS 簡訊](https://support.apple.com/en-us/101573);每段傳輸需對空指向 15–30 秒(極低頻寬)——最保守、最早落地 |
+| **Apple × Globalstar** | iPhone 14 起的[緊急 SOS 簡訊](https://support.apple.com/en-us/101573);每段傳輸需對空指向 15–30 秒(極低頻寬),最保守、最早落地 |
 | **Lynk Global** | 標準手機收發[簡訊 + 緊急警報](https://lynk.world/news/),Palau 首個商用 |
 | **Skylo** | [NB-IoT NTN](https://www.skylo.tech/newsroom/skylo-launches-its-direct-to-device-service-in-the-us-canada)(IoT / 小數據),Rel-17 標準,與 Vodafone / DT IoT 合作 |
 | **Starlink Direct to Cell**(×T-Mobile) | [簡訊→語音→有限資料](https://www.starlink.com/business/direct-to-cell)漸進,2025 起 beta |
 | **AST SpaceMobile** | 目標[寬頻直送手機](https://ast-science.com/next-gen-bluebird/)(視訊/數據),商轉最晚但頻寬目標最高 |
 
-**台灣在地進展**:這不是只在國外發生。2026 年 3 月 2 日 MWC(世界行動通訊大會)上,**台灣大哥大與 AST SpaceMobile 簽署「低軌衛星通訊服務策略合作備忘錄」(MOU)**,要在台灣推「太空基地台 + 既有行動網路協同」——用 500 公里以上的 AST 衛星發射台灣大的行動訊號,直連未改裝的標準手機(D2C, Direct to Cellular),補「沒有基地台涵蓋」的死角、強化災害時的通訊韌性;台灣大看中 AST 的一點是其股東陣容(Google、AT&T、Verizon、Vodafone、日本樂天)([台灣大新聞稿](https://corp.taiwanmobile.com/press-release/news/press_20260302_441365.html)、[INSIDE 報導](https://www.inside.com.tw/article/40819-mwc-2026-taiwan-mobile)、[TechNews:雙技術路線](https://technews.tw/2026/05/12/mobile-direct-satellite-communication-dual-tech-paths-telecom-value-chain-restructuring))。另一條路線是 **3GPP 標準的 NTN**:中華電信 2024 年 7 月已完成 IoT-NTN(衛星物聯網)測試,遠傳則握有 28GHz 頻段、傳出有意進低軌([TechNews:遠傳低軌](https://finance.technews.tw/2025/10/21/fetnet-leo-satellite/))。對機器人的意涵一樣:**先補偏遠 / 災防的洞,還不是拿來即時遙控**。
+**台灣在地進展**:台灣也有進展。2026 年 3 月 2 日 MWC(世界行動通訊大會)上,**台灣大哥大與 AST SpaceMobile 簽署「低軌衛星通訊服務策略合作備忘錄」(MOU)**,要在台灣推「太空基地台 + 既有行動網路協同」:用 500 公里以上的 AST 衛星發射台灣大的行動訊號,直連未改裝的標準手機(D2C, Direct to Cellular),補「沒有基地台涵蓋」的死角、強化災害時的通訊韌性;台灣大看中 AST 的一點是其股東陣容(Google、AT&T、Verizon、Vodafone、日本樂天)([台灣大新聞稿](https://corp.taiwanmobile.com/press-release/news/press_20260302_441365.html)、[INSIDE 報導](https://www.inside.com.tw/article/40819-mwc-2026-taiwan-mobile)、[TechNews:雙技術路線](https://technews.tw/2026/05/12/mobile-direct-satellite-communication-dual-tech-paths-telecom-value-chain-restructuring))。另一條路線是 **3GPP 標準的 NTN**:中華電信 2024 年 7 月已完成 IoT-NTN(衛星物聯網)測試,遠傳則握有 28GHz 頻段、傳出有意進低軌([TechNews:遠傳低軌](https://finance.technews.tw/2025/10/21/fetnet-leo-satellite/))。對機器人的意涵一樣:**先補偏遠 / 災防的洞,還不是拿來即時遙控**。
 
-**現況很重要**:D2D 目前多為**低頻寬 / 高延遲**,所以先做 IoT / 簡訊 / 緊急,**不適合即時遙控**([Ericsson 對 D2D 的討論](https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/satellite-direct-to-device-communication))。
+**目前限制**:D2D 目前多為**低頻寬 / 高延遲**,所以先做 IoT / 簡訊 / 緊急,**不適合即時遙控**([Ericsson 對 D2D 的討論](https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/satellite-direct-to-device-communication))。
 
 ## 5. 6G:非地面網路(NTN)整合願景
 
@@ -90,7 +90,7 @@ D_lead = L_head + v·(2τ + t_p) + v²/(2a) + b
 | **LEO 衛星 D2D** | 30–60 ms | 12–24 cm | 同上,但要注意抖動與斷續 |
 | **GEO 衛星** | ≥ 250 ms | **≥ 1 m** | 加上處理時間,調度器看到的位置已經差一公尺以上 |
 
-**所以連線方式的選擇不只是「連不連得上」,它會改變路網能排多密。** 同一段公式還告訴你另一件事:延遲的**抖動**比延遲本身更麻煩——`τ` 若在 30 到 300 ms 之間跳,`D_lead` 就得按最壞情況取,整條路的通行量被最差的那一刻決定。
+**所以選連線方式要看「連不連得上」,也要看它會讓路網排多密。** 同一段公式還告訴你另一件事:延遲的**抖動**比延遲本身更麻煩。`τ` 若在 30 到 300 ms 之間跳,`D_lead` 就得按最壞情況取,整條路的通行量被最差的那一刻決定。
 
 > 這也是為什麼廠內即時控制幾乎都留在本地:**把調度迴路關在延遲可預測的網路裡**,衛星與公網那條留給遙測、回報、遠端介入這類不進即時控制迴路的用途。
 
@@ -98,10 +98,10 @@ D_lead = L_head + v·(2τ + t_p) + v²/(2a) + b
 
 - **即時遙控 / 視訊 / 閉環控制 → 用地面 5G**(尤其 private 5G):URLLC 低延遲、可切片隔離。衛星 D2D 撐不起即時控制。
 - **偶發回報 / 遠端監測 / 緊急 → 衛星 D2D 可補洞**:偏遠巡檢、農業、海事、無人機 BVLOS、災難救援等「沒有地面網路」的場景。
-- **延遲是物理限制**:LEO(低軌)約數~數十 ms,GEO(同步軌道)來回 ≥250 ms——GEO 的高延遲對閉環即時控制不友善;這是軌道高度決定的,不是工程能調掉的。
+- **延遲是物理限制**:LEO(低軌)約數~數十 ms,GEO(同步軌道)來回 ≥250 ms。GEO 的高延遲對閉環即時控制不友善;這是軌道高度決定的,不是工程能調掉的。
 - **安全別忘**:不管走 5G 還是衛星,對外連線都要套 [資安](../70-security/README.md) 的加密 + 認證(VPN / TLS / per-device 憑證)。
 
-一句話:**衛星 D2D 是「補覆蓋的洞」,不是取代地面網路**;機器人的廣域連線會是「地面 5G 做即時、衛星補偏遠」的混合,而 6G 的願景是把這兩者無縫整合起來。
+**衛星 D2D 是「補覆蓋的洞」,不是取代地面網路**;機器人的廣域連線會是「地面 5G 做即時、衛星補偏遠」的混合,而 6G 的願景是把這兩者無縫整合起來。
 
 ## 8. 相關標準與白皮書
 
@@ -109,17 +109,17 @@ D_lead = L_head + v·(2τ + t_p) + v²/(2a) + b
 
 這議題橫跨幾個標準組織,主角是 **3GPP**(把「衛星直連」寫進行動通訊標準)與 **ITU**(5G/6G 願景框架與衛星頻譜)。可查證的規格頁、白皮書與報告:
 
-**3GPP — NTN(非地面網路)**
-- [TR 38.811](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3234) — NTN 部署情境與通道模型(Rel-15 研究)
-- [TR 38.821](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3525) — NR 支援 NTN 的解決方案(Rel-16 研究)
-- [NTN 總覽](https://www.3gpp.org/technologies/ntn-overview) — Rel-15 研究 → Rel-17 正式納入的演進
-- `TS 33.501` — 5G 安全架構(對外連線的認證/加密)
+**3GPP:NTN(非地面網路)**
+- [TR 38.811](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3234):NTN 部署情境與通道模型(Rel-15 研究)
+- [TR 38.821](https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3525):NR 支援 NTN 的解決方案(Rel-16 研究)
+- [NTN 總覽](https://www.3gpp.org/technologies/ntn-overview):Rel-15 研究 → Rel-17 正式納入的演進
+- `TS 33.501`:5G 安全架構(對外連線的認證/加密)
 
-**ITU-R — 5G/6G 願景與衛星頻譜**
-- [M.2083](https://www.itu.int/rec/R-REC-M.2083-0-201509-I/en) — IMT-2020(5G)願景框架(eMBB/URLLC/mMTC 三情境)
-- [M.2410](https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-M.2410-2017-PDF-E.pdf) — IMT-2020 最低技術需求(report)
-- [M.2160](https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.2160-0-202311-I!!PDF-E.pdf) — IMT-2030(6G)框架
-- [WRC-23](https://www.itu.int/wrc-23/) — 世界無線電通信大會,修訂衛星(GSO/NGSO)頻譜規則
+**ITU-R:5G/6G 願景與衛星頻譜**
+- [M.2083](https://www.itu.int/rec/R-REC-M.2083-0-201509-I/en):IMT-2020(5G)願景框架(eMBB/URLLC/mMTC 三情境)
+- [M.2410](https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-M.2410-2017-PDF-E.pdf):IMT-2020 最低技術需求(report)
+- [M.2160](https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.2160-0-202311-I!!PDF-E.pdf):IMT-2030(6G)框架
+- [WRC-23](https://www.itu.int/wrc-23/):世界無線電通信大會,修訂衛星(GSO/NGSO)頻譜規則
 
 **產業白皮書**
 - 5G-ACIA:[工業 5G 白皮書](https://5g-acia.org/whitepapers/5g-for-connected-industries-and-automation-second-edition/)、[AGV/行動機器人 sidelink](https://5g-acia.org/whitepapers/using-5g-sidelink-in-industrial-factory-applications/)
@@ -127,9 +127,9 @@ D_lead = L_head + v·(2τ + t_p) + v²/(2a) + b
 - Ericsson:[衛星 D2D 通訊](https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/satellite-direct-to-device-communication)、[Rel-19 NTN payload(把 gNB 放上衛星)](https://www.ericsson.com/en/blog/2024/10/ntn-payload-architecture)
 
 **安全 / VPN(對外連線,呼應資安章)**
-- [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446) — TLS 1.3
-- [RFC 4301](https://datatracker.ietf.org/doc/html/rfc4301) — IPsec 安全架構
-- WireGuard — **沒有 IETF 標準軌 RFC**(常被誤標);權威規格見[官方論文](https://www.wireguard.com/papers/wireguard.pdf)
+- [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446):TLS 1.3
+- [RFC 4301](https://datatracker.ietf.org/doc/html/rfc4301):IPsec 安全架構
+- WireGuard:**沒有 IETF 標準軌 RFC**(常被誤標);權威規格見[官方論文](https://www.wireguard.com/papers/wireguard.pdf)
 
 ## 縮寫白話對照
 

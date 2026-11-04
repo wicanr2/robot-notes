@@ -14,7 +14,7 @@
 
 ## 1. 一個場域、多張地圖:先分清楚有幾種「地圖」
 
-RMF 用 traffic-editor 畫的 **`.building.yaml`**:`levels`(樓層)→ 每個 level 有 `vertices`(waypoint,可帶 `is_charger`/`is_holding_point`/`is_parking_spot`)與 `lanes`(連 waypoint 成 nav graph)。用 `graph_idx` 區分多個 nav graph(traffic-editor 慣例提供數個,不是車隊數硬上限),每條 lane 標屬於哪隊。**重點:不同車隊各有自己的 nav graph,但全部疊在同一個 building/level 座標系**——這就是異質車隊能被統一調度的基礎。
+RMF 用 traffic-editor 畫的 **`.building.yaml`**:`levels`(樓層)→ 每個 level 有 `vertices`(waypoint,可帶 `is_charger`/`is_holding_point`/`is_parking_spot`)與 `lanes`(連 waypoint 成 nav graph)。用 `graph_idx` 區分多個 nav graph(traffic-editor 慣例提供數個,不是車隊數硬上限),每條 lane 標屬於哪隊。**重點:不同車隊各有自己的 nav graph,但全部疊在同一個 building/level 座標系**。這就是異質車隊能被統一調度的基礎。
 
 ## 2. 座標對齊:`reference_coordinates` 在解什麼
 
@@ -34,17 +34,17 @@ reference_coordinates:
 
 ## 3. VDA5050 車輛怎麼拿到圖資(最容易誤解的一段)
 
-**關鍵認知:VDA5050 核心協定不傳「路網地圖」。** order 裡主控只給每個 node 的 `nodeId` + `nodePosition`(x,y,θ,mapId)——它**假設車輛已經有 `mapId` 對應的環境**,只是引用節點。那「整個廠房路網長怎樣、怎麼從車廠交給主控」由誰負責?答案是 **LIF**:
+**協定範圍:VDA5050 核心協定不傳「路網地圖」。** order 裡主控只給每個 node 的 `nodeId` + `nodePosition`(x,y,θ,mapId),它**假設車輛已經有 `mapId` 對應的環境**,只是引用節點。那「整個廠房路網長怎樣、怎麼從車廠交給主控」由誰負責?答案是 **LIF**:
 
 <p align="center"><img src="../../img/vda5050-lif-maps.svg" width="700" alt="VDA5050 圖資:車廠出 LIF(JSON nodes/edges/stations)→主控匯入建路網→order 引用同套 nodeId;車載 SLAM 地圖另管定位"></p>
 
 - **LIF(Layout Interchange Format,佈局交換格式)**:**VDMA** 發布的配套指南(不是 VDA5050 協定的一部分),讓 AGV 車廠把車隊可行駛路網(nodes/edges/stations)以 **JSON 離線交付**給上位主控匯入。頂層 `metaInformation` + `layouts[]`,每個 layout 含 `nodes`/`edges`/`stations`。
-  - 注意結構差異:**LIF 把節點屬性按車種拆開**——位置與依車種屬性(如朝向、可掛 action)分開放;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。(精確欄位放在哪一層依 LIF 版本而異,以 VDMA 指南對照版本為準,見 §5。)
-  - 注意 LIF **沒有**官方 GitHub repo(`github.com/VDA5050/VDA5050_LIF` 不存在)——它是 VDMA 的指南 PDF,GitHub 上只有社群維護的 schema(`continua-systems/vdma-lif`)與編輯器。
+  - 注意結構差異:**LIF 把節點屬性按車種拆開**:位置與依車種屬性(如朝向、可掛 action)分開放;VDA5050 order 的 `nodePosition` 才同時含 `x/y/θ/mapId`。(精確欄位放在哪一層依 LIF 版本而異,以 VDMA 指南對照版本為準,見 §5。)
+  - 注意 LIF **沒有**官方 GitHub repo(`github.com/VDA5050/VDA5050_LIF` 不存在)。它是 VDMA 的指南 PDF,GitHub 上只有社群維護的 schema(`continua-systems/vdma-lif`)與編輯器。
 - **nodeId 是橋樑**:LIF 裡定義的 `nodeId`/`mapId` 就是日後 order 引用的同一套。流程:**車廠出 LIF → 主控匯入建路網 → 規劃 → 用同樣 nodeId 組 order 派車**。
-- **VDA5050 3.0 的 `downloadMap`**:這是另一回事——3.0 新增 `downloadMap`/`deleteMap` 動作讓車從 map server 下載「**車載地圖檔**」(SLAM 環境圖),`state` 加 `maps` 欄位回報。**待查證**:3.0 是否另開獨立 map topic,需核對規範原文。
+- **VDA5050 3.0 的 `downloadMap`**:這是另一回事。3.0 新增 `downloadMap`/`deleteMap` 動作讓車從 map server 下載「**車載地圖檔**」(SLAM 環境圖),`state` 加 `maps` 欄位回報。**待查證**:3.0 是否另開獨立 map topic,需核對規範原文。
 
-**三種「地圖」分清**(現場導入最常混淆):① 車載 SLAM 地圖(車自己定位/避障)② LIF 路網(主控規劃派工)③ RMF building map(下一節)。橋樑是 `nodeId+mapId`,且 **LIF 的 (x,y) 必須與車載地圖座標對齊**,否則「去 node N」會落到錯的物理位置——這是現場最常見的對位工作。
+**三種「地圖」分清**(現場導入最常混淆):① 車載 SLAM 地圖(車自己定位/避障)② LIF 路網(主控規劃派工)③ RMF building map(下一節)。橋樑是 `nodeId+mapId`,且 **LIF 的 (x,y) 必須與車載地圖座標對齊**,否則「去 node N」會落到錯的物理位置。這是現場最常見的對位工作。
 
 ## 4. 避塞車:共用時空排程 + 協商 + 路權原語
 
@@ -52,8 +52,8 @@ reference_coordinates:
 
 `rmf_traffic` 採「先預防、衝突再協商」(第一性原理見 [open-rmf §3](open-rmf.md#3-交通協商從事後撞到變事前預測) 的「事前預測 vs 事後撞」):
 
-1. **共用時空排程**:各車向中央排程庫申報 **itinerary(時空軌跡)**,系統因此有全域意圖可見性。
-2. **衝突偵測**:比對**時空軌跡**(不只空間交叉,還看同時刻),用 **time-dependent A***(加時間維度的 A*)規劃避開他車。
+1. **共用時空排程**:各車向中央排程庫申報 **itinerary(時空軌跡)**,系統因此能看到所有車的行駛意圖。
+2. **衝突偵測**:比對**時空軌跡**(除了空間交叉,還看同時刻),用 **time-dependent A***(加時間維度的 A*)規劃避開他車。
 3. **協商(negotiation)**:衝突 → 各車隊提偏好 + 可容讓的替代 itinerary → **第三方 judge**(系統整合商部署)選整體較佳的一組。(協商層大致平等對待各車,任務優先序主要在派工端;見 [open-rmf §3](open-rmf.md#3-交通協商從事後撞到變事前預測)。)
 4. **路權交接(blockade)**:路線空間交疊時,用 checkpoint 確保「同一段不同時前進」。(與下節 VDA5050 `released`/horizon 的逐段釋放是不同層機制,別混。)
 

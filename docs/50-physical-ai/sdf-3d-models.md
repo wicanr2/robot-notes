@@ -36,7 +36,7 @@
 
 **SDF(Simulation Description Format)就是一個 XML 文字檔,把上面三層用標籤寫下來。** 它是 Gazebo 的原生格式。
 
-(你可能也聽過 **URDF**——那是 ROS 描述機器人的格式,概念幾乎一樣;Gazebo 載入 URDF 時內部會轉成 SDF。先記「SDF = Gazebo 的身家資料表」就好。)
+(你可能也聽過 **URDF**,那是 ROS 描述機器人的格式,概念幾乎一樣;Gazebo 載入 URDF 時內部會轉成 SDF。先記「SDF = Gazebo 的身家資料表」就好。)
 
 ## 4. 一個模型資料夾長怎樣
 
@@ -94,8 +94,8 @@ my_table/
 所以「從網路抓一個模型放進 Gazebo」的流程是:**下載 mesh → 放進 `meshes/` → 寫 model.sdf 包成 visual + 一個簡化 collision + 估一個 inertial → 寫 model.config**。
 
 常用來源:
-- **Gazebo Fuel**([app.gazebosim.org](https://app.gazebosim.org/))——別人**已經包好整包 SDF**,Gazebo 裡直接搜尋 insert,最省事。
-- **Poly Haven**([polyhaven.com](https://polyhaven.com))——CC0 免費素材(見下節),要自己打包。
+- **Gazebo Fuel**([app.gazebosim.org](https://app.gazebosim.org/)):別人**已經包好整包 SDF**,Gazebo 裡直接搜尋 insert,最省事。
+- **Poly Haven**([polyhaven.com](https://polyhaven.com)):CC0 免費素材(見下節),要自己打包。
 
 ## 8. Poly Haven 上三種東西別搞混:HDRIs / Textures / Models
 
@@ -105,13 +105,13 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 |---|---|---|---|
 | **HDRIs** | 一張 360° 全景環境圖(高動態範圍) | 場景的**打光 + 背景天空**;套上去物體才有真實光照與反射 | world 等級,不是單一物體 |
 | **Textures** | 可平鋪的表面材質(木紋、磚牆、金屬、地板),一組常含顏色 / 法線 / 粗糙度多張圖 | 貼到 mesh 表面的**「皮膚花紋」** | §2 的 visual 材質 / 貼圖 |
-| **Models** | 真正的 3D 物體(椅子、植物、工具),含 mesh + 已套好的材質 | **直接能放進場景的東西** | §1 的 mesh + §2 三層 |
+| **Models** | 3D 物體(椅子、植物、工具),含 mesh + 已套好的材質 | **直接能放進場景的東西** | §1 的 mesh + §2 三層 |
 
 一句話分辨:**Models 是「物體」、Textures 是「貼在物體表面的花紋」、HDRIs 是「整個場景的光跟天空」**。要擺一台車就找 Models;要讓地板像水泥就找 Textures;要場景光照真實就掛一張 HDRI。
 
 ## 9. 實戰:一台最簡單的搬運車 AMR(差速 + LiDAR)
 
-> ⚠ **下面的範例用的是 Gazebo Classic 的 plugin 語法**(`libgazebo_ros_*.so`)。[上一篇](simulation-gazebo-ros2.md)講過 Classic 已 EOL、新專案應該用 `gz sim`——**這裡保留 Classic 寫法是因為網路上找得到的現成範例多半長這樣**,看得懂它才能判斷一份教學是不是過時的。新版對應的寫法見該篇 §2。
+> ⚠ **下面的範例用的是 Gazebo Classic 的 plugin 語法**(`libgazebo_ros_*.so`)。[上一篇](simulation-gazebo-ros2.md)講過 Classic 已 EOL、新專案應該用 `gz sim`。**這裡保留 Classic 寫法是因為網路上找得到的現成範例多半長這樣**,看得懂它才能判斷一份教學是不是過時的。新版對應的寫法見該篇 §2。
 
 
 我們不用現成的 TurtleBot3,自己搭一台**差速搬運車**(呼應送餐 / 倉儲 AMR 的底盤)。一台能在 Gazebo 裡跑 SLAM 的搬運車,SDF 至少要這些零件:
@@ -155,7 +155,7 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 </plugin>
 ```
 
-有了 `/scan`(LiDAR)和 `/odom`(差速里程)這兩個輸出,就能餵給 [slam_toolbox](../10-core/30-navigation/slam-mapping.md) 建圖。完整 `.sdf`(每個 link 的 inertia、joint、輪子摩擦)會在實際跑 Gazebo 那輪一起補齊並驗證——這台搬運車就是接下來 AWS Small Warehouse SLAM 場景要用的機器人。
+有了 `/scan`(LiDAR)和 `/odom`(差速里程)這兩個輸出,就能餵給 [slam_toolbox](../10-core/30-navigation/slam-mapping.md) 建圖。完整 `.sdf`(每個 link 的 inertia、joint、輪子摩擦)會在實際跑 Gazebo 那輪一起補齊並驗證。這台搬運車就是接下來 AWS Small Warehouse SLAM 場景要用的機器人。
 
 > 版本提醒:上面是 **Gazebo Classic(`libgazebo_ros_*`)** 的 plugin 名;新版 **Gazebo(gz sim)** 改用 `gz-sim-diff-drive-system` 等,標籤略不同。實際用哪個,看你機器的 Gazebo 版本(見 simulation 篇)。
 
@@ -163,12 +163,12 @@ Poly Haven 首頁分三類,新手最容易混。對照前面的概念就清楚�
 
 ## 名詞說明
 
-- **mesh(網格)** — 由頂點與三角形面拼成的物體表面;電腦只存表面,內部空心。
-- **visual / collision / inertial** — 一個模型的三層:外觀 / 碰撞形狀 / 質量慣性。
-- **SDF(Simulation Description Format)** — Gazebo 描述模型與世界的 XML 格式;URDF 是 ROS 端對應格式,載入時轉 SDF。
-- **HDRI** — 360° 環境光照圖,給場景打光與背景,非單一物體。
-- **Texture(材質貼圖)** — 貼在 mesh 表面的表面花紋(色彩 / 法線 / 粗糙度等)。
-- **diff_drive plugin** — 差速底盤外掛,收 `/cmd_vel`、發 `/odom` 與 TF。
+- **mesh(網格)**:由頂點與三角形面拼成的物體表面;電腦只存表面,內部空心。
+- **visual / collision / inertial**:一個模型的三層:外觀 / 碰撞形狀 / 質量慣性。
+- **SDF(Simulation Description Format)**:Gazebo 描述模型與世界的 XML 格式;URDF 是 ROS 端對應格式,載入時轉 SDF。
+- **HDRI**:360° 環境光照圖,給場景打光與背景,非單一物體。
+- **Texture(材質貼圖)**:貼在 mesh 表面的表面花紋(色彩 / 法線 / 粗糙度等)。
+- **diff_drive plugin**:差速底盤外掛,收 `/cmd_vel`、發 `/odom` 與 TF。
 
 ## 來源
 

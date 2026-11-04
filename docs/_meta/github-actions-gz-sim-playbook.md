@@ -1,6 +1,6 @@
 # 用 GitHub Actions 驗證與「看」gz sim 模型(可重用 playbook)
 
-把 Gazebo(新版 `gz sim`)的模型 / 世界 / 機器人,放到 **GitHub Actions** 上自動驗證——尤其當你**沒有 GPU、本機 CPU 也吃緊**時,讓 GitHub 的機器代勞。這份是從實際把 AWS Small Warehouse 遷到 Harmonic、搭一台舵輪叉車、再讓它「在倉庫裡走給人看」的過程,萃取出的可重用做法與一路踩過的雷。
+把 Gazebo(新版 `gz sim`)的模型 / 世界 / 機器人,放到 **GitHub Actions** 上自動驗證。尤其當你**沒有 GPU、本機 CPU 也吃緊**時,讓 GitHub 的機器代勞。這份是從實際把 AWS Small Warehouse 遷到 Harmonic、搭一台舵輪叉車、再讓它「在倉庫裡走給人看」的過程,萃取出的可重用做法與一路踩過的雷。
 
 > 活範例(完整 `validate.yml` + 腳本):[aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。相關:[用 Gazebo + ROS2 模擬 AMR](../50-physical-ai/simulation-gazebo-ros2.md)。
 
@@ -8,7 +8,7 @@
 
 ## 第一原則:把「需不需要 render」當分水嶺
 
-免費 GitHub runner **沒有 GPU**。這條線決定一切——不需 render 的事 100% 可靠,需 render 的事又慢又不穩:
+免費 GitHub runner **沒有 GPU**。需不需要 render 決定了任務的可靠性:不需 render 的事 100% 可靠,需 render 的事又慢又不穩:
 
 | 任務 | 需 render? | 免費 runner |
 |---|---|---|
@@ -17,13 +17,13 @@
 | 機器人**會不會動 / 走什麼軌跡**(下指令、記位姿) | 否(純物理) | ✅ 可靠 |
 | 相機**出圖 / 錄影**(視覺成品) | 是 | ❌ 不可靠(軟體渲染慢且間歇) |
 
-**設計原則:不需 render 的盡量自動化上 CI;需 render 的視覺產出,別硬塞免費 runner**(改 GPU runner / 帶 GL 的 Docker / 本機一次性截圖)。但「視覺化」不一定要 render——見 §4 的軌跡圖。
+**設計原則:不需 render 的盡量自動化上 CI;需 render 的視覺產出,別硬塞免費 runner**(改 GPU runner / 帶 GL 的 Docker / 本機一次性截圖)。但「視覺化」不一定要 render,見 §4 的軌跡圖。
 
 把下面各節排成階梯,可以一眼看出這條線切在哪、每一關各買到什麼:
 
 <p align="center"><img src="../../img/meta-ci-verification-ladder.svg" width="820" alt="五關驗證階梯:靜態驗證、headless 載入 world、機器人會不會動、軌跡俯視圖四關不需 render 且可靠;紅色 render 分水嶺之下的相機出圖錄影在免費 runner 上不可靠"></p>
 
-第 4 關是這張圖的關鍵:它把「讓人看到機器人在走」這個看似非得 render 不可的需求,用軌跡圖換到了分水嶺**上面**。多數以為必須跨線的需求,其實都值得先問一次「有沒有不需要像素的表達方式」。
+這張圖最要看第 4 關:它把「讓人看到機器人在走」這個看似非得 render 不可的需求,用軌跡圖換到了分水嶺**上面**。多數以為必須跨線的需求,其實都值得先問一次「有沒有不需要像素的表達方式」。
 
 ---
 
@@ -56,7 +56,7 @@
 
 <p align="center"><img src="../../img/forklift-warehouse-path.png" width="520" alt="CI 實跑的叉車位姿序列畫成俯視軌跡圖,倉庫佈局是事後從 world SDF 抽出座標疊上去的,純 CPU 無 render"></p>
 
-> ⚠ **上圖的軌跡是真的、佈局是疊的。** 物理其實跑在一塊空平地上,倉庫的貨架位置是事後從 world SDF 的 `<model><pose>` 抽出來畫上去的——理由見下面那段「物理等價技巧」。
+> ⚠ **上圖的軌跡是真的、佈局是疊的。** 物理其實跑在一塊空平地上,倉庫的貨架位置是事後從 world SDF 的 `<model><pose>` 抽出來畫上去的。理由見下面那段「物理等價技巧」。
 
 > **物理等價技巧**:重場景(如貼了一堆 mesh 的倉庫)在免費 runner 上 sim 跑得很慢(見 §5),機器人在 wall-time 內幾乎走不動。但因為 **dartsim 忽略 mesh 碰撞**(§5),機器人「在倉庫開」與「在一塊平面地板上開」**物理完全等價**。所以可以**在輕量世界(只有地板+機器人)把路徑開出來**(sim 快、跑得遠),再把路徑**疊到重場景的佈局圖**上。
 
@@ -65,7 +65,7 @@
 ## 5. 物理層的雷(dartsim,Harmonic 預設)
 
 - **dartsim 不支援 mesh 碰撞**:SDF 的 `<collision>` 若是 `<mesh>`,dartsim 直接忽略(log:`Mesh construction from an SDF has not been implemented yet for dartsim`)。AWS 倉庫的地板、貨架 collision 全是 mesh → 等於**沒有碰撞體**:機器人會穿過貨架、甚至沒有地板可踩(原地騰空空轉)。**要真碰撞要嘛換 bullet 物理引擎、要嘛自己補 primitive(plane/box)collision。** 本 playbook 的軌跡圖是補一塊 `<plane>` 地板讓機器人有得開。
-- **重場景 → RTF 極低**:幾十個大 mesh 模型,光是載入 + SceneBroadcaster 廣播狀態就把 2 核 runner 拖到 sim 只跑 **~4% 真實時間**(55s wall ≈ 2s sim)。所以重場景裡「跑 wall-time 等它走」不切實際——用 §4 的物理等價技巧繞開。
+- **重場景 → RTF 極低**:幾十個大 mesh 模型,光是載入 + SceneBroadcaster 廣播狀態就把 2 核 runner 拖到 sim 只跑 **~4% 真實時間**(55s wall ≈ 2s sim)。所以重場景裡「跑 wall-time 等它走」不切實際,用 §4 的物理等價技巧繞開。
 
 ## 6. headless 渲染(真的要 3D 畫面時)的 recipe 與雷
 
@@ -80,11 +80,11 @@ gz sim -s -r --headless-rendering <world>   # EGL surfaceless,免 X / xvfb(僅 o
 - 裝 Mesa:`libgl1-mesa-dri libegl1 libegl-mesa0 mesa-utils`。
 - 相機 `<sensor type="camera">` 加 `<save enabled="true"><path>…</path></save>`,world 掛 `gz-sim-sensors-system`(沒掛就不 render)。
 - 給暖機時間:render 在獨立 thread,首張影格要等 ogre2/llvmpipe 暖機;用 real-time 跑、輪詢磁碟出圖,**別用 `--iterations`**(它跑完會在 render thread 出圖前就關 server)。
-- **誠實的雷**:即使 recipe 對,**免費 runner 純軟體渲染又慢又間歇**——首張影格十幾秒、常整輪生不出圖。可成功一兩次,但不可靠。**影片更不切實際**(每張 ~15s)。要穩定 → GPU runner / 帶 GL 的 Docker / 本機一次性截圖。
+- **誠實的雷**:即使 recipe 對,**免費 runner 純軟體渲染又慢又間歇**:首張影格十幾秒、常整輪生不出圖。可成功一兩次,但不可靠。**影片更不切實際**(每張 ~15s)。要穩定 → GPU runner / 帶 GL 的 Docker / 本機一次性截圖。
 
 <p align="center"><img src="../../img/forklift-ci-render.png" width="420" alt="免費 runner 上純軟體渲染勉強生出的一張畫面,解析度與品質都很勉強,而且不是每輪都生得出來"></p>
 
-> 這張是**真的在免費 runner 上生出來的**——但同一份設定跑十輪大概只成功一兩輪。放在這裡是為了說明「做得到」與「可以依賴」是兩件事。
+> 這張是**真的在免費 runner 上生出來的**,但同一份設定跑十輪大概只成功一兩輪。放在這裡是為了說明「做得到」與「可以依賴」是兩件事。
 
 ## 7. 工程習慣與雷總表
 

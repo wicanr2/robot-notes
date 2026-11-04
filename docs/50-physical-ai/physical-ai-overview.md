@@ -20,7 +20,7 @@
 - **World Foundation Model (WFM,世界基礎模型)**:用來大量生成、擴增、整理、標註 Physical AI 的訓練資料。
 - **3D / 物理模擬作為訓練場**:physics-based simulation 提供「安全、可控」的環境訓練機器,避免真實世界中昂貴或危險的資料收集。
 - **Digital Twin(數位分身)**:真實空間(如餐廳、工廠)的虛擬複本,用來產生訓練資料。
-- **Embodiment(具身)分級**:不同機器人需求不同 —— AMR 用車載感測器回授導航、機械手臂依物件 pose 調抓取、人形機器人要粗/細動作 + 感知 + 推理。
+- **Embodiment(具身)分級**:不同機器人需求不同:AMR 用車載感測器回授導航、機械手臂依物件 pose 調抓取、人形機器人要粗/細動作 + 感知 + 推理。
 - **Synthetic data + Domain randomization**:在模擬中生成合成資料、隨機化環境與物件(光線、材質、擺位),增加多樣性,提升真實世界的泛化能力。
 - **OpenUSD + SimReady 資產**:OpenUSD 是跨產業互通的 3D 場景通用資料標準;SimReady 資產內嵌物理與語意屬性,讓模擬逼真到可直接拿來訓練。
 
@@ -30,7 +30,7 @@
 
 | 產品 / 平台 | 角色與用途 |
 |---|---|
-| **DGX Platform** | 訓練算力 —— 提供訓練 foundation model 所需的大量運算 |
+| **DGX Platform** | 訓練算力:提供訓練 foundation model 所需的大量運算 |
 | **Omniverse** | 開發工業數位分身與模擬應用的函式庫/微服務集合;Isaac Sim 建構於其上 |
 | **Omniverse NuRec** | 神經重建(neural reconstruction),從真實感測器資料重建 3D 場景 |
 | **Omniverse Replicator** | 對環境與物件做 domain randomization,產生多樣化合成資料 |

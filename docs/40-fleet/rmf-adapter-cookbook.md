@@ -1,6 +1,6 @@
 # 實作小抄:VDA5050 adapter + REST 派任務(pseudo-code)
 
-[OpenRMF 篇](open-rmf.md) 講了「為什麼」與介面長相,這份補兩段最常被問的最小寫法——都是 **pseudo-code**,目的是把骨架與資料流講清楚,**真實 API 簽名、欄位、端點路徑以官方當前版本為準**(見文末來源)。
+[OpenRMF 篇](open-rmf.md) 講了「為什麼」與介面長相,這份補兩段最常被問的最小寫法。兩段都是 **pseudo-code**,目的是把骨架與資料流講清楚,**真實 API 簽名、欄位、端點路徑以官方當前版本為準**(見文末來源)。
 
 > 前置:[OpenRMF](open-rmf.md)(fleet adapter 介面)、[VDA5050](vda5050.md)(order/state 結構)、[Fleet 深入](rmf-maps-and-traffic.md)(三層 API、task request JSON)。
 
@@ -16,7 +16,7 @@
 | 狀態分幾個欄位回報 | 單一 `EasyRobotUpdateHandle.update(RobotState{map, position, battery_soc})` |
 | `battery_soc` 直接放電量 | 它是 **0–1 的比例**;VDA5050 的 `batteryCharge` 是 0–100,要除以 100 |
 
-還有一處**不是簡化而是重點**:`nodeId` **不能現生**。它必須用車廠透過 LIF 交付、車自己已經認得的那一套(見[多車隊怎麼共用一個場域 §3](rmf-maps-and-traffic.md#3-vda5050-車輛怎麼拿到圖資最容易誤解的一段))。下面骨架裡寫成 `node_id_of(wp)`,就是在提醒這裡要查表而不是編號。
+還有一處**得特別留意,這裡沒有簡化**:`nodeId` **不能現生**。它必須用車廠透過 LIF 交付、車自己已經認得的那一套(見[多車隊怎麼共用一個場域 §3](rmf-maps-and-traffic.md#3-vda5050-車輛怎麼拿到圖資最容易誤解的一段))。下面骨架裡寫成 `node_id_of(wp)`,就是在提醒這裡要查表,不要編號。
 
 ---
 

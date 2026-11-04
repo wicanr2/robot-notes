@@ -1,6 +1,6 @@
 # MQTT over TLS:用 EMQX 達成 TLS 1.2+ 安全
 
-[VDA5050](vda5050.md) 車隊、IoT 設備大多走 MQTT,但明文 MQTT(port 1883)**誰都能連、誰都能訂閱 / 發布任何 topic**。要安全,不是只「加個密」就好——安全是**三層**:傳輸加密、身份認證、權限授權。[EMQX](https://docs.emqx.com/) 這個常見的 MQTT broker 三層都內建,這篇講怎麼把它們設對。
+[VDA5050](vda5050.md) 車隊、IoT 設備大多走 MQTT,但明文 MQTT(port 1883)**誰都能連、誰都能訂閱 / 發布任何 topic**。要安全,只「加個密」還不夠,得把**三層**都設好:傳輸加密、身份認證、權限授權。[EMQX](https://docs.emqx.com/) 這個常見的 MQTT broker 三層都內建,這篇講怎麼把它們設對。
 
 > 相關:[VDA5050](vda5050.md)(車隊走 MQTT)、[實作小抄](rmf-adapter-cookbook.md)(adapter↔broker)、[STM32 REST+TLS](../10-core/20-firmware/stm32-rest-tls.md)(MCU 端連 mqtts 的資源考量)。
 
@@ -22,18 +22,18 @@ EMQX 預設就開一個 SSL/TLS listener 在 **port 8883**(`mqtts`),預設是**�
 
 ## 3. ② 認證:從單向走到雙向 mTLS
 
-預設單向只證明「broker 是真的」,但**沒驗 client 是誰**。要證明「連進來的是授權設備」,有幾種做法,最強的是**雙向 TLS(mTLS)**——broker 用 CA 驗每台 client 的 X.509 憑證:
+預設單向只證明「broker 是真的」,但**沒驗 client 是誰**。要證明「連進來的是授權設備」,有幾種做法,最強的是**雙向 TLS(mTLS)**。broker 用 CA 驗每台 client 的 X.509 憑證:
 
 - `verify = verify_peer`:要求並驗證 client 憑證
 - `fail_if_no_peer_cert = true`:沒帶有效 client 憑證就**拒連**
 
-([雙向 TLS 設定](https://www.emqx.com/en/blog/enable-two-way-ssl-for-emqx)、[認證總覽](https://docs.emqx.com/en/emqx/latest/access-control/authn/authn.html))。其他認證方式:username/password(雜湊存)、JWT、PSK——可單用或疊在 TLS 上。對車隊,**每台一張 client 憑證**最乾淨(憑證的 CN/DN 還能當身份給授權層用)。
+([雙向 TLS 設定](https://www.emqx.com/en/blog/enable-two-way-ssl-for-emqx)、[認證總覽](https://docs.emqx.com/en/emqx/latest/access-control/authn/authn.html))。其他認證方式有 username/password(雜湊存)、JWT、PSK,可單用或疊在 TLS 上。對車隊,**每台一張 client 憑證**最乾淨(憑證的 CN/DN 還能當身份給授權層用)。
 
 ## 4. ③ 授權:ACL 限制每台只能碰自己的 topic
 
 連上之後,用 **ACL(存取控制清單)** 限制「這個身份能 connect / subscribe / publish 哪些 topic」。依 `client_id` / `username` / 憑證身份設規則,**讓每台設備只能碰自己的 topic**,而不是全車隊。
 
-把這三層串成「一次連線」,先後順序是這樣——握手加密、連線認證、每筆訊息授權:
+把這三層串成「一次連線」,先後順序是握手加密、連線認證、每筆訊息授權:
 
 <p align="center"><img src="../../img/mqtt-mtls-flow.svg" width="720" alt="MQTT mTLS 連線流程:① TLS handshake 雙向憑證(加密+認證)→ ② MQTT CONNECT broker 認證 → CONNACK → ③ SUBSCRIBE/PUBLISH 時 broker 查 ACL 授權;每次 pub/sub 都再過 ACL"></p>
 
@@ -73,7 +73,7 @@ deny   all
 
 ## 結論
 
-「MQTT 達成 TLS 1.2+ 安全」不是「打開 8883」這麼一句。完整的是:**鎖 TLS 1.2+ 與強 cipher(加密)→ 雙向 mTLS 或強認證(認證)→ per-device ACL(授權)**,三層一起。EMQX 三層都內建,工作量在「設對 + 管好每台設備的憑證與權限」。
+「MQTT 達成 TLS 1.2+ 安全」這件事,光是「打開 8883」還不夠。完整的是:**鎖 TLS 1.2+ 與強 cipher(加密)→ 雙向 mTLS 或強認證(認證)→ per-device ACL(授權)**,三層一起。EMQX 三層都內建,工作量在「設對 + 管好每台設備的憑證與權限」。
 
 ## 來源
 

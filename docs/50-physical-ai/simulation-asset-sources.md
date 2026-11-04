@@ -21,9 +21,9 @@
 | **② 場景 / 世界** | 整個場域:地面、牆、光源、物理參數 | `.sdf` world / `.usd` stage | 倉庫、醫院、辦公室 |
 | **③ 物件資產** | 場景裡的東西 | mesh + 材質,或包好的 SDF/USD | 棧板、貨架、輸送帶、桌椅 |
 | **④ 材質與環境光** | 貼圖、HDRI 天空光 | `.hdr` / `.png` / MDL | Poly Haven 的 HDRIs 與 Textures |
-| **⑤ 訓練環境** | **任務 + 獎勵 + 重置邏輯**,不只是幾何 | Gymnasium API 的 Python 套件 | Isaac Lab 的 env、Habitat task |
+| **⑤ 訓練環境** | **任務 + 獎勵 + 重置邏輯**,幾何只是其中一部分 | Gymnasium API 的 Python 套件 | Isaac Lab 的 env、Habitat task |
 
-第 ⑤ 類最容易被誤解。Gym / Gymnasium 給的**不是模型**,是一層「怎麼開始、怎麼算分、怎麼重來」的介面契約——幾何仍然來自底下的模擬器與資產。要世界就往 ①–④ 找,要訓練迴圈才看 ⑤。
+第 ⑤ 類最容易被誤解。Gym / Gymnasium **不提供模型**,給的是一層「怎麼開始、怎麼算分、怎麼重來」的介面契約。幾何仍然來自底下的模擬器與資產。要世界就往 ①–④ 找,要訓練迴圈才看 ⑤。
 
 ---
 
@@ -60,7 +60,7 @@
 | 搜 `conveyor` | 5 |
 | 搜 `forklift` | **1** |
 
-`forklift` 只有一個結果,這是選型時值得先知道的事——**倉儲場景的「場」有得挑,「車」幾乎要自己做**。這也是為什麼叉車那篇是從 URDF 自己刻起。
+`forklift` 只有一個結果,選型時最好先知道:**倉儲場景的「場」有得挑,「車」幾乎要自己做**。這也是為什麼叉車那篇是從 URDF 自己刻起。
 
 授權以 Creative Commons 為主,但**逐個模型不同**,API 回傳裡有 `license_name` 欄位,要商用前逐個確認。
 
@@ -80,11 +80,11 @@ AWS RoboMaker **已於 2025-09-10 終止支援**,主控台與服務資源都下�
 | `aws-robomaker-bookstore-world` | 92 | 已封存 |
 | `aws-robomaker-racetrack-world` | 56 | 已封存 |
 
-**全部已封存**(最後一次 push 都在 2026-07-21)。意思是:可以拿、可以改、不會再有上游修正,踩到的坑要自己補。這幾份原本是 Gazebo Classic 的 world,搬到 `gz sim` 需要一整套遷移工作——那個過程與踩到的真 bug 記在 [用 Gazebo + ROS2 模擬 AMR §7](simulation-gazebo-ros2.md#7-把舊世界搬上新-gazebo以-aws-small-warehouse-為例),遷移成品另見 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
+**全部已封存**(最後一次 push 都在 2026-07-21)。意思是:可以拿、可以改、不會再有上游修正,踩到的坑要自己補。這幾份原本是 Gazebo Classic 的 world,搬到 `gz sim` 需要一整套遷移工作。那個過程與踩到的真 bug 記在 [用 Gazebo + ROS2 模擬 AMR §7](simulation-gazebo-ros2.md#7-把舊世界搬上新-gazebo以-aws-small-warehouse-為例),遷移成品另見 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
 
 ### 3.3 Open-RMF demo 場景 — 多機調度情境現成的
 
-[`open-rmf/rmf_demos`](https://github.com/open-rmf/rmf_demos) 附了一組帶交通圖資的場景,對做**多車調度**特別有用——它們不只是幾何,還配好了 RMF 的 nav graph 與樓層/電梯設定。
+[`open-rmf/rmf_demos`](https://github.com/open-rmf/rmf_demos) 附了一組帶交通圖資的場景,對做**多車調度**特別有用。場景裡除了幾何,還配好了 RMF 的 nav graph 與樓層/電梯設定。
 
 **2026-08-05 實查,`rmf_demos_maps/maps` 底下有 7 個**:
 
@@ -103,14 +103,14 @@ AWS RoboMaker **已於 2025-09-10 終止支援**,主控台與服務資源都下�
 
 ### 4.1 內建 Asset Browser
 
-Isaac Sim 裡從 `Window > Browsers > NVIDIA Assets` 開,分類瀏覽並拖進場景。倉儲相關在 `Industrial` 底下(Buildings → Warehouse 等)。這是 Isaac 生態最省事的入口——資產已經是 USD、已經帶物理。
+Isaac Sim 裡從 `Window > Browsers > NVIDIA Assets` 開,分類瀏覽並拖進場景。倉儲相關在 `Industrial` 底下(Buildings → Warehouse 等)。這是 Isaac 生態最省事的入口,因為資產已經是 USD、已經帶物理。
 
 - 倉儲資產教學:<https://docs.isaacsim.omniverse.nvidia.com/latest/digital_twin/warehouse_logistics/tutorial_static_assets.html>(實測 200)
-- Asset Browser 說明:[5.1.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/utilities/asset_browser.html)、[5.0.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/utilities/asset_browser.html)。⚠ **`latest` 與 `6.0.0` 的同名路徑實測 404**——6.0 顯然搬過位置。查文件時**認版本號**,不要用 `latest` 深層連結。
+- Asset Browser 說明:[5.1.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/utilities/asset_browser.html)、[5.0.0 版](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/utilities/asset_browser.html)。⚠ **`latest` 與 `6.0.0` 的同名路徑實測 404**。6.0 顯然搬過位置。查文件時**認版本號**,不要用 `latest` 深層連結。
 
 ### 4.2 SimReady 資產
 
-Omniverse 的 **SimReady** 是一個明確的品質標準:資產**內嵌物理屬性與語意標註**,不是只有好看的 mesh。對做合成資料與 AI 訓練是關鍵差別——語意標籤直接就是 ground truth。工業與倉儲題材的覆蓋相對完整。
+Omniverse 的 **SimReady** 是一個明確的品質標準:資產除了好看的 mesh,也**內嵌物理屬性與語意標註**。這對做合成資料與 AI 訓練差很多,因為語意標籤直接就是 ground truth。工業與倉儲題材的覆蓋相對完整。
 
 ### 4.3 雲端 asset root:不必下載整包
 
@@ -120,7 +120,7 @@ Isaac 的官方資產放在一個可直接存取的雲端 root 底下,**可以�
 https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<版本>/
 ```
 
-**2026-08-05 實測**:抓 `<版本>/Isaac/Samples/ROS2/Robots/Nova_Carter_ROS.usd`,四個版本都回 200——
+**2026-08-05 實測**:抓 `<版本>/Isaac/Samples/ROS2/Robots/Nova_Carter_ROS.usd`,四個版本都回 200:
 
 | 版本 | HTTP | 該檔大小 |
 |---|---|---|
@@ -133,7 +133,7 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 這在兩種情況特別有用:一是沒有大顯卡的機器上想**核對 USD 內部的 prim 路徑**(payload 鏈通常只有幾個檔、幾百 KB);二是 CI 裡要驗證資產引用是否還對得上。
 
-> **踩過的坑**:官方 USD 內的 prim 路徑跟直覺常常不一樣——車體可能是 merged 的(輪子只有 revolute joint、沒有獨立 link)、摩擦掛在獨立的 Material prim 而不是輪子 link 上、感測器多包一層 `sensors/`。**寫物理參數 override 之前先核對路徑**,否則 override 會靜默失效,而模擬照跑、跑出一組看起來合理的數字。
+> **踩過的坑**:官方 USD 內的 prim 路徑跟直覺常常不一樣:車體可能是 merged 的(輪子只有 revolute joint、沒有獨立 link)、摩擦掛在獨立的 Material prim 而不是輪子 link 上、感測器多包一層 `sensors/`。**寫物理參數 override 之前先核對路徑**,否則 override 會靜默失效,而模擬照跑、跑出一組看起來合理的數字。
 
 另一個相關發現:官方 USD 往往**已經帶著依實車量測的物理參數**(質量、慣量、輪胎摩擦)。自己憑「一般室內 AMR 的量級」填的暫定值可能差一倍以上,而官方那組比較可信。動手覆寫前先看看原本有什麼。
 
@@ -155,7 +155,7 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 | **OmniGibson / BEHAVIOR-1K** | 互動式場景(物件可操作) | 移動操作(mobile manipulation) | [behavior.stanford.edu](https://behavior.stanford.edu/) · [OmniGibson](https://github.com/StanfordVL/OmniGibson) |
 | **AI2-THOR / ProcTHOR** | ProcTHOR 走程序生成路線,可大量產生房屋 | 需要場景多樣性時 | [ai2thor.allenai.org](https://ai2thor.allenai.org/) · [procthor.allenai.org](https://procthor.allenai.org/) |
 
-搭配的模擬器多半是各自的(Habitat、AI2-THOR),要搬進 Gazebo 或 Isaac 得自己轉。**先確認你要的是「場景多樣性」還是「物理正確性」**——這批的強項是前者。
+搭配的模擬器多半是各自的(Habitat、AI2-THOR),要搬進 Gazebo 或 Isaac 得自己轉。**先確認你要的是「場景多樣性」還是「物理正確性」**,這批的強項是前者。
 
 ---
 
@@ -176,11 +176,11 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 
 ## 7. 拿到資產不等於能用
 
-這是整篇最該記住的一段。模擬裡一個物件要有**三種身份**:
+模擬裡一個物件要有**三種身份**:
 
-- **visual** — 長什麼樣(可以細)
-- **collision** — 碰撞怎麼算(**要粗**,用簡化幾何,否則物理引擎會慢到不能用)
-- **inertial** — 質量與慣量張量(缺了或亂填,物理行為就是錯的)
+- **visual**:長什麼樣(可以細)
+- **collision**:碰撞怎麼算(**要粗**,用簡化幾何,否則物理引擎會慢到不能用)
+- **inertial**:質量與慣量張量(缺了或亂填,物理行為就是錯的)
 
 美術素材庫給的通常**只有 visual**。所以:
 
@@ -191,7 +191,7 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 | AWS 留下的 world | ✅ | ✅ | ✅ | ✗ |
 | Poly Haven / Sketchfab | ✅ | ✗ | ✗ | ✗ |
 
-**SimReady 這個詞的價值就在這張表**——它宣稱的正是「後面三欄都補好了」。反過來說,從美術素材庫抓一個好看的貨架,離「能在模擬裡被叉車叉起來」還有一段不小的工。
+**SimReady 這個詞的價值可以從這張表看出來**:它宣稱的正是「後面三欄都補好了」。反過來說,從美術素材庫抓一個好看的貨架,離「能在模擬裡被叉車叉起來」還有一段不小的工。
 
 授權也要一併看:CC0 最省事;CC-BY 要標示;NoDerivatives / NonCommercial 這類條款會直接擋掉商用或改作。**Fuel 的 API 回傳裡有 `license_name`,批次抓資產時可以一起記錄下來**,不要等到交付前才逐個回頭查。
 
@@ -208,13 +208,13 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 | 要 RL 訓練迴圈 | Isaac Lab(Gymnasium 相容) |
 | 要場景多樣性(大量不同房間) | ProcTHOR / HM3D |
 | 找不到的特定物件 | Poly Haven / Sketchfab,自己補 collision + inertial |
-| **叉車本體** | 幾乎都要自己做(Fuel 上只有 1 個結果)—— 見[叉車搬運專案](project-forklift-rmf-gazebo.md) |
+| **叉車本體** | 幾乎都要自己做(Fuel 上只有 1 個結果),見[叉車搬運專案](project-forklift-rmf-gazebo.md) |
 
 ---
 
 ## 9. 來源清單與實測狀態(2026-08-05)
 
-> **這一節是查證紀錄,不是要讀的內容。** 裡面是每個網址的實測狀態碼、每個 repo 的星數與最後 push 時間——留著是為了讓「哪些還活著」這件事可以被複驗,以及日後重掃時有基準。**初讀整節跳過。**
+> **這一節是查證紀錄,不用當正文讀。** 裡面是每個網址的實測狀態碼、每個 repo 的星數與最後 push 時間。留著是為了讓「哪些還活著」這件事可以被複驗,以及日後重掃時有基準。**初讀整節跳過。**
 
 
 ### 9.1 網址
@@ -259,9 +259,9 @@ https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/<�
 | `aws-robotics/aws-robomaker-bookstore-world` | 92 | 2026-07-21 | **是** | 無授權標示 |
 | `aws-robotics/aws-robomaker-racetrack-world` | 56 | 2026-07-21 | **是** | 無授權標示 |
 
-三件值得注意的:
+三件要留意的事:
 
-1. **AWS 那五個全部已封存**,而且 **GitHub 上沒有授權標示**——repo 內可能有 LICENSE 檔,但 API 抓不到 SPDX 識別。要商用前自己開 repo 確認。
+1. **AWS 那五個全部已封存**,而且 **GitHub 上沒有授權標示**。repo 內可能有 LICENSE 檔,但 API 抓不到 SPDX 識別。要商用前自己開 repo 確認。
 2. **`allenai/procthor` 最後 push 是 2023-04-07**,三年多沒動。用之前先確認它跟你手上的 AI2-THOR 版本還相容。
 3. **`StanfordVL/OmniGibson` 沒有授權標示**,但仍在活躍開發(2026-08-03 剛 push)。
 
@@ -290,24 +290,24 @@ curl -sI "$R/6.0/Isaac/Samples/ROS2/Robots/Nova_Carter_ROS.usd" | head -1
 ```
 
 > ⚠ **jq 的陷阱**:`--jq '.archived and "已封存" or "活躍"'` 這種寫法**不會如預期運作**。
-> jq 的 `and` / `or` 回傳**布林值**而不是運算元(跟 JavaScript 不同),所以
-> `false and "x"` → `false`,再 `false or "活躍"` → `true`——**不管 archived 是什麼都印 `true`**。
+> jq 的 `and` / `or` 回傳**布林值**,不會回傳運算元(跟 JavaScript 不同),所以
+> `false and "x"` → `false`,再 `false or "活躍"` → `true`,**不管 archived 是什麼都印 `true`**。
 > 要判斷就直接輸出 `.archived`,或用 `if .archived then "已封存" else "活躍" end`。
 > (寫這篇時就踩到了,結論剛好沒錯但驗證方法是壞的。)
 
 ## 10. 誠實的邊界
 
 - 數字會變。Fuel 每天都有人上傳(實查當天就看到前一日的新模型),表中的命中數只代表 2026-08-05 那一刻。
-- **關鍵字搜尋不等於可用資產**。搜 `warehouse` 有 45 個結果,不代表 45 個都是完整的倉儲 world——有些是單一物件、有些品質不足以直接用。要用之前逐個看。
+- **關鍵字搜尋不等於可用資產**。搜 `warehouse` 有 45 個結果,不代表 45 個都是完整的倉儲 world。有些是單一物件、有些品質不足以直接用。要用之前逐個看。
 - §5 那些學術資料集的規模數字引自各自官方說明,本輪沒有逐一下載核對。
 - Isaac Sim 的 Asset Browser 路徑(`Window > Browsers > NVIDIA Assets`)與倉儲資產的分類位置引自官方文件;不同版本的選單位置可能不同,以你手上那版為準。
 - 沒有涵蓋:Unity / Unreal 的機器人模擬生態、MuJoCo 的 MJCF 資產、以及各家商用資產市集。
 
 ## 11. 延伸閱讀
 
-- [SDF 3D 模型檔:從零開始](sdf-3d-models.md) — visual / collision / inertial 三種身份,以及怎麼打包
-- [用 Gazebo + ROS2 模擬 AMR](simulation-gazebo-ros2.md) — 版本對應與 AWS world 的遷移實錄
-- [用 Isaac Sim + Isaac Lab 模擬 AMR](isaac-sim-isaac-lab-amr.md) — URDF→USD、ROS2 橋接
-- [在 Gazebo 倉庫用 slam_toolbox 建圖](gazebo-slam-warehouse.md) — 拿到 world 之後的第一個可跑實驗
-- [專案探討:Gazebo 叉車搬運](project-forklift-rmf-gazebo.md) — 自己做車的完整過程
-- [Physical AI 總覽](physical-ai-overview.md) — OpenUSD 與 SimReady 在整套堆疊裡的位置
+- [SDF 3D 模型檔:從零開始](sdf-3d-models.md):visual / collision / inertial 三種身份,以及怎麼打包
+- [用 Gazebo + ROS2 模擬 AMR](simulation-gazebo-ros2.md):版本對應與 AWS world 的遷移實錄
+- [用 Isaac Sim + Isaac Lab 模擬 AMR](isaac-sim-isaac-lab-amr.md):URDF→USD、ROS2 橋接
+- [在 Gazebo 倉庫用 slam_toolbox 建圖](gazebo-slam-warehouse.md):拿到 world 之後的第一個可跑實驗
+- [專案探討:Gazebo 叉車搬運](project-forklift-rmf-gazebo.md):自己做車的完整過程
+- [Physical AI 總覽](physical-ai-overview.md):OpenUSD 與 SimReady 在整套堆疊裡的位置

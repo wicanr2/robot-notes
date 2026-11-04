@@ -8,7 +8,7 @@
 
 ## 1. 根本問題:各車隊只看得到自己的車
 
-每家 AMR 自帶 fleet manager(車隊管理系統),但它**只看得到、也只管得了自己的車**。多家車隊共用同一個物理空間時,衝突無可避免——RMF 官方直接說「多廠商、多機器人系統仍是未解問題」:
+每家 AMR 自帶 fleet manager(車隊管理系統),但它**只看得到、也只管得了自己的車**。多家車隊共用同一個物理空間時,衝突無可避免。RMF 官方直接說「多廠商、多機器人系統仍是未解問題」:
 
 - **共用瓶頸資源爭搶**:一扇門、一台電梯、一條窄道,同一刻只容一台車,但 A 廠的車不知道 B 廠的車也要進。
 - **互不相讓 / 死鎖**:窄道兩端各來一台不同廠的車,各自等對方先走,卡死。
@@ -17,19 +17,19 @@
 
 ## 2. 第一性原理:在車隊「之上」加一層,而不是取代它們
 
-OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)主導、建在 ROS 2 上。關鍵定位:**它不取代各家 fleet manager,而是疊在所有車隊「之上」做協調**。
+OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)主導、建在 ROS 2 上。它的定位:**它保留各家 fleet manager,疊在所有車隊「之上」做協調**。
 
-為什麼是「疊上面」而不是「換掉」?第一性原理:**各廠的導航與避障是他們的核心 IP、而且運作良好,不需要、也換不掉**。真正缺的東西只有一個——**全局意圖的可見性**(誰打算走哪、何時走)。OpenRMF 補的就是這塊,讓各廠保留自己的車隊系統,只透過一個轉接層接進來:
+為什麼是「疊上面」而不是「換掉」?第一性原理:**各廠的導航與避障是他們的核心 IP、而且運作良好,不需要、也換不掉**。缺的東西只有一個:**全局意圖的可見性**(誰打算走哪、何時走)。OpenRMF 補的就是這塊,讓各廠保留自己的車隊系統,只透過一個轉接層接進來:
 
 <p align="center"><img src="../../img/rmf-layers.svg" width="660" alt="OpenRMF 疊在各家車隊之上,每家透過一個 fleet adapter 接入"></p>
 
 ### 核心元件
 
-- **rmf_traffic**:交通管理函式庫——維護共用的時空排程,偵測不同車隊行程的衝突並協商化解(下一節詳述)。
-- **rmf_fleet_adapter**:車隊轉接層——把各家車隊接進 RMF,翻譯「RMF 標準指令 ↔ 各家私有 API」。它本身**不直接開車**,真正驅動車的還是各廠 fleet manager。
-- **rmf_task**:任務分派——RMF 的「大腦」,用競標機制(各 adapter 對任務出價,選成本最低者)決定「哪台車做哪件任務」,並自動考量電量等限制。
+- **rmf_traffic**:交通管理函式庫,維護共用的時空排程,偵測不同車隊行程的衝突並協商化解(下一節詳述)。
+- **rmf_fleet_adapter**:車隊轉接層,把各家車隊接進 RMF,翻譯「RMF 標準指令 ↔ 各家私有 API」。它本身**不直接開車**,實際驅動車的還是各廠 fleet manager。
+- **rmf_task**:任務分派,是 RMF 的「大腦」。它用競標機制(各 adapter 對任務出價,選成本最低者)決定「哪台車做哪件任務」,並自動考量電量等限制。
 - **traffic schedule**:rmf_traffic 內的中央排程資料庫,存全場域所有車「打算走的軌跡」,找出意圖衝突。(註:是 rmf_traffic 的子系統,不是獨立套件。)
-- **door / lift / workcell adapter**:基礎設施轉接層——讓 RMF 統一呼叫並協調自動門、電梯、工作站。
+- **door / lift / workcell adapter**:基礎設施轉接層,讓 RMF 統一呼叫並協調自動門、電梯、工作站。
 
 ## 3. 交通協商:從「事後撞到」變「事前預測」
 
@@ -42,23 +42,23 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 1. **共用時空排程**:所有接入的車隊,都必須把自家車「打算走的行程」上報到中央排程庫。排程庫因此擁有各自為政時缺的**全局視野**。
 2. **衝突偵測(預防)**:車的軌跡以分段三次樣條表示,兩兩比對在時空上是否交疊;交疊就發 conflict notice。
 3. **協商化解**:被通知的車隊各自提交「能容納對方」的替代行程(降速、暫停、繞行),RMF 的協商機制收斂到一組**彼此相容、整體延遲較小**的方案。(traffic 協商層相對平等對待各車,優先序主要在 rmf_task 派工端;細節以官方實作為準。)
-4. **避障分工不變**:RMF 用「帶時間維度的 A*」處理車隊級的時空避讓;**單車對突發障礙的即時避障,仍由各車自己負責**——對 VDA5050 車隊就是協定規定的車端職責。
+4. **避障分工不變**:RMF 用「帶時間維度的 A*」處理車隊級的時空避讓;**單車對突發障礙的即時避障,仍由各車自己負責**。對 VDA5050 車隊來說,這就是協定規定的車端職責。
 
-對比很清楚:沒有共用排程時,衝突只能在現場「卡住了」才被動處理;有了排程庫,衝突在「還沒走進去之前」就被預測並協商掉。這也接回 VDA5050 的 [released/horizon](vda5050.md#released--horizon逐段放行的安全設計最關鍵):RMF 協商定案後,才讓主控釋放下一段路。
+沒有共用排程時,衝突只能在現場「卡住了」才被動處理;有了排程庫,衝突在「還沒走進去之前」就被預測並協商掉。這也接回 VDA5050 的 [released/horizon](vda5050.md#released--horizon逐段放行的安全設計最關鍵):RMF 協商定案後,才讓主控釋放下一段路。
 
 ## 4. OpenRMF 與 VDA5050 怎麼搭
 
-層次很清楚:**OpenRMF(跨車隊協調)→ fleet adapter →(對 VDA5050 車隊)VDA5050 over MQTT → 各廠 AMR**
+串接層次:**OpenRMF(跨車隊協調)→ fleet adapter →(對 VDA5050 車隊)VDA5050 over MQTT → 各廠 AMR**
 
-換句話說,**adapter 跨在兩條不同的匯流排上**:RMF 這側走 DDS(ROS 2 內部),車隊那側走 MQTT。兩邊都是 pub/sub,但不是同一張網——adapter 是唯一的接點,這也是為什麼「寫 adapter」聽起來像翻譯工作,實際上還要處理兩套傳輸語意的差異。
+換句話說,**adapter 跨在兩條不同的匯流排上**:RMF 這側走 DDS(ROS 2 內部),車隊那側走 MQTT。兩邊都是 pub/sub,但不是同一張網。adapter 是唯一的接點,這也是為什麼「寫 adapter」聽起來像翻譯工作,實際上還要處理兩套傳輸語意的差異。
 
 理想上,對「支援 VDA5050」的車隊用一個 VDA5050 fleet adapter,讓 RMF 扮演 VDA5050 的 master control。
 
 ### 兩者的職責邊界,與 adapter 真正要做的事
 
-- **邊界**:**VDA5050 管「車隊內」(一個 master 對自己的車),RMF 管「車隊間」(多車隊的交通與派工)**,兩者不重疊。VDA5050 本身沒有跨車隊協調的概念——那正是 RMF 補的層。
-- **連續 → 離散的落差(VDA5050 adapter 的核心難點)**:RMF 協商出來的是**連續時空樣條軌跡**,VDA5050 的 order 卻是**離散的 node/edge 圖**。adapter 要把前者切成後者、並逐段對映到 released/horizon——這個「連續轉離散」是寫 VDA5050 fleet adapter 最麻煩的一塊。
-- **factsheet 是跨廠派工的能力來源**:RMF 要「哪台車有空就派誰」,前提是知道每台車的尺寸/載重/支援 action——這正是 VDA5050 `factsheet` 提供的;rmf_task 競標時據此判斷車能不能做、成本多少。
+- **邊界**:**VDA5050 管「車隊內」(一個 master 對自己的車),RMF 管「車隊間」(多車隊的交通與派工)**,兩者不重疊。VDA5050 本身沒有跨車隊協調的概念,那正是 RMF 補的層。
+- **連續 → 離散的落差(VDA5050 adapter 的核心難點)**:RMF 協商出來的是**連續時空樣條軌跡**,VDA5050 的 order 卻是**離散的 node/edge 圖**。adapter 要把前者切成後者、並逐段對映到 released/horizon。這個「連續轉離散」是寫 VDA5050 fleet adapter 最麻煩的一塊。
+- **factsheet 是跨廠派工的能力來源**:RMF 要「哪台車有空就派誰」,前提是知道每台車的尺寸/載重/支援 action。這正是 VDA5050 `factsheet` 提供的;rmf_task 競標時據此判斷車能不能做、成本多少。
 - **座標與時間要先對齊**:多廠車隊共用一張時空排程,前提是各家 map frame 與時間基準對齊;adapter 通常要做 frame transform([座標轉換](../10-core/30-navigation/kinematics-and-coordinate-transforms.md))。
 
 ## 5. 串接流程:從下任務到車執行
@@ -89,7 +89,7 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 | **Easy Full Control** | 同上,但只填 callback、不碰內部邏輯 | **官方建議起點**,多數整合用這個 |
 | **Traffic Light** | 最低:RMF 只能 pause/resume,**車自己規劃路徑** | 車自有完整導航,只想要 RMF 當「路口紅綠燈」防撞 |
 
-> 這就是「RMF 規劃整條路下發」(Full Control)vs「車自己導航」(Traffic Light)的差別——大多數導入用 **Easy Full Control**:RMF 用 nav graph 逐 waypoint 下目的地,車負責實際開過去。
+> 這就是「RMF 規劃整條路下發」(Full Control)vs「車自己導航」(Traffic Light)的差別。大多數導入用 **Easy Full Control**:RMF 用 nav graph 逐 waypoint 下目的地,車負責實際開過去。
 
 <p align="center"><img src="../../img/rmf-fleet-adapter-interface.svg" width="620" alt="Fleet Adapter 居中:向下對車隊下指令(navigate/stop/execute_action)、向上讀狀態(position/map/battery_soc)回報 RMF"></p>
 
@@ -105,7 +105,7 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 
 對應 Easy Full Control 的 C++ API:加車用 `add_robot(name, initial_state, configuration, callbacks)`;`callbacks` 裡是 `NavigationRequest`(去某目的地、完成時呼叫 `execution.finished()`)、`StopRequest`、`ActionExecutor`;狀態用 `EasyRobotUpdateHandle::update(RobotState{map, position, battery_soc}, ...)` 回報。**`add_robot` 回傳的 `RobotUpdateHandle` 一定要存起來**,之後持續用它更新車況。
 
-**`config.yaml` 要填的**(車隊契約):車隊名、`limits`(線/角速度與加速度上限)、`profile`(footprint 半徑、vicinity 防護半徑)、`reversible`(可否倒退)、`battery_system`(電壓/容量/充電電流)、`mechanical_system`(質量/慣量/摩擦)、`recharge_threshold`/`recharge_soc`(何時回充、充多滿)、`task_capabilities`(loop/delivery/clean)、以及 `reference_coordinates`(RMF 座標 ↔ 車座標的對應,建議至少 4 組 waypoint 求轉換——呼應 §4 的「座標要先對齊」)。
+**`config.yaml` 要填的**(車隊契約):車隊名、`limits`(線/角速度與加速度上限)、`profile`(footprint 半徑、vicinity 防護半徑)、`reversible`(可否倒退)、`battery_system`(電壓/容量/充電電流)、`mechanical_system`(質量/慣量/摩擦)、`recharge_threshold`/`recharge_soc`(何時回充、充多滿)、`task_capabilities`(loop/delivery/clean)、以及 `reference_coordinates`(RMF 座標 ↔ 車座標的對應,建議至少 4 組 waypoint 求轉換,呼應 §4 的「座標要先對齊」)。
 
 > **最小寫法的 pseudo-code**(VDA5050 fleet adapter 骨架 + 用 REST API 叫 RMF 派任務)整理在 [實作小抄:adapter + 派任務](rmf-adapter-cookbook.md)。
 > **怎麼把它部署起來**(adapter 一容器、core 一容器、DDS 跨容器)見 [RMF 多容器部署](rmf-multi-container-deploy.md)。
@@ -120,7 +120,7 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - InOrbit 的 `ros_amr_interop`(含 `vda5050_connector`)方向**相反**:它是「讓一台 ROS2 機器人去連某個 VDA5050 主控」(車端接入),**不是**「讓 RMF 當主控去指揮 VDA5050 車隊」。引用時不要反向當成現成直連方案。
 - 目前多數實際導入仍是「**RMF + 各廠私有 fleet adapter**」(已有 MiR、Gaussian Ecobot、Clearpath/OTTO 等現成 adapter;私有協議可用官方 `fleet_adapter_template` 當骨架自寫)。
 
-> 一句話:VDA5050 與 OpenRMF 在架構上是天作之合(一個管車隊內共同語言、一個管跨車隊協調),但「RMF 直連 VDA5050 車隊」的成熟 adapter 還在路上,規劃導入時要把這點算進去。
+> VDA5050 與 OpenRMF 在架構上十分合拍(一個管車隊內共同語言、一個管跨車隊協調),但「RMF 直連 VDA5050 車隊」的成熟 adapter 還在路上,規劃導入時要把這點算進去。
 
 ## 8. 落地場景與開源位置
 
@@ -163,5 +163,5 @@ OpenRMF(Open Robotics Middleware Framework)由 **Open Robotics**(ROS 維護者)�
 - **硬體**:**不需要 GPU**(核心是交通協商與任務規劃,純 CPU)。source build 因 template heavy 建議 **RAM ≥ 8GB(16GB 較穩)**;runtime 本身吃資源不大。
 - **使用語言**:**核心(rmf_traffic、rmf_task)是 C++**;**fleet adapter 可用 C++ 或 Python**(Python 經 pybind11 綁定,套件 `rmf_fleet_adapter_python`,import 名 `rmf_adapter`)。**官方範本 `fleet_adapter_template` 是純 Python**。設定用 **YAML**;場域地圖用 **traffic-editor** 畫、輸出 `.building.yaml`(含 waypoint/lane/交通圖)
 
-> 三個接下來一直會用到的詞先釘住:**waypoint** 是路網上的一個停靠點(帶座標與朝向);**lane** 是連接兩個 waypoint 的有向路段;兩者合起來就是 **nav graph**。**RMF 規劃時只在這張圖上走,不碰自由空間**——怎麼從一個 waypoint 開到下一個,是車自己的事。。
+> 三個接下來一直會用到的詞先釘住:**waypoint** 是路網上的一個停靠點(帶座標與朝向);**lane** 是連接兩個 waypoint 的有向路段;兩者合起來就是 **nav graph**。**RMF 規劃時只在這張圖上走,不碰自由空間**。怎麼從一個 waypoint 開到下一個,是車自己的事。
 - **核心 repo**:`rmf_traffic`(協商引擎)、`rmf_task`(競標派工)、`rmf_ros2`(ROS2 節點層,含 `rmf_fleet_adapter`)、`rmf_battery`(電量/回充模型)、`rmf_traffic_editor`、`rmf_demos`。

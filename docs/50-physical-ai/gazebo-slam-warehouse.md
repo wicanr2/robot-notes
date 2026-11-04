@@ -2,7 +2,7 @@
 
 把一台**舵輪叉車**開進 AWS Small Warehouse,用 **slam_toolbox** 邊走邊建出 2D 地圖。這篇是可重跑的步驟教學:從「幫機器人裝雷射」到「RViz 看著地圖長出來」。
 
-> **這裡的車跟前面兩篇不是同一台,先講清楚**:[SDF 模型篇](sdf-3d-models.md)做的是一台差速搬運車(最簡構型,方便講 URDF);[叉車專案篇](project-forklift-rmf-gazebo.md)為了最快接通 Nav2,把叉車簡化成 `DiffDrive`。**這篇用的是舵輪(`traction` + `steer` 兩個指令),也就是叉車專案 §3.1 說的 `TricycleSteering` 那條「擬真」路線。** 對 SLAM 建圖來說底盤怎麼驅動不影響結果——雷射掃到什麼跟車怎麼開沒關係——所以這裡直接用比較像真車的那一種。
+> **這裡的車跟前面兩篇不是同一台,先講清楚**:[SDF 模型篇](sdf-3d-models.md)做的是一台差速搬運車(最簡構型,方便講 URDF);[叉車專案篇](project-forklift-rmf-gazebo.md)為了最快接通 Nav2,把叉車簡化成 `DiffDrive`。**這篇用的是舵輪(`traction` + `steer` 兩個指令),也就是叉車專案 §3.1 說的 `TricycleSteering` 那條「擬真」路線。** 對 SLAM 建圖來說底盤怎麼驅動不影響結果,因為雷射掃到什麼跟車怎麼開沒關係。所以這裡直接用比較像真車的那一種。
 
 > 前置:[用 Gazebo + ROS2 模擬 AMR](simulation-gazebo-ros2.md)(gz/ROS2 版本對應、ros_gz 橋接)、[2D SLAM 建圖原理](../10-core/30-navigation/slam-mapping.md)(occupancy grid、scan matching、loop closure)。實作素材(叉車模型、倉庫世界)在 [aws_warehouse_model_for_gazebo_harmonic](https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic)。
 >
@@ -45,7 +45,7 @@ slam_toolbox 吃 `/scan` + tf,**產出** `/map`(`OccupancyGrid`)並補上 `map �
     <always_on>1</always_on>
   </sensor>
   ```
-  > `gpu_lidar` 掃的是**視覺 mesh**(rendering),不是 collision——所以即使 [dartsim 忽略倉庫的 mesh collision](../_meta/github-actions-gz-sim-playbook.md#5-物理層的雷dartsimharmonic-預設),雷射**照樣掃得到貨架與牆**,地圖會長出貨架輪廓。代價是它要 render。
+  > `gpu_lidar` 掃的是**視覺 mesh**(rendering),不是 collision。所以即使 [dartsim 忽略倉庫的 mesh collision](../_meta/github-actions-gz-sim-playbook.md#5-物理層的雷dartsimharmonic-預設),雷射**照樣掃得到貨架與牆**,地圖會長出貨架輪廓。代價是它要 render。
 
 - **里程計**:`gz-sim-odometry-publisher-system` 發 `odom` 與 `odom→base_link` tf:
   ```xml
@@ -124,14 +124,14 @@ tf 部分:gz 的 `OdometryPublisher` 會發 `odom→base_link`;用 `ros_gz_bridg
 | 叉車在倉庫會動、走什麼軌跡 | ✅ 可驗(位姿判定 + 軌跡圖,純物理) |
 | **gpu_lidar 真的出 `/scan`、slam_toolbox 建出地圖** | ❌ 要 render(GPU)+ ROS2 Docker;免費 runner 不穩 |
 
-所以這篇是「**把環境與步驟備齊到一鍵可跑**」;真正那張倉庫地圖,等有 GPU 的機器(本機或 GPU runner)跑一次截圖即可。為什麼這樣切,見 [playbook 的「需不需 render」分水嶺](../_meta/github-actions-gz-sim-playbook.md)。
+所以這篇是「**把環境與步驟備齊到一鍵可跑**」;實際那張倉庫地圖,等有 GPU 的機器(本機或 GPU runner)跑一次截圖即可。為什麼這樣切,見 [playbook 的「需不需 render」分水嶺](../_meta/github-actions-gz-sim-playbook.md)。
 
 ---
 
 ## 來源
 
 - slam_toolbox(Jazzy):https://docs.ros.org/en/jazzy/p/slam_toolbox/ ｜ repo:https://github.com/SteveMacenski/slam_toolbox
-- Nav2 — Navigating while Mapping(SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
+- Nav2: Navigating while Mapping(SLAM):https://docs.nav2.org/rolling/tutorials/general_tutorials/navigation2_with_slam/navigation2_with_slam/
 - gz gpu_lidar / 感測器:https://gazebosim.org/docs/harmonic/sensors/
 - ros_gz 橋接:https://github.com/gazebosim/ros_gz/blob/ros2/README.md
 - 實作素材:https://github.com/wicanr2/aws_warehouse_model_for_gazebo_harmonic
