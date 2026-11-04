@@ -22,8 +22,8 @@
   <!-- wheels -->
   <rect x="372" y="176" width="16" height="18" rx="2" fill="#1F2937"/>
   <rect x="472" y="176" width="16" height="18" rx="2" fill="#1F2937"/>
-  <text x="380" y="172" text-anchor="middle" font-size="11" fill="#1F2937">左輪(內)</text>
-  <text x="480" y="172" text-anchor="middle" font-size="11" fill="#1F2937">右輪(外)</text>
+  <text x="380" y="209" text-anchor="middle" font-size="11" fill="#1F2937">左輪(內)</text>
+  <text x="480" y="209" text-anchor="middle" font-size="11" fill="#1F2937">右輪(外)</text>
   <circle cx="430" cy="185" r="3" fill="#3B82F6"/><text x="430" y="138" text-anchor="middle" font-size="11" fill="#1E40AF">車體中心 C</text>
 
   <!-- velocity arrows (up), length ∝ radius -->
@@ -39,6 +39,6 @@
   <text x="430" y="246" text-anchor="middle" font-size="11" fill="#374151">輪距 b</text>
 
   <!-- derivation box -->
-  <rect x="120" y="252" width="400" height="30" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <rect x="100" y="252" width="440" height="30" rx="6" fill="#FFF7ED" stroke="#F97316"/>
   <text x="320" y="272" text-anchor="middle" font-size="12.5" fill="#9A3412">同一個 ω → vL=ω(R−b/2), vR=ω(R+b/2) → v=(vL+vR)/2=ωR, ω=(vR−vL)/b</text>
 </svg>

@@ -1,9 +1,10 @@
 # Cloudflare Pages 部署
 
-站台同時發佈在 GitHub Pages 與 Cloudflare Pages。兩邊都由 `main` 分支建置，內容相同，差別只在網址的基底路徑。
+GitHub Pages 與 Cloudflare Pages 都由 `main` 分支建置，內容相同，差別只在網址的基底路徑。Cloudflare 專案尚未建立，建立後把網址補進下表。
 
 | 項目 | 值 |
 |---|---|
+| 網址 | 待建立 |
 | 部署方式 | Git integration，GitHub App 只授權這個 repo |
 | Production branch | `main` |
 | Build command | `bundle exec jekyll build --baseurl ""` |

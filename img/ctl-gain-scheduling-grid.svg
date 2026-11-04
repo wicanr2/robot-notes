@@ -32,7 +32,7 @@
     <circle cx="90" cy="250" r="3.5" fill="#2563EB"/><circle cx="160" cy="250" r="3.5" fill="#2563EB"/>
     <circle cx="230" cy="250" r="3.5" fill="#2563EB"/><circle cx="300" cy="250" r="3.5" fill="#2563EB"/><circle cx="370" cy="250" r="3.5" fill="#2563EB"/>
   </g>
-  <text x="330" y="92" font-size="10.5" fill="#1E40AF">每個格點:離線解一次 Riccati → 存一組 K</text>
+  <text x="230" y="88" text-anchor="middle" font-size="11" fill="#1E40AF">每個格點:離線解一次 Riccati → 存一組 K</text>
 
   <!-- 當前工作點 -->
   <rect x="230" y="150" width="70" height="50" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>

@@ -30,10 +30,10 @@
   <text x="492" y="104" text-anchor="end" font-size="11" fill="#6B7280">y_R</text>
   <path d="M500.0,160.0 L504.0,162.8 L508.0,165.7 L512.0,168.6 L516.0,171.7 L520.0,174.8 L524.0,178.0 L528.0,181.4 L532.0,184.8 L536.0,188.2 L540.0,191.8 L544.0,195.4 L548.0,199.2 L552.0,203.0 L556.0,206.9 L560.0,210.9 L564.0,215.0 L568.0,219.2 L572.0,223.4 L576.0,227.8 L580.0,232.2 L584.0,236.7 L588.0,241.3 L592.0,246.0 L596.0,250.8 L600.0,255.6 L604.0,260.5" fill="none" stroke="#047857" stroke-width="2.6"/>
   <line x1="628" y1="292" x2="642" y2="308" stroke="#047857" stroke-width="2.6" marker-end="url(#rz-a)"/>
-  <text x="656" y="306" font-size="11" fill="#047857">(繼續同方向)</text>
+  <text x="650" y="299" font-size="11" fill="#047857">(繼續同方向)</text>
   <text x="560" y="126" font-size="11.5" font-weight="700" fill="#047857">從第一刻起就往正確方向</text>
   <text x="560" y="143" font-size="11" fill="#047857">沒有「先往錯方向」那一段</text>
-  <text x="650" y="316" text-anchor="middle" font-size="12" font-weight="700" fill="#047857">最小相位,頻寬限制消失</text>
+  <text x="720" y="316" text-anchor="middle" font-size="12" font-weight="700" fill="#047857">最小相位,頻寬限制消失</text>
   <text x="650" y="334" text-anchor="middle" font-size="11" fill="#6B7280">貨叉朝後推行時,舵輪端在前進方向的前面</text>
   <text x="650" y="351" text-anchor="middle" font-size="11" fill="#6B7280">幾何上就是一台標準的前輪轉向車</text>
 

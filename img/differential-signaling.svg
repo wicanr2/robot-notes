@@ -4,7 +4,7 @@
     <marker id="dg" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/></marker>
   </defs>
   <rect width="640" height="290" fill="#ffffff"/>
-  <text x="320" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">差分訊號為何抗干擾:兩線拿到一樣的噪聲,取差就抵消</text>
+  <text x="320" y="18" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">差分訊號為何抗干擾:兩線拿到一樣的噪聲,取差就抵消</text>
 
   <!-- wire A -->
   <line x1="60" y1="90" x2="430" y2="90" stroke="#2563EB" stroke-width="3"/>
@@ -20,7 +20,7 @@
   <text x="250" y="56" text-anchor="middle" font-size="11" fill="#9A3412">外界干擾 N</text>
   <line x1="250" y1="58" x2="240" y2="86" stroke="#F97316" stroke-width="1.8" marker-end="url(#dn)"/>
   <line x1="250" y1="58" x2="260" y2="146" stroke="#F97316" stroke-width="1.8" marker-end="url(#dn)"/>
-  <text x="320" y="124" text-anchor="middle" font-size="11" fill="#9A3412">共模:兩線緊鄰/絞在一起 → 同時被加上「一樣的 N」</text>
+  <text x="70" y="116" text-anchor="start" font-size="11" fill="#9A3412"><tspan x="70" y="116">共模:兩線緊鄰/絞在一起</tspan><tspan x="70" y="135"> → 同時被加上「一樣的 N」</tspan></text>
 
   <!-- subtractor -->
   <path d="M430,70 L490,120 L430,170 Z" fill="#ECFDF5" stroke="#10B981" stroke-width="1.6"/>

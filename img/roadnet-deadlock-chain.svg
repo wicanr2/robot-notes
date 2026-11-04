@@ -1,21 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
   <defs>
     <marker id="co" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F97316"/></marker>
     <marker id="cr" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#EF4444"/></marker>
   </defs>
-  <rect width="880" height="400" fill="#ffffff"/>
+  <rect width="880" height="420" fill="#ffffff"/>
   <text x="440" y="30" text-anchor="middle" font-size="19" font-weight="700" fill="#1F2937">兩種卡死要分開偵測,因為解法不同</text>
 
   <!-- ================= LEFT: pairwise ================= -->
   <rect x="20" y="48" width="410" height="290" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
-  <text x="225" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">對頂:兩車面對面</text>
-  <text x="225" y="92" text-anchor="middle" font-size="11.5" fill="#6B7280">判準不是「都在衝突區裡」,是「雙方都非進對方的空間不可」</text>
+  <text x="225" y="67" text-anchor="middle" font-size="15" font-weight="700" fill="#991B1B">對頂:兩車面對面</text>
+  <text x="225" y="84" text-anchor="middle" font-size="11.5" fill="#6B7280">判準不是「都在衝突區裡」,是「雙方都非進對方的空間不可」</text>
 
   <!-- case 1: is deadlock -->
   <text x="40" y="122" font-size="12" font-weight="700" fill="#B91C1C">判為死鎖</text>
   <rect x="120" y="106" width="292" height="44" fill="#ffffff" stroke="#CBD5E1"/>
   <rect x="212" y="106" width="108" height="44" fill="#FEF2F2"/>
-  <text x="266" y="102" text-anchor="middle" font-size="10" fill="#B91C1C">衝突區</text>
+  <text x="266" y="102" text-anchor="middle" font-size="11" fill="#B91C1C">衝突區</text>
   <rect x="126" y="114" width="32" height="28" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
   <text x="142" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#1E3A8A">A</text>
   <rect x="374" y="114" width="32" height="28" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1.8"/>
@@ -71,6 +71,6 @@
   <text x="486" y="316" font-size="12" fill="#1E3A8A">環偵測只做兩兩對頂會漏掉 —— 三台車的環在現場不罕見。</text>
 
   <!-- bottom -->
-  <rect x="20" y="350" width="840" height="40" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
-  <text x="38" y="375" font-size="12.5" fill="#1F2937"><tspan font-weight="700" fill="#065F46">為什麼要分開:</tspan>對頂只要挑一台讓路;環形鎖要挑「斷環代價最小」的那一台。接著的難題是「讓到哪去」—— 選錯迴避點,讓車本身就變成下一個阻塞源。</text>
+  <rect x="20" y="350" width="840" height="60" rx="9" fill="#ECFDF5" stroke="#10B981" stroke-width="1.4"/>
+  <text x="38" y="374" font-size="12.5" fill="#1F2937"><tspan font-weight="700" fill="#065F46">為什麼要分開:</tspan>對頂只要挑一台讓路;環形鎖要挑「斷環代價最小」的那一台。<tspan x="38" y="396">接著的難題是「讓到哪去」—— 選錯迴避點,讓車本身就變成下一個阻塞源。</tspan></text>
 </svg>

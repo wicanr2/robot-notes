@@ -36,7 +36,7 @@
   <text x="165" y="290" text-anchor="middle" font-size="10" fill="#5B21B6">③ 授權(ACL)</text>
   <line x1="170" y1="306" x2="550" y2="306" stroke="#6B7280" stroke-width="1.6" marker-end="url(#mf-r)"/>
   <text x="360" y="301" text-anchor="middle" font-size="9.5" fill="#374151">6. SUBSCRIBE / PUBLISH 某 topic</text>
-  <text x="555" y="324" text-anchor="middle" font-size="9" fill="#5B21B6">broker 查 ACL:這身份能碰此 topic 嗎?</text>
+  <text x="360" y="322" text-anchor="middle" font-size="11" fill="#5B21B6">broker 查 ACL:這身份能碰此 topic 嗎?</text>
   <line x1="550" y1="340" x2="170" y2="340" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#mf-r)"/>
   <text x="360" y="335" text-anchor="middle" font-size="9.5" fill="#5B21B6">7. 允許 → SUBACK/PUBACK;越權 → 拒絕</text>
 

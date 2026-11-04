@@ -66,7 +66,7 @@
   <path d="M600,124 A50,50 0 0,1 636,110" fill="none" stroke="#B45309" stroke-width="2" marker-end="url(#tk-a)"/>
   <text x="646" y="106" font-size="11" font-weight="700" fill="#B45309">車頭往右</text>
 
-  <text x="645" y="312" text-anchor="middle" font-size="12" fill="#374151">三輪平衡重式(後輪主動轉向);前移式貨叉朝前行駛時也是這樣</text>
+  <text x="615" y="312" text-anchor="middle" font-size="12" fill="#374151">三輪平衡重式(後輪主動轉向);前移式貨叉朝前行駛時也是這樣</text>
   <text x="645" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#B45309">方向盤往左 → 車頭往右(θ̇ 多一個負號)</text>
 
   <line x1="430" y1="66" x2="430" y2="342" stroke="#E5E7EB" stroke-width="1.4"/>

@@ -19,10 +19,10 @@
   </g>
 
   <!-- labels -->
-  <text x="90" y="172" text-anchor="middle" font-size="10.5" fill="#374151">觀測點</text>
-  <text x="135" y="92" text-anchor="middle" font-size="10.5" fill="#1D4ED8">帶子寬</text>
-  <text x="135" y="200" text-anchor="middle" font-size="9.5" fill="#6B7280">(沒量過→不確定)</text>
-  <text x="408" y="54" font-size="10.5" fill="#1D4ED8">越外推越不確定</text>
+  <text x="90" y="172" text-anchor="middle" font-size="11" fill="#374151">觀測點</text>
+  <text x="135" y="92" text-anchor="middle" font-size="11" fill="#1D4ED8">帶子寬</text>
+  <text x="135" y="200" text-anchor="middle" font-size="11" fill="#6B7280">(沒量過→不確定)</text>
+  <text x="470" y="54" text-anchor="end" font-size="11" fill="#1D4ED8">越外推越不確定</text>
 
   <rect x="120" y="214" width="12" height="4" fill="#2563EB"/><text x="138" y="221" font-size="11" fill="#374151">預測均值</text>
   <rect x="250" y="212" width="14" height="9" fill="#DBEAFE"/><text x="270" y="221" font-size="11" fill="#374151">不確定範圍(在觀測點被夾窄)</text>

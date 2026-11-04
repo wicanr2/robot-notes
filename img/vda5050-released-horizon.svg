@@ -18,8 +18,8 @@
 
   <!-- release boundary -->
   <line x1="300" y1="78" x2="300" y2="150" stroke="#F97316" stroke-width="2" stroke-dasharray="4 3"/>
-  <text x="300" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">釋放線(主控逐步往前推)</text>
-  <text x="300" y="78" text-anchor="middle" font-size="10" fill="#9A3412">左=已釋放　右=待釋放</text>
+  <text x="300" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A3412">釋放線(主控逐步往前推)</text>
+  <text x="300" y="74" text-anchor="middle" font-size="11" fill="#9A3412">左=已釋放　右=待釋放</text>
 
   <!-- brackets -->
   <text x="180" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#065F46">base(released = true)</text>
@@ -27,6 +27,6 @@
   <text x="450" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#6B7280">horizon(未釋放)</text>
   <text x="450" y="180" text-anchor="middle" font-size="11.5" fill="#6B7280">已規劃、但尚未授權(只給車預知前方)</text>
 
-  <rect x="80" y="200" width="480" height="34" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <rect x="40" y="200" width="560" height="34" rx="6" fill="#FFF7ED" stroke="#F97316"/>
   <text x="320" y="222" text-anchor="middle" font-size="12" fill="#9A3412">主控可在最後一刻才把 horizon 釋放成 base(等前車先過、等門開)→ 這正是跨車交通協調掛進來的點</text>
 </svg>

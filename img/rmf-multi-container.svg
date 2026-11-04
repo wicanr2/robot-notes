@@ -7,12 +7,12 @@
   <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2937">RMF 多容器部署:每個元件一個容器,同主機靠 DDS 互通</text>
 
   <!-- 主機框 -->
-  <rect x="28" y="50" width="540" height="350" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="7,4"/>
+  <rect x="28" y="50" width="540" height="362" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="7,4"/>
   <text x="44" y="70" font-size="11.5" font-weight="700" fill="#6B7280">同一台主機 · 各容器設 network_mode: host(+ ipc: host)</text>
 
   <!-- DDS bus -->
   <line x1="60" y1="232" x2="536" y2="232" stroke="#6B7280" stroke-width="3"/>
-  <text x="298" y="252" text-anchor="middle" font-size="10.5" fill="#374151">DDS / ROS 2 匯流排 — 同 ROS_DOMAIN_ID、同 RMW_IMPLEMENTATION</text>
+  <text x="180" y="252" text-anchor="middle" font-size="11" fill="#374151"><tspan x="180" y="252">DDS / ROS 2 匯流排 — </tspan><tspan x="180" y="268">同 ROS_DOMAIN_ID、</tspan><tspan x="180" y="284">同 RMW_IMPLEMENTATION</tspan></text>
 
   <!-- 容器:rmf core -->
   <rect x="56" y="88" width="150" height="70" rx="8" fill="#E8F4FC" stroke="#2496ED" stroke-width="1.6"/>
@@ -55,6 +55,6 @@
   <text x="660" y="142" text-anchor="middle" font-size="9.5" fill="#6B7280">REST / WebSocket</text>
   <line x1="554" y1="123" x2="598" y2="125" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#mc-o)"/>
 
-  <text x="370" y="392" text-anchor="middle" font-size="10" fill="#9A3412">跨主機 / 走 docker bridge network 時,DDS 多播 discovery 不通 → 改用 Discovery Server 或 unicast peers</text>
+  <text x="298" y="382" text-anchor="middle" font-size="11" fill="#9A3412"><tspan x="298" y="382">跨主機 / 走 docker bridge network 時,DDS 多播 discovery 不通 → </tspan><tspan x="298" y="400">改用 Discovery Server 或 unicast peers</tspan></text>
   <text x="370" y="430" text-anchor="middle" font-size="10.5" fill="#374151">ROS 2 / RMF 的標準分散式形態;官方 rmf_deployment_template 提供容器化範本(Helm chart + compose 範例)</text>
 </svg>

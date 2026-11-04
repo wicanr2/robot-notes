@@ -11,11 +11,11 @@
   <line x1="60" y1="250" x2="520" y2="250" stroke="#9CA3AF" stroke-width="1.3" marker-end="url(#og)"/>
   <line x1="70" y1="260" x2="70" y2="70" stroke="#9CA3AF" stroke-width="1.3" marker-end="url(#og)"/>
   <text x="515" y="270" font-size="12" fill="#6B7280">世界 x</text>
-  <text x="46" y="78" font-size="12" fill="#6B7280">世界 y</text>
+  <text x="46" y="64" font-size="12" fill="#6B7280">世界 y</text>
 
   <!-- P0 -->
   <circle cx="170" cy="210" r="4" fill="#1F2937"/>
-  <text x="150" y="228" font-size="12" fill="#374151">起點 (x, y, θ)</text>
+  <text x="150" y="240" font-size="12" fill="#374151">起點 (x, y, θ)</text>
   <!-- displacement Δs at midpoint heading -->
   <line x1="170" y1="210" x2="357" y2="116" stroke="#2563EB" stroke-width="3" marker-end="url(#ov)"/>
   <text x="248" y="150" font-size="13" font-weight="700" fill="#1E40AF" transform="rotate(-27 248 150)">Δs(車頭方向前進)</text>
@@ -36,6 +36,6 @@
   <text x="220" y="200" font-size="12" font-weight="700" fill="#9A3412">θ+Δθ/2</text>
 
   <!-- midpoint note -->
-  <rect x="120" y="256" width="320" height="28" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <rect x="95" y="256" width="370" height="28" rx="6" fill="#FFF7ED" stroke="#F97316"/>
   <text x="280" y="274" text-anchor="middle" font-size="11.5" fill="#9A3412">這一步朝向從 θ 轉到 θ+Δθ,用中點 θ+Δθ/2 投影 → 少一階誤差(中點法)</text>
 </svg>

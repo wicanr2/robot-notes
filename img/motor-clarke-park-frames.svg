@@ -38,7 +38,7 @@
   <circle cx="440" cy="200" r="3" fill="#1E3A8A"/>
   <line x1="440" y1="200" x2="440" y2="147" stroke="#1E3A8A" stroke-width="2.2" marker-end="url(#cf-a2)"/>
   <line x1="440" y1="200" x2="493" y2="200" stroke="#1E3A8A" stroke-width="2.2" marker-end="url(#cf-a2)"/>
-  <text x="440" y="138" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">β</text>
+  <text x="455" y="144" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">β</text>
   <text x="507" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#1E3A8A">α</text>
 
   <text x="440" y="278" text-anchor="middle" font-size="11.5" fill="#1F2937">3 軸 → 2 軸(數學簡化)</text>
