@@ -31,7 +31,7 @@ $$ J = \int_0^{\infty} \left( x^{\mathsf T} Q x + u^{\mathsf T} R u \right) \mat
 | 電池 | 滿電 50 V → 低電 42 V | 同樣占空比,實際電壓少 16% |
 | 馬達溫度 | 冷車 25°C → 連續作業 90°C | 繞組電阻升高,同電壓電流變小 |
 
-<p align="center"><img src="../../img/ctl-openloop-vs-feedback.svg" width="820" alt="開環與閉環對照:同一個電壓指令,空車衝過頭、滿載走不到目標速度;閉環量測實際速度、比對目標、持續修正,兩種載重都收斂到同一條線"></p>
+<p align="center"><img src="../../img/ctl-openloop-vs-feedback.webp" width="820" alt="開環與閉環對照:同一個電壓指令,空車衝過頭、滿載走不到目標速度;閉環量測實際速度、比對目標、持續修正,兩種載重都收斂到同一條線"></p>
 
 **回授的價值不是「更準」,是「不需要準」**。閉環控制器不必知道現在載了多重、地板多滑,它只需要知道**誤差的符號與大小**:太慢就加、太快就減。整條從輸入到輸出的複雜關係,被壓縮成一個問題——「往哪個方向調」。
 
@@ -49,7 +49,8 @@ $$ u(t) = K_p\, e(t) + K_i \int_0^t e(\tau)\,\mathrm{d}\tau + K_d\, \frac{\mathr
 
 但「P 看現在、I 看過去、D 看未來」是助記,不是理由。逐項問「不加它會缺什麼」。
 
-<p align="center"><img src="../../img/ctl-pid-three-terms.svg" width="840" alt="同一條誤差曲線上,P 讀的是當下的高度、I 讀的是曲線下的累積面積、D 讀的是當下的斜率;右側對應三種病:純P留穩態誤差、加I消掉但過衝、加D壓住過衝"></p>
+<p align="center"><img src="../../img/ctl-pid-three-terms.webp" width="840" alt="同一條誤差曲線上,P 讀的是當下的高度、I 讀的是曲線下的累積面積、D 讀的是當下的斜率;右側對應三種病:純P留穩態誤差、加I消掉但過衝、加D壓住過衝"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-pid-three-terms.svg">原始 SVG</a>。</sub></p>
 
 ### 2.1 P 項:唯一不能省的那一項
 
@@ -189,7 +190,8 @@ $$ L(x) = \underbrace{L(0)}_{= 0 \;(\text{條件 1})} + \underbrace{\nabla L(0)^
 
 前兩項被條件強制歸零。**剩下最低階的非零項,就是二次項**。(`∇²L(0)` 半正定不是額外假設,它是「原點是最小點」的必然結果。)
 
-<p align="center"><img src="../../img/ctl-why-quadratic.svg" width="840" alt="三種代價函數對照:|x| 在原點不可微且最佳解變成 bang-bang 開關式;x² 光滑、有唯一最小、梯度線性;x⁴ 近處梯度消失遠處懲罰暴衝。右側是 Taylor 展開論證:條件1與梯度為零消掉前兩項,二次項是最低階的非零項"></p>
+<p align="center"><img src="../../img/ctl-why-quadratic.webp" width="840" alt="三種代價函數對照:|x| 在原點不可微且最佳解變成 bang-bang 開關式;x² 光滑、有唯一最小、梯度線性;x⁴ 近處梯度消失遠處懲罰暴衝。右側是 Taylor 展開論證:條件1與梯度為零消掉前兩項,二次項是最低階的非零項"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-why-quadratic.svg">原始 SVG</a>。</sub></p>
 
 所以二次型不是「一個好用的選擇」,而是**任何滿足上述四條的代價函數,在目標點附近的普適近似**。用 `|x|` 會在原點不可微(最佳解退化成 bang-bang 開關式控制,對機械是災難);用 `x⁴` 則近處梯度消失(小偏差幾乎不修)、遠處懲罰暴衝。
 
@@ -291,7 +293,7 @@ $$ \boxed{\; A^{\mathsf T} P + P A - P B R^{-1} B^{\mathsf T} P + Q = 0 \;} $$
 
 **連續時間代數 Riccati 方程(CARE)**。名字來自 Jacopo Riccati 研究過的一類含未知函數平方項的微分方程——這裡的 `PBR⁻¹BᵀP` 就是那個「平方項」,它是整條式子唯一的非線性來源,也是 Riccati 方程沒有簡單解析解、必須數值求解的原因。
 
-<p align="center"><img src="../../img/ctl-lqr-derivation-chain.svg" width="880" alt="LQR 推導鏈:無窮維最佳化問題 → 定義 value function → HJB 方程 → 猜 V=xᵀPx → 對 u 求導得 u=−R⁻¹BᵀPx → 代回得 Riccati 方程 → 解 P 得 K;右側標出每一步用到的假設"></p>
+<p align="center"><img src="../../img/ctl-lqr-derivation-chain.webp" width="880" alt="LQR 推導鏈:無窮維最佳化問題 → 定義 value function → HJB 方程 → 猜 V=xᵀPx → 對 u 求導得 u=−R⁻¹BᵀPx → 代回得 Riccati 方程 → 解 P 得 K;右側標出每一步用到的假設"></p>
 
 整條推導鏈值得回頭看一次它做了什麼:**一個對無限維函數空間的最佳化問題,被壓成了一個 n×n 的代數方程**。壓縮的代價是三個假設——系統線性、代價二次、時域無限。三個都成立時,答案是閉式的;任何一個不成立,就得走 §12 的路。
 
@@ -405,7 +407,8 @@ LQR 還有一組經典的**穩定裕度**保證:單輸入情況下,閉迴路容�
 
 推導只用一個約束:**輪子不側滑**——每顆輪的速度必須沿著自己的滾動方向。因此每顆輪的**垂線**都通過同一點,那個點就是**瞬時旋轉中心(ICR)**。這和 [差速車的 ICC 推導](../20-forms/wheeled-amr/chassis-and-drivetrain.md#11-兩輪差速-differential-drive) 是同一個工具,只是輪子的排法不同。
 
-<p align="center"><img src="../../img/ctl-forklift-tricycle-kinematics.svg" width="810" alt="舵輪叉車的瞬時旋轉中心幾何:轉向輪垂線與固定軸垂線交於 ICR,由直角三角形 tan δ = L/R 導出 ω = v·tanδ/L;右側標出前輪轉向與後輪轉向兩種構型的 ICR 位置差異"></p>
+<p align="center"><img src="../../img/ctl-forklift-tricycle-kinematics.webp" width="810" alt="舵輪叉車的瞬時旋轉中心幾何:轉向輪垂線與固定軸垂線交於 ICR,由直角三角形 tan δ = L/R 導出 ω = v·tanδ/L;右側標出前輪轉向與後輪轉向兩種構型的 ICR 位置差異"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-forklift-tricycle-kinematics.svg">原始 SVG</a>。</sub></p>
 
 以「轉向輪在前、固定軸在後」的標準三輪車為例,軸距 `L`,轉向角 `δ`:固定後軸的垂線就是後軸的延長線,轉向輪的垂線與它交於 ICR。轉彎半徑 `R`(從 ICR 到後軸中心)由直角三角形給出:
 
@@ -435,7 +438,7 @@ $$ \dot{x}\sin\theta - \dot{y}\cos\theta = 0 $$
 
 一台自動叉車跑起來時,同時有四個回授迴路在不同頻率上工作:
 
-<p align="center"><img src="../../img/ctl-forklift-loop-stack.svg" width="900" alt="叉車四層控制迴路:最外層路徑追蹤 LQR 20-50Hz 輸出轉向角與速度目標,中層轉向角環與速度環 PID 100-500Hz,最內層 FOC 電流環 10-20kHz;右側是獨立的貨叉升降位置環;每層標出輸入輸出與所在硬體"></p>
+<p align="center"><img src="../../img/ctl-forklift-loop-stack.webp" width="900" alt="叉車四層控制迴路:最外層路徑追蹤 LQR 20-50Hz 輸出轉向角與速度目標,中層轉向角環與速度環 PID 100-500Hz,最內層 FOC 電流環 10-20kHz;右側是獨立的貨叉升降位置環;每層標出輸入輸出與所在硬體"></p>
 
 | 層 | 頻率 | 控制什麼 | 典型控制器 | 為什麼是它 |
 |---|---|---|---|---|
@@ -479,7 +482,8 @@ $$ \begin{bmatrix} \dot{x} \\ \dot{x}_I \end{bmatrix} = \begin{bmatrix} A & 0 \\
 
 ### 9.1 誤差的定義
 
-<p align="center"><img src="../../img/ctl-lateral-error-geometry.svg" width="840" alt="路徑追蹤的誤差幾何:參考路徑上找最近點,橫向誤差 e_y 是車體參考點到路徑的垂直距離(左負右正),航向誤差 e_θ 是車頭方向與路徑切線的夾角,路徑曲率 κ 標在最近點處"></p>
+<p align="center"><img src="../../img/ctl-lateral-error-geometry.webp" width="840" alt="路徑追蹤的誤差幾何:參考路徑上找最近點,橫向誤差 e_y 是車體參考點到路徑的垂直距離(左負右正),航向誤差 e_θ 是車頭方向與路徑切線的夾角,路徑曲率 κ 標在最近點處"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-lateral-error-geometry.svg">原始 SVG</a>。</sub></p>
 
 在參考路徑上找到離車最近的點,定義兩個誤差:
 
@@ -500,7 +504,7 @@ $$ \dot{x} = \underbrace{\begin{bmatrix} 0 & v \\ 0 & 0 \end{bmatrix}}_{A} x + \
 
 看 `B`:**轉向角只能直接影響 `e_θ`,對 `e_y` 的那一格是零**。方向盤打下去,橫向位置不會立刻改變,得先改變航向,再由 `A` 矩陣右上角那個 `v` 把航向誤差「積」成橫向位移。
 
-<p align="center"><img src="../../img/ctl-two-pid-vs-lqr.svg" width="880" alt="兩個獨立 PID 與 LQR 的對照:左邊橫向 PID 與航向 PID 各自輸出轉向指令再相加,兩者互相抵銷造成蛇行;右邊 LQR 用單一增益矩陣 K 把兩個誤差一次映射到轉向角,K 的兩個元素由 Riccati 方程一起解出,彼此的比例是最佳的"></p>
+<p align="center"><img src="../../img/ctl-two-pid-vs-lqr.webp" width="880" alt="兩個獨立 PID 與 LQR 的對照:左邊橫向 PID 與航向 PID 各自輸出轉向指令再相加,兩者互相抵銷造成蛇行;右邊 LQR 用單一增益矩陣 K 把兩個誤差一次映射到轉向角,K 的兩個元素由 Riccati 方程一起解出,彼此的比例是最佳的"></p>
 
 於是「用一個 PID 修 `e_y`、另一個 PID 修 `e_θ`,兩個輸出相加」這種做法的病就清楚了:
 
@@ -571,7 +575,8 @@ $$ \dot{y}_R = \dot{y}_F - L\dot\theta = v\theta + v\delta $$
 
 $$ \frac{Y_R(s)}{\Delta(s)} = \frac{1}{s}\left( v\cdot\left(-\frac{v}{Ls}\right) + v \right) = \frac{v\,(Ls - v)}{L\,s^{2}} $$
 
-<p align="center"><img src="../../img/ctl-rhp-zero-reverse.svg" width="880" alt="後輪轉向的非最小相位響應:方向盤階躍後,車尾先往指令方向移動再折返往反方向走,對應右半平面零點 s=v/L;右半是倒車情形,v 為負使零點移到左半平面,響應變成單調收斂"></p>
+<p align="center"><img src="../../img/ctl-rhp-zero-reverse.webp" width="880" alt="後輪轉向的非最小相位響應:方向盤階躍後,車尾先往指令方向移動再折返往反方向走,對應右半平面零點 s=v/L;右半是倒車情形,v 為負使零點移到左半平面,響應變成單調收斂"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-rhp-zero-reverse.svg">原始 SVG</a>。</sub></p>
 
 分子的零點在 **`s = v/L`**。前進時 `v > 0`,零點落在**右半平面**——這是**非最小相位(non-minimum phase)**系統的定義性特徵,行為上就是:**階躍輸入後,輸出先往錯的方向走一段,才折回正確方向**。
 
@@ -609,7 +614,7 @@ $$ \frac{Y_R(s)}{\Delta(s)} = \frac{1}{s}\left( v\cdot\left(-\frac{v}{Ls}\right)
 
 最後兩列是叉車特有、而且是安全等級的。三輪平衡重式叉車只有**三個**接地點,合成重心必須留在它們圍成的**支撐三角形**內:
 
-<p align="center"><img src="../../img/ctl-forklift-stability-triangle.svg" width="870" alt="穩定三角形:左為俯視,前兩輪與後單輪圍成三角形,載貨後合成重心往貨叉端移,轉彎的等效側向力把重心往邊界推;右為側視,貨叉舉高使重心高度 h 增加,傾覆力矩 m·a·h 與抵抗力矩 m·g·d 的比較給出容許側向加速度"></p>
+<p align="center"><img src="../../img/ctl-forklift-stability-triangle.webp" width="870" alt="穩定三角形:左為俯視,前兩輪與後單輪圍成三角形,載貨後合成重心往貨叉端移,轉彎的等效側向力把重心往邊界推;右為側視,貨叉舉高使重心高度 h 增加,傾覆力矩 m·a·h 與抵抗力矩 m·g·d 的比較給出容許側向加速度"></p>
 
 翻不翻只是兩個力矩的比較。轉彎時的等效側向力 `m·a` 作用在重心上,對傾覆邊(前輪接地點)產生**傾覆力矩 `m·a·h`**;重力對同一條邊產生**抵抗力矩 `m·g·d`**。翻覆的條件是前者超過後者:
 
@@ -632,7 +637,7 @@ $$ v_{\max} = \sqrt{\frac{g\,d\,R}{h}} $$
 
 **增益排程(gain scheduling)** 的做法:選幾個排程變數(叉車上最自然的是 `v` 與載重 `m`),在網格上的每個工作點離線解一次 Riccati,把 `K` 存成查表;線上量測當前的 `v` 與 `m`(載重可由液壓壓力感測器或稱重推得),查表 + 內插(二維表就是**雙線性內插**:先沿一軸插兩次得到兩個中間值,再沿另一軸把它們插一次)。
 
-<p align="center"><img src="../../img/ctl-gain-scheduling-grid.svg" width="860" alt="增益排程:以速度與載重為兩軸的工作點網格,每格離線解一次 Riccati 得到一組 K 存成查表,線上量測當前工作點後查表與雙線性內插;下方標出兩個必須遵守的條件:排程變數變化要慢、相鄰格的 K 要平滑"></p>
+<p align="center"><img src="../../img/ctl-gain-scheduling-grid.webp" width="860" alt="增益排程:以速度與載重為兩軸的工作點網格,每格離線解一次 Riccati 得到一組 K 存成查表,線上量測當前工作點後查表與雙線性內插;下方標出兩個必須遵守的條件:排程變數變化要慢、相鄰格的 K 要平滑"></p>
 
 線上成本幾乎為零(查表 + 內插),離線成本是「格點數 × 一次 Riccati 求解」——幾百個工作點在一般電腦上是秒級的事。這也回應 §5.4 那句:LQR 貴在離線,不貴在線上。
 
@@ -665,7 +670,7 @@ $$ v_{\max} = \sqrt{\frac{g\,d\,R}{h}} $$
 
 ### 12.2 MPC:把 LQR 的三個假設各鬆一條
 
-<p align="center"><img src="../../img/ctl-lqr-vs-mpc.svg" width="880" alt="LQR 與 MPC 對照:LQR 離線解一次得到固定 K,線上只做矩陣乘法,約束靠事後夾限;MPC 線上在有限時域內解帶約束的 QP,能預見前方的轉向角上限而提早動作,只執行第一步再滾動重解"></p>
+<p align="center"><img src="../../img/ctl-lqr-vs-mpc.webp" width="880" alt="LQR 與 MPC 對照:LQR 離線解一次得到固定 K,線上只做矩陣乘法,約束靠事後夾限;MPC 線上在有限時域內解帶約束的 QP,能預見前方的轉向角上限而提早動作,只執行第一步再滾動重解"></p>
 
 **模型預測控制(MPC)** 做的事:在每個控制週期,對未來 `N` 步解一個**帶約束的最佳化問題**,只執行第一步,下個週期重解(滾動時域)。
 
@@ -698,7 +703,8 @@ $$ \min_{u_0 \dots u_{N-1}} \sum_{k=0}^{N-1} \left( x_k^{\mathsf T} Q x_k + u_k^
 
 問題是,移動機器人的代價根本不長那樣。
 
-<p align="center"><img src="../../img/ctl-quadratic-vs-costmap.svg" width="840" alt="左為 LQR 假設的二次型代價:處處可微、凸、唯一最小,求導設零就有解析解;右為真實的代價地圖:障礙物是不可微的陡峭牆、非凸、有多個局部最小,求導這條路走不通"></p>
+<p align="center"><img src="../../img/ctl-quadratic-vs-costmap.webp" width="840" alt="左為 LQR 假設的二次型代價:處處可微、凸、唯一最小,求導設零就有解析解;右為真實的代價地圖:障礙物是不可微的陡峭牆、非凸、有多個局部最小,求導這條路走不通"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../img/ctl-quadratic-vs-costmap.svg">原始 SVG</a>。</sub></p>
 
 「離目標多遠」確實可以寫成 `xᵀQx`,但「會不會撞到牆」不行。costmap 上的障礙物是查表查出來的階梯、footprint 碰撞檢查回傳的是布林值——**不可微,而且非凸**。
 
@@ -814,7 +820,7 @@ control_sequence_.wz = state_.cwz.transpose().matrix() * softmax_mat;
 
 一句話講完整個演算法:**撒一批控制序列 → 各自往前模擬算代價 → 用 softmax 加權平均 → 這就是新的控制序列**。沒有梯度、沒有求解器、沒有迭代收斂判斷。
 
-<p align="center"><img src="../../img/ctl-mppi-mechanism.svg" width="880" alt="MPPI 一個控制週期的六個步驟:以上週期的控制序列為均值撒 K 條高斯噪聲、各自用運動模型前向模擬成軌跡、每條軌跡經 critic 評分得到代價、減最小值後取 softmax 得權重、加權平均成新控制序列、送出第一步並把序列往前平移一格"></p>
+<p align="center"><img src="../../img/ctl-mppi-mechanism.webp" width="880" alt="MPPI 一個控制週期的六個步驟:以上週期的控制序列為均值撒 K 條高斯噪聲、各自用運動模型前向模擬成軌跡、每條軌跡經 critic 評分得到代價、減最小值後取 softmax 得權重、加權平均成新控制序列、送出第一步並把序列往前平移一格"></p>
 
 還有兩個實作細節,少了會出事:
 

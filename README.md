@@ -134,8 +134,8 @@
 ### 30-products 產品專章
 
 - [產品總覽](docs/30-products/) — 按實際產品整理整車硬體、控制板、車載電腦與安裝擴充
-  - [Husarion Panther](docs/30-products/husarion-panther.md) — 官方方塊圖、電腦配置截圖、ROS／CAN 控制分工、安裝導軌與上裝急停
-  - [Husarion ROSbot XL](docs/30-products/husarion-rosbot-xl.md) — 官方方塊圖、電腦配置截圖、STM32／Ethernet 控制、安裝板與擴充供電
+  - [Husarion Panther](docs/30-products/husarion-panther.md) — 系統方塊圖、電腦配置、ROS／CAN 控制分工、安裝導軌與上裝急停
+  - [Husarion ROSbot XL](docs/30-products/husarion-rosbot-xl.md) — 系統方塊圖、電腦配置、STM32／Ethernet 控制、安裝板與擴充供電
   - [Panther 與 ROSbot XL 控制架構 SWOT](docs/30-products/husarion-control-architecture-swot.md) — 專責底盤電腦＋CAN 驅動器與車載電腦＋Ethernet＋STM32 的開發、故障及維護差異
 
 ### 40-fleet 多機調度
@@ -207,5 +207,8 @@
 - [PLAN.md](PLAN.md) — 分輪整理計畫與進度
 - [CONTEXT.md](CONTEXT.md) — 術語表(ubiquitous language)
 - [舊版 28 章對照表](docs/section-map.md) — 早期單檔整理的 §N 現在各自搬到哪個檔
+- [Cloudflare Pages 部署](docs/_meta/deploy-cloudflare.md) — 建置設定、與 GitHub Pages 並存的方式
+
+部分圖片（控制章的 `ctl-*`、Nav2 的 `nav2-*`、Husarion 專章）是用 Codex 圖像生成重繪的點陣圖，文字與連接關係逐條核對過，幾何與曲線比例不保證精確。原始 SVG 保留在 [`img/`](https://github.com/wicanr2/robot-notes/tree/main/img)，比例與數值以 SVG 為準。
 
 歷史原始整理文件保留在 [`docs/_legacy/`](docs/_legacy/)(內容已拆分到上述主題檔)。

@@ -47,7 +47,7 @@ Nav2 的架構是「規劃器給路徑 → 控制器追路徑」,**沒有一層�
 
 ## 2. 分工:Nav2 只規劃,車上 60 Hz 追蹤
 
-<p align="center"><img src="../../../img/nav2-planner-onboard-controller.svg" width="860" alt="分工資料流:Nav2 只留 planner_server、global costmap、lifecycle manager;執行器(Isaac 內的 Python)每段呼叫一次 ComputePathToPose 拿路徑、簡化後送給車上控制器;控制器(Go 或 C++ 獨立行程)與執行器以 UDP 鎖步,每個物理步收狀態回 (v, ω);執行器再把 (v, ω) 換成三輪的轉向角與輪速"></p>
+<p align="center"><img src="../../../img/nav2-planner-onboard-controller.webp" width="860" alt="分工資料流:Nav2 只留 planner_server、global costmap、lifecycle manager;執行器(Isaac 內的 Python)每段呼叫一次 ComputePathToPose 拿路徑、簡化後送給車上控制器;控制器(Go 或 C++ 獨立行程)與執行器以 UDP 鎖步,每個物理步收狀態回 (v, ω);執行器再把 (v, ω) 換成三輪的轉向角與輪速"></p>
 
 ```
 Nav2(規劃)                     執行器(Isaac,Python,60 Hz)             控制器(Go 或 C++,獨立行程)

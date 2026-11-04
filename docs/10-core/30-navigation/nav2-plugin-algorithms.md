@@ -13,7 +13,7 @@ Nav2 把導航拆成一組**可替換的外掛(plugin)**:換一個 planner、換
 
 先把定位釘清楚,否則後面十四個外掛會變成一份沒有骨架的清單。
 
-<p align="center"><img src="../../../img/nav2-pipeline-four-stages.svg" width="940" alt="Nav2 四階段資料流:AMCL 提供 map→odom 變換給所有人,planner 用全域 costmap 算出 Path,smoother 把 Path 磨平,controller 用區域 costmap 追隨並輸出速度指令;行為樹在下方編排全部,並標出各自的輸入輸出與頻率"></p>
+<p align="center"><img src="../../../img/nav2-pipeline-four-stages.webp" width="940" alt="Nav2 四階段資料流:AMCL 提供 map→odom 變換給所有人,planner 用全域 costmap 算出 Path,smoother 把 Path 磨平,controller 用區域 costmap 追隨並輸出速度指令;行為樹在下方編排全部,並標出各自的輸入輸出與頻率"></p>
 
 | 角色 | 回答的問題 | 輸入 | 輸出 | 頻率 |
 |---|---|---|---|---|
@@ -147,7 +147,7 @@ $$ h(n) = \max\Big( h_{\text{obstacle}}(n),\; h_{\text{distance}}(n) \Big) $$
 - `h_obstacle` 的 DP 擴散**也把 `cost_penalty` 疊了進去**(所以它不是純幾何距離,而是代價加權距離),但它省略了轉彎與倒車的乘法懲罰;那些懲罰恆 ≥ 1,省略後仍是下界 ✓
 - `h_distance` 是純 Dubins/Reeds-Shepp 幾何距離,不含任何代價項。但真實邊代價含 `travel_distance_reward = 1 − retrospective_penalty`(預設 `0.015`),等於把真實代價**打了 1.5% 的折**——所以 `h_distance` 嚴格說**不再是精確下界**。這是刻意用一點點可採納性換搜尋速度的工程妥協。
 
-<p align="center"><img src="../../../img/nav2-hybrid-astar-heuristics.svg" width="900" alt="Hybrid-A* 的兩個啟發式:左邊放寬運動學得到繞得開但轉角不合法的路徑,右邊放寬障礙物得到轉得過去但穿牆的曲線,兩者都是真實路徑的下界,取 max 仍是下界但更緊"></p>
+<p align="center"><img src="../../../img/nav2-hybrid-astar-heuristics.webp" width="900" alt="Hybrid-A* 的兩個啟發式:左邊放寬運動學得到繞得開但轉角不合法的路徑,右邊放寬障礙物得到轉得過去但穿牆的曲線,兩者都是真實路徑的下界,取 max 仍是下界但更緊"></p>
 
 這是 A* 啟發式設計的標準手法(問題放寬),而 Hybrid-A* 剛好有兩個天然的放寬方向,於是兩個都算、取大的。`h_obstacle` 在 costmap 沒變時可以快取重用,官方文件說這能加速約 40 倍。
 
@@ -235,7 +235,8 @@ $$ \kappa = \frac{2y}{L^2}, \qquad L^2 = x^2 + y^2 $$
 
 推導是國中幾何:過原點與 `(x,y)` 且與車體 x 軸相切的圓,半徑 `R = L²/(2y)`,曲率取倒數。有了曲率,角速度就是 `ω = κ·v`。
 
-<p align="center"><img src="../../../img/nav2-pure-pursuit-geometry.svg" width="880" alt="純追蹤的幾何推導:過原點且與車體 x 軸相切的圓,圓心必在車體 y 軸上,由 x²+(y−R)²=R² 解出 R=L²/2y,故曲率 κ=2y/L²;右側是 RPP 疊加的四層減速調節"></p>
+<p align="center"><img src="../../../img/nav2-pure-pursuit-geometry.webp" width="880" alt="純追蹤的幾何推導:過原點且與車體 x 軸相切的圓,圓心必在車體 y 軸上,由 x²+(y−R)²=R² 解出 R=L²/2y,故曲率 κ=2y/L²;右側是 RPP 疊加的四層減速調節"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../../img/nav2-pure-pursuit-geometry.svg">原始 SVG</a>。</sub></p>
 
 **這條式子完全不知道障礙物、不知道動力學、不需要模型**——這就是它能跑到 4000 Hz 的原因,也是它遇到障礙只能停的原因。
 
@@ -457,7 +458,8 @@ $$ \mathbf{c} = \frac{1}{21}\big(-2,\; 3,\; 6,\; 7,\; 6,\; 3,\; -2\big) $$
 | 常數、一次、二次、**三次** | **完全保留** | 路徑真實的彎度不會被削掉 |
 | 四次以上、高頻噪聲 | 被**衰減** | 鋸齒被磨掉 |
 
-<p align="center"><img src="../../../img/nav2-sg-vs-moving-average.svg" width="860" alt="同一段帶鋸齒的轉彎:SG 濾波後與真實曲線幾乎重合,移動平均把頂點壓低 11.5%;右側表格列出兩者對各階多項式的保留情況,以及 SG 係數兩端為負正是抵銷削平效應的原因"></p>
+<p align="center"><img src="../../../img/nav2-sg-vs-moving-average.webp" width="860" alt="同一段帶鋸齒的轉彎:SG 濾波後與真實曲線幾乎重合,移動平均把頂點壓低 11.5%;右側表格列出兩者對各階多項式的保留情況,以及 SG 係數兩端為負正是抵銷削平效應的原因"></p>
+<p align="center"><sub>示意圖，比例不精確。精確比例見<a href="../../../img/nav2-sg-vs-moving-average.svg">原始 SVG</a>。</sub></p>
 
 (嚴格說,高階成分是被**衰減**而非歸零,衰減量取決於它的空間頻率;「完全保留」則是精確的——那是最小平方擬合的矩條件直接給的。)
 
@@ -495,7 +497,7 @@ AMCL(Adaptive Monte Carlo Localization)不在規劃鏈上,但沒有它其他三�
 
 粒子濾波換一種表達:不描述分布的形狀,直接**撒一堆假設**,每個粒子是一個具體的位姿 `(x, y, θ)`,配一個權重。兩條分岔各站一半粒子,完全沒有問題;等車再往前開幾公尺、看到某條走廊特有的東西,錯的那一半自然就被淘汰。
 
-<p align="center"><img src="../../../img/nav2-amcl-particle-cycle.svg" width="900" alt="AMCL 的粒子循環:預測讓粒子雲變胖、更新依 likelihood 重新加權讓好的粒子變大、重取樣讓雲收縮;下方對照走廊分岔的情境,單一高斯的橢圓中心落在牆上,而粒子能同時押注兩條分岔"></p>
+<p align="center"><img src="../../../img/nav2-amcl-particle-cycle.webp" width="900" alt="AMCL 的粒子循環:預測讓粒子雲變胖、更新依 likelihood 重新加權讓好的粒子變大、重取樣讓雲收縮;下方對照走廊分岔的情境,單一高斯的橢圓中心落在牆上,而粒子能同時押注兩條分岔"></p>
 
 ### 5.1.1 一個循環,五個步驟
 

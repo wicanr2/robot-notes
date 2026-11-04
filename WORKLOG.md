@@ -17,3 +17,15 @@
 - 容器清理：讀取與驗證均使用一次性 `--rm` 容器；提交前再次檢查專案容器、root-owned 檔案及同名 `.md` 空目錄。
 
 交付入口：[產品專章](docs/30-products/README.md)。
+
+## 2026-11-04 全站 review、圖片重繪與 Cloudflare 部署
+
+- 目標：review 筆記現況、用 Codex 圖像生成重繪 2026-09-01 後新增的圖、部署到 Cloudflare。
+- 機械檢查：從版控檔案建站後掃描產物，壞內部連結、壞錨點與孤兒頁都是 0。222 張 SVG 中有 22 張量到文字溢出或互疊；近期範圍外的 19 張尚未處理。量測字型是 WenQuanYi，數字會隨字型變動。
+- Husarion 審查：補上專章缺少的專家與學生審查。專家意見逐條回官方頁面複核後才套用，修正見 `PLAN.md` R25。沒有套用的兩項也記在 R25。
+- 圖片：20 張 `nav2-*`、`ctl-*` 與 4 張 Husarion 圖重繪成 `img/*.webp`，共 2.44 MiB。Husarion 兩張規格圖只重繪規格表，產品照與長段英文不重繪。原始 SVG 與官方 PNG 都留在 `img/`。
+- 圖片驗證：獨立 agent 逐條比對文字清單與完整參考圖；最後未通過的兩張重新生成後，由主迴圈放大確認。有比例意義的 8 張在圖下標示示意並連回 SVG。幾何只有目測估讀，沒有程式量測。
+- 重做紀錄：第一版參考圖被瀏覽器視窗裁切，20 張全部重新生成，原因與修法見 `PLAN.md` R26。
+- 部署準備：新增 `Gemfile`、`Gemfile.lock`、`.ruby-version`，以 Cloudflare 預設的 Ruby 3.4.4 在 Docker 內實測建置。`_config.yml` 與 `.gitignore` 排除 `slam/`。設定見 [Cloudflare Pages 部署](docs/_meta/deploy-cloudflare.md)。
+- 映像：這輪在主機新增 `ruby:3.3-bookworm` 與 `ruby:3.4.4-bookworm` 兩個映像，容器都用 `--rm`，沒有清理任何映像。
+- 待決定：五個官方 Husarion PNG 的轉載授權未查到，檔案仍在站上。

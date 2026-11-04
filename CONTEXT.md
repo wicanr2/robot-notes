@@ -229,6 +229,21 @@
 - SEMI E84 — 自動搬運交接(handoff)平行 I/O 介面(AMR ↔ load port 交接 FOUP)。
 - FOUP — Front Opening Unified Pod,晶圓盒。OHT — 天車(Overhead Hoist Transport)。
 
+## 產品(Husarion)
+
+Panther 與 ROSbot XL 的專有名詞。一般硬體詞見 [產品專章的名詞速查](docs/30-products/README.md#名詞速查)。
+
+- Built-in Computer — Panther 專責底盤的內建 Linux 電腦,跑即時核心與底盤 ROS 2 驅動,官方保留給進階使用者設定。
+- User Computer — Panther 使用者艙內選配的應用電腦,跑 Nav2 與自訂程式,經路由器以 ROS 2 與 Built-in Computer 溝通。
+- EMU(Emergency Management Unit)— Panther 的緊急管理單元,處理急停的觸發、鎖存與解除。
+- Safety Board — 放 EMU 設定開關 SW1、SW2 的電路板,位於後艙。
+- USI(User Safety Interface)— Panther 給外部接急停輸入、遠端開關機與繼電器輸出的硬體介面。v1.2x 與 v1.3x 接法不同。
+- UCI(User Compartment Interface)— Panther 使用者艙的資料介面。
+- AUX Power — Panther 面板上未穩壓的電池直出電源(32~42 V、10 A),預設關閉;方塊圖標為 Vbat。
+- Digital Board — ROSbot XL 的數位控制板,上有 STM32F407、馬達驅動、IMU、Ethernet 交換器與 USB hub。
+- 平面橋接(flat bridge)— ROSbot XL 的 LAN9303 交換器出廠狀態:STM32、電腦與外部 RJ45 在同一廣播網域,沒有 VLAN 隔離。
+- 開發文件 — 本專章對 Husarion repo 內 `ARCHITECTURE.md` 的稱呼。它是開發者筆記,證據等級低於官方手冊,引用前要對照韌體版本。
+
 ---
 
 ## Flagged ambiguities(待釐清)
