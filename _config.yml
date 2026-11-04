@@ -28,7 +28,12 @@ include:
   - _meta
   - _refs
 
+# 自訂 exclude 會蓋掉 Jekyll 的預設排除,Gemfile 與 vendor/ 要自己列。
 exclude:
   - talk_record/
   - tmp/
+  - slam/
   - CLAUDE.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
