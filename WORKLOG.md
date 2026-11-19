@@ -39,3 +39,6 @@
 - 使用者決定:公開程度「只寫機制」;標題用「數位影子」,內文講清模型/影子/分身分類;單篇放 `50-physical-ai`;初稿與審查修正都直接 push。
 - 變更:新增 `docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md` 與 6 張 `img/dshadow-*.svg`;更新 `README.md`、`docs/50-physical-ai/README.md`、`_data/nav.yml`、`CONTEXT.md`、`PLAN.md` R28。
 - 驗證:SVG 以 Docker 內 headless Chromium(掛主機 Noto CJK 字型)渲染成 PNG 逐張檢查;長條圖配色經 dataviz 驗證腳本通過;推送前跑原文外洩閘門(結果見下一則)。
+- 外洩閘門:比對兩個私人 repo 的 15 份來源;自測(乾淨檔不命中、每份來源植入一行都命中)通過。正式檢查的 token 命中 0;16 字以上重疊的散文句全部改寫,剩下的是數字表、公式、Docker 旗標與 API 名稱。
+- 初稿 `64d2ae1` 推上 main,Cloudflare 與 GitHub Pages 建置成功,線上頁面 200(Cloudflare 把 `.html` 以 308 轉到無副檔名網址)。
+- 專家與學生審查共約 45 條,逐條回原始碼核對後套用。實質錯誤:里程比分母與「偷用模型會被比值抓到」的推論(N5 估算比值也在 ±2% 內)、往返延遲量的區間不含 Isaac、DAC 走驅動層通知而非硬體回送、`--cpus` 也有帶、bridge 對環境側有兩個歸零例外、信箱時間軸的減速曲線與實測距離不符(改成依一階滯後重畫)、反算公式缺倒車分支、「物理步」應為控制迴圈步。§2 改寫:唯一的實體是開發板,嚴格說是 HIL,「數位影子」是借用回送方向的意象。第 6 節補主控腳本、判讀器、收據、DDS 探索與 SHM 為何要共用兩個命名空間、`ROS_LOCALHOST_ONLY` 自 Iron 棄用、裝置查法、RTT 與收尾讀計數的交接。

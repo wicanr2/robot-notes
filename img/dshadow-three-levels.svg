@@ -23,7 +23,7 @@
   <text x="45" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡</text>
   <text x="45" y="302" font-size="13" fill="#374151">只開板內模擬對端(sim-peers)。</text>
   <text x="45" y="326" font-size="13" fill="#374151">韌體對著自己帶的模型跑,</text>
-  <text x="45" y="350" font-size="13" fill="#374151">外面沒有物理對端。</text>
+  <text x="45" y="350" font-size="13" fill="#374151">不和任何外部物件自動交換。</text>
 
   <!-- panel 2 -->
   <rect x="340" y="80" width="280" height="330" rx="12" fill="#ECFDF5" stroke="#6EE7B7"/>
@@ -37,10 +37,11 @@
   <text x="480" y="147" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">自動</text>
   <text x="480" y="203" text-anchor="middle" font-size="12" fill="#6B7280">手動</text>
   <line x1="355" y1="250" x2="605" y2="250" stroke="#A7F3D0"/>
-  <text x="355" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡(只看回送方向)</text>
+  <text x="355" y="276" font-size="13" font-weight="700" fill="#1F2937">標題借用的意象(只看回送)</text>
   <text x="355" y="302" font-size="13" fill="#374151">Isaac 裡 TB3 的輪子實際轉多少,</text>
   <text x="355" y="326" font-size="13" fill="#374151">自動寫進韌體的行程狀態。</text>
-  <text x="355" y="350" font-size="13" fill="#374151">韌體眼中的車,是 TB3 的影子。</text>
+  <text x="355" y="350" font-size="13" fill="#374151">韌體眼中的車,追著 TB3 走。</text>
+  <text x="355" y="374" font-size="12" fill="#6B7280">這是借用,不是嚴格分類</text>
 
   <!-- panel 3 -->
   <rect x="650" y="80" width="280" height="330" rx="12" fill="#F9FAFB" stroke="#D1D5DB"/>
@@ -57,6 +58,7 @@
   <text x="665" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡(整個閉迴路)</text>
   <text x="665" y="302" font-size="13" fill="#374151">命令自動送進 Isaac,</text>
   <text x="665" y="326" font-size="13" fill="#374151">運動自動回到韌體。</text>
-  <text x="665" y="350" font-size="13" fill="#374151">資料流是雙向自動,</text>
-  <text x="665" y="374" font-size="13" fill="#374151">但「實體」那端仍是 PhysX。</text>
+  <text x="665" y="350" font-size="13" fill="#374151">但唯一的實體是開發板,</text>
+  <text x="665" y="374" font-size="13" fill="#374151">車是 PhysX。嚴格說是</text>
+  <text x="665" y="398" font-size="13" fill="#374151">硬體在環(HIL)模擬。</text>
 </svg>

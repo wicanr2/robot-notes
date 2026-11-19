@@ -39,7 +39,7 @@
 
   <text x="297" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">C1:回送 Isaac 的實際運動</text>
   <text x="297" y="364" text-anchor="middle" font-size="12" fill="#4B5563">韌體看到車慢,把輸出補上去</text>
-  <text x="597" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">N4:回送命令值(回音)</text>
+  <text x="597" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">N4:回送填命令值</text>
   <text x="597" y="364" text-anchor="middle" font-size="12" fill="#4B5563">韌體以為正常,真值少了 21%</text>
   <text x="30" y="390" font-size="11.5" fill="#6B7280">C1 三輪的真值是 0.2003 到 0.2005 m/s,圖上取中間值。N4 三輪的真值都約 0.158 m/s。</text>
 </svg>

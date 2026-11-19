@@ -36,9 +36,9 @@
   <text x="335" y="374" font-size="13" fill="#374151">→ 舵輪方向實際速度</text>
 
   <rect x="570" y="180" width="110" height="120" rx="10" fill="#FFFFFF" stroke="#6B7280"/>
-  <text x="625" y="222" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">XRCE</text>
-  <text x="625" y="243" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Agent</text>
-  <text x="625" y="270" text-anchor="middle" font-size="12" fill="#6B7280">DDS ⇄ 序列埠</text>
+  <text x="625" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">XRCE</text>
+  <text x="625" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Agent</text>
+  <text x="625" y="252" text-anchor="middle" font-size="12" fill="#6B7280">DDS ⇄ 序列埠</text><text x="625" y="274" text-anchor="middle" font-size="10.5" fill="#6B7280">和 command_</text><text x="625" y="288" text-anchor="middle" font-size="10.5" fill="#6B7280">bridge 同容器</text>
 
   <rect x="40" y="470" width="230" height="60" rx="10" fill="#FFFFFF" stroke="#6B7280"/>
   <text x="55" y="494" font-size="14" font-weight="700" fill="#1F2937">probe 容器(probe-rs)</text>
@@ -83,12 +83,14 @@
   <path d="M520,335 H552 V280 H566" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
   <text x="557" y="318" font-size="13" fill="#059669">⑦</text>
 
+  <path d="M612,302 V368 H524" stroke="#EA580C" stroke-width="1.6" stroke-dasharray="5 3" fill="none" marker-end="url(#o)"/>
+  <text x="530" y="386" font-size="11.5" fill="#EA580C">δ(取自 plant_out)</text>
   <!-- USB -->
-  <text x="710" y="190" text-anchor="middle" font-size="11" fill="#6B7280">USB</text>
+  <text x="710" y="190" text-anchor="middle" font-size="10" fill="#6B7280">同一條 VCP</text>
   <path d="M680,200 H736" stroke="#2563EB" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
   <path d="M740,235 H684" stroke="#EA580C" stroke-width="2.5" fill="none" marker-end="url(#o)"/>
   <path d="M680,270 H736" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
-  <text x="710" y="292" text-anchor="middle" font-size="11" fill="#6B7280">115200</text>
+  <text x="710" y="292" text-anchor="middle" font-size="10" fill="#6B7280">115200 bps</text>
 
   <!-- board internals -->
   <path d="M865,283 V297" stroke="#6B7280" stroke-width="1.5" fill="none" marker-end="url(#k)" marker-start="url(#ks)"/>
