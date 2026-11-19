@@ -245,6 +245,9 @@ sections:
       - url: "/docs/50-physical-ai/sim-to-real.html"
         title: "Sim-to-real"
         depth: 0
+      - url: "/docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.html"
+        title: "數位影子:開發板韌體開 Isaac 裡的 TB3"
+        depth: 0
       - url: "/docs/50-physical-ai/claude-physical-ai-workflow.html"
         title: "用 Claude 完成 Physical AI 模擬"
         depth: 0

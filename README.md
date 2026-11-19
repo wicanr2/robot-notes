@@ -171,6 +171,7 @@
 - [SDF 3D 模型檔:從零開始](docs/50-physical-ai/sdf-3d-models.md):mesh / visual / collision / inertial、SDF 資料夾結構、差速搬運車範例
 - [建 AMR 模擬世界:模型與場景哪裡來](docs/50-physical-ai/simulation-asset-sources.md):資產來源盤點(2026-08-05 實查):Gazebo Fuel 的實際數量與缺口、AWS RoboMaker 服務終止後那批 world 的現況、Isaac SimReady 與雲端 asset root、rmf_demos 場景、研究用室內資料集、通用素材;以及「拿到資產不等於能用」要補多少工
 - [Sim-to-real](docs/50-physical-ai/sim-to-real.md):reality gap、domain randomization、上車檢查清單
+- [數位影子:開發板韌體開 Isaac Sim 裡的 TB3](docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md):數位模型、影子、分身怎麼分;虛擬舵輪與差速的換算推導;命令信箱與停車;在 RTX 主機上組開發板、Isaac Sim、bridge 與控制;負對照怎麼證明閉環
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md):方法論:Claude 當膠水層與迭代引擎
 - [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md):capstone:URDF 設計、物理參數、第一性原理 worklist(M0–M7)
 

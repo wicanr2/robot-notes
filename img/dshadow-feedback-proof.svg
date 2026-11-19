@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="400" viewBox="0 0 820 400" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="820" height="400" fill="#FCFCFB"/>
+  <text x="30" y="34" font-size="17" font-weight="700" fill="#1F2937">回送是真的才補得回來:車比碼表慢 20% 時的車速</text>
+  <text x="30" y="56" font-size="12.5" fill="#6B7280">直行 0.2 m/s,TB3 的輪子只拿到命令的 80%。最後 2 s 的平均,各 3 輪</text>
+
+  <!-- legend -->
+  <rect x="520" y="72" width="14" height="14" rx="3" fill="#2a78d6"/>
+  <text x="540" y="84" font-size="12.5" fill="#374151">韌體回報的車速</text>
+  <rect x="650" y="72" width="14" height="14" rx="3" fill="#eb6834"/>
+  <text x="670" y="84" font-size="12.5" fill="#374151">Isaac 真值</text>
+
+  <!-- grid: y = 320 - v*920 -->
+  <g stroke="#E5E7EB">
+    <line x1="100" y1="320" x2="760" y2="320" stroke="#9CA3AF"/>
+    <line x1="100" y1="274" x2="760" y2="274"/>
+    <line x1="100" y1="228" x2="760" y2="228"/>
+    <line x1="100" y1="182" x2="760" y2="182"/>
+    <line x1="100" y1="136" x2="760" y2="136"/>
+    <line x1="100" y1="90" x2="760" y2="90"/>
+  </g>
+  <g font-size="11" fill="#6B7280" text-anchor="end">
+    <text x="92" y="324">0</text><text x="92" y="278">0.05</text><text x="92" y="232">0.10</text>
+    <text x="92" y="186">0.15</text><text x="92" y="140">0.20</text><text x="92" y="94">0.25</text>
+  </g>
+  <text x="40" y="210" font-size="11" fill="#6B7280" transform="rotate(-90 40 210)" text-anchor="middle">車速(m/s)</text>
+  <line x1="100" y1="136" x2="760" y2="136" stroke="#6B7280" stroke-dasharray="6 4"/>
+  <text x="758" y="129" text-anchor="end" font-size="11.5" fill="#4B5563">命令 0.2 m/s</text>
+
+  <!-- C1 -->
+  <path d="M236,320 V140 Q236,136 240,136 H292 Q296,136 296,140 V320 Z" fill="#2a78d6"/>
+  <path d="M298,320 V139.6 Q298,135.6 302,135.6 H354 Q358,135.6 358,139.6 V320 Z" fill="#eb6834"/>
+  <text x="266" y="128" text-anchor="middle" font-size="12" fill="#1F2937">0.2000</text>
+  <text x="328" y="128" text-anchor="middle" font-size="12" fill="#1F2937">0.2004</text>
+  <!-- N4 -->
+  <path d="M536,320 V140 Q536,136 540,136 H592 Q596,136 596,140 V320 Z" fill="#2a78d6"/>
+  <path d="M598,320 V178.6 Q598,174.6 602,174.6 H654 Q658,174.6 658,178.6 V320 Z" fill="#eb6834"/>
+  <text x="566" y="128" text-anchor="middle" font-size="12" fill="#1F2937">0.2000</text>
+  <text x="628" y="167" text-anchor="middle" font-size="12" fill="#1F2937">0.1580</text>
+
+  <text x="297" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">C1:回送 Isaac 的實際運動</text>
+  <text x="297" y="364" text-anchor="middle" font-size="12" fill="#4B5563">韌體看到車慢,把輸出補上去</text>
+  <text x="597" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">N4:回送命令值(回音)</text>
+  <text x="597" y="364" text-anchor="middle" font-size="12" fill="#4B5563">韌體以為正常,真值少了 21%</text>
+  <text x="30" y="390" font-size="11.5" fill="#6B7280">C1 三輪的真值是 0.2003 到 0.2005 m/s,圖上取中間值。N4 三輪的真值都約 0.158 m/s。</text>
+</svg>

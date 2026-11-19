@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="650" viewBox="0 0 980 650" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="980" height="650" fill="#FFFFFF"/>
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4B5563"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#059669"/></marker>
+  </defs>
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#1F2937">一輪實驗的啟動與收尾順序</text>
+
+  <!-- lane headers -->
+  <g font-size="13" font-weight="700" text-anchor="middle">
+    <rect x="40" y="48" width="120" height="38" rx="8" fill="#F3F4F6" stroke="#9CA3AF"/><text x="100" y="72" fill="#1F2937">主控腳本</text>
+    <rect x="190" y="48" width="120" height="38" rx="8" fill="#F3F4F6" stroke="#9CA3AF"/><text x="250" y="72" fill="#1F2937">probe 容器</text>
+    <rect x="340" y="48" width="120" height="38" rx="8" fill="#FFF7ED" stroke="#FDBA74"/><text x="400" y="72" fill="#9A3412">開發板</text>
+    <rect x="490" y="48" width="140" height="38" rx="8" fill="#EFF6FF" stroke="#2563EB"/><text x="560" y="66" fill="#1E3A8A">command_bridge</text><text x="560" y="81" font-size="11" font-weight="400" fill="#1E3A8A">+ XRCE Agent</text>
+    <rect x="650" y="48" width="140" height="38" rx="8" fill="#ECFDF5" stroke="#059669"/><text x="720" y="72" fill="#065F46">feedback_bridge</text>
+    <rect x="820" y="48" width="120" height="38" rx="8" fill="#F5F3FF" stroke="#7C3AED"/><text x="880" y="72" fill="#5B21B6">Isaac Sim</text>
+  </g>
+  <g stroke="#D1D5DB" stroke-dasharray="4 4">
+    <line x1="100" y1="86" x2="100" y2="615"/><line x1="250" y1="86" x2="250" y2="615"/>
+    <line x1="400" y1="86" x2="400" y2="615"/><line x1="560" y1="86" x2="560" y2="615"/>
+    <line x1="720" y1="86" x2="720" y2="615"/><line x1="880" y1="86" x2="880" y2="615"/>
+  </g>
+
+  <g font-size="12.5" fill="#1F2937">
+    <!-- 1 self -->
+    <circle cx="100" cy="120" r="5" fill="#4B5563"/>
+    <text x="112" y="124">① 開跑前盤點:容器、負載、GPU;超過共用上限就不開跑</text>
+    <!-- 2 -->
+    <path d="M100,160 H396" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="250" y="153" text-anchor="middle">② 經 probe 燒錄 ELF、重置,開始側錄 RTT log</text>
+    <!-- 3 -->
+    <path d="M100,196 H556" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="330" y="189" text-anchor="middle">③ 起 command_bridge 容器:持有網路命名空間、掛序列埠</text>
+    <!-- 4 -->
+    <path d="M100,232 H716" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="410" y="225" text-anchor="middle">④ 起 feedback_bridge 容器:加入同一個網路與 IPC 命名空間</text>
+    <!-- 5 -->
+    <path d="M720,268 H564" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="640" y="261" text-anchor="middle">⑤ 訂閱發佈都建好 → feedback_ready</text>
+    <!-- 6 -->
+    <path d="M560,304 H404" stroke="#2563EB" stroke-width="1.8" fill="none" marker-end="url(#b)"/>
+    <text x="480" y="297" text-anchor="middle">⑥ 啟動 Agent、建 session</text>
+    <!-- 7 -->
+    <path d="M100,340 H876" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="490" y="333" text-anchor="middle">⑦ 起 Isaac:headless、物理 240 Hz,任務開始前先原地步進</text>
+    <!-- 8 -->
+    <path d="M880,376 H724" stroke="#059669" stroke-width="1.8" fill="none" marker-end="url(#g)"/>
+    <text x="800" y="369" text-anchor="middle">⑧ wheel_state 開始流</text>
+    <!-- 9 -->
+    <path d="M720,412 H404" stroke="#059669" stroke-width="1.8" fill="none" marker-end="url(#g)"/>
+    <text x="560" y="405" text-anchor="middle">⑨ 回送 plant_in 開始流進韌體</text>
+    <!-- 10 -->
+    <path d="M560,448 H404" stroke="#2563EB" stroke-width="1.8" fill="none" marker-end="url(#b)"/>
+    <text x="480" y="441" text-anchor="middle">⑩ 有狀態、有回送才請求解鎖</text>
+    <!-- 11 -->
+    <path d="M560,484 H876" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="720" y="477" text-anchor="middle">⑪ 解鎖成功 → armed 檔,任務開始</text>
+    <!-- 12 -->
+    <path d="M880,520 H564" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="720" y="513" text-anchor="middle">⑫ 任務跑完 → mission_done 檔</text>
+    <!-- 13 -->
+    <path d="M100,556 H396" stroke="#4B5563" stroke-width="1.6" fill="none" marker-end="url(#k)"/>
+    <text x="250" y="549" text-anchor="middle">⑬ 停容器,經 SWD 讀韌體計數</text>
+    <!-- 14 self -->
+    <circle cx="100" cy="592" r="5" fill="#4B5563"/>
+    <text x="112" y="596">⑭ 判讀器依開跑前寫死的判準判 PASS 或 FAIL,並核對原因</text>
+  </g>
+  <text x="30" y="638" font-size="12" fill="#6B7280">旗標檔放在每輪共用的收據目錄。容器之間不必互連,就能依序啟動。</text>
+</svg>

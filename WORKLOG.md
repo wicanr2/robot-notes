@@ -32,3 +32,10 @@
 - 部署：新增 `Gemfile`、`Gemfile.lock`、`.ruby-version`、`404.html`，以 Git integration 部署到 <https://robot-notes.pages.dev>。`_config.yml` 與 `.gitignore` 排除 `slam/`。第一次建置因語系失敗，修正後成功。設定見 [Cloudflare Pages 部署](docs/_meta/deploy-cloudflare.md)。
 - 映像：這輪在主機新增 `ruby:3.3-bookworm` 與 `ruby:3.4.4-bookworm` 兩個映像，容器都用 `--rm`，沒有清理任何映像。
 - 官方圖：五個官方 Husarion PNG 的轉載授權未查到，使用者決定保留在站上。
+
+## 2026-11-19 數位影子教學(TB3 + 開發板韌體 + Isaac Sim)
+
+- 目標:把私人 repo 裡 TB3 閉迴路實驗整理成公開教學,並更新 Cloudflare。使用者追加要求:講清楚怎麼在 RTX 主機上串開發板、Isaac Sim、bridge 與控制。
+- 使用者決定:公開程度「只寫機制」;標題用「數位影子」,內文講清模型/影子/分身分類;單篇放 `50-physical-ai`;初稿與審查修正都直接 push。
+- 變更:新增 `docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md` 與 6 張 `img/dshadow-*.svg`;更新 `README.md`、`docs/50-physical-ai/README.md`、`_data/nav.yml`、`CONTEXT.md`、`PLAN.md` R28。
+- 驗證:SVG 以 Docker 內 headless Chromium(掛主機 Noto CJK 字型)渲染成 PNG 逐張檢查;長條圖配色經 dataviz 驗證腳本通過;推送前跑原文外洩閘門(結果見下一則)。

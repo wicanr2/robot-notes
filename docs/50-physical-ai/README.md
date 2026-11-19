@@ -4,12 +4,12 @@
 
 ## 先講清楚:這一區走哪條線
 
-模擬環境有兩大生態,這一區的**實作全部走 Gazebo**:
+模擬環境有兩大生態,這一區的**實作以 Gazebo 為主**:
 
 | | Gazebo(gz sim) | Isaac Sim / Isaac Lab |
 |---|---|---|
 | **定位** | 開源、輕量、與 ROS 2 整合最深 | NVIDIA 生態、GPU 加速、大規模平行訓練 |
-| **本區內容** | 建模、資產、感測器、SLAM、叉車專案,**都能跟著做** | 只有[一篇概念對照](isaac-sim-isaac-lab-amr.md),**沒有實作走查** |
+| **本區內容** | 建模、資產、感測器、SLAM、叉車專案,**都能跟著做** | [一篇概念對照](isaac-sim-isaac-lab-amr.md),加上[一篇韌體接 Isaac 的實驗紀錄](digital-shadow-firmware-isaac-tb3.md);**沒有從零開始的走查** |
 
 [總覽](physical-ai-overview.md) 裡那張 NVIDIA 官方堆疊圖(Omniverse → Replicator → Cosmos → Isaac Lab → Jetson Thor)是產業界的完整樣貌,不是這份筆記帶你走的路。**看到那張圖不必期待後面會一一實作。**
 
@@ -26,8 +26,9 @@
 | 7 | [sim-to-real](sim-to-real.md) | **這一區的核心。** 模擬與真實差在哪五個地方、三種手段怎麼接力 |
 | 8 | [Gazebo + SLAM 倉庫實例](gazebo-slam-warehouse.md) | 把前面幾篇串起來跑一次 |
 | 9 | [叉車專案:RMF + Gazebo](project-forklift-rmf-gazebo.md) | 最完整的一篇。**它是專案計畫不是完成報告**,§14 是給 agent 抄的骨架,可以不讀 |
-| 10 | [感測器資料與 3D 重建](sensor-data-and-3d-reconstruction.md) | 3DGS 那條線。第 7 篇會用到,想先看也可以 |
-| 11 | [用 Claude 做 Physical AI](claude-physical-ai-workflow.md) | 方法論收尾:哪些環節適合交給 AI、哪些不適合 |
+| 10 | [數位影子:開發板韌體開 Isaac 裡的 TB3](digital-shadow-firmware-isaac-tb3.md) | Isaac 這條線唯一的實作紀錄:真板韌體當控制器、Isaac 當車,在 RTX 主機上怎麼接、怎麼證明閉環。建議先讀第 6 篇 |
+| 11 | [感測器資料與 3D 重建](sensor-data-and-3d-reconstruction.md) | 3DGS 那條線。第 7 篇會用到,想先看也可以 |
+| 12 | [用 Claude 做 Physical AI](claude-physical-ai-workflow.md) | 方法論收尾:哪些環節適合交給 AI、哪些不適合 |
 
 ## 相關
 

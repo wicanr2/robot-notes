@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="960" height="430" fill="#FFFFFF"/>
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#059669"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/></marker>
+  </defs>
+  <text x="30" y="36" font-size="20" font-weight="700" fill="#1F2937">數位模型、數位影子、數位分身:差在資料怎麼流</text>
+  <text x="30" y="60" font-size="13" fill="#6B7280">分類依 Kritzinger 等人(2018):看實體與數位兩端之間,每個方向的資料是手動還是自動</text>
+
+  <!-- panel 1 -->
+  <rect x="30" y="80" width="280" height="330" rx="12" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="170" y="110" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">數位模型</text>
+  <rect x="45" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="90" y="176" text-anchor="middle" font-size="15" fill="#1F2937">實體</text>
+  <rect x="205" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="250" y="176" text-anchor="middle" font-size="15" fill="#1F2937">數位</text>
+  <path d="M137,155 H201" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 4" fill="none" marker-end="url(#k)"/>
+  <path d="M203,185 H139" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 4" fill="none" marker-end="url(#k)"/>
+  <text x="170" y="147" text-anchor="middle" font-size="12" fill="#6B7280">手動</text>
+  <text x="170" y="203" text-anchor="middle" font-size="12" fill="#6B7280">手動</text>
+  <line x1="45" y1="250" x2="295" y2="250" stroke="#E5E7EB"/>
+  <text x="45" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡</text>
+  <text x="45" y="302" font-size="13" fill="#374151">只開板內模擬對端(sim-peers)。</text>
+  <text x="45" y="326" font-size="13" fill="#374151">韌體對著自己帶的模型跑,</text>
+  <text x="45" y="350" font-size="13" fill="#374151">外面沒有物理對端。</text>
+
+  <!-- panel 2 -->
+  <rect x="340" y="80" width="280" height="330" rx="12" fill="#ECFDF5" stroke="#6EE7B7"/>
+  <text x="480" y="110" text-anchor="middle" font-size="17" font-weight="700" fill="#065F46">數位影子</text>
+  <rect x="355" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="400" y="176" text-anchor="middle" font-size="15" fill="#1F2937">實體</text>
+  <rect x="515" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="560" y="176" text-anchor="middle" font-size="15" fill="#1F2937">數位</text>
+  <path d="M447,155 H511" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <path d="M513,185 H449" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 4" fill="none" marker-end="url(#k)"/>
+  <text x="480" y="147" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">自動</text>
+  <text x="480" y="203" text-anchor="middle" font-size="12" fill="#6B7280">手動</text>
+  <line x1="355" y1="250" x2="605" y2="250" stroke="#A7F3D0"/>
+  <text x="355" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡(只看回送方向)</text>
+  <text x="355" y="302" font-size="13" fill="#374151">Isaac 裡 TB3 的輪子實際轉多少,</text>
+  <text x="355" y="326" font-size="13" fill="#374151">自動寫進韌體的行程狀態。</text>
+  <text x="355" y="350" font-size="13" fill="#374151">韌體眼中的車,是 TB3 的影子。</text>
+
+  <!-- panel 3 -->
+  <rect x="650" y="80" width="280" height="330" rx="12" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="790" y="110" text-anchor="middle" font-size="17" font-weight="700" fill="#1F2937">數位分身</text>
+  <rect x="665" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="710" y="176" text-anchor="middle" font-size="15" fill="#1F2937">實體</text>
+  <rect x="825" y="130" width="90" height="80" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="870" y="176" text-anchor="middle" font-size="15" fill="#1F2937">數位</text>
+  <path d="M757,155 H821" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <path d="M823,185 H759" stroke="#2563EB" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+  <text x="790" y="147" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">自動</text>
+  <text x="790" y="203" text-anchor="middle" font-size="12" font-weight="700" fill="#2563EB">自動</text>
+  <line x1="665" y1="250" x2="915" y2="250" stroke="#E5E7EB"/>
+  <text x="665" y="276" font-size="13" font-weight="700" fill="#1F2937">在這個實驗裡(整個閉迴路)</text>
+  <text x="665" y="302" font-size="13" fill="#374151">命令自動送進 Isaac,</text>
+  <text x="665" y="326" font-size="13" fill="#374151">運動自動回到韌體。</text>
+  <text x="665" y="350" font-size="13" fill="#374151">資料流是雙向自動,</text>
+  <text x="665" y="374" font-size="13" fill="#374151">但「實體」那端仍是 PhysX。</text>
+</svg>

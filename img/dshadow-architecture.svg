@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1010" height="610" viewBox="0 0 1010 610" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="1010" height="610" fill="#FFFFFF"/>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#EA580C"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#059669"/></marker>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/></marker>
+    <marker id="ks" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#6B7280"/></marker>
+  </defs>
+
+  <!-- host -->
+  <rect x="20" y="50" width="690" height="495" rx="14" fill="#F8FAFC" stroke="#94A3B8"/>
+  <text x="40" y="78" font-size="15" font-weight="700" fill="#1F2937">RTX 主機(全部在 Docker 內)</text>
+
+  <rect x="40" y="90" width="230" height="360" rx="10" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="55" y="115" font-size="15" font-weight="700" fill="#5B21B6">Isaac Sim 容器(GPU)</text>
+  <text x="55" y="150" font-size="13" fill="#374151">任務節點:依真值算當下 V、ω</text>
+  <text x="55" y="185" font-size="13" fill="#374151">差速控制器 → 兩個輪關節</text>
+  <text x="55" y="215" font-size="13" fill="#374151">PhysX 物理 240 Hz</text>
+  <text x="55" y="240" font-size="13" fill="#374151">迴圈 60 Hz,依牆鐘限速</text>
+  <text x="55" y="265" font-size="13" fill="#374151">即時率要在 0.95 到 1.05</text>
+  <text x="55" y="295" font-size="13" fill="#374151">跑的當下不渲染,</text>
+  <text x="55" y="318" font-size="13" fill="#374151">事後照軌跡用 RTX 重播</text>
+  <text x="55" y="365" font-size="13" fill="#374151">發 /tb3/wheel_state</text>
+  <text x="55" y="388" font-size="13" fill="#374151">(兩輪關節位置)</text>
+
+  <rect x="320" y="90" width="200" height="110" rx="10" fill="#FFFFFF" stroke="#2563EB"/>
+  <text x="335" y="114" font-size="14" font-weight="700" fill="#1E3A8A">command_bridge</text>
+  <text x="335" y="139" font-size="13" fill="#374151">V、ω → 舵輪 v、δ</text>
+  <text x="335" y="161" font-size="13" fill="#374151">舵輪 v、δ → V、ω</text>
+  <text x="335" y="183" font-size="13" fill="#374151">解鎖、注入異常、停止</text>
+
+  <rect x="320" y="280" width="200" height="110" rx="10" fill="#FFFFFF" stroke="#059669"/>
+  <text x="335" y="304" font-size="14" font-weight="700" fill="#065F46">feedback_bridge</text>
+  <text x="335" y="352" font-size="13" fill="#374151">兩輪關節位置差分</text>
+  <text x="335" y="374" font-size="13" fill="#374151">→ 舵輪方向實際速度</text>
+
+  <rect x="570" y="180" width="110" height="120" rx="10" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="625" y="222" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">XRCE</text>
+  <text x="625" y="243" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Agent</text>
+  <text x="625" y="270" text-anchor="middle" font-size="12" fill="#6B7280">DDS ⇄ 序列埠</text>
+
+  <rect x="40" y="470" width="230" height="60" rx="10" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="55" y="494" font-size="14" font-weight="700" fill="#1F2937">probe 容器(probe-rs)</text>
+  <text x="55" y="516" font-size="12" fill="#374151">燒錄、側錄 RTT log、讀計數</text>
+
+  <!-- board -->
+  <rect x="740" y="60" width="250" height="480" rx="14" fill="#FFF7ED" stroke="#FDBA74"/>
+  <text x="755" y="88" font-size="15" font-weight="700" fill="#9A3412">開發板 NUCLEO-F767ZI</text>
+  <text x="755" y="110" font-size="12" fill="#6B7280">Cortex-M7,和正式韌體同一份原始碼</text>
+
+  <rect x="755" y="180" width="220" height="100" rx="9" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="768" y="204" font-size="14" font-weight="700" fill="#1F2937">XRCE client(Rust)</text>
+  <text x="768" y="227" font-size="12.5" fill="#374151">命令信箱只留最新一筆</text>
+  <text x="768" y="248" font-size="12.5" fill="#374151">200 ms 沒新命令就切輸出</text>
+  <text x="768" y="269" font-size="12.5" fill="#374151">每 20 ms 送出 plant_out</text>
+
+  <rect x="755" y="300" width="220" height="62" rx="9" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="768" y="324" font-size="14" font-weight="700" fill="#1F2937">控制邏輯 + 1 kHz 安全迴路</text>
+  <text x="768" y="347" font-size="12.5" fill="#374151">速度回授、上限、故障鎖存</text>
+
+  <rect x="755" y="395" width="220" height="75" rx="9" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="768" y="418" font-size="14" font-weight="700" fill="#1F2937">sim-peers 板內模擬對端</text>
+  <text x="768" y="440" font-size="12.5" fill="#374151">牽引控制器、編碼器、舵角</text>
+  <text x="768" y="460" font-size="12.5" fill="#374151">行程改用 ⑦ 的速度積分</text>
+
+  <rect x="755" y="480" width="220" height="46" rx="9" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="768" y="500" font-size="13" font-weight="700" fill="#1F2937">ST-LINK 板上除錯器</text>
+  <text x="768" y="518" font-size="12" fill="#374151">SWD 燒錄、RTT、讀記憶體</text>
+
+  <!-- arrows host side -->
+  <path d="M270,120 H316" stroke="#2563EB" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+  <text x="287" y="113" font-size="13" fill="#2563EB">①</text>
+  <path d="M320,170 H274" stroke="#EA580C" stroke-width="2.5" fill="none" marker-end="url(#o)"/>
+  <text x="287" y="190" font-size="13" fill="#EA580C">⑤</text>
+  <path d="M270,335 H316" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <text x="287" y="328" font-size="13" fill="#059669">⑥</text>
+
+  <path d="M520,115 H552 V200 H566" stroke="#2563EB" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+  <text x="557" y="150" font-size="13" fill="#2563EB">②</text>
+  <path d="M570,225 H540 V175 H524" stroke="#EA580C" stroke-width="2.5" fill="none" marker-end="url(#o)"/>
+  <text x="522" y="218" font-size="13" fill="#EA580C">④</text>
+  <path d="M520,335 H552 V280 H566" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <text x="557" y="318" font-size="13" fill="#059669">⑦</text>
+
+  <!-- USB -->
+  <text x="710" y="190" text-anchor="middle" font-size="11" fill="#6B7280">USB</text>
+  <path d="M680,200 H736" stroke="#2563EB" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+  <path d="M740,235 H684" stroke="#EA580C" stroke-width="2.5" fill="none" marker-end="url(#o)"/>
+  <path d="M680,270 H736" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <text x="710" y="292" text-anchor="middle" font-size="11" fill="#6B7280">115200</text>
+
+  <!-- board internals -->
+  <path d="M865,283 V297" stroke="#6B7280" stroke-width="1.5" fill="none" marker-end="url(#k)" marker-start="url(#ks)"/>
+  <path d="M840,364 V391" stroke="#EA580C" stroke-width="2.5" fill="none" marker-end="url(#o)"/>
+  <text x="818" y="384" font-size="13" fill="#EA580C">③</text>
+  <path d="M900,393 V366" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+  <text x="906" y="384" font-size="13" fill="#059669">⑧</text>
+
+  <path d="M270,500 H751" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#k)"/>
+  <text x="500" y="492" text-anchor="middle" font-size="12" fill="#6B7280">同一條 USB:除錯通道</text>
+
+  <!-- legend -->
+  <line x1="40" y1="578" x2="80" y2="578" stroke="#2563EB" stroke-width="2.5"/>
+  <text x="88" y="583" font-size="13" fill="#374151">下達命令</text>
+  <line x1="200" y1="578" x2="240" y2="578" stroke="#EA580C" stroke-width="2.5"/>
+  <text x="248" y="583" font-size="13" fill="#374151">韌體的回應(控制 TB3)</text>
+  <line x1="440" y1="578" x2="480" y2="578" stroke="#059669" stroke-width="2.5"/>
+  <text x="488" y="583" font-size="13" fill="#374151">TB3 的實際運動回到韌體</text>
+  <line x1="700" y1="578" x2="740" y2="578" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="748" y="583" font-size="13" fill="#374151">除錯線(燒錄、log、計數)</text>
+</svg>

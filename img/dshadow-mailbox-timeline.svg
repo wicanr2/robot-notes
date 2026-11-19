@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="960" height="420" fill="#FFFFFF"/>
+  <text x="30" y="34" font-size="18" font-weight="700" fill="#1F2937">命令一筆一筆送:命令流斷了,車怎麼停</text>
+  <text x="30" y="56" font-size="12.5" fill="#6B7280">0.2 m/s 直行中切斷命令流,3 輪實測的範圍。時間軸 1 格 = 0.25 s</text>
+
+  <!-- row labels -->
+  <text x="20" y="100" font-size="13" font-weight="700" fill="#1E3A8A">上位送命令</text>
+  <text x="20" y="160" font-size="13" font-weight="700" fill="#1F2937">韌體命令信箱</text>
+  <text x="20" y="280" font-size="13" font-weight="700" fill="#9A3412">車速</text>
+
+  <!-- command ticks every 50 ms, t=0..0.30 -->
+  <g fill="#2563EB">
+    <rect x="128" y="84" width="4" height="22"/><rect x="152" y="84" width="4" height="22"/>
+    <rect x="176" y="84" width="4" height="22"/><rect x="200" y="84" width="4" height="22"/>
+    <rect x="224" y="84" width="4" height="22"/><rect x="248" y="84" width="4" height="22"/>
+    <rect x="272" y="84" width="4" height="22"/>
+  </g>
+  <text x="200" y="76" text-anchor="middle" font-size="12" fill="#2563EB">每 50 ms 一筆</text>
+  <text x="286" y="101" font-size="12.5" fill="#6B7280">← 命令流在這裡斷掉</text>
+
+  <!-- mailbox -->
+  <rect x="130" y="140" width="144" height="28" rx="5" fill="#DBEAFE" stroke="#2563EB"/>
+  <text x="202" y="159" text-anchor="middle" font-size="12" fill="#1E3A8A">每來一筆就蓋掉舊的</text>
+  <rect x="274" y="140" width="96" height="28" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-dasharray="4 3"/>
+  <text x="322" y="159" text-anchor="middle" font-size="12" fill="#6B7280">最後一筆在變舊</text>
+
+  <!-- timeout line t=0.50 -> x=370 -->
+  <line x1="370" y1="132" x2="370" y2="330" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="378" y="190" font-size="12.5" fill="#B91C1C">200 ms 沒有新命令</text>
+  <text x="378" y="208" font-size="12.5" fill="#B91C1C">→ 切輸出、開始減速</text>
+
+  <!-- speed curve: 0.2 -> y 232, 0 -> y 320 -->
+  <text x="124" y="226" text-anchor="end" font-size="11" fill="#6B7280">0.2 m/s</text>
+  <text x="124" y="324" text-anchor="end" font-size="11" fill="#6B7280">0</text>
+  <path d="M130,232 H370 C470,234 670,318 802,320 H912" stroke="#EA580C" stroke-width="2.5" fill="none"/>
+
+  <!-- axis: x = 130 + t*480 (t from injection-0.3 frame), use t_abs -->
+  <line x1="130" y1="330" x2="912" y2="330" stroke="#9CA3AF"/>
+  <g font-size="11" fill="#6B7280" text-anchor="middle">
+    <line x1="274" y1="326" x2="274" y2="334" stroke="#9CA3AF"/><text x="274" y="346">0</text>
+    <line x1="394" y1="326" x2="394" y2="334" stroke="#9CA3AF"/><text x="394" y="346">0.25</text>
+    <line x1="514" y1="326" x2="514" y2="334" stroke="#9CA3AF"/><text x="514" y="346">0.5</text>
+    <line x1="634" y1="326" x2="634" y2="334" stroke="#9CA3AF"/><text x="634" y="346">0.75</text>
+    <line x1="754" y1="326" x2="754" y2="334" stroke="#9CA3AF"/><text x="754" y="346">1.0</text>
+    <line x1="874" y1="326" x2="874" y2="334" stroke="#9CA3AF"/><text x="874" y="346">1.25 s</text>
+  </g>
+
+  <!-- brackets -->
+  <path d="M274,356 V362 H370 V356" stroke="#374151" fill="none"/>
+  <text x="322" y="378" text-anchor="middle" font-size="12" fill="#374151">察覺 0.21–0.30 s</text>
+  <path d="M370,356 V362 H802 V356" stroke="#374151" fill="none"/>
+  <text x="586" y="378" text-anchor="middle" font-size="12" fill="#374151">減速到停,韌體回報停車在 1.10–1.14 s</text>
+  <text x="30" y="406" font-size="12.5" fill="#374151">斷流後多走 9.2–9.9 cm。上位主動送停止命令可以省掉「等 200 ms」這段,約 0.9 s 停下、多走約 5.5 cm。</text>
+</svg>
