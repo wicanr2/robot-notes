@@ -5,7 +5,7 @@
 ## 從哪裡開始讀
 
 - **第一次接觸機器人**　從[一台送餐機器人怎麼運作](#robot-basics)讀起，再看[系統架構](docs/00-overview/system-architecture.md)。
-- **想看開發板實驗**　看 [ARX X5 夾取方塊與 MR1533 叉取棧板](docs/50-physical-ai/arx-x5-pick.md)，或跟著 [TB3 閉迴路實驗](docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md)接起韌體與模擬器。
+- **想看開發板實驗**　看 [ARX X5 機械手臂夾取方塊](docs/50-physical-ai/arx-x5-pick.md)，或跟著 [TB3 閉迴路實驗](docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md)接起韌體與模擬器。
 - **正在解工程問題**　[依工作找文章](#reading-paths)，從韌體、導航、車隊或手臂控制切入。
 - **想瀏覽全部文章**　開啟[文件索引](#subject-index)，選擇主題。
 
