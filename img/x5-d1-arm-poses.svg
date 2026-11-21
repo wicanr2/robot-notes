@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 370" font-family="sans-serif"><title>ARX X5 正常第一輪的三個量測姿態</title><rect width="960" height="370" fill="#f5f8fa"/>
+<polygon points="13.6,305.4 191.4,342.6 261.9,303.1 84.1,265.9" fill="#dce7eb"/>
+<polyline points="65.0,289.0 65.0,260.6 71.1,244.2 89.9,131.0 163.1,198.2 188.9,240.6 162.8,243.5" fill="none" stroke="#244969" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="65.0" cy="260.565" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="71.14784879942259" cy="244.2122302205396" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="89.93983404814644" cy="130.97425050494854" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="163.05226147644362" cy="198.19056155609275" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="188.87055318270194" cy="240.6062892386336" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="162.83721240855056" cy="243.54789321492444" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<polyline points="162.8,243.7 162.7,285.9" fill="none" stroke="#287b83" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="162.7,285.9 152.3,291.8 152.2,315.2" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="162.7,285.9 173.0,280.1 172.9,303.5" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="167.0,333.0 178.7,326.4 178.7,302.9 167.0,309.5" fill="#aa6023"/>
+<polygon points="146.8,328.7 167.0,333.0 167.0,309.5 146.8,305.2" fill="#df9546"/>
+<polygon points="146.8,305.2 167.0,309.5 178.7,302.9 158.5,298.7" fill="#ffc77c"/>
+<text x="18" y="34" fill="#20394c" font-size="20">13.28 s　下降</text><text x="18" y="350" fill="#344957" font-size="16">方塊離桌 0 mm</text>
+<polygon points="333.6,305.4 511.4,342.6 581.9,303.1 404.1,265.9" fill="#dce7eb"/>
+<polyline points="385.0,289.0 385.0,260.6 393.0,243.5 404.5,122.7 504.7,146.2 538.3,185.4 504.9,191.5" fill="none" stroke="#244969" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="385.0" cy="260.565" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="392.96839197597905" cy="243.5199344955931" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="404.54799333084867" cy="122.73793870102108" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="504.66402630196114" cy="146.1745236312624" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="538.3190431990233" cy="185.4459258630789" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="504.87664301373997" cy="191.4916230471393" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<polyline points="505.0,191.4 505.7,233.3" fill="none" stroke="#287b83" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="505.7,233.3 497.4,238.4 497.8,261.6" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="505.7,233.3 514.0,228.3 514.4,251.5" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="510.9,271.2 522.7,264.6 522.7,241.1 510.9,247.7" fill="#aa6023"/>
+<polygon points="490.7,267.0 510.9,271.2 510.9,247.7 490.7,243.5" fill="#df9546"/>
+<polygon points="490.7,243.5 510.9,247.7 522.7,241.1 502.5,236.9" fill="#ffc77c"/>
+<text x="338" y="34" fill="#20394c" font-size="20">19.08 s　搬運</text><text x="338" y="350" fill="#344957" font-size="16">方塊離桌 103 mm</text>
+<polygon points="653.6,305.4 831.4,342.6 901.9,303.1 724.1,265.9" fill="#dce7eb"/>
+<polyline points="705.0,289.0 705.0,260.6 714.2,242.5 740.8,123.8 849.8,170.7 888.4,205.9 849.7,216.2" fill="none" stroke="#244969" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="705.0" cy="260.565" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="714.1529251868966" cy="242.5418335855043" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="740.7581902438403" cy="123.76024724851993" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="849.7508616344423" cy="170.72759264946006" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="888.4082104187299" cy="205.86866403536183" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<circle cx="849.7331775257504" cy="216.17183047349377" r="6" fill="#a6d6de" stroke="#244969" stroke-width="3"/>
+<polyline points="849.7,216.0 849.7,258.3" fill="none" stroke="#287b83" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="849.7,258.3 839.4,264.1 839.4,287.6" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="849.7,258.3 860.0,252.5 860.0,276.0" fill="none" stroke="#287b83" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="854.3,306.4 866.0,299.8 866.0,276.3 854.3,282.9" fill="#aa6023"/>
+<polygon points="834.1,302.2 854.3,306.4 854.3,282.9 834.1,278.7" fill="#df9546"/>
+<polygon points="834.1,278.7 854.3,282.9 866.0,276.3 845.8,272.1" fill="#ffc77c"/>
+<text x="658" y="34" fill="#20394c" font-size="20">24.48 s　撤離</text><text x="658" y="350" fill="#344957" font-size="16">方塊離桌 0 mm</text>
+</svg>
