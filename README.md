@@ -246,6 +246,8 @@
 
 ## 作者
 
+<p><img src="img/author-family.png" alt="作者一家四口的像素風全家福" width="440" loading="lazy"></p>
+
 我是 Chun-Yu Wang（wicanr2），一名軟體工程師，工作涵蓋自主移動機器人、ROS 2 與工業系統整合。我把導航、車隊調度與模擬驗證的經驗整理成這份筆記。工作之外，我也研究舊軟體，對照原始程式與重製版本的行為，找出兩者從哪一步開始不同。[GitHub 個人檔案](https://github.com/wicanr2/wicanr2)
 
 ## 這個 repo 怎麼寫的
