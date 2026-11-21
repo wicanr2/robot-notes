@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 740" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-size="13">
+<title>D1 夾取示範的閉迴路</title>
+<desc>D1 實際跑的接法(docs/plan/D1-pick.md):Ada 上的容器跑上位、XRCE Agent、橋接與 Isaac;開發板上的韌體(sim-isaac-arm 建置)產生 MIT 命令,板內模擬馬達經 silent loopback 收到後,把原始 payload 經 XRCE 轉給 Isaac,Isaac 的關節狀態再編成回授幀回到韌體。</desc>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#374151"/></marker><marker id="arrb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2b6cb0"/></marker><marker id="arro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c05621"/></marker><marker id="arrp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b46c1"/></marker><marker id="arrr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3202b"/></marker></defs>
+<rect width="1240" height="740" fill="#ffffff"/>
+<rect x="16" y="16" width="560" height="610" rx="14" fill="#6b7280" fill-opacity="0.045" stroke="#6b7280" stroke-width="1.8" stroke-dasharray="8 5"/>
+<text x="30" y="36" font-size="14" fill="#6b7280" font-weight="700">Ada(全部在 Docker 容器)</text>
+<rect x="32" y="56" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="44" y="77" font-size="13" fill="#111827" font-weight="700">上位:pick_demo</text>
+<text x="44" y="96" font-size="11.5" fill="#374151">照 d1_plan 的關節軌跡</text>
+<text x="44" y="113" font-size="11.5" fill="#374151">50 Hz 送 ArmCmd(狀態 5)</text>
+<text x="44" y="130" font-size="11.5" fill="#374151">等開機流程完成才開始走</text>
+<rect x="310" y="56" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="322" y="77" font-size="13" fill="#111827" font-weight="700">Micro-XRCE-DDS Agent</text>
+<text x="322" y="96" font-size="11.5" fill="#374151">115200 鮑</text>
+<text x="322" y="113" font-size="11.5" fill="#374151">經 ST-LINK 虛擬序列埠</text>
+<rect x="310" y="176" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="322" y="197" font-size="13" fill="#111827" font-weight="700">arm_bridge</text>
+<text x="322" y="216" font-size="11.5" fill="#374151">原始 MIT payload 解成浮點數</text>
+<text x="322" y="233" font-size="11.5" fill="#374151">關節狀態編成回授 payload</text>
+<text x="322" y="250" font-size="11.5" fill="#374151">編解碼都用 x5_proto</text>
+<rect x="310" y="300" width="250" height="120" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="322" y="321" font-size="13" fill="#111827" font-weight="700">Isaac Sim 6.2:x5_run.py</text>
+<text x="322" y="340" font-size="11.5" fill="#374151">PhysX 250 Hz,依牆鐘限速</text>
+<text x="322" y="357" font-size="11.5" fill="#374151">X5 2025 加 X5A 指尖與方塊</text>
+<text x="322" y="374" font-size="11.5" fill="#374151">MIT 伺服律套到關節驅動</text>
+<text x="322" y="391" font-size="11.5" fill="#374151">每 20 ms 回送 q、dq、τ</text>
+<rect x="32" y="176" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="44" y="197" font-size="13" fill="#111827" font-weight="700">probe-rs(SWD)</text>
+<text x="44" y="216" font-size="11.5" fill="#374151">燒錄韌體 ELF</text>
+<text x="44" y="233" font-size="11.5" fill="#374151">錄 RTT log</text>
+<rect x="32" y="300" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="44" y="321" font-size="13" fill="#111827" font-weight="700">d1_judge</text>
+<text x="44" y="340" font-size="11.5" fill="#374151">Isaac 記錄、RTT、上位紀錄</text>
+<text x="44" y="357" font-size="11.5" fill="#374151">判 D1-1 到 D1-5</text>
+<rect x="32" y="410" width="250" height="84" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="44" y="431" font-size="13" fill="#111827" font-weight="700">arm_video</text>
+<text x="44" y="450" font-size="11.5" fill="#374151">依 Isaac 記錄重畫手臂與方塊</text>
+<text x="44" y="467" font-size="11.5" fill="#374151">右邊是 RTT log 與上位事件</text>
+<rect x="32" y="520" width="528" height="90" rx="10" fill="#ffffff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="44" y="541" font-size="13" fill="#111827" font-weight="700">容器之間的網路</text>
+<text x="44" y="560" font-size="11.5" fill="#374151">ROS 側容器開 --network none,Isaac 以 --network container: 加入</text>
+<text x="44" y="577" font-size="11.5" fill="#374151">DDS 只在這兩個容器之間,ROS domain 0(韌體 XRCE 的 participant)</text>
+<text x="44" y="594" font-size="11.5" fill="#374151">上位、Agent、橋接在同一個 ROS 側容器</text>
+<rect x="596" y="16" width="628" height="610" rx="14" fill="#2f855a" fill-opacity="0.045" stroke="#2f855a" stroke-width="1.8" stroke-dasharray="8 5"/>
+<text x="610" y="36" font-size="14" fill="#2f855a" font-weight="700">開發板 NUCLEO-F767ZI(韌體 sim-isaac-arm 建置)</text>
+<rect x="612" y="56" width="596" height="84" rx="10" fill="#2f855a" stroke="#2f855a"/>
+<text x="624" y="77" font-size="13.5" fill="#ffffff" font-weight="700">nano-ros 介面層</text>
+<text x="624" y="96" font-size="11.5" fill="#ffffff">收 ~/cmd/arm、~/set_armed;每 40 ms 發 ~/state/arm</text>
+<text x="624" y="113" font-size="11.5" fill="#ffffff">每 20 ms 發 ~/sim/motor_out(7 筆原始 MIT payload);收 ~/sim/motor_in</text>
+<rect x="612" y="176" width="290" height="96" rx="10" fill="#b3202b" stroke="#b3202b"/>
+<text x="624" y="197" font-size="13.5" fill="#ffffff" font-weight="700">arm_ctrl(200 Hz)</text>
+<text x="624" y="216" font-size="11.5" fill="#ffffff">狀態機、斜坡、內插、限位</text>
+<text x="624" y="233" font-size="11.5" fill="#ffffff">重力前饋(x5_kin)</text>
+<text x="624" y="250" font-size="11.5" fill="#ffffff">每顆馬達 {pos, vel, tau, kp, kd}</text>
+<rect x="918" y="176" width="290" height="96" rx="10" fill="#b3202b" stroke="#b3202b"/>
+<text x="930" y="197" font-size="13.5" fill="#ffffff" font-weight="700">安全迴路(1 kHz)</text>
+<text x="930" y="216" font-size="11.5" fill="#ffffff">命令逾時 200 ms → 位置保持</text>
+<text x="930" y="233" font-size="11.5" fill="#ffffff">離線、錯誤碼、扭矩、模型差距</text>
+<text x="930" y="250" font-size="11.5" fill="#ffffff">→ 阻尼鎖定</text>
+<rect x="612" y="300" width="596" height="70" rx="10" fill="#2c5282" stroke="#2c5282"/>
+<text x="624" y="321" font-size="13.5" fill="#ffffff" font-weight="700">motor_bus 與 x5_proto</text>
+<text x="624" y="340" font-size="11.5" fill="#ffffff">每 5 ms 送 7 筆 MIT 幀(TIM3 每 200 µs 一格);回授解碼、100 ms 離線判定</text>
+<rect x="612" y="400" width="290" height="96" rx="10" fill="#c05621" stroke="#c05621"/>
+<text x="624" y="421" font-size="13.5" fill="#ffffff" font-weight="700">CAN1 silent loopback</text>
+<text x="624" y="440" font-size="11.5" fill="#ffffff">1 Mbps 標準 CAN</text>
+<text x="624" y="457" font-size="11.5" fill="#ffffff">TX 腳不出訊號</text>
+<text x="624" y="474" font-size="11.5" fill="#ffffff">自己送的幀回到 RX</text>
+<rect x="918" y="400" width="290" height="116" rx="10" fill="#6b46c1" stroke="#6b46c1"/>
+<text x="930" y="421" font-size="13.5" fill="#ffffff" font-weight="700">sim_motors(外部模式)</text>
+<text x="930" y="440" font-size="11.5" fill="#ffffff">收 MIT 幀,留下原始 payload</text>
+<text x="930" y="457" font-size="11.5" fill="#ffffff">q、dq 取自 Isaac</text>
+<text x="930" y="474" font-size="11.5" fill="#ffffff">回報伺服律扭矩(實機馬達的方式)</text>
+<text x="930" y="491" font-size="11.5" fill="#ffffff">回授幀從 CAN1 送回</text>
+<rect x="612" y="540" width="596" height="70" rx="10" fill="#7f1d1d" stroke="#7f1d1d"/>
+<text x="624" y="561" font-size="13.5" fill="#ffffff" font-weight="700">MCU:STM32F767ZIT6</text>
+<text x="624" y="580" font-size="11.5" fill="#ffffff">IWDG、panic 路徑;RTT 觀測(tick、motors 每秒一行)</text>
+<path d="M282,98 L310,98" fill="none" stroke="#2b6cb0" stroke-width="1.8" marker-end="url(#arrb)" marker-start="url(#arrb)"/>
+<text x="296" y="50" font-size="11.5" fill="#2b6cb0" text-anchor="middle" font-weight="400">/mobox/cmd/arm、/mobox/state/arm</text>
+<path d="M435,140 L435,176" fill="none" stroke="#2b6cb0" stroke-width="1.8" marker-end="url(#arrb)" marker-start="url(#arrb)"/>
+<text x="427" y="163" font-size="11.5" fill="#2b6cb0" text-anchor="end" font-weight="400">/mobox/sim/motor_out、motor_in</text>
+<path d="M435,260 L435,300" fill="none" stroke="#6b46c1" stroke-width="1.8" marker-end="url(#arrp)" marker-start="url(#arrp)"/>
+<text x="427" y="285" font-size="11.5" fill="#6b46c1" text-anchor="end" font-weight="400">/x5/isaac/mit、joint_state</text>
+<path d="M560,98 L612,98" fill="none" stroke="#2b6cb0" stroke-width="1.8" marker-end="url(#arrb)" marker-start="url(#arrb)"/>
+<text x="586" y="84" font-size="11.5" fill="#2b6cb0" text-anchor="middle" font-weight="400">USB</text>
+<path d="M32,218 L24,218 L24,640 L900,640 L900,610" fill="none" stroke="#c05621" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arro)" marker-start="url(#arro)"/>
+<text x="600" y="656" font-size="11.5" fill="#c05621" text-anchor="middle" font-weight="400">USB:SWD(燒錄、RTT)</text>
+<path d="M757,140 L757,176" fill="none" stroke="#374151" stroke-width="1.8" marker-end="url(#arr)"/>
+<path d="M902,224 L918,224" fill="none" stroke="#374151" stroke-width="1.8" marker-end="url(#arr)" marker-start="url(#arr)"/>
+<path d="M757,272 L757,300" fill="none" stroke="#374151" stroke-width="1.8" marker-end="url(#arr)"/>
+<path d="M757,370 L757,400" fill="none" stroke="#c05621" stroke-width="1.8" marker-end="url(#arro)" marker-start="url(#arro)"/>
+<path d="M902,448 L918,448" fill="none" stroke="#c05621" stroke-width="1.8" marker-end="url(#arro)" marker-start="url(#arro)"/>
+<path d="M1208,458 L1218,458 L1218,98 L1208,98" fill="none" stroke="#6b46c1" stroke-width="1.8" marker-end="url(#arrp)" marker-start="url(#arrp)"/>
+<text x="1214" y="290" font-size="11.5" fill="#6b46c1" text-anchor="end" font-weight="400">sim_isaac:每 ms 交換</text>
+<text x="16" y="690" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400">藍線:XRCE 與 ROS 2;紫線:轉給 Isaac 的路徑;橘線:CAN 幀與 SWD</text>
+<text x="16" y="710" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400">白色方塊:主機程式;實心方塊:韌體。韌體送給馬達的命令走安全迴路與 motor_bus,不經過轉給 Isaac 的路徑</text>
+</svg>
