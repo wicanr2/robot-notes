@@ -26,7 +26,8 @@
 | 7 | [sim-to-real](sim-to-real.md) | **這一區的核心。** 模擬與真實差在哪五個地方、三種手段怎麼接力 |
 | 8 | [Gazebo + SLAM 倉庫實例](gazebo-slam-warehouse.md) | 把前面幾篇串起來跑一次 |
 | 9 | [叉車專案:RMF + Gazebo](project-forklift-rmf-gazebo.md) | 最完整的一篇。**它是專案計畫不是完成報告**,§14 是給 agent 抄的骨架,可以不讀 |
-| 10 | [數位影子:開發板韌體開 Isaac 裡的 TB3](digital-shadow-firmware-isaac-tb3.md) | Isaac 這條線唯一的實作紀錄:真板韌體當控制器、Isaac 當車,在 RTX 主機上怎麼接、怎麼證明閉環。建議先讀第 6 篇 |
+| 10 | [數位影子:開發板韌體開 Isaac 裡的 TB3](digital-shadow-firmware-isaac-tb3.md) | TB3 實作紀錄:真板韌體當控制器、Isaac 當車,在 RTX 主機上怎麼接、怎麼證明閉環。建議先讀第 6 篇 |
+| 11 | [用開發板控制 ARX X5 模擬手臂夾取方塊](arx-x5-pick.md) | 重跑 D1 夾取實驗，對照韌體紀錄與方塊位移 |
 | 11 | [感測器資料與 3D 重建](sensor-data-and-3d-reconstruction.md) | 3DGS 那條線。第 7 篇會用到,想先看也可以 |
 | 12 | [用 Claude 做 Physical AI](claude-physical-ai-workflow.md) | 方法論收尾:哪些環節適合交給 AI、哪些不適合 |
 
