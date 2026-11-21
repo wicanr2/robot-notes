@@ -246,10 +246,10 @@ sections:
         title: "Sim-to-real"
         depth: 0
       - url: "/docs/50-physical-ai/arx-x5-pick.html"
-        title: "用開發板控制 ARX X5 模擬手臂夾取方塊"
+        title: "ARX X5 夾取方塊"
         depth: 0
       - url: "/docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.html"
-        title: "數位影子:開發板韌體開 Isaac 裡的 TB3"
+        title: "數位影子:開發板韌體開 Isaac Sim 裡的 TB3"
         depth: 0
       - url: "/docs/50-physical-ai/claude-physical-ai-workflow.html"
         title: "用 Claude 完成 Physical AI 模擬"

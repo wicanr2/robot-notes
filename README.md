@@ -1,14 +1,43 @@
-# robot-notes — 機器人知識筆記
+# robot-notes 機器人知識筆記
 
-## 作者
+從馬達與感測器，到導航、車隊調度與開發板實驗。[作者介紹](#about-author)
 
-我是 Chun-Yu Wang（wicanr2），一名軟體工程師，工作涵蓋自主移動機器人、ROS 2 與工業系統整合。我把導航、車隊調度與模擬驗證的經驗整理成這份筆記。工作之外，我也研究舊軟體，對照原始程式與重製版本的行為，找出兩者從哪一步開始不同。[GitHub 個人檔案](https://github.com/wicanr2/wicanr2)
+## 從哪裡開始讀
 
-## 實驗教學
+- **第一次接觸機器人**　從[一台送餐機器人怎麼運作](#robot-basics)讀起，再看[系統架構](docs/00-overview/system-architecture.md)。
+- **想看開發板實驗**　看 [ARX X5 夾取方塊與 MR1533 叉取棧板](docs/50-physical-ai/arx-x5-pick.md)，或跟著 [TB3 閉迴路實驗](docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md)接起韌體與模擬器。
+- **正在解工程問題**　[依工作找文章](#reading-paths)，從韌體、導航、車隊或手臂控制切入。
+- **想瀏覽全部文章**　開啟[文件索引](#subject-index)，選擇主題。
 
-[用開發板控制 ARX X5 模擬手臂夾取方塊](docs/50-physical-ai/arx-x5-pick.md)，內含夾取步驟、負對照與 MR1533 堆高機影片截圖。
+<a id="reading-paths"></a>
 
-## 筆記導覽
+## 依工作找文章
+
+### 認識機器人與硬體
+
+- 完全沒碰過硬體：[機器人怎麼運作](#robot-basics)→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [感測器](docs/10-core/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md)
+- 想先看全貌：[系統架構](docs/00-overview/system-architecture.md)
+- 軟體背景、想補硬體：[底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-core/10-hardware/motors-and-foc.md) → [感測器](docs/10-core/10-hardware/sensors.md)
+- 想比較不同形態：[形態分支總覽](docs/20-forms/):一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪
+- 想搞懂四足為什麼難：[足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md)
+
+### 韌體、導航與車隊
+
+- 做下位機韌體：[下位機運動控制](docs/10-core/20-firmware/low-level-control.md) → [編碼器](docs/10-core/10-hardware/encoders.md) → [通訊匯流排](docs/10-core/10-hardware/communication-buses.md)
+- 做導航：[SLAM](docs/10-core/30-navigation/slam-mapping.md) → [定位](docs/10-core/30-navigation/localization.md) → [路徑規劃](docs/10-core/30-navigation/path-planning.md)
+- 要選 Nav2 的 planner / controller：[Nav2 外掛演算法](docs/10-core/30-navigation/nav2-plugin-algorithms.md):十四個外掛的數學與選型判準
+- Nav2 跑出來的路歪、角落切太多：[Nav2 只規劃、車上追蹤](docs/10-core/30-navigation/planner-plus-onboard-controller.md):差距從哪四層來、Nav2 只留規劃器的分工、三條修正律怎麼接
+- 做多車調度 / 路網交管：[路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) → [室內 AMR 路網選型](docs/40-fleet/indoor-amr-roadnet-selection.md) → [OpenRMF](docs/40-fleet/open-rmf.md) → [VDA5050](docs/40-fleet/vda5050.md)
+- 要準備上線合規：[法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md)
+
+### 模擬、力學與手臂
+
+- 想做 AI 模擬(進階)：先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md)
+- 想知道力矩怎麼算(動力學)：[機器人動力學](docs/90-foundations/robot-dynamics.md):運動學什麼時候不夠用、M/C/N 三項從哪長出來、模型怎麼進控制器
+- 做叉車 / 搬運車的控制器：[回授控制:PID、LQR 與 MPPI](docs/90-foundations/feedback-control-pid-lqr.md):哪一層該用 PID、哪一層該用 LQR,三條控制律都從第一性原理推起,後半整章落到叉車
+- 要在搬運車上裝手臂：[手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md)
+
+## 關於這份筆記
 
 一份從硬體寫到調度的機器人筆記,涵蓋輪式 AMR、移動操作(車 + 機械手臂)、四足與人形四種形態。
 
@@ -42,6 +71,8 @@
 
 ---
 
+<a id="robot-basics"></a>
+
 ## 機器人怎麼運作
 
 完全沒碰過硬體的話,先建立這個直覺再往下讀。
@@ -68,35 +99,18 @@
 
 ---
 
-## 從哪裡開始讀
-
-| 你的情況 | 建議路線 |
-|---|---|
-| **完全沒碰過硬體** | 上面「機器人怎麼運作」→ [系統架構](docs/00-overview/system-architecture.md) → [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [感測器](docs/10-core/10-hardware/sensors.md),卡名詞就查 [術語表](CONTEXT.md) |
-| 想先看全貌 | [系統架構](docs/00-overview/system-architecture.md) |
-| 軟體背景、想補硬體 | [底盤](docs/20-forms/wheeled-amr/chassis-and-drivetrain.md) → [馬達/FOC](docs/10-core/10-hardware/motors-and-foc.md) → [感測器](docs/10-core/10-hardware/sensors.md) |
-| 做下位機韌體 | [下位機運動控制](docs/10-core/20-firmware/low-level-control.md) → [編碼器](docs/10-core/10-hardware/encoders.md) → [通訊匯流排](docs/10-core/10-hardware/communication-buses.md) |
-| 做導航 | [SLAM](docs/10-core/30-navigation/slam-mapping.md) → [定位](docs/10-core/30-navigation/localization.md) → [路徑規劃](docs/10-core/30-navigation/path-planning.md) |
-| **要選 Nav2 的 planner / controller** | [Nav2 外掛演算法](docs/10-core/30-navigation/nav2-plugin-algorithms.md):十四個外掛的數學與選型判準 |
-| **做多車調度 / 路網交管** | [路網模型與交通管制](docs/40-fleet/roadnet-and-traffic-control.md) → [室內 AMR 路網選型](docs/40-fleet/indoor-amr-roadnet-selection.md) → [OpenRMF](docs/40-fleet/open-rmf.md) → [VDA5050](docs/40-fleet/vda5050.md) |
-| 想做 AI 模擬(進階) | 先走完上面硬體/導航,再讀 [Physical AI 總覽](docs/50-physical-ai/physical-ai-overview.md) |
-| 要準備上線合規 | [法規與認證總覽](docs/60-compliance/README.md) → [資安總覽](docs/70-security/README.md) |
-| **想比較不同形態** | [形態分支總覽](docs/20-forms/):一張表看輪式 / 移動操作 / 四足 / 人形在自由度、支撐面、控制核心、法規上差在哪 |
-| 想知道力矩怎麼算(動力學) | [機器人動力學](docs/90-foundations/robot-dynamics.md):運動學什麼時候不夠用、M/C/N 三項從哪長出來、模型怎麼進控制器 |
-| **做叉車 / 搬運車的控制器** | [回授控制:PID、LQR 與 MPPI](docs/90-foundations/feedback-control-pid-lqr.md):哪一層該用 PID、哪一層該用 LQR,三條控制律都從第一性原理推起,後半整章落到叉車 |
-| **Nav2 跑出來的路歪、角落切太多** | [Nav2 只規劃、車上追蹤](docs/10-core/30-navigation/planner-plus-onboard-controller.md):差距從哪四層來、Nav2 只留規劃器的分工、三條修正律怎麼接
-| 要在搬運車上裝手臂 | [手臂運動學](docs/20-forms/mobile-manipulator/arm-kinematics.md) → [底盤與手臂的耦合](docs/20-forms/mobile-manipulator/mobile-manipulation.md) |
-| 想搞懂四足為什麼難 | [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md) → [步態與致動](docs/20-forms/legged/gait-and-actuation.md) |
-
-> 進階小節(如數位電路 §15 半導體物理、定位 §28 地標 PnP)初讀可跳過,需要時再回來。
-> 看不懂的名詞 → 查 [術語表](CONTEXT.md),開頭有一節「基礎詞」放讀任何一篇之前該知道的。
-
----
+<a id="subject-index"></a>
 
 ## 文件索引
 
+[架構](#topic-00-overview) · [硬體與軟體](#topic-10-core) · [機器人形態](#topic-20-forms) · [產品](#topic-30-products) · [車隊調度](#topic-40-fleet) · [模擬與實驗](#topic-50-physical-ai) · [語言與視覺模型](#topic-55-vlm-llm) · [法規](#topic-60-compliance) · [資安](#topic-70-security) · [數學與力學](#topic-90-foundations)
+
+<a id="topic-00-overview"></a>
+
 ### 00-overview 系統全貌
 - [系統架構](docs/00-overview/system-architecture.md):上位機/下位機分層、資料流、硬體選型、軟體架構、研發路線
+
+<a id="topic-10-core"></a>
 
 ### 10-core 共通核心 — 換了形態,這幾層還在
 
@@ -130,6 +144,8 @@
 - [路徑平滑與軌跡生成](docs/10-core/30-navigation/path-smoothing-and-trajectory.md):從「折線轉角曲率無限大」推起:G0–G3 連續性階梯、Bézier 完整推導(凸包與碰撞檢查)、B-spline 的局部支撐與內建 C²、clothoid、速度規劃(梯形 vs S 曲線、彎道速度上限),以及 Open-RMF 兩個 waypoint 之間為什麼是三次
 - [Nav2 只規劃、車上追蹤](docs/10-core/30-navigation/planner-plus-onboard-controller.md):同一台三輪叉車走同一個 10 m 正方形,全套 Nav2 角落外擴 0.65 m、直線偏 0.16 m,直接寫控制器 1.4 cm / 1 mm:差距從目標容差、參考路徑、角落策略、資訊鏈路四層拆開;由此推出「Nav2 只留 planner_server,車上 Go / C++ 60 Hz 追蹤器」的分工,PID(Stanley)/ LQR(DARE)/ MPC(無約束閉式)三條修正律的式子與起始值,以及量到的數字
 
+<a id="topic-20-forms"></a>
+
 ### 20-forms 形態分支 — 換了形態,這幾層就得換
 - [形態分支總覽](docs/20-forms/):四種形態在自由度、支撐面、運動學、控制核心、狀態估計、法規上的分岔點對照
 - [輪式 AMR](docs/20-forms/wheeled-amr/):為什麼輪式的問題最「乾淨」(支撐面固定 + 平面運動 + 接觸不切換)
@@ -141,12 +157,16 @@
   - [足式的根本分岔](docs/20-forms/legged/legged-fundamentals.md):浮動基座與欠致動、接觸讓系統變成混合系統、ZMP 與 capture point 各保證什麼、沒有輪子怎麼估狀態
   - [步態與致動](docs/20-forms/legged/gait-and-actuation.md):duty factor 的門檻為什麼是 1/n 而不是固定的 0.5、為什麼工業減速機裝上去會壞、QDD vs SEA、RL 為什麼主導、安全標準目前是空的
 
+<a id="topic-30-products"></a>
+
 ### 30-products 產品專章
 
 - [產品總覽](docs/30-products/):按實際產品整理整車硬體、控制板、車載電腦與安裝擴充
   - [Husarion Panther](docs/30-products/husarion-panther.md):系統方塊圖、電腦配置、ROS／CAN 控制分工、安裝導軌與上裝急停
   - [Husarion ROSbot XL](docs/30-products/husarion-rosbot-xl.md):系統方塊圖、電腦配置、STM32／Ethernet 控制、安裝板與擴充供電
   - [Panther 與 ROSbot XL 控制架構 SWOT](docs/30-products/husarion-control-architecture-swot.md):專責底盤電腦＋CAN 驅動器與車載電腦＋Ethernet＋STM32 的開發、故障及維護差異
+
+<a id="topic-40-fleet"></a>
 
 ### 40-fleet 多機調度
 
@@ -168,6 +188,8 @@
 - [MQTT over TLS(EMQX)](docs/40-fleet/mqtt-tls-emqx.md):三層(加密/認證/授權)、mTLS client 憑證、ACL、cipher 選擇
 - [機器人的廣域連線](docs/40-fleet/robot-wan-5g-satellite.md):廠區 private 5G、公網 5G+VPN、衛星 Direct-to-Device(3GPP NTN)、6G NTN
 
+<a id="topic-50-physical-ai"></a>
+
 ### 50-physical-ai Physical AI(進階)
 
 > 術語密度較高,建議先讀完 00/10/30。
@@ -181,13 +203,18 @@
 - [SDF 3D 模型檔:從零開始](docs/50-physical-ai/sdf-3d-models.md):mesh / visual / collision / inertial、SDF 資料夾結構、差速搬運車範例
 - [建 AMR 模擬世界:模型與場景哪裡來](docs/50-physical-ai/simulation-asset-sources.md):資產來源盤點(2026-08-05 實查):Gazebo Fuel 的實際數量與缺口、AWS RoboMaker 服務終止後那批 world 的現況、Isaac SimReady 與雲端 asset root、rmf_demos 場景、研究用室內資料集、通用素材;以及「拿到資產不等於能用」要補多少工
 - [Sim-to-real](docs/50-physical-ai/sim-to-real.md):reality gap、domain randomization、上車檢查清單
+- [ARX X5 夾取方塊](docs/50-physical-ai/arx-x5-pick.md)：比較正常夾取與負對照，讀懂板上紀錄和放置誤差。
 - [數位影子:開發板韌體開 Isaac Sim 裡的 TB3](docs/50-physical-ai/digital-shadow-firmware-isaac-tb3.md):數位模型、影子、分身怎麼分;虛擬舵輪與差速的換算推導;命令信箱與停車;在 RTX 主機上組開發板、Isaac Sim、bridge 與控制;負對照怎麼證明閉環
 - [用 Claude 完成 Physical AI 模擬](docs/50-physical-ai/claude-physical-ai-workflow.md):方法論:Claude 當膠水層與迭代引擎
 - [專案探討:Gazebo 叉車搬運(RMF+VDA5050)](docs/50-physical-ai/project-forklift-rmf-gazebo.md):capstone:URDF 設計、物理參數、第一性原理 worklist(M0–M7)
 
+<a id="topic-55-vlm-llm"></a>
+
 ### 55-vlm-llm VLM & LLM
 - [LLM 與 VLM 給機器人](docs/55-vlm-llm/llm-vlm-for-robots.md):token 化、自注意力在解什麼、VLM 怎麼把影像變 token、VLA 與開放詞彙感知對機器人的意義
 - [在 NVIDIA GB10(DGX Spark)上架本地 LLM](docs/55-vlm-llm/local-llm-on-nvidia-gb10.md):為何 LLM 推論是記憶體頻寬 bound、統一記憶體的取捨、量化、GB10 規格查證與軟體堆疊
+
+<a id="topic-60-compliance"></a>
 
 ### 60-compliance 法規與認證
 - [法規與認證總覽](docs/60-compliance/README.md):合規地圖:一台機器人要過哪些關
@@ -195,11 +222,15 @@
 - [半導體 fab AMR 規範](docs/60-compliance/semiconductor-amr-standards.md):SEMI S2/S8/E84、AMHS、潔淨室/ESD、ISO 3691-4 對照
 - [PwC、SEMI E187 與 ISO 3691 認證角色](docs/60-compliance/pwc-semi-iso3691-certification.md):顧問/評估 vs 官方檢測發證的分界
 
+<a id="topic-70-security"></a>
+
 ### 70-security 資安
 - [機器人通訊安全(總覽)](docs/70-security/README.md):五個通訊面的威脅與手段、加密+認證+授權三件套、誠實現況
 - [SROS2 / DDS-Security](docs/70-security/sros2-dds-security.md):ROS2 節點間預設明文這個洞怎麼補:認證、加密、授權一次到位
 - [OTA 韌體簽章](docs/70-security/ota-firmware-signing.md):守「裝什麼」:上位機軟體與 MCU 韌體兩種 OTA,簽章驗證的核心
 - [Secure boot](docs/70-security/secure-boot.md):守「跑什麼」:即使 Flash 被用別的方式改過,開機時也擋下來
+
+<a id="topic-90-foundations"></a>
 
 ### 90-foundations 數學與力學基礎
 - [高斯分布:第一性原理](docs/90-foundations/gaussian-from-first-principles.md):從最大熵/CLT 推出高斯,用四條性質統一理解 Gaussian blur、Kalman/EKF、GP、GMM、3DGS
@@ -210,6 +241,12 @@
 - [Nav2 導航全棧 survey 導讀](docs/_refs/nav2-survey.md):Nav2 維護者親寫的 ROS2 導航全棧 survey,附章節對照;CC BY 4.0 全文 PDF 收錄
 
 ---
+
+<a id="about-author"></a>
+
+## 作者
+
+我是 Chun-Yu Wang（wicanr2），一名軟體工程師，工作涵蓋自主移動機器人、ROS 2 與工業系統整合。我把導航、車隊調度與模擬驗證的經驗整理成這份筆記。工作之外，我也研究舊軟體，對照原始程式與重製版本的行為，找出兩者從哪一步開始不同。[GitHub 個人檔案](https://github.com/wicanr2/wicanr2)
 
 ## 這個 repo 怎麼寫的
 
